@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LogiAI — Wo Logistik auf KI trifft.</title>
+<meta name="description" content="LogiAI ist der Blog für KI in der Logistik. Artikel, Use Cases und Analysen für Supply Chain, Fracht und Fulfillment." />
+<style>
+  :root{
+    --black:#000000;
+    --ink:#1d1d1f;
+    --gray:#f5f5f7;
+    --blue:#0071e3;
+    --link:#0066cc;
+    --link-dark:#2997ff;
+    --surface-1:#272729;
+    --surface-2:#2a2a2d;
+    --text-dark-1: rgba(0,0,0,.8);
+    --text-dark-2: rgba(0,0,0,.48);
+    --shadow:0 3px 5px rgba(0,0,0,.22), 0 0 30px rgba(0,0,0,.22);
+    --pill:980px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#fff;color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{
+    font-family:"SF Pro Text","SF Pro Icons","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:17px; font-weight:400; line-height:1.47; letter-spacing:-.374px;
+  }
+  h1,h2,h3,.display{
+    font-family:"SF Pro Display","SF Pro Icons","Helvetica Neue",Helvetica,Arial,sans-serif;
+    margin:0;
+  }
+  a{color:var(--link);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* Nav */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    height:48px; display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,.8);
+    backdrop-filter:saturate(180%) blur(20px);
+    -webkit-backdrop-filter:saturate(180%) blur(20px);
+    color:#fff;
+  }
+  .nav .inner{width:100%; max-width:1024px; padding:0 22px; display:flex; align-items:center; justify-content:space-between}
+  .brand{font-family:"SF Pro Display",sans-serif; font-size:17px; font-weight:600; letter-spacing:-.022em; color:#fff}
+  .brand em{color:var(--link-dark); font-style:normal}
+  .nav ul{list-style:none; display:flex; gap:28px; margin:0; padding:0}
+  .nav a{color:rgba(255,255,255,.88); font-size:12px; font-weight:400}
+  .nav a:hover{color:#fff; text-decoration:none}
+
+  /* Sections */
+  section{padding:96px 22px}
+  .container{max-width:980px; margin:0 auto}
+  .dark{background:var(--black); color:#fff}
+  .light{background:var(--gray); color:var(--ink)}
+  .white{background:#fff; color:var(--ink)}
+
+  /* Hero */
+  .hero{padding:120px 22px 96px; text-align:center}
+  .hero h1{
+    font-size:clamp(40px,7vw,72px); font-weight:600; line-height:1.07; letter-spacing:-.015em;
+  }
+  .hero .kicker{
+    font-size:21px; font-weight:400; line-height:1.19; letter-spacing:.011em;
+    color:rgba(255,255,255,.88); margin-top:12px;
+  }
+  .hero .ctas{display:flex; gap:18px; justify-content:center; margin-top:28px; flex-wrap:wrap}
+
+  /* Buttons */
+  .btn{
+    font-family:inherit; font-size:17px; font-weight:400; line-height:1;
+    padding:12px 22px; border-radius:var(--pill); border:1px solid transparent;
+    cursor:pointer; display:inline-flex; align-items:center; gap:6px;
+  }
+  .btn-primary{background:var(--blue); color:#fff}
+  .btn-primary:hover{filter:brightness(1.05); text-decoration:none}
+  .btn-outline{background:transparent; color:#fff; border-color:#fff}
+  .btn-outline:hover{background:#fff; color:#000; text-decoration:none}
+  .btn-ink{background:var(--ink); color:#fff}
+  .btn-ink:hover{filter:brightness(1.1); text-decoration:none}
+
+  /* Inline Apple-style link */
+  .more{display:inline-flex; align-items:center; gap:4px; color:var(--link); font-size:17px}
+  .more::after{content:"›"; font-size:20px; line-height:1; transform:translateY(-1px)}
+  .dark .more{color:var(--link-dark)}
+
+  /* Feature */
+  .feature{padding:96px 22px; text-align:center}
+  .feature .eyebrow{font-size:14px; letter-spacing:-.016em; color:var(--text-dark-2); font-weight:600; text-transform:none; margin-bottom:16px}
+  .feature h2{font-size:clamp(32px,4.5vw,56px); font-weight:600; line-height:1.07; letter-spacing:-.015em; margin-bottom:8px}
+  .feature p.lead{font-size:21px; line-height:1.19; letter-spacing:.011em; color:var(--text-dark-1); max-width:680px; margin:0 auto 28px}
+  .feature-art{
+    margin:32px auto 0; max-width:900px; aspect-ratio:16/9;
+    border-radius:18px; background:
+      radial-gradient(80% 60% at 30% 30%, #0071e3 0%, transparent 60%),
+      radial-gradient(60% 50% at 80% 70%, #2997ff 0%, transparent 60%),
+      linear-gradient(135deg,#0a0a0a,#1d1d1f);
+    box-shadow:var(--shadow);
+    position:relative; overflow:hidden;
+  }
+  .feature-art::after{
+    content:"LogiAI"; position:absolute; inset:0;
+    display:grid; place-items:center; color:#fff;
+    font-family:"SF Pro Display",sans-serif; font-weight:600; font-size:64px; letter-spacing:-.02em;
+    opacity:.94;
+  }
+
+  /* Article grid */
+  .grid-title{text-align:center; margin-bottom:44px}
+  .grid-title h2{font-size:40px; font-weight:600; line-height:1.10}
+  .grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:22px}
+  .card{
+    background:var(--gray); color:var(--ink);
+    border-radius:18px; padding:28px; min-height:360px;
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .dark .card{background:var(--surface-1); color:#fff}
+  .card .tag{
+    display:inline-block; font-size:12px; font-weight:600; letter-spacing:-.01em;
+    color:var(--link); margin-bottom:10px;
+  }
+  .dark .card .tag{color:var(--link-dark)}
+  .card h3{
+    font-size:28px; font-weight:400; line-height:1.14; letter-spacing:.007em; margin-bottom:10px;
+  }
+  .card p{font-size:14px; line-height:1.29; letter-spacing:-.016em; color:var(--text-dark-1)}
+  .dark .card p{color:rgba(255,255,255,.78)}
+  .card .meta{font-size:12px; color:var(--text-dark-2); margin-top:18px}
+  .dark .card .meta{color:rgba(255,255,255,.52)}
+  .card:hover{transform:translateY(-2px); transition:transform .25s ease}
+
+  /* Topics strip */
+  .topics{background:var(--gray); padding:64px 22px}
+  .topics h2{font-size:32px; font-weight:600; line-height:1.10; text-align:center; margin-bottom:24px}
+  .chips{display:flex; flex-wrap:wrap; gap:10px; justify-content:center}
+  .chip{
+    border:1px solid rgba(0,0,0,.12); border-radius:var(--pill);
+    padding:10px 18px; font-size:14px; color:var(--ink); background:#fff;
+  }
+  .chip:hover{border-color:var(--blue); color:var(--blue); text-decoration:none}
+
+  /* Newsletter */
+  .news{text-align:center}
+  .news h2{font-size:clamp(32px,4vw,48px); font-weight:600; line-height:1.10; color:#fff}
+  .news p{color:rgba(255,255,255,.78); max-width:560px; margin:12px auto 24px}
+  .news form{display:flex; gap:10px; justify-content:center; max-width:480px; margin:0 auto; flex-wrap:wrap}
+  .news input{
+    flex:1 1 260px; min-width:220px; padding:12px 16px; border-radius:11px;
+    border:3px solid rgba(255,255,255,.08); background:var(--surface-1); color:#fff;
+    font-family:inherit; font-size:17px; letter-spacing:-.374px;
+  }
+  .news input:focus{outline:2px solid var(--blue); border-color:transparent}
+
+  /* Footer */
+  footer{background:var(--gray); color:var(--text-dark-1); padding:40px 22px; font-size:12px; letter-spacing:-.01em}
+  footer .inner{max-width:980px; margin:0 auto; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px}
+  footer a{color:var(--text-dark-1)}
+
+  /* Responsive */
+  @media (max-width: 834px){
+    .grid{grid-template-columns:repeat(2,1fr)}
+    section{padding:72px 18px}
+    .hero{padding:88px 18px 72px}
+  }
+  @media (max-width: 600px){
+    .grid{grid-template-columns:1fr}
+    .nav ul{display:none}
+    .hero h1{font-size:40px}
+    .feature h2{font-size:32px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="inner">
+    <div class="brand">Logi<em>AI</em></div>
+    <ul>
+      <li><a href="#featured">Featured</a></li>
+      <li><a href="#articles">Artikel</a></li>
+      <li><a href="#topics">Themen</a></li>
+      <li><a href="#newsletter">Newsletter</a></li>
+      <li><a href="#about">Über</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO (dark) -->
+<section class="dark hero">
+  <div class="container">
+    <h1>Logistik trifft KI.</h1>
+    <p class="kicker">Analysen, Use Cases und Tools, die deine Supply Chain smarter machen.</p>
+    <div class="ctas">
+      <a href="#featured" class="btn btn-primary">Neueste Artikel</a>
+      <a href="#newsletter" class="btn btn-outline">Newsletter abonnieren</a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED (light) -->
+<section id="featured" class="light feature">
+  <div class="container">
+    <div class="eyebrow">Featured Story</div>
+    <h2>Autonome Lagerroboter sind jetzt bezahlbar.</h2>
+    <p class="lead">Warum 2026 das Jahr ist, in dem Mittelständler im Fulfillment aufholen und welche KI-Stacks den Unterschied machen.</p>
+    <a href="#" class="more">Jetzt lesen</a>
+    <div class="feature-art" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- ARTICLE GRID (dark) -->
+<section id="articles" class="dark">
+  <div class="container">
+    <div class="grid-title">
+      <h2>Aktuell im Blog.</h2>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <div>
+          <span class="tag">Supply Chain</span>
+          <h3>Demand Forecasting mit LLMs: Hype oder Hebel?</h3>
+          <p>Ein Praxistest mit realen Bestellungsdaten aus dem E-Commerce.</p>
+        </div>
+        <div class="meta">7 Min · 02.04.2026</div>
+      </article>
+      <article class="card">
+        <div>
+          <span class="tag">Fulfillment</span>
+          <h3>Pick-Path-Optimierung in Echtzeit.</h3>
+          <p>Wie Reinforcement Learning Laufwege um 23% reduzierte.</p>
+        </div>
+        <div class="meta">5 Min · 28.03.2026</div>
+      </article>
+      <article class="card">
+        <div>
+          <span class="tag">Fracht</span>
+          <h3>Routing-Agents für Seefracht.</h3>
+          <p>ETA-Prognosen, die besser sind als die des Reeders.</p>
+        </div>
+        <div class="meta">9 Min · 21.03.2026</div>
+      </article>
+      <article class="card">
+        <div>
+          <span class="tag">Tools</span>
+          <h3>n8n + Claude: dein erster Logistik-Agent.</h3>
+          <p>Vom Bestellimport bis zur automatischen Frachtbuchung.</p>
+        </div>
+        <div class="meta">12 Min · 14.03.2026</div>
+      </article>
+      <article class="card">
+        <div>
+          <span class="tag">Strategie</span>
+          <h3>Die unsichtbare Arbeit der KI.</h3>
+          <p>Welche Aufgaben im Büro wirklich wegfallen und welche nicht.</p>
+        </div>
+        <div class="meta">6 Min · 08.03.2026</div>
+      </article>
+      <article class="card">
+        <div>
+          <span class="tag">Case Study</span>
+          <h3>Mittelständler spart 18% Transportkosten.</h3>
+          <p>So wurde Tenderline-KI ins TMS integriert.</p>
+        </div>
+        <div class="meta">8 Min · 01.03.2026</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- TOPICS -->
+<section id="topics" class="topics">
+  <h2>Themen.</h2>
+  <div class="chips">
+    <a class="chip" href="#">Supply Chain</a>
+    <a class="chip" href="#">Warehouse Automation</a>
+    <a class="chip" href="#">Last Mile</a>
+    <a class="chip" href="#">LLM Agents</a>
+    <a class="chip" href="#">Forecasting</a>
+    <a class="chip" href="#">TMS &amp; WMS</a>
+    <a class="chip" href="#">Green Logistics</a>
+    <a class="chip" href="#">n8n Workflows</a>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section id="newsletter" class="dark news">
+  <div class="container">
+    <h2>Ein Newsletter, den Logistiker wirklich lesen.</h2>
+    <p>Alle zwei Wochen. Kein Fluff. Nur was funktioniert.</p>
+    <form onsubmit="event.preventDefault(); alert('Danke, Preview only.')">
+      <input type="email" placeholder="deine@email.de" required />
+      <button type="submit" class="btn btn-primary">Abonnieren</button>
+    </form>
+  </div>
+</section>
+
+<footer id="about">
+  <div class="inner">
+    <div>© 2026 LogiAI. Ein Blog über KI und Logistik.</div>
+    <div>
+      <a href="#">Impressum</a> · <a href="#">Datenschutz</a> · <a href="https://logiai.blog">logiai.blog</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
