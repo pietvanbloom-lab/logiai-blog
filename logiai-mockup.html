@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LogiAI — AI-Powered Logistics Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       TOKENS — WIRED-inspired for LogiAI
+    ============================================================ */
+    :root {
+      --black:        #000000;
+      --ink:          #1a1a1a;
+      --paper:        #ffffff;
+      --caption-gray: #757575;
+      --hairline:     #e2e8f0;
+      --link-blue:    #057dbc;
+      --accent-alt:   #e05c00;   /* logistics orange — editorial pop */
+
+      --f-display:    'Playfair Display', Georgia, serif;
+      --f-body:       'Lora', Georgia, serif;
+      --f-ui:         'Inter', Helvetica, sans-serif;
+      --f-mono:       'Source Code Pro', 'Courier New', monospace;
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--f-body);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: var(--link-blue); }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    /* ============================================================
+       UTILITY
+    ============================================================ */
+    .eyebrow {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .eyebrow--blue  { color: var(--link-blue); }
+    .eyebrow--orange { color: var(--accent-alt); }
+
+    hr.rule { border: none; border-top: 1px solid var(--ink); margin: 0; }
+    hr.rule--hair { border-top: 1px solid var(--hairline); }
+
+    .container { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+
+    /* ============================================================
+       TOP UTILITY BAR
+    ============================================================ */
+    .util-bar {
+      background: var(--black);
+      color: var(--paper);
+      height: 36px;
+      display: flex;
+      align-items: center;
+    }
+    .util-bar .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .util-bar__links {
+      display: flex;
+      gap: 0;
+      list-style: none;
+    }
+    .util-bar__links li + li { border-left: 1px solid rgba(255,255,255,0.2); }
+    .util-bar__links a {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+      color: var(--paper);
+      padding: 0 14px;
+      line-height: 36px;
+      display: block;
+    }
+    .util-bar__links a:hover { color: var(--link-blue); }
+    .util-bar__cta {
+      font-family: var(--f-ui);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: var(--paper);
+      border: 2px solid var(--paper);
+      padding: 4px 14px;
+      text-transform: uppercase;
+    }
+    .util-bar__cta:hover { background: var(--paper); color: var(--black); }
+
+    /* ============================================================
+       MAIN NAV
+    ============================================================ */
+    .main-nav {
+      border-top: 4px solid var(--black);
+      border-bottom: 1px solid var(--black);
+      padding: 0;
+    }
+    .main-nav .container {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      height: 64px;
+      width: 100%;
+    }
+    .nav__logo {
+      font-family: var(--f-display);
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: var(--black);
+      display: flex;
+      align-items: center;
+      line-height: 1;
+    }
+    .nav__logo span { color: var(--link-blue); }
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      list-style: none;
+    }
+    .nav__links a {
+      font-family: var(--f-ui);
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--ink);
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      border-left: 1px solid var(--hairline);
+    }
+    .nav__links a:hover { color: var(--link-blue); text-decoration: underline; }
+    .nav__search {
+      display: flex;
+      align-items: center;
+      border-left: 1px solid var(--hairline);
+      padding: 0 16px;
+      cursor: pointer;
+    }
+    .nav__search svg { width: 18px; height: 18px; }
+
+    /* ============================================================
+       HERO — single dominant story
+    ============================================================ */
+    .hero {
+      border-bottom: 1px solid var(--black);
+      padding: 0;
+    }
+    .hero .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      width: 100%;
+    }
+    .hero__text {
+      padding: 40px 48px 40px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-right: 1px solid var(--black);
+    }
+    .hero__eyebrow { margin-bottom: 14px; }
+    .hero__headline {
+      font-family: var(--f-display);
+      font-size: 60px;
+      font-weight: 400;
+      line-height: 1.02;
+      letter-spacing: -0.5px;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+    .hero__headline a:hover { color: var(--link-blue); }
+    .hero__deck {
+      font-family: var(--f-body);
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 1.55;
+      letter-spacing: 0.1px;
+      color: var(--ink);
+      margin-bottom: 24px;
+      max-width: 480px;
+    }
+    .hero__meta {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--caption-gray);
+    }
+    .hero__image {
+      height: 480px;
+    }
+    .hero__image-inner {
+      width: 100%;
+      height: 100%;
+      background: #0a1628;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    /* SVG-based logistics illustration */
+    .hero__image-inner svg {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0; left: 0;
+    }
+
+    /* ============================================================
+       SECTION RIBBON
+    ============================================================ */
+    .ribbon {
+      background: var(--black);
+      padding: 0 0;
+      height: 36px;
+      display: flex;
+      align-items: center;
+    }
+    .ribbon .container { width: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .ribbon__label {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--paper);
+    }
+    .ribbon__link {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--caption-gray);
+    }
+    .ribbon__link:hover { color: var(--link-blue); }
+
+    /* ============================================================
+       STORY GRID — 3 col
+    ============================================================ */
+    .story-grid {
+      border-bottom: 1px solid var(--black);
+      padding: 0;
+    }
+    .story-grid .container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      width: 100%;
+    }
+    .story-tile {
+      padding: 28px 28px 28px 0;
+      border-right: 1px solid var(--hairline);
+    }
+    .story-tile:first-child { padding-left: 0; }
+    .story-tile:last-child { border-right: none; padding-right: 0; }
+    .story-tile + .story-tile { padding-left: 28px; }
+    .story-tile__image {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #d0d0d0;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .story-tile__image img, .story-tile__image .img-placeholder {
+      width: 100%;
+      height: 100%;
+    }
+    .img-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--paper);
+      font-weight: 700;
+    }
+    .story-tile__eyebrow { margin-bottom: 10px; }
+    .story-tile__headline {
+      font-family: var(--f-display);
+      font-size: 22px;
+      font-weight: 400;
+      line-height: 1.18;
+      letter-spacing: -0.1px;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .story-tile__headline a:hover { color: var(--link-blue); text-decoration: underline; }
+    .story-tile__deck {
+      font-family: var(--f-body);
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--ink);
+      margin-bottom: 14px;
+    }
+    .story-tile__meta {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--caption-gray);
+    }
+
+    /* ============================================================
+       FEATURED DOUBLE — 2 col, one big
+    ============================================================ */
+    .featured-double {
+      border-bottom: 1px solid var(--black);
+      padding: 0;
+    }
+    .featured-double .container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 0;
+      width: 100%;
+    }
+    .featured-double__main {
+      border-right: 1px solid var(--black);
+      padding: 36px 40px 36px 0;
+    }
+    .featured-double__main .fd-image {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #111;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .featured-double__main .fd-headline {
+      font-family: var(--f-display);
+      font-size: 40px;
+      font-weight: 400;
+      line-height: 1.07;
+      letter-spacing: -0.3px;
+      color: var(--ink);
+      margin: 12px 0 16px;
+    }
+    .featured-double__main .fd-headline a:hover { color: var(--link-blue); }
+    .featured-double__main .fd-deck {
+      font-family: var(--f-body);
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--ink);
+      margin-bottom: 16px;
+      max-width: 540px;
+    }
+    .featured-double__sidebar {
+      padding: 36px 0 36px 36px;
+    }
+    .sidebar-story {
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--hairline);
+    }
+    .sidebar-story:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .sidebar-story__eyebrow { margin-bottom: 8px; }
+    .sidebar-story__headline {
+      font-family: var(--f-display);
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 1.20;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .sidebar-story__headline a:hover { color: var(--link-blue); text-decoration: underline; }
+    .sidebar-story__meta {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--caption-gray);
+    }
+
+    /* ============================================================
+       MOST POPULAR
+    ============================================================ */
+    .most-popular {
+      border-bottom: 1px solid var(--black);
+      padding: 0;
+    }
+    .most-popular .container {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      width: 100%;
+    }
+    .popular-item {
+      padding: 24px 24px 24px 0;
+      border-right: 1px solid var(--hairline);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .popular-item:first-child { padding-left: 0; }
+    .popular-item:last-child { border-right: none; padding-right: 0; }
+    .popular-item + .popular-item { padding-left: 24px; }
+    .popular-item__num {
+      font-family: var(--f-mono);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--hairline);
+      line-height: 1;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+    .popular-item__headline {
+      font-family: var(--f-ui);
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.30;
+      color: var(--ink);
+    }
+    .popular-item__headline a:hover { color: var(--link-blue); text-decoration: underline; }
+    .popular-item__meta {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--caption-gray);
+      margin-top: 8px;
+    }
+
+    /* ============================================================
+       NEWSLETTER BAND
+    ============================================================ */
+    .newsletter {
+      border-bottom: 1px solid var(--black);
+      padding: 40px 0;
+    }
+    .newsletter .container {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      width: 100%;
+    }
+    .newsletter__label {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--caption-gray);
+      white-space: nowrap;
+    }
+    .newsletter__headline {
+      font-family: var(--f-display);
+      font-size: 26px;
+      font-weight: 400;
+      line-height: 1.18;
+      color: var(--ink);
+      flex: 1;
+    }
+    .newsletter__form {
+      display: flex;
+      gap: 0;
+      flex-shrink: 0;
+    }
+    .newsletter__input {
+      border: 2px solid var(--black);
+      border-right: none;
+      padding: 10px 16px;
+      font-family: var(--f-ui);
+      font-size: 15px;
+      outline: none;
+      width: 260px;
+      border-radius: 0;
+    }
+    .newsletter__input::placeholder { color: var(--caption-gray); }
+    .newsletter__btn {
+      background: var(--black);
+      color: var(--paper);
+      border: 2px solid var(--black);
+      padding: 10px 24px;
+      font-family: var(--f-ui);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 0;
+    }
+    .newsletter__btn:hover { background: var(--link-blue); border-color: var(--link-blue); }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .footer {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 48px 0 32px;
+    }
+    .footer .container { width: 100%; }
+    .footer__top {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 0;
+      padding-bottom: 36px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      margin-bottom: 28px;
+    }
+    .footer__col { padding-right: 32px; }
+    .footer__col-label {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 16px;
+    }
+    .footer__col ul { list-style: none; }
+    .footer__col li { margin-bottom: 10px; }
+    .footer__col a {
+      font-family: var(--f-ui);
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+    }
+    .footer__col a:hover { color: var(--link-blue); }
+    .footer__bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer__logo {
+      font-family: var(--f-display);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--paper);
+    }
+    .footer__logo span { color: var(--link-blue); }
+    .footer__legal {
+      font-family: var(--f-ui);
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ============================================================
+       SVG ILLUSTRATIONS (inline placeholders)
+    ============================================================ */
+    .img-supply-chain {
+      background: linear-gradient(135deg, #0a1628 0%, #0d2040 100%);
+    }
+    .img-drone { background: #1a2a1a; }
+    .img-port { background: #1a1a2a; }
+    .img-warehouse { background: #2a1a1a; }
+  </style>
+</head>
+<body>
+
+  <!-- UTILITY BAR -->
+  <div class="util-bar">
+    <div class="container">
+      <ul class="util-bar__links">
+        <li><a href="#">Supply Chain</a></li>
+        <li><a href="#">Automation</a></li>
+        <li><a href="#">Last Mile</a></li>
+        <li><a href="#">Freight AI</a></li>
+        <li><a href="#">Research</a></li>
+        <li><a href="#">Podcast</a></li>
+      </ul>
+      <a href="#" class="util-bar__cta">Subscribe</a>
+    </div>
+  </div>
+
+  <!-- MAIN NAV -->
+  <nav class="main-nav">
+    <div class="container">
+      <a href="#" class="nav__logo">LOGI<span>AI</span></a>
+      <ul class="nav__links">
+        <li><a href="#">Trends</a></li>
+        <li><a href="#">Analysis</a></li>
+        <li><a href="#">Case Studies</a></li>
+        <li><a href="#">Tools</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+      <div class="nav__search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </div>
+    </div>
+  </nav>
+
+  <hr class="rule" />
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero__text">
+        <div class="hero__eyebrow">
+          <span class="eyebrow eyebrow--orange">Analysis</span>
+        </div>
+        <h1 class="hero__headline">
+          <a href="#">The AI Routing Revolution Is Already Quietly Reshaping Global Freight</a>
+        </h1>
+        <p class="hero__deck">
+          Machine learning models now handle 40 percent of dynamic lane pricing decisions at the top five forwarders. What happens when the other 60 percent follows?
+        </p>
+        <p class="hero__meta">By Markus Possiel &nbsp;&bull;&nbsp; 6 Hours Ago</p>
+      </div>
+      <div class="hero__image">
+        <div class="hero__image-inner img-supply-chain">
+          <!-- Inline SVG: stylized network grid -->
+          <svg viewBox="0 0 620 480" xmlns="http://www.w3.org/2000/svg">
+            <rect width="620" height="480" fill="#0a1628"/>
+            <!-- Grid lines -->
+            <g stroke="#1e3a5f" stroke-width="0.5" opacity="0.6">
+              <line x1="0" y1="80" x2="620" y2="80"/>
+              <line x1="0" y1="160" x2="620" y2="160"/>
+              <line x1="0" y1="240" x2="620" y2="240"/>
+              <line x1="0" y1="320" x2="620" y2="320"/>
+              <line x1="0" y1="400" x2="620" y2="400"/>
+              <line x1="80" y1="0" x2="80" y2="480"/>
+              <line x1="160" y1="0" x2="160" y2="480"/>
+              <line x1="240" y1="0" x2="240" y2="480"/>
+              <line x1="320" y1="0" x2="320" y2="480"/>
+              <line x1="400" y1="0" x2="400" y2="480"/>
+              <line x1="500" y1="0" x2="500" y2="480"/>
+            </g>
+            <!-- Route lines -->
+            <g stroke="#057dbc" stroke-width="1.5" opacity="0.8" fill="none">
+              <polyline points="60,380 160,300 280,240 400,160 540,100"/>
+              <polyline points="40,420 120,360 220,300 360,220 480,140 580,80"/>
+            </g>
+            <g stroke="#e05c00" stroke-width="1" opacity="0.5" fill="none">
+              <polyline points="80,440 200,380 320,280 440,200 560,120"/>
+            </g>
+            <!-- Nodes -->
+            <g fill="#057dbc">
+              <circle cx="60" cy="380" r="5"/>
+              <circle cx="160" cy="300" r="4"/>
+              <circle cx="280" cy="240" r="6"/>
+              <circle cx="400" cy="160" r="4"/>
+              <circle cx="540" cy="100" r="5"/>
+            </g>
+            <g fill="#e05c00">
+              <circle cx="320" cy="280" r="4"/>
+              <circle cx="200" cy="380" r="3"/>
+            </g>
+            <!-- Label -->
+            <text x="30" y="460" font-family="'Source Code Pro', monospace" font-size="11" fill="rgba(255,255,255,0.3)" letter-spacing="1.5">GLOBAL FREIGHT NETWORK / REAL-TIME AI ROUTING</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RIBBON: LATEST -->
+  <div class="ribbon">
+    <div class="container">
+      <span class="ribbon__label">Latest Stories</span>
+      <a href="#" class="ribbon__link">View All &rarr;</a>
+    </div>
+  </div>
+
+  <!-- STORY GRID -->
+  <section class="story-grid">
+    <div class="container">
+
+      <article class="story-tile">
+        <div class="story-tile__image">
+          <div class="img-placeholder img-drone" style="background:#1a2a1a;">
+            <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg" width="360" height="270">
+              <rect width="360" height="270" fill="#1a2a1a"/>
+              <g stroke="#4a8a4a" stroke-width="1" opacity="0.4">
+                <line x1="0" y1="90" x2="360" y2="90"/>
+                <line x1="0" y1="180" x2="360" y2="180"/>
+                <line x1="90" y1="0" x2="90" y2="270"/>
+                <line x1="180" y1="0" x2="180" y2="270"/>
+                <line x1="270" y1="0" x2="270" y2="270"/>
+              </g>
+              <!-- Drone shape -->
+              <g transform="translate(140, 90)">
+                <rect x="30" y="28" width="20" height="14" rx="2" fill="#6aad6a" opacity="0.9"/>
+                <line x1="0" y1="35" x2="30" y2="35" stroke="#6aad6a" stroke-width="2"/>
+                <line x1="50" y1="35" x2="80" y2="35" stroke="#6aad6a" stroke-width="2"/>
+                <line x1="40" y1="28" x2="40" y2="18" stroke="#6aad6a" stroke-width="2"/>
+                <circle cx="0" cy="35" r="8" fill="none" stroke="#6aad6a" stroke-width="1.5"/>
+                <circle cx="80" cy="35" r="8" fill="none" stroke="#6aad6a" stroke-width="1.5"/>
+                <circle cx="40" cy="14" r="6" fill="none" stroke="#6aad6a" stroke-width="1.5"/>
+              </g>
+              <text x="20" y="255" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.3)" letter-spacing="1.5">DRONE DELIVERY / LOGISTICS</text>
+            </svg>
+          </div>
+        </div>
+        <div class="story-tile__eyebrow">
+          <span class="eyebrow eyebrow--blue">Last Mile</span>
+        </div>
+        <h2 class="story-tile__headline">
+          <a href="#">Drone Corridors: Why Amazon's Airspace Data Could Become Its Most Valuable Logistics Asset</a>
+        </h2>
+        <p class="story-tile__deck">
+          The real competitive moat isn't battery range or payload capacity. It's the petabytes of low-altitude flight telemetry that no regulator has figured out how to share.
+        </p>
+        <p class="story-tile__meta">4 Days Ago</p>
+      </article>
+
+      <article class="story-tile">
+        <div class="story-tile__image">
+          <div class="img-placeholder img-port" style="background:#1a1a2a;">
+            <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg" width="360" height="270">
+              <rect width="360" height="270" fill="#1a1a2a"/>
+              <g stroke="#3a3a8a" stroke-width="0.5" opacity="0.4">
+                <line x1="0" y1="90" x2="360" y2="90"/>
+                <line x1="0" y1="180" x2="360" y2="180"/>
+                <line x1="120" y1="0" x2="120" y2="270"/>
+                <line x1="240" y1="0" x2="240" y2="270"/>
+              </g>
+              <!-- Port cranes simplified -->
+              <g stroke="#5a5aba" stroke-width="2" fill="none">
+                <line x1="80" y1="200" x2="80" y2="80"/>
+                <line x1="80" y1="80" x2="180" y2="80"/>
+                <line x1="180" y1="80" x2="180" y2="140"/>
+                <line x1="80" y1="200" x2="200" y2="200"/>
+                <line x1="200" y1="200" x2="200" y2="100"/>
+                <line x1="200" y1="100" x2="290" y2="100"/>
+                <line x1="290" y1="100" x2="290" y2="160"/>
+              </g>
+              <g fill="#5a5aba" opacity="0.7">
+                <rect x="90" y="140" width="30" height="20"/>
+                <rect x="130" y="145" width="30" height="20"/>
+                <rect x="210" y="150" width="28" height="18"/>
+                <rect x="250" y="145" width="28" height="18"/>
+              </g>
+              <text x="20" y="255" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.3)" letter-spacing="1.5">PORT AUTOMATION / AI SYSTEMS</text>
+            </svg>
+          </div>
+        </div>
+        <div class="story-tile__eyebrow">
+          <span class="eyebrow">Supply Chain</span>
+        </div>
+        <h2 class="story-tile__headline">
+          <a href="#">Rotterdam's Port AI Is Three Years Ahead of Everyone Else. Here's What It Sees</a>
+        </h2>
+        <p class="story-tile__deck">
+          The Pronto system now predicts berth conflicts 72 hours out with 94 percent accuracy. The bottleneck, it turns out, isn't the algorithm. It's convincing shipping lines to trust it.
+        </p>
+        <p class="story-tile__meta">1 Week Ago</p>
+      </article>
+
+      <article class="story-tile">
+        <div class="story-tile__image">
+          <div class="img-placeholder img-warehouse" style="background:#2a1a1a;">
+            <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg" width="360" height="270">
+              <rect width="360" height="270" fill="#2a1a1a"/>
+              <g stroke="#8a3a3a" stroke-width="0.5" opacity="0.4">
+                <line x1="0" y1="90" x2="360" y2="90"/>
+                <line x1="0" y1="180" x2="360" y2="180"/>
+                <line x1="90" y1="0" x2="90" y2="270"/>
+                <line x1="180" y1="0" x2="180" y2="270"/>
+                <line x1="270" y1="0" x2="270" y2="270"/>
+              </g>
+              <!-- Warehouse / shelving grid -->
+              <g stroke="#ba5a5a" stroke-width="1.5" fill="none" opacity="0.8">
+                <rect x="40" y="80" width="60" height="100"/>
+                <line x1="40" y1="110" x2="100" y2="110"/>
+                <line x1="40" y1="140" x2="100" y2="140"/>
+                <line x1="40" y1="170" x2="100" y2="170"/>
+                <rect x="150" y="80" width="60" height="100"/>
+                <line x1="150" y1="110" x2="210" y2="110"/>
+                <line x1="150" y1="140" x2="210" y2="140"/>
+                <line x1="150" y1="170" x2="210" y2="170"/>
+                <rect x="260" y="80" width="60" height="100"/>
+                <line x1="260" y1="110" x2="320" y2="110"/>
+                <line x1="260" y1="140" x2="320" y2="140"/>
+                <line x1="260" y1="170" x2="320" y2="170"/>
+              </g>
+              <!-- Robot path -->
+              <polyline points="120,200 180,185 120,170 180,155" stroke="#e05c00" stroke-width="2" fill="none" stroke-dasharray="4,3"/>
+              <circle cx="120" cy="200" r="4" fill="#e05c00"/>
+              <text x="20" y="255" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.3)" letter-spacing="1.5">WAREHOUSE ROBOTICS / AI PICKING</text>
+            </svg>
+          </div>
+        </div>
+        <div class="story-tile__eyebrow">
+          <span class="eyebrow eyebrow--orange">Automation</span>
+        </div>
+        <h2 class="story-tile__headline">
+          <a href="#">The Hidden Cost of Warehouse AI: When the Robot Learns Your Floor Plan and Then Forgets It</a>
+        </h2>
+        <p class="story-tile__deck">
+          Retraining autonomous mobile robots after a warehouse reconfiguration costs some operators more than the original deployment. Model drift is the industry's dirty secret.
+        </p>
+        <p class="story-tile__meta">2 Weeks Ago</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- RIBBON: ANALYSIS -->
+  <div class="ribbon">
+    <div class="container">
+      <span class="ribbon__label">In-Depth Analysis</span>
+      <a href="#" class="ribbon__link">All Analysis &rarr;</a>
+    </div>
+  </div>
+
+  <!-- FEATURED DOUBLE -->
+  <section class="featured-double">
+    <div class="container">
+
+      <div class="featured-double__main">
+        <div class="fd-image">
+          <svg viewBox="0 0 740 420" xmlns="http://www.w3.org/2000/svg" width="740" height="420">
+            <rect width="740" height="420" fill="#0d1117"/>
+            <g stroke="#1a3a5a" stroke-width="0.5" opacity="0.5">
+              <line x1="0" y1="70" x2="740" y2="70"/>
+              <line x1="0" y1="140" x2="740" y2="140"/>
+              <line x1="0" y1="210" x2="740" y2="210"/>
+              <line x1="0" y1="280" x2="740" y2="280"/>
+              <line x1="0" y1="350" x2="740" y2="350"/>
+              <line x1="80" y1="0" x2="80" y2="420"/>
+              <line x1="160" y1="0" x2="160" y2="420"/>
+              <line x1="240" y1="0" x2="240" y2="420"/>
+              <line x1="320" y1="0" x2="320" y2="420"/>
+              <line x1="400" y1="0" x2="400" y2="420"/>
+              <line x1="480" y1="0" x2="480" y2="420"/>
+              <line x1="560" y1="0" x2="560" y2="420"/>
+              <line x1="640" y1="0" x2="640" y2="420"/>
+            </g>
+            <!-- Bar chart -->
+            <g fill="#057dbc" opacity="0.85">
+              <rect x="60" y="320" width="40" height="60"/>
+              <rect x="130" y="280" width="40" height="100"/>
+              <rect x="200" y="240" width="40" height="140"/>
+              <rect x="270" y="190" width="40" height="190"/>
+              <rect x="340" y="150" width="40" height="230"/>
+              <rect x="410" y="110" width="40" height="270"/>
+              <rect x="480" y="80" width="40" height="300"/>
+            </g>
+            <!-- Line overlay -->
+            <polyline points="80,310 150,270 220,230 290,185 360,145 430,105 500,72" stroke="#e05c00" stroke-width="2.5" fill="none"/>
+            <g fill="#e05c00">
+              <circle cx="80" cy="310" r="4"/>
+              <circle cx="150" cy="270" r="4"/>
+              <circle cx="220" cy="230" r="4"/>
+              <circle cx="290" cy="185" r="4"/>
+              <circle cx="360" cy="145" r="4"/>
+              <circle cx="430" cy="105" r="4"/>
+              <circle cx="500" cy="72" r="4"/>
+            </g>
+            <text x="540" y="80" font-family="monospace" font-size="11" fill="#e05c00" opacity="0.9">AI ADOPTION RATE</text>
+            <text x="30" y="400" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.25)" letter-spacing="1.5">LOGISTICS AI MARKET GROWTH 2019-2026 / SOURCE: LOGIAI RESEARCH</text>
+          </svg>
+        </div>
+        <div class="eyebrow" style="margin-bottom:12px;">Research</div>
+        <h2 class="fd-headline">
+          <a href="#">Five Years of Data Confirm It: AI Adoption in Logistics Is Exponential, Not Linear</a>
+        </h2>
+        <p class="fd-deck">
+          We tracked 1,200 freight and warehousing operators across Europe and North America from 2021 to 2026. The takeaway isn't that AI is spreading. It's that the gap between early adopters and laggards is now structurally unbridgeable for 60 percent of mid-size carriers.
+        </p>
+        <p class="story-tile__meta">Markus Possiel &nbsp;&bull;&nbsp; 3 Days Ago &nbsp;&bull;&nbsp; 12 min read</p>
+      </div>
+
+      <div class="featured-double__sidebar">
+        <article class="sidebar-story">
+          <div class="sidebar-story__eyebrow">
+            <span class="eyebrow eyebrow--blue">Freight AI</span>
+          </div>
+          <h3 class="sidebar-story__headline">
+            <a href="#">Why Dynamic Fuel Surcharges Are Becoming AI's First Real Logistics Proving Ground</a>
+          </h3>
+          <p class="sidebar-story__meta">5 Days Ago</p>
+        </article>
+        <article class="sidebar-story">
+          <div class="sidebar-story__eyebrow">
+            <span class="eyebrow">Regulation</span>
+          </div>
+          <h3 class="sidebar-story__headline">
+            <a href="#">The EU AI Act Has a Logistics Problem. Nobody in Brussels Is Talking About It</a>
+          </h3>
+          <p class="sidebar-story__meta">1 Week Ago</p>
+        </article>
+        <article class="sidebar-story">
+          <div class="sidebar-story__eyebrow">
+            <span class="eyebrow eyebrow--orange">Tools</span>
+          </div>
+          <h3 class="sidebar-story__headline">
+            <a href="#">We Benchmarked Six AI Freight Pricing Tools Against Each Other. The Results Were Uncomfortable</a>
+          </h3>
+          <p class="sidebar-story__meta">2 Weeks Ago</p>
+        </article>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- RIBBON: MOST POPULAR -->
+  <div class="ribbon">
+    <div class="container">
+      <span class="ribbon__label">Most Read</span>
+    </div>
+  </div>
+
+  <!-- MOST POPULAR -->
+  <section class="most-popular">
+    <div class="container">
+      <div class="popular-item">
+        <span class="popular-item__num">01</span>
+        <div>
+          <p class="popular-item__headline">
+            <a href="#">The Carbon Accounting Problem AI Hasn't Solved Yet</a>
+          </p>
+          <p class="popular-item__meta">Sustainability</p>
+        </div>
+      </div>
+      <div class="popular-item">
+        <span class="popular-item__num">02</span>
+        <div>
+          <p class="popular-item__headline">
+            <a href="#">How Maersk's AI Ops Center Actually Works</a>
+          </p>
+          <p class="popular-item__meta">Case Study</p>
+        </div>
+      </div>
+      <div class="popular-item">
+        <span class="popular-item__num">03</span>
+        <div>
+          <p class="popular-item__headline">
+            <a href="#">LLMs for Freight Quoting: Practical or Hype?</a>
+          </p>
+          <p class="popular-item__meta">Tools</p>
+        </div>
+      </div>
+      <div class="popular-item">
+        <span class="popular-item__num">04</span>
+        <div>
+          <p class="popular-item__headline">
+            <a href="#">The Warehouse of 2030 Will Have No Middle Management</a>
+          </p>
+          <p class="popular-item__meta">Automation</p>
+        </div>
+      </div>
+      <div class="popular-item">
+        <span class="popular-item__num">05</span>
+        <div>
+          <p class="popular-item__headline">
+            <a href="#">Predictive ETAs Are Already 22% More Accurate Than Human Estimates</a>
+          </p>
+          <p class="popular-item__meta">Data</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter">
+    <div class="container">
+      <div class="newsletter__label">Newsletter</div>
+      <h3 class="newsletter__headline">AI + Logistics intelligence, every Tuesday morning.</h3>
+      <form class="newsletter__form" onsubmit="return false;">
+        <input class="newsletter__input" type="email" placeholder="your@email.com" />
+        <button class="newsletter__btn" type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__col">
+          <div class="footer__col-label">Topics</div>
+          <ul>
+            <li><a href="#">Supply Chain AI</a></li>
+            <li><a href="#">Warehouse Robotics</a></li>
+            <li><a href="#">Last Mile Delivery</a></li>
+            <li><a href="#">Freight Tech</a></li>
+            <li><a href="#">Sustainability</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <div class="footer__col-label">Analysis</div>
+          <ul>
+            <li><a href="#">Research Reports</a></li>
+            <li><a href="#">Case Studies</a></li>
+            <li><a href="#">Tool Benchmarks</a></li>
+            <li><a href="#">Market Data</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <div class="footer__col-label">About</div>
+          <ul>
+            <li><a href="#">LogiAI Mission</a></li>
+            <li><a href="#">Editorial Standards</a></li>
+            <li><a href="#">Advertise</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <div class="footer__col-label">Follow</div>
+          <ul>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">Twitter / X</a></li>
+            <li><a href="#">RSS Feed</a></li>
+            <li><a href="#">Podcast</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <div class="footer__logo">LOGI<span>AI</span></div>
+        <div class="footer__legal">&copy; 2026 LogiAI Blog &nbsp;&bull;&nbsp; Privacy &nbsp;&bull;&nbsp; Imprint</div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
