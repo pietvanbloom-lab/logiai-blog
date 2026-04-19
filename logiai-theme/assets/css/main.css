@@ -873,11 +873,6 @@ ul { list-style: none; }
    RESPONSIVE
 ============================================================ */
 @media (max-width: 1024px) {
-  .hero .container { grid-template-columns: 1fr; }
-  .hero__text { border-right: none; border-bottom: 1px solid var(--black); padding: 36px 0; }
-  .hero__image { min-height: 360px; }
-  .hero__headline { font-size: 42px; }
-
   .most-popular .container { grid-template-columns: 1fr 1fr; }
   .popular-item:nth-child(2n) { border-right: none; padding-right: 0; }
   .popular-item:nth-child(3) { padding-left: 0; }
@@ -888,6 +883,11 @@ ul { list-style: none; }
 }
 
 @media (max-width: 768px) {
+  .hero .container { grid-template-columns: 1fr; }
+  .hero__text { border-right: none; border-bottom: 1px solid var(--black); padding: 36px 0; }
+  .hero__image { min-height: 360px; }
+  .hero__headline { font-size: 42px; }
+
   .story-grid .container   { grid-template-columns: 1fr; }
   .story-tile              { border-right: none; padding: 24px 0; border-bottom: 1px solid var(--hairline); }
   .story-tile:last-child   { border-bottom: none; }
