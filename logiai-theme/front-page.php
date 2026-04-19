@@ -47,7 +47,7 @@ $popular = new WP_Query( $args_popular );
     <div class="hero__text">
       <?php if ( $hero_cat ) : ?>
         <div class="hero__eyebrow">
-          <a href="<?php echo esc_url( get_category_link( $hero_cat->term_id ) ); ?>" class="eyebrow eyebrow--orange">
+          <a href="<?php echo esc_url( get_category_link( $hero_cat->term_id ) ); ?>" class="eyebrow eyebrow--blue">
             <?php echo esc_html( $hero_cat->name ); ?>
           </a>
         </div>

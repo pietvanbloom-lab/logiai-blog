@@ -15,7 +15,7 @@ get_header();
 </div>
 
 <div class="container" style="padding: 80px 24px; text-align: center;">
-  <p class="eyebrow" style="margin-bottom: 16px; color: var(--accent-alt);">Page Not Found</p>
+  <p class="eyebrow" style="margin-bottom: 16px; color: var(--ink);">Page Not Found</p>
   <h1 style="font-family: var(--f-display); font-size: 48px; font-weight: 400; line-height: 1.1; margin-bottom: 24px;">
     This story has moved or doesn't exist.
   </h1>
