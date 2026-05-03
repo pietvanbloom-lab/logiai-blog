@@ -1,0 +1,67 @@
+<!-- LogiAI editorial visual · timeline (rollout phases) · bilingual via :lang() -->
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;700&family=Source+Code+Pro:wght@400;700&display=swap");
+.lv-tl{--ink:#1a1a1a;--meta:#757575;--hair:#e2e8f0;--accent:#057dbc;background:#fff;color:var(--ink);font-family:"Lora",Georgia,serif;border-top:2px solid #000;border-bottom:2px solid #000;padding:20px 0 22px;box-sizing:border-box;width:100%;max-width:100%}
+.lv-tl *,.lv-tl *::before,.lv-tl *::after{box-sizing:border-box}
+.lv-tl .k{font-family:"Source Code Pro",monospace;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lv-tl .k .num{color:var(--ink);border:1px solid #000;padding:2px 6px;font-size:10px}
+.lv-tl h3{font-family:"Playfair Display",serif;font-size:26px;font-weight:400;line-height:1.12;letter-spacing:-.2px;margin:0 0 6px;text-wrap:balance}
+.lv-tl p.deck{font-family:"Lora",serif;font-size:14px;line-height:1.55;font-style:italic;margin:0 0 16px;max-width:62ch}
+.lv-tl .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative;padding:8px 0 16px}
+.lv-tl .grid::before{content:"";position:absolute;left:0;right:0;top:32px;height:1px;background:#1a1a1a}
+.lv-tl .item{position:relative;padding-top:44px;padding-right:12px;border-right:1px solid var(--hair)}
+.lv-tl .item:last-child{border-right:none}
+.lv-tl .item .tick{position:absolute;top:26px;left:0;width:14px;height:14px;background:#1a1a1a;border:2px solid #fff;box-shadow:0 0 0 1.5px #1a1a1a}
+.lv-tl .item.last .tick{background:var(--accent);box-shadow:0 0 0 1.5px var(--accent)}
+.lv-tl .item .q{font-family:"Source Code Pro",monospace;font-size:10px;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--ink);margin-bottom:6px}
+.lv-tl .item.last .q{color:var(--accent)}
+.lv-tl .item .t{font-family:"Playfair Display",serif;font-size:22px;line-height:1.15;color:var(--ink);margin-bottom:8px}
+.lv-tl .item .d{font-family:"Lora",serif;font-size:13px;line-height:1.5;color:var(--ink)}
+.lv-tl .foot{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px;padding-top:10px;border-top:1px solid var(--hair);font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--meta)}
+.lv-tl .foot .cap{font-family:"Lora",serif;font-style:italic;font-size:12px;letter-spacing:0;text-transform:none;color:var(--meta);font-weight:700}
+.lv-tl [data-de],.lv-tl [data-en]{display:none}
+:lang(de) .lv-tl [data-de],:lang(en) .lv-tl [data-en]{display:initial}
+@media (max-width:768px){.lv-tl .grid{grid-template-columns:1fr}.lv-tl .grid::before{display:none}.lv-tl .item{border-right:none;border-bottom:1px solid var(--hair);padding-bottom:14px}}
+</style>
+<figure class="lv-tl" role="figure">
+  <div class="k"><span class="num">06</span>
+    <span data-de>Rollout · Routing-Agent</span><span data-en>Rollout · Routing Agent</span></div>
+  <h3>
+    <span data-de>Vom Prototyp zum Regelbetrieb in neun Monaten</span>
+    <span data-en>From prototype to standard operation in nine months</span>
+  </h3>
+  <p class="deck">
+    <span data-de>Wie ein mittelständischer 3PL einen LLM-Routing-Agent eingeführt hat, mit Stolperstellen.</span>
+    <span data-en>How a mid-sized 3PL introduced an LLM routing agent, with the speed bumps.</span>
+  </p>
+  <div class="grid">
+    <div class="item">
+      <div class="tick"></div>
+      <div class="q">Q2 · 2025</div>
+      <div class="t"><span data-de>Prototyp</span><span data-en>Prototype</span></div>
+      <div class="d"><span data-de>Jupyter-Notebook, 50 Aufträge, Mensch validiert jeden Vorschlag.</span><span data-en>Jupyter notebook, 50 orders, a human validates every suggestion.</span></div>
+    </div>
+    <div class="item">
+      <div class="tick"></div>
+      <div class="q">Q3 · 2025</div>
+      <div class="t"><span data-de>Pilot</span><span data-en>Pilot</span></div>
+      <div class="d"><span data-de>Ein Standort, Schattenbetrieb neben Dispatchern. Akzeptanzrate: 71%.</span><span data-en>One site, shadow mode next to dispatchers. Acceptance rate: 71%.</span></div>
+    </div>
+    <div class="item">
+      <div class="tick"></div>
+      <div class="q">Q4 · 2025</div>
+      <div class="t"><span data-de>Rollout A</span><span data-en>Rollout A</span></div>
+      <div class="d"><span data-de>Drei Standorte live. Eskalations-Playbook mit Ops-Team.</span><span data-en>Three sites live. Escalation playbook agreed with the ops team.</span></div>
+    </div>
+    <div class="item last">
+      <div class="tick"></div>
+      <div class="q">Q1 · 2026</div>
+      <div class="t"><span data-de>Regelbetrieb</span><span data-en>Standard ops</span></div>
+      <div class="d"><span data-de>Acht Standorte, 24/7. Menschliche Freigabe nur noch bei Ausreißern.</span><span data-en>Eight sites, 24/7. Human approval only on outliers.</span></div>
+    </div>
+  </div>
+  <figcaption class="foot">
+    <span><span data-de>Quelle: Gespräche mit Ops-Lead, anonymisiert</span><span data-en>Source: Conversations with ops lead, anonymized</span></span>
+    <span class="cap"><span data-de>Längste Phase war nicht das Modell, sondern das Change-Management.</span><span data-en>The longest phase was not the model, it was change management.</span></span>
+  </figcaption>
+</figure>

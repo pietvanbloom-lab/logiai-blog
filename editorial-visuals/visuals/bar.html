@@ -1,0 +1,106 @@
+<!-- LogiAI editorial visual · bar (KPI comparison) · bilingual via :lang()
+     Paste into a WordPress Custom HTML block. Both DE and EN copy live in
+     the markup; the page <html lang="..."> attribute selects which is shown. -->
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;700&family=Source+Code+Pro:wght@400;700&display=swap");
+.lv-bar{--ink:#1a1a1a;--meta:#757575;--hair:#e2e8f0;--accent:#057dbc;background:#fff;color:var(--ink);font-family:"Lora",Georgia,serif;border-top:2px solid #000;border-bottom:2px solid #000;padding:20px 0 22px;box-sizing:border-box;width:100%;max-width:100%}
+.lv-bar *,.lv-bar *::before,.lv-bar *::after{box-sizing:border-box}
+.lv-bar .k{font-family:"Source Code Pro",monospace;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lv-bar .k .num{color:var(--ink);border:1px solid #000;padding:2px 6px;font-size:10px}
+.lv-bar h3{font-family:"Playfair Display",serif;font-size:26px;font-weight:400;line-height:1.12;letter-spacing:-.2px;color:var(--ink);margin:0 0 6px;text-wrap:balance}
+.lv-bar p.deck{font-family:"Lora",serif;font-size:14px;line-height:1.55;color:var(--ink);font-style:italic;margin:0 0 16px;max-width:62ch}
+.lv-bar .leg{display:flex;flex-wrap:wrap;gap:14px 20px;margin-bottom:14px;font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase}
+.lv-bar .leg .sw{display:inline-block;width:18px;height:8px;margin-right:6px;vertical-align:middle}
+.lv-bar svg{width:100%;height:auto;display:block}
+.lv-bar .foot{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px;padding-top:10px;border-top:1px solid var(--hair);font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--meta)}
+.lv-bar .foot .cap{font-family:"Lora",serif;font-style:italic;font-size:12px;letter-spacing:0;text-transform:none;color:var(--meta);font-weight:700}
+.lv-bar [data-de]{display:none}.lv-bar [data-en]{display:none}
+:lang(de) .lv-bar [data-de]{display:initial}
+:lang(en) .lv-bar [data-en]{display:initial}
+:lang(de) .lv-bar tspan[data-de],
+:lang(en) .lv-bar tspan[data-en]{display:initial}
+.lv-bar tspan[data-de],.lv-bar tspan[data-en]{display:none}
+</style>
+<figure class="lv-bar" role="figure">
+  <div class="k"><span class="num">01</span>
+    <span data-de>KPI · Feldtest</span><span data-en>KPI · Field test</span></div>
+  <h3>
+    <span data-de>Pick-Path-Optimierung senkt Laufwege um 23%</span>
+    <span data-en>Pick-path optimization cuts walking distance by 23%</span>
+  </h3>
+  <p class="deck">
+    <span data-de>Durchschnittliche Distanz pro Auftrag, vor und nach Einsatz des Routing-Agents in drei DACH-Lagern.</span>
+    <span data-en>Average meters walked per order, before and after a routing agent went live at three DACH warehouses.</span>
+  </p>
+  <div class="leg">
+    <span><span class="sw" style="background:#1a1a1a"></span>Baseline</span>
+    <span><span class="sw" style="background:#057dbc"></span><span data-de>Mit Agent</span><span data-en>With Agent</span></span>
+  </div>
+  <svg viewBox="0 0 760 280" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <text x="0" y="22" font-family="Source Code Pro, monospace" font-size="9" fill="#757575" letter-spacing="0.6" style="text-transform:uppercase">
+      <tspan data-de>Meter pro Auftrag</tspan><tspan data-en>Meters per order</tspan>
+    </text>
+    <!-- gridlines + y-axis -->
+    <line x1="48" x2="744" y1="238" y2="238" stroke="#1a1a1a"/>
+    <line x1="48" x2="744" y1="190" y2="190" stroke="#e2e8f0"/>
+    <line x1="48" x2="744" y1="142" y2="142" stroke="#e2e8f0"/>
+    <line x1="48" x2="744" y1="94" y2="94" stroke="#e2e8f0"/>
+    <line x1="48" x2="744" y1="46" y2="46" stroke="#e2e8f0"/>
+    <g font-family="Source Code Pro, monospace" font-size="10" fill="#1a1a1a" text-anchor="end" style="font-variant-numeric:tabular-nums">
+      <text x="40" y="242">0</text><text x="40" y="194">50</text><text x="40" y="146">100</text><text x="40" y="98">150</text><text x="40" y="50">200</text><text x="40" y="18">250</text>
+    </g>
+    <!-- bars + labels: Site A -->
+    <g font-family="Source Code Pro, monospace">
+      <!-- A -->
+      <rect x="89.4" y="34.5" width="26" height="203.5" fill="#1a1a1a"/>
+      <rect x="119.4" y="80.6" width="26" height="157.4" fill="#057dbc"/>
+      <text x="102.4" y="29.5" text-anchor="middle" font-size="10" fill="#757575">212</text>
+      <text x="132.4" y="75.6" text-anchor="middle" font-size="10" fill="#1a1a1a" font-weight="700">164</text>
+      <text x="117.5" y="254" text-anchor="middle" font-size="10" fill="#1a1a1a" letter-spacing="0.6" style="text-transform:uppercase">
+        <tspan data-de>Standort A</tspan><tspan data-en>Site A</tspan>
+      </text>
+      <!-- B -->
+      <rect x="228" y="48" width="26" height="190" fill="#1a1a1a"/>
+      <rect x="258" y="91.2" width="26" height="146.8" fill="#057dbc"/>
+      <text x="241" y="43" text-anchor="middle" font-size="10" fill="#757575">198</text>
+      <text x="271" y="86.2" text-anchor="middle" font-size="10" fill="#1a1a1a" font-weight="700">153</text>
+      <text x="256.2" y="254" text-anchor="middle" font-size="10" fill="#1a1a1a" letter-spacing="0.6" style="text-transform:uppercase">
+        <tspan data-de>Standort B</tspan><tspan data-en>Site B</tspan>
+      </text>
+      <!-- C -->
+      <rect x="366.6" y="61.5" width="26" height="176.5" fill="#1a1a1a"/>
+      <rect x="396.6" y="74.0" width="26" height="164.0" fill="#057dbc"/>
+      <text x="379.6" y="56.5" text-anchor="middle" font-size="10" fill="#757575">184</text>
+      <text x="409.6" y="69.0" text-anchor="middle" font-size="10" fill="#1a1a1a" font-weight="700">171</text>
+      <text x="394.9" y="254" text-anchor="middle" font-size="10" fill="#1a1a1a" letter-spacing="0.6" style="text-transform:uppercase">
+        <tspan data-de>Standort C</tspan><tspan data-en>Site C</tspan>
+      </text>
+      <!-- D -->
+      <rect x="505.2" y="21" width="26" height="217" fill="#1a1a1a"/>
+      <rect x="535.2" y="86.4" width="26" height="151.6" fill="#057dbc"/>
+      <text x="518.2" y="16" text-anchor="middle" font-size="10" fill="#757575">226</text>
+      <text x="548.2" y="81.4" text-anchor="middle" font-size="10" fill="#1a1a1a" font-weight="700">158</text>
+      <text x="533.6" y="254" text-anchor="middle" font-size="10" fill="#1a1a1a" letter-spacing="0.6" style="text-transform:uppercase">
+        <tspan data-de>Standort D</tspan><tspan data-en>Site D</tspan>
+      </text>
+      <!-- Mean (separator + bold label) -->
+      <line x1="616.8" x2="616.8" y1="14" y2="238" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="2 3"/>
+      <rect x="643.8" y="36.6" width="26" height="201.4" fill="#4a4a4a"/>
+      <rect x="673.8" y="83.7" width="26" height="154.3" fill="#3a95c9"/>
+      <text x="656.8" y="31.6" text-anchor="middle" font-size="10" fill="#757575">205</text>
+      <text x="686.8" y="78.7" text-anchor="middle" font-size="10" fill="#1a1a1a" font-weight="700">162</text>
+      <text x="672.3" y="254" text-anchor="middle" font-size="10" fill="#1a1a1a" font-weight="700" letter-spacing="0.6" style="text-transform:uppercase">
+        <tspan data-de>Mittel</tspan><tspan data-en>Mean</tspan>
+      </text>
+    </g>
+    <!-- annotation -->
+    <line x1="715" y1="159" x2="684" y2="28" stroke="#1a1a1a" stroke-width="0.75"/>
+    <text x="684" y="24" text-anchor="end" font-family="Lora, serif" font-style="italic" font-size="11" fill="#1a1a1a">
+      <tspan data-de>−23% ggü. Baseline</tspan><tspan data-en>−23% vs. baseline</tspan>
+    </text>
+  </svg>
+  <figcaption class="foot">
+    <span><span data-de>Quelle: Interne Messung, Q1 2026</span><span data-en>Source: Internal measurement, Q1 2026</span></span>
+    <span class="cap"><span data-de>23% Reduktion im Mittel, Standort C als Ausreißer.</span><span data-en>23% mean reduction, Site C is the outlier.</span></span>
+  </figcaption>
+</figure>

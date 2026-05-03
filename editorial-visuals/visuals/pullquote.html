@@ -1,0 +1,47 @@
+<!-- LogiAI editorial visual · pullquote · bilingual via :lang() -->
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;700&family=Source+Code+Pro:wght@400;700&display=swap");
+.lv-pq{--ink:#1a1a1a;--meta:#757575;--hair:#e2e8f0;--accent:#057dbc;background:#fff;color:var(--ink);font-family:"Lora",Georgia,serif;border-top:4px solid #000;border-bottom:4px solid #000;padding:20px 0 22px;box-sizing:border-box;width:100%;max-width:100%}
+.lv-pq *,.lv-pq *::before,.lv-pq *::after{box-sizing:border-box}
+.lv-pq .k{font-family:"Source Code Pro",monospace;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lv-pq .k .num{color:var(--ink);border:1px solid #000;padding:2px 6px;font-size:10px}
+.lv-pq .grid{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:start;padding:12px 0 14px}
+.lv-pq .mark{font-family:"Playfair Display",serif;font-size:120px;line-height:.8;color:var(--accent);font-weight:700;letter-spacing:-4px;padding-top:6px}
+.lv-pq blockquote{margin:0;font-family:"Playfair Display",serif;font-size:36px;line-height:1.18;color:var(--ink);letter-spacing:-.3px;font-weight:400;text-wrap:balance}
+.lv-pq .by{display:flex;gap:14px;align-items:center;margin-top:18px}
+.lv-pq .by .rule{width:40px;height:1px;background:#1a1a1a}
+.lv-pq .by .name{font-family:"Inter",sans-serif;font-size:13px;font-weight:700;color:var(--ink);letter-spacing:.1px}
+.lv-pq .by .role{font-family:"Source Code Pro",monospace;font-size:10px;color:var(--meta);letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+.lv-pq .ctx{font-family:"Lora",serif;font-style:italic;font-size:13px;color:var(--meta);margin-top:12px;padding-top:10px;border-top:1px solid var(--hair)}
+.lv-pq .foot{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px;padding-top:10px;border-top:1px solid var(--hair);font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--meta)}
+.lv-pq [data-de],.lv-pq [data-en]{display:none}
+:lang(de) .lv-pq [data-de],:lang(en) .lv-pq [data-en]{display:initial}
+@media (max-width:520px){.lv-pq .grid{grid-template-columns:1fr;gap:8px}.lv-pq .mark{font-size:72px}.lv-pq blockquote{font-size:24px}}
+</style>
+<figure class="lv-pq" role="figure">
+  <div class="k"><span class="num">10</span>
+    <span data-de>Stimmen aus dem Feld</span><span data-en>Voices from the field</span></div>
+  <div class="grid">
+    <div class="mark">&ldquo;</div>
+    <div>
+      <blockquote>
+        <span data-de>Der Agent hat nicht das Modell gewonnen, er hat den Dispatcher überzeugt.</span>
+        <span data-en>The agent didn't win on the model, it won over the dispatcher.</span>
+      </blockquote>
+      <div class="by">
+        <div class="rule"></div>
+        <div>
+          <div class="name">Anna Weiß</div>
+          <div class="role"><span data-de>Head of Ops, mittelständischer 3PL</span><span data-en>Head of Ops, mid-sized 3PL</span></div>
+        </div>
+      </div>
+      <div class="ctx">
+        <span data-de>Über die ersten sechs Monate im Schattenbetrieb.</span>
+        <span data-en>On six months of shadow-mode operation.</span>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <span><span data-de>LogiAI · Interview, Februar 2026</span><span data-en>LogiAI · Interview, February 2026</span></span>
+  </div>
+</figure>

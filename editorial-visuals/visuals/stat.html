@@ -1,0 +1,54 @@
+<!-- LogiAI editorial visual · stat (number of the week) · bilingual via :lang() -->
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;700&family=Source+Code+Pro:wght@400;700&display=swap");
+.lv-stat{--ink:#1a1a1a;--meta:#757575;--hair:#e2e8f0;--accent:#057dbc;background:#fff;color:var(--ink);font-family:"Lora",Georgia,serif;border-top:2px solid #000;border-bottom:2px solid #000;padding:20px 0 22px;box-sizing:border-box;width:100%;max-width:100%}
+.lv-stat *,.lv-stat *::before,.lv-stat *::after{box-sizing:border-box}
+.lv-stat .k{font-family:"Source Code Pro",monospace;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lv-stat .k .num{color:var(--ink);border:1px solid #000;padding:2px 6px;font-size:10px}
+.lv-stat h3{font-family:"Playfair Display",serif;font-size:26px;font-weight:400;line-height:1.12;letter-spacing:-.2px;margin:0 0 6px}
+.lv-stat .grid{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:baseline;padding:8px 0 18px}
+.lv-stat .big{font-family:"Playfair Display",serif;font-size:180px;line-height:.9;color:var(--accent);letter-spacing:-4px;font-weight:400}
+.lv-stat .ctx{font-family:"Lora",serif;font-size:22px;line-height:1.4;color:var(--ink);max-width:32ch}
+.lv-stat .meta{margin-top:14px;padding-top:10px;border-top:1px solid var(--hair);display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.lv-stat .meta .lbl{font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--meta)}
+.lv-stat .meta .val{font-family:"Playfair Display",serif;font-size:28px;color:var(--ink)}
+.lv-stat .foot{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px;padding-top:10px;border-top:1px solid var(--hair);font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--meta)}
+.lv-stat .foot .cap{font-family:"Lora",serif;font-style:italic;font-size:12px;letter-spacing:0;text-transform:none;color:var(--meta);font-weight:700}
+.lv-stat [data-de],.lv-stat [data-en]{display:none}
+:lang(de) .lv-stat [data-de],:lang(en) .lv-stat [data-en]{display:initial}
+@media (max-width:520px){.lv-stat .grid{grid-template-columns:1fr;gap:16px}.lv-stat .big{font-size:120px}.lv-stat .ctx{font-size:18px}}
+</style>
+<figure class="lv-stat" role="figure">
+  <div class="k"><span class="num">05</span>
+    <span data-de>Zahl der Woche</span><span data-en>Number of the week</span></div>
+  <h3>
+    <span data-de>Zahl der Woche</span><span data-en>Number of the week</span>
+  </h3>
+  <div class="grid">
+    <div class="big">23%</div>
+    <div>
+      <div class="ctx">
+        <span data-de>weniger Laufweg pro Auftrag, nachdem ein Routing-Agent in drei DACH-Lagern scharfgeschaltet wurde.</span>
+        <span data-en>less walking distance per order after a routing agent went live at three DACH warehouses.</span>
+      </div>
+      <div class="meta">
+        <div>
+          <div class="lbl"><span data-de>Standorte</span><span data-en>Sites</span></div>
+          <div class="val">3</div>
+        </div>
+        <div>
+          <div class="lbl"><span data-de>Aufträge/Tag</span><span data-en>Orders/day</span></div>
+          <div class="val"><span data-de>12.400</span><span data-en>12,400</span></div>
+        </div>
+        <div>
+          <div class="lbl"><span data-de>Beobachtung</span><span data-en>Observed</span></div>
+          <div class="val"><span data-de>90 Tage</span><span data-en>90 days</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <figcaption class="foot">
+    <span><span data-de>LogiAI · Feldtest Q1 2026</span><span data-en>LogiAI · Field test Q1 2026</span></span>
+    <span class="cap"><span data-de>≈ 1,4 km pro Schicht und Mitarbeiter.</span><span data-en>≈ 1.4 km per shift per picker.</span></span>
+  </figcaption>
+</figure>
