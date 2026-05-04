@@ -1,0 +1,83 @@
+<!-- LogiAI editorial visual · flow (process chain) · bilingual via :lang() -->
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;700&family=Source+Code+Pro:wght@400;700&display=swap");
+.lv-fl{--ink:#1a1a1a;--meta:#757575;--hair:#e2e8f0;--accent:#057dbc;background:#fff;color:var(--ink);font-family:"Lora",Georgia,serif;border-top:2px solid #000;border-bottom:2px solid #000;padding:20px 0 22px;box-sizing:border-box;width:100%;max-width:100%}
+.lv-fl *,.lv-fl *::before,.lv-fl *::after{box-sizing:border-box}
+.lv-fl .k{font-family:"Source Code Pro",monospace;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lv-fl .k .num{color:var(--ink);border:1px solid #000;padding:2px 6px;font-size:10px}
+.lv-fl h3{font-family:"Playfair Display",serif;font-size:26px;font-weight:400;line-height:1.12;letter-spacing:-.2px;color:var(--ink);margin:0 0 6px;text-wrap:balance}
+.lv-fl p.deck{font-family:"Lora",serif;font-size:14px;line-height:1.55;color:var(--ink);font-style:italic;margin:0 0 16px;max-width:62ch}
+.lv-fl .leg{display:flex;flex-wrap:wrap;gap:14px 20px;margin-bottom:14px;font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase}
+.lv-fl .leg .sw{display:inline-block;width:18px;height:8px;margin-right:6px;vertical-align:middle}
+.lv-fl svg{width:100%;height:auto;display:block}
+.lv-fl .foot{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px;padding-top:10px;border-top:1px solid var(--hair);font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--meta)}
+.lv-fl .foot .cap{font-family:"Lora",serif;font-style:italic;font-size:12px;letter-spacing:0;text-transform:none;color:var(--meta);font-weight:700}
+.lv-fl [data-de],.lv-fl [data-en]{display:none}
+:lang(de) .lv-fl [data-de]{display:initial}
+:lang(en) .lv-fl [data-en]{display:initial}
+.lv-fl tspan[data-de],.lv-fl tspan[data-en]{display:none}
+:lang(de) .lv-fl tspan[data-de],:lang(en) .lv-fl tspan[data-en]{display:initial}
+@media (max-width:480px){.lv-fl{overflow-x:auto}.lv-fl svg{min-width:520px}}
+</style>
+<figure class="lv-fl" role="figure">
+  <div class="k"><span class="num">09</span>
+    <span data-de>Prozess · Fulfillment</span><span data-en>Process · Fulfillment</span></div>
+  <h3>
+    <span data-de>Vom Klick bis zum Paket, mit und ohne Agent</span>
+    <span data-en>From click to parcel, with and without the agent</span>
+  </h3>
+  <p class="deck">
+    <span data-de>Die sechs Schritte vom Bestelleingang bis zur Übergabe an den Fahrer, als Prozesskette.</span>
+    <span data-en>The six steps from order intake to handover, laid out as a chain.</span>
+  </p>
+  <div class="leg">
+    <span><span class="sw" style="background:#1a1a1a"></span><span data-de>Automatisiert</span><span data-en>Automated</span></span>
+    <span><span class="sw" style="background:#fff;border:1.5px solid #1a1a1a"></span><span data-de>Mensch im Loop</span><span data-en>Human in loop</span></span>
+  </div>
+  <svg viewBox="0 0 760 260" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <defs>
+      <marker id="flowArr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0,0 L10,5 L0,10 Z" fill="#1a1a1a"/></marker>
+    </defs>
+    <!-- 6 steps, stepW=120, boxW=104, y=60, boxH=72 -->
+    <!-- step 1 auto -->
+    <g><text x="80" y="30" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="10" font-weight="700" fill="#057dbc" letter-spacing="1.1" style="text-transform:uppercase">Step 1</text>
+      <rect x="28" y="60" width="104" height="72" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="80" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#fff" textLength="94" lengthAdjust="spacingAndGlyphs"><tspan data-de>Bestelleingang</tspan><tspan data-en>Order intake</tspan></text>
+      <text x="80" y="108" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="9" fill="rgba(255,255,255,0.7)" letter-spacing="0.4" style="text-transform:uppercase" textLength="92" lengthAdjust="spacingAndGlyphs"><tspan data-de>WMS empfängt Order</tspan><tspan data-en>WMS receives order</tspan></text>
+      <line x1="133" y1="96" x2="146" y2="96" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#flowArr)"/></g>
+    <!-- step 2 auto -->
+    <g><text x="200" y="30" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="10" font-weight="700" fill="#057dbc" letter-spacing="1.1" style="text-transform:uppercase">Step 2</text>
+      <rect x="148" y="60" width="104" height="72" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="200" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#fff" textLength="94" lengthAdjust="spacingAndGlyphs"><tspan data-de>Bestandsprüfung</tspan><tspan data-en>Stock check</tspan></text>
+      <text x="200" y="108" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="9" fill="rgba(255,255,255,0.7)" letter-spacing="0.4" style="text-transform:uppercase" textLength="92" lengthAdjust="spacingAndGlyphs"><tspan data-de>Live-Stock per API</tspan><tspan data-en>Live inventory API</tspan></text>
+      <line x1="253" y1="96" x2="266" y2="96" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#flowArr)"/></g>
+    <!-- step 3 auto -->
+    <g><text x="320" y="30" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="10" font-weight="700" fill="#057dbc" letter-spacing="1.1" style="text-transform:uppercase">Step 3</text>
+      <rect x="268" y="60" width="104" height="72" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="320" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#fff" textLength="94" lengthAdjust="spacingAndGlyphs"><tspan data-de>Pick-Plan</tspan><tspan data-en>Pick plan</tspan></text>
+      <text x="320" y="108" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="9" fill="rgba(255,255,255,0.7)" letter-spacing="0.4" style="text-transform:uppercase" textLength="92" lengthAdjust="spacingAndGlyphs"><tspan data-de>RL-Agent plant Route</tspan><tspan data-en>RL agent plans route</tspan></text>
+      <line x1="373" y1="96" x2="386" y2="96" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#flowArr)"/></g>
+    <!-- step 4 human -->
+    <g><text x="440" y="30" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="10" font-weight="700" fill="#057dbc" letter-spacing="1.1" style="text-transform:uppercase">Step 4</text>
+      <rect x="388" y="60" width="104" height="72" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="440" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#1a1a1a" textLength="94" lengthAdjust="spacingAndGlyphs"><tspan data-de>Kommissionieren</tspan><tspan data-en>Pick</tspan></text>
+      <text x="440" y="108" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="9" fill="#757575" letter-spacing="0.4" style="text-transform:uppercase" textLength="92" lengthAdjust="spacingAndGlyphs"><tspan data-de>Mensch · scanner-geführt</tspan><tspan data-en>Human · scanner-led</tspan></text>
+      <line x1="493" y1="96" x2="506" y2="96" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#flowArr)"/></g>
+    <!-- step 5 auto -->
+    <g><text x="560" y="30" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="10" font-weight="700" fill="#057dbc" letter-spacing="1.1" style="text-transform:uppercase">Step 5</text>
+      <rect x="508" y="60" width="104" height="72" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="560" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#fff" textLength="94" lengthAdjust="spacingAndGlyphs"><tspan data-de>Spediteur-Wahl</tspan><tspan data-en>Carrier pick</tspan></text>
+      <text x="560" y="108" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="9" fill="rgba(255,255,255,0.7)" letter-spacing="0.4" style="text-transform:uppercase" textLength="92" lengthAdjust="spacingAndGlyphs"><tspan data-de>LLM-Routing-Agent</tspan><tspan data-en>LLM routing agent</tspan></text>
+      <line x1="613" y1="96" x2="626" y2="96" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#flowArr)"/></g>
+    <!-- step 6 human -->
+    <g><text x="680" y="30" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="10" font-weight="700" fill="#057dbc" letter-spacing="1.1" style="text-transform:uppercase">Step 6</text>
+      <rect x="628" y="60" width="104" height="72" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="680" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#1a1a1a" textLength="94" lengthAdjust="spacingAndGlyphs"><tspan data-de>Übergabe</tspan><tspan data-en>Handover</tspan></text>
+      <text x="680" y="108" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="9" fill="#757575" letter-spacing="0.4" style="text-transform:uppercase" textLength="92" lengthAdjust="spacingAndGlyphs"><tspan data-de>Mensch · Ausfahrttor</tspan><tspan data-en>Human · loading dock</tspan></text></g>
+  </svg>
+  <figcaption class="foot">
+    <span><span data-de>LogiAI · Referenzprozess</span><span data-en>LogiAI · Reference process</span></span>
+    <span class="cap"><span data-de>Dunkle Schritte laufen heute vollautomatisch.</span><span data-en>Dark steps run fully automated today.</span></span>
+  </figcaption>
+</figure>

@@ -1,0 +1,127 @@
+<!-- LogiAI editorial visual · scatter (accuracy vs cost quadrant) · bilingual via :lang() -->
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;700&family=Source+Code+Pro:wght@400;700&display=swap");
+.lv-sc{--ink:#1a1a1a;--meta:#757575;--hair:#e2e8f0;--accent:#057dbc;background:#fff;color:var(--ink);font-family:"Lora",Georgia,serif;border-top:2px solid #000;border-bottom:2px solid #000;padding:20px 0 22px;box-sizing:border-box;width:100%;max-width:100%}
+.lv-sc *,.lv-sc *::before,.lv-sc *::after{box-sizing:border-box}
+.lv-sc .k{font-family:"Source Code Pro",monospace;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lv-sc .k .num{color:var(--ink);border:1px solid #000;padding:2px 6px;font-size:10px}
+.lv-sc h3{font-family:"Playfair Display",serif;font-size:26px;font-weight:400;line-height:1.12;letter-spacing:-.2px;color:var(--ink);margin:0 0 6px;text-wrap:balance}
+.lv-sc p.deck{font-family:"Lora",serif;font-size:14px;line-height:1.55;color:var(--ink);font-style:italic;margin:0 0 16px;max-width:62ch}
+.lv-sc svg{width:100%;height:auto;display:block}
+.lv-sc .foot{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px;padding-top:10px;border-top:1px solid var(--hair);font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--meta)}
+.lv-sc .foot .cap{font-family:"Lora",serif;font-style:italic;font-size:12px;letter-spacing:0;text-transform:none;color:var(--meta);font-weight:700}
+.lv-sc [data-de],.lv-sc [data-en]{display:none}
+:lang(de) .lv-sc [data-de]{display:initial}
+:lang(en) .lv-sc [data-en]{display:initial}
+.lv-sc tspan[data-de],.lv-sc tspan[data-en]{display:none}
+:lang(de) .lv-sc tspan[data-de],:lang(en) .lv-sc tspan[data-en]{display:initial}
+@media (max-width:480px){.lv-sc{overflow-x:auto}.lv-sc svg{min-width:520px}}
+</style>
+<figure class="lv-sc" role="figure">
+  <div class="k"><span class="num">07</span>
+    <span data-de>Marktscan · Forecasting-Tools</span><span data-en>Market scan · Forecasting tools</span></div>
+  <h3>
+    <span data-de>Genauigkeit vs. Kosten pro Prognose</span>
+    <span data-en>Accuracy vs. cost per forecast</span>
+  </h3>
+  <p class="deck">
+    <span data-de>Zwölf Werkzeuge im Backtest auf dem gleichen Datensatz. Kreisgröße zeigt Integrationsaufwand.</span>
+    <span data-en>Twelve tools on the same backtest. Circle size shows integration effort.</span>
+  </p>
+  <svg viewBox="0 0 760 380" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <text x="0" y="16" font-family="Source Code Pro,monospace" font-size="9" fill="#757575" letter-spacing="0.6" style="text-transform:uppercase">
+      <tspan data-de>Genauigkeit (1 − MAPE)</tspan><tspan data-en>Accuracy (1 − MAPE)</tspan>
+    </text>
+    <text x="742" y="374" text-anchor="end" font-family="Source Code Pro,monospace" font-size="9" fill="#757575" letter-spacing="0.6" style="text-transform:uppercase">
+      <tspan data-de>Kosten pro 1.000 Prognosen (€, log.)</tspan><tspan data-en>Cost per 1,000 forecasts (€, log.)</tspan>
+    </text>
+    <!-- gridlines -->
+    <line x1="54" y1="308" x2="742" y2="308" stroke="#e2e8f0"/>
+    <line x1="54" y1="231" x2="742" y2="231" stroke="#e2e8f0"/>
+    <line x1="54" y1="154" x2="742" y2="154" stroke="#e2e8f0"/>
+    <line x1="54" y1="77" x2="742" y2="77" stroke="#e2e8f0"/>
+    <line x1="54" y1="24" x2="742" y2="24" stroke="#e2e8f0"/>
+    <text x="46" y="312" text-anchor="end" font-family="Source Code Pro,monospace" font-size="10">0.75</text>
+    <text x="46" y="235" text-anchor="end" font-family="Source Code Pro,monospace" font-size="10">0.80</text>
+    <text x="46" y="158" text-anchor="end" font-family="Source Code Pro,monospace" font-size="10">0.85</text>
+    <text x="46" y="81" text-anchor="end" font-family="Source Code Pro,monospace" font-size="10">0.90</text>
+    <text x="46" y="28" text-anchor="end" font-family="Source Code Pro,monospace" font-size="10">0.95</text>
+    <!-- x ticks: 0.08, 0.28, 0.5, 0.72, 0.94 of 0..1 → x = 54 + v*688 -->
+    <line x1="109" y1="24" x2="109" y2="308" stroke="#e2e8f0"/>
+    <line x1="246" y1="24" x2="246" y2="308" stroke="#e2e8f0"/>
+    <line x1="398" y1="24" x2="398" y2="308" stroke="#e2e8f0"/>
+    <line x1="549" y1="24" x2="549" y2="308" stroke="#e2e8f0"/>
+    <line x1="701" y1="24" x2="701" y2="308" stroke="#e2e8f0"/>
+    <text x="109" y="326" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="10">€1</text>
+    <text x="246" y="326" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="10">€10</text>
+    <text x="398" y="326" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="10">€100</text>
+    <text x="549" y="326" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="10">€1k</text>
+    <text x="701" y="326" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="10">€10k</text>
+    <!-- axes -->
+    <line x1="54" y1="308" x2="742" y2="308" stroke="#1a1a1a"/>
+    <line x1="54" y1="24" x2="54" y2="308" stroke="#1a1a1a"/>
+    <!-- median crosshair: x at 0.5 → 398; y at 0.85 → 154 -->
+    <line x1="398" y1="24" x2="398" y2="308" stroke="#1a1a1a" stroke-dasharray="2 3" stroke-width="0.75"/>
+    <line x1="54" y1="154" x2="742" y2="154" stroke="#1a1a1a" stroke-dasharray="2 3" stroke-width="0.75"/>
+
+    <!-- quadrant labels -->
+    <text x="64" y="38" font-family="Source Code Pro,monospace" font-size="9" font-weight="700" fill="#057dbc" letter-spacing="1" style="text-transform:uppercase">
+      <tspan data-de>Günstig &amp; präzise</tspan><tspan data-en>Cheap &amp; accurate</tspan>
+    </text>
+    <text x="732" y="38" text-anchor="end" font-family="Source Code Pro,monospace" font-size="9" font-weight="700" letter-spacing="1" style="text-transform:uppercase">
+      <tspan data-de>Teuer &amp; präzise</tspan><tspan data-en>Expensive &amp; accurate</tspan>
+    </text>
+    <text x="64" y="300" font-family="Source Code Pro,monospace" font-size="9" fill="#757575" letter-spacing="1" style="text-transform:uppercase">
+      <tspan data-de>Günstig &amp; ungenau</tspan><tspan data-en>Cheap &amp; inaccurate</tspan>
+    </text>
+    <text x="732" y="300" text-anchor="end" font-family="Source Code Pro,monospace" font-size="9" fill="#757575" letter-spacing="1" style="text-transform:uppercase">
+      <tspan data-de>Teuer &amp; ungenau</tspan><tspan data-en>Expensive &amp; inaccurate</tspan>
+    </text>
+
+    <!-- Points: x=54+xv*688, y=308-((yv-0.75)/0.20)*284 -->
+    <!-- Prophet 0.12,0.82,6 -->
+    <g font-family="Source Code Pro,monospace" font-size="10">
+      <circle cx="136.6" cy="208.6" r="7.3" fill="#1a1a1a" fill-opacity="0.18" stroke="#1a1a1a" stroke-width="1.25"/><text x="148.9" y="211.6">Prophet</text>
+      <!-- ARIMA 0.08,0.78,5 -->
+      <circle cx="109.0" cy="265.4" r="6.75" fill="#1a1a1a" fill-opacity="0.18" stroke="#1a1a1a" stroke-width="1.25"/><text x="120.75" y="268.4">ARIMA</text>
+      <!-- N-BEATS 0.35,0.88,9 -->
+      <circle cx="294.8" cy="123.4" r="8.95" fill="#1a1a1a" fill-opacity="0.18" stroke="#1a1a1a" stroke-width="1.25"/><text x="308.75" y="126.4">N-BEATS</text>
+      <!-- LLM-sm 0.55,0.86,7 -->
+      <circle cx="432.4" cy="151.8" r="7.85" fill="#1a1a1a" fill-opacity="0.18" stroke="#1a1a1a" stroke-width="1.25"/><text x="445.25" y="154.8">LLM-sm</text>
+      <!-- LLM-md 0.68,0.91,9 -->
+      <circle cx="521.84" cy="80.8" r="8.95" fill="#1a1a1a" fill-opacity="0.18" stroke="#1a1a1a" stroke-width="1.25"/><text x="535.79" y="83.8">LLM-md</text>
+      <!-- LLM-lg 0.88,0.93,12 -->
+      <circle cx="659.4" cy="52.4" r="10.6" fill="#1a1a1a" fill-opacity="0.18" stroke="#1a1a1a" stroke-width="1.25"/><text x="675" y="55.4">LLM-lg</text>
+      <!-- Hybrid-A 0.42,0.90,10 — winner accent -->
+      <circle cx="343" cy="95" r="9.5" fill="#057dbc" fill-opacity="0.9" stroke="#057dbc" stroke-width="1.25"/><text x="357.5" y="98" font-weight="700">Hybrid-A</text>
+      <!-- Hybrid-B 0.30,0.89,11 — winner accent -->
+      <circle cx="260.4" cy="109.2" r="10.05" fill="#057dbc" fill-opacity="0.9" stroke="#057dbc" stroke-width="1.25"/><text x="275.45" y="112.2" font-weight="700">Hybrid-B</text>
+      <!-- XGBoost 0.22,0.84,7 -->
+      <circle cx="205.4" cy="180.2" r="7.85" fill="#1a1a1a" fill-opacity="0.18" stroke="#1a1a1a" stroke-width="1.25"/><text x="218.25" y="183.2">XGBoost</text>
+      <!-- DeepAR 0.58,0.87,10 -->
+      <circle cx="453.0" cy="137.6" r="9.5" fill="#1a1a1a" fill-opacity="0.18" stroke="#1a1a1a" stroke-width="1.25"/><text x="467.5" y="140.6">DeepAR</text>
+      <!-- AutoML 0.72,0.85,8 -->
+      <circle cx="549.4" cy="166" r="8.4" fill="#1a1a1a" fill-opacity="0.18" stroke="#1a1a1a" stroke-width="1.25"/><text x="562.8" y="169">AutoML</text>
+      <!-- Custom 0.20,0.91,14 — winner accent -->
+      <circle cx="191.6" cy="80.8" r="11.7" fill="#057dbc" fill-opacity="0.9" stroke="#057dbc" stroke-width="1.25"/><text x="208.3" y="83.8" font-weight="700">Custom</text>
+    </g>
+
+    <!-- sweet spot marker -->
+    <rect x="58" y="75" width="6" height="119.3" fill="none" stroke="#057dbc" stroke-width="1.25" stroke-dasharray="3 2"/>
+    <text x="70" y="69" font-family="Lora,serif" font-style="italic" font-size="11" fill="#057dbc">
+      <tspan data-de>Sweet Spot</tspan><tspan data-en>Sweet spot</tspan>
+    </text>
+
+    <!-- size legend -->
+    <g transform="translate(552 360)" font-family="Source Code Pro,monospace" font-size="9" fill="#757575" letter-spacing="0.8" style="text-transform:uppercase">
+      <text x="0" y="0"><tspan data-de>Kreis = Aufwand</tspan><tspan data-en>Circle = effort</tspan></text>
+      <circle cx="120" cy="-4" r="4" fill="none" stroke="#1a1a1a"/>
+      <circle cx="140" cy="-4" r="7" fill="none" stroke="#1a1a1a"/>
+      <circle cx="168" cy="-4" r="10" fill="none" stroke="#1a1a1a"/>
+    </g>
+  </svg>
+  <figcaption class="foot">
+    <span><span data-de>Quelle: LogiAI Benchmark, März 2026</span><span data-en>Source: LogiAI benchmark, March 2026</span></span>
+    <span class="cap"><span data-de>Quadrant oben-links: die wenigen Werkzeuge, die Genauigkeit und Preis versöhnen.</span><span data-en>Top-left quadrant: the rare tools that reconcile accuracy and price.</span></span>
+  </figcaption>
+</figure>

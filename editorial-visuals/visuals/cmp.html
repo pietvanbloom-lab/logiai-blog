@@ -1,0 +1,62 @@
+<!-- LogiAI editorial visual · cmp (vendor comparison table) · bilingual via :lang() -->
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;700&family=Source+Code+Pro:wght@400;700&display=swap");
+.lv-cmp{--ink:#1a1a1a;--meta:#757575;--hair:#e2e8f0;--accent:#057dbc;background:#fff;color:var(--ink);font-family:"Lora",Georgia,serif;border-top:2px solid #000;border-bottom:2px solid #000;padding:20px 0 22px;box-sizing:border-box;width:100%;max-width:100%}
+.lv-cmp *,.lv-cmp *::before,.lv-cmp *::after{box-sizing:border-box}
+.lv-cmp .k{font-family:"Source Code Pro",monospace;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lv-cmp .k .num{color:var(--ink);border:1px solid #000;padding:2px 6px;font-size:10px}
+.lv-cmp h3{font-family:"Playfair Display",serif;font-size:26px;font-weight:400;line-height:1.12;letter-spacing:-.2px;color:var(--ink);margin:0 0 6px;text-wrap:balance}
+.lv-cmp p.deck{font-family:"Lora",serif;font-size:14px;line-height:1.55;color:var(--ink);font-style:italic;margin:0 0 16px;max-width:62ch}
+.lv-cmp table{width:100%;border-collapse:collapse;font-family:"Inter",sans-serif}
+.lv-cmp thead{background:#000}
+.lv-cmp th.lbl{text-align:left;padding:10px 14px;color:#fff;font-family:"Source Code Pro",monospace;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;width:30%}
+.lv-cmp th.col{text-align:left;padding:10px 14px;color:#fff;font-family:"Playfair Display",serif;font-size:18px;font-weight:400;border-left:1px solid rgba(255,255,255,0.2)}
+.lv-cmp td.grp{padding:14px 14px 6px;font-family:"Source Code Pro",monospace;font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent)}
+.lv-cmp tr.grp-row td{border-top:1px solid var(--hair)}
+.lv-cmp tr.grp-row.first td{border-top:none}
+.lv-cmp td.k{padding:10px 14px;font-family:"Lora",serif;font-size:14px}
+.lv-cmp td.v{padding:10px 14px;font-family:"Source Code Pro",monospace;font-size:13px;font-variant-numeric:tabular-nums;border-left:1px solid var(--hair)}
+.lv-cmp td.v.best{color:var(--accent);font-weight:700}
+.lv-cmp td.v.best::before{content:"";display:inline-block;width:6px;height:6px;background:var(--accent);margin-right:8px;vertical-align:middle}
+.lv-cmp tr.row{border-top:1px solid var(--hair)}
+.lv-cmp .foot{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px;padding-top:10px;border-top:1px solid var(--hair);font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--meta)}
+.lv-cmp .foot .cap{font-family:"Lora",serif;font-style:italic;font-size:12px;letter-spacing:0;text-transform:none;color:var(--meta);font-weight:700}
+.lv-cmp [data-de],.lv-cmp [data-en]{display:none}
+:lang(de) .lv-cmp [data-de]{display:initial}
+:lang(en) .lv-cmp [data-en]{display:initial}
+@media (max-width:480px){.lv-cmp{overflow-x:auto}}
+</style>
+<figure class="lv-cmp" role="figure">
+  <div class="k"><span class="num">08</span>
+    <span data-de>Vendor-Vergleich</span><span data-en>Vendor comparison</span></div>
+  <h3>
+    <span data-de>Drei Routing-Plattformen im direkten Vergleich</span>
+    <span data-en>Three routing platforms, head to head</span>
+  </h3>
+  <p class="deck">
+    <span data-de>Gleiches Testset, gleicher Zeitraum. Was die drei marktführenden Routing-Agents unterscheidet, und was nicht.</span>
+    <span data-en>Same test set, same window. What separates the three market-leading routing agents, and what doesn't.</span>
+  </p>
+  <table>
+    <thead>
+      <tr><th class="lbl"></th><th class="col">Routix</th><th class="col">PathAgent</th><th class="col">RoutePilot</th></tr>
+    </thead>
+    <tbody>
+      <tr class="grp-row first"><td class="grp" colspan="4"><span data-de>Performance</span><span data-en>Performance</span></td></tr>
+      <tr class="row"><td class="k"><span data-de>Akzeptanzrate</span><span data-en>Acceptance rate</span></td><td class="v">71%</td><td class="v best">83%</td><td class="v">68%</td></tr>
+      <tr class="row"><td class="k"><span data-de>MAPE (Lieferzeit)</span><span data-en>MAPE (delivery time)</span></td><td class="v">12.4%</td><td class="v best">8.9%</td><td class="v">14.1%</td></tr>
+      <tr class="row"><td class="k"><span data-de>Latenz (p95)</span><span data-en>Latency (p95)</span></td><td class="v">420 ms</td><td class="v">680 ms</td><td class="v best">290 ms</td></tr>
+      <tr class="grp-row"><td class="grp" colspan="4"><span data-de>Integration</span><span data-en>Integration</span></td></tr>
+      <tr class="row"><td class="k"><span data-de>Setup-Zeit</span><span data-en>Setup time</span></td><td class="v"><span data-de>2 Wochen</span><span data-en>2 weeks</span></td><td class="v"><span data-de>6 Wochen</span><span data-en>6 weeks</span></td><td class="v best"><span data-de>4 Tage</span><span data-en>4 days</span></td></tr>
+      <tr class="row"><td class="k"><span data-de>ERP-Konnektoren</span><span data-en>ERP connectors</span></td><td class="v">SAP · Oracle</td><td class="v best">SAP · Oracle · MS</td><td class="v">SAP</td></tr>
+      <tr class="row"><td class="k"><span data-de>Audit-Trail</span><span data-en>Audit trail</span></td><td class="v best"><span data-de>Ja</span><span data-en>Yes</span></td><td class="v"><span data-de>Ja</span><span data-en>Yes</span></td><td class="v"><span data-de>Nein</span><span data-en>No</span></td></tr>
+      <tr class="grp-row"><td class="grp" colspan="4"><span data-de>Kommerziell</span><span data-en>Commercial</span></td></tr>
+      <tr class="row"><td class="k">€ / 1.000 runs</td><td class="v">€ 18</td><td class="v">€ 42</td><td class="v best">€ 9</td></tr>
+      <tr class="row"><td class="k"><span data-de>Mindestvertrag</span><span data-en>Minimum term</span></td><td class="v"><span data-de>12 Monate</span><span data-en>12 months</span></td><td class="v"><span data-de>24 Monate</span><span data-en>24 months</span></td><td class="v best"><span data-de>monatlich</span><span data-en>monthly</span></td></tr>
+    </tbody>
+  </table>
+  <figcaption class="foot">
+    <span><span data-de>Quelle: LogiAI Benchmark, März 2026</span><span data-en>Source: LogiAI benchmark, March 2026</span></span>
+    <span class="cap"><span data-de>Preis pro 1.000 Entscheidungen · 90-Tage-Fenster.</span><span data-en>Price per 1,000 decisions · 90-day window.</span></span>
+  </figcaption>
+</figure>

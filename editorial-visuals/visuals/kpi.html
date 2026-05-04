@@ -1,0 +1,67 @@
+<!-- LogiAI editorial visual · kpi (card row) · bilingual via :lang()
+     Paste into a WordPress Custom HTML block. Both DE and EN copy live in
+     the markup; the page <html lang="..."> attribute selects which is shown. -->
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;700&family=Source+Code+Pro:wght@400;700&display=swap");
+.lv-kpi{--ink:#1a1a1a;--meta:#757575;--hair:#e2e8f0;--accent:#057dbc;--up:#16a34a;--dn:#dc2626;background:#fff;color:var(--ink);font-family:"Lora",Georgia,serif;border-top:2px solid #000;border-bottom:2px solid #000;padding:20px 0 22px;box-sizing:border-box;width:100%;max-width:100%}
+.lv-kpi *,.lv-kpi *::before,.lv-kpi *::after{box-sizing:border-box}
+.lv-kpi .k{font-family:"Source Code Pro",monospace;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lv-kpi .k .num{color:var(--ink);border:1px solid #000;padding:2px 6px;font-size:10px}
+.lv-kpi h3{font-family:"Playfair Display",serif;font-size:26px;font-weight:400;line-height:1.12;letter-spacing:-.2px;color:var(--ink);margin:0 0 16px;text-wrap:balance}
+.lv-kpi .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1.5px solid #1a1a1a}
+.lv-kpi .card{padding:18px 18px 14px;border-right:1.5px solid #1a1a1a}
+.lv-kpi .card:last-child{border-right:none}
+.lv-kpi .card .lbl{font-family:"Source Code Pro",monospace;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--meta);margin-bottom:8px}
+.lv-kpi .card .val{font-family:"Playfair Display",serif;font-size:52px;line-height:.95;color:var(--accent);letter-spacing:-1.5px;margin-bottom:6px}
+.lv-kpi .card .delta{font-family:"Lora",serif;font-style:italic;font-size:12px;color:var(--meta)}
+.lv-kpi .card .delta.up{color:var(--up)}
+.lv-kpi .card .delta.dn{color:var(--dn)}
+.lv-kpi .foot{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px;padding-top:10px;border-top:1px solid var(--hair);font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--meta)}
+.lv-kpi .foot .cap{font-family:"Lora",serif;font-style:italic;font-size:12px;letter-spacing:0;text-transform:none;color:var(--meta);font-weight:700}
+.lv-kpi [data-de],.lv-kpi [data-en]{display:none}
+:lang(de) .lv-kpi [data-de],:lang(en) .lv-kpi [data-en]{display:initial}
+@media (max-width:600px){
+  .lv-kpi .cards{grid-template-columns:repeat(2,1fr)}
+  .lv-kpi .card:nth-child(2){border-right:none}
+  .lv-kpi .card:nth-child(1),.lv-kpi .card:nth-child(2){border-bottom:1.5px solid #1a1a1a}
+}
+@media (max-width:360px){
+  .lv-kpi .cards{grid-template-columns:1fr}
+  .lv-kpi .card{border-right:none;border-bottom:1.5px solid #1a1a1a}
+  .lv-kpi .card:last-child{border-bottom:none}
+}
+</style>
+<figure class="lv-kpi" role="figure">
+  <div class="k"><span class="num">07</span>
+    <span data-de>KPIs · Betriebsübersicht</span><span data-en>KPIs · Operations overview</span></div>
+  <h3>
+    <span data-de>Vier Kennzahlen auf einen Blick</span>
+    <span data-en>Four metrics at a glance</span>
+  </h3>
+  <div class="cards">
+    <div class="card">
+      <div class="lbl"><span data-de>Lieferpünktlichkeit</span><span data-en>On-time delivery</span></div>
+      <div class="val">94%</div>
+      <div class="delta up">▲ +3pp <span data-de>ggü. Vormonat</span><span data-en>vs. prior month</span></div>
+    </div>
+    <div class="card">
+      <div class="lbl"><span data-de>Prognosegenauigkeit</span><span data-en>Forecast accuracy</span></div>
+      <div class="val">87%</div>
+      <div class="delta up">▲ +6pp <span data-de>ggü. Vorquartal</span><span data-en>vs. prior quarter</span></div>
+    </div>
+    <div class="card">
+      <div class="lbl"><span data-de>Kosten pro Auftrag</span><span data-en>Cost per order</span></div>
+      <div class="val"><span data-de>4,20€</span><span data-en>€4.20</span></div>
+      <div class="delta dn">▼ −8% <span data-de>ggü. Vormonat</span><span data-en>vs. prior month</span></div>
+    </div>
+    <div class="card">
+      <div class="lbl"><span data-de>Agent-Akzeptanzrate</span><span data-en>Agent acceptance rate</span></div>
+      <div class="val">82%</div>
+      <div class="delta up">▲ +11pp <span data-de>seit Go-live</span><span data-en>since go-live</span></div>
+    </div>
+  </div>
+  <figcaption class="foot">
+    <span><span data-de>Quelle: Interne Dashboards, Q1 2026</span><span data-en>Source: Internal dashboards, Q1 2026</span></span>
+    <span class="cap"><span data-de>Alle Werte nach 90 Tagen Betrieb.</span><span data-en>All figures after 90 days of operation.</span></span>
+  </figcaption>
+</figure>

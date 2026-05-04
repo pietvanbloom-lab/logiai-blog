@@ -1,0 +1,79 @@
+<!-- LogiAI editorial visual · donut (distribution chart) · bilingual via :lang()
+     Paste into a WordPress Custom HTML block. Both DE and EN copy live in
+     the markup; the page <html lang="..."> attribute selects which is shown. -->
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;700&family=Source+Code+Pro:wght@400;700&display=swap");
+.lv-dn{--ink:#1a1a1a;--meta:#757575;--hair:#e2e8f0;--accent:#057dbc;--c2:#4a4a4a;--c3:#b8ccd6;background:#fff;color:var(--ink);font-family:"Lora",Georgia,serif;border-top:2px solid #000;border-bottom:2px solid #000;padding:20px 0 22px;box-sizing:border-box;width:100%;max-width:100%}
+.lv-dn *,.lv-dn *::before,.lv-dn *::after{box-sizing:border-box}
+.lv-dn .k{font-family:"Source Code Pro",monospace;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lv-dn .k .num{color:var(--ink);border:1px solid #000;padding:2px 6px;font-size:10px}
+.lv-dn h3{font-family:"Playfair Display",serif;font-size:26px;font-weight:400;line-height:1.12;letter-spacing:-.2px;color:var(--ink);margin:0 0 6px;text-wrap:balance}
+.lv-dn p.deck{font-family:"Lora",serif;font-size:14px;line-height:1.55;font-style:italic;color:var(--ink);margin:0 0 16px;max-width:62ch}
+.lv-dn svg{width:100%;height:auto;display:block}
+.lv-dn .foot{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px;padding-top:10px;border-top:1px solid var(--hair);font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--meta)}
+.lv-dn .foot .cap{font-family:"Lora",serif;font-style:italic;font-size:12px;letter-spacing:0;text-transform:none;color:var(--meta);font-weight:700}
+.lv-dn [data-de],.lv-dn [data-en]{display:none}
+:lang(de) .lv-dn [data-de],:lang(en) .lv-dn [data-en]{display:initial}
+.lv-dn tspan[data-de],.lv-dn tspan[data-en]{display:none}
+:lang(de) .lv-dn tspan[data-de],:lang(en) .lv-dn tspan[data-en]{display:initial}
+@media (max-width:480px){.lv-dn svg{min-width:420px}.lv-dn{overflow-x:auto}}
+</style>
+<figure class="lv-dn" role="figure">
+  <div class="k"><span class="num">10</span>
+    <span data-de>Verteilung · Digitalisierungsgrad</span><span data-en>Distribution · Digitization level</span></div>
+  <h3>
+    <span data-de>Erst 45% der Logistikprozesse sind vollständig digitalisiert</span>
+    <span data-en>Only 45% of logistics processes are fully digitized</span>
+  </h3>
+  <p class="deck">
+    <span data-de>Stand der Prozessdigitalisierung in mittelständischen Logistikbetrieben, DACH, 2026.</span>
+    <span data-en>State of process digitization at mid-sized logistics operators, DACH region, 2026.</span>
+  </p>
+  <!--
+    Donut via stroke-dasharray.
+    cx=152, cy=148, r=82, stroke-width=42
+    Circumference = 2π × 82 ≈ 515 px
+    Seg 1 (45%, #057dbc): dash=232  gap=515  offset=0
+    Seg 2 (35%, #1a1a1a): dash=180  gap=515  offset=-232
+    Seg 3 (20%, #b8ccd6): dash=103  gap=515  offset=-412
+    232+180+103=515 ✓
+    All rotate(-90 152 148) so 12 o'clock = start
+  -->
+  <svg viewBox="0 0 700 296" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <!-- Donut segments -->
+    <circle cx="152" cy="148" r="82" fill="none" stroke="#057dbc" stroke-width="42"
+      stroke-dasharray="232 515" transform="rotate(-90 152 148)"/>
+    <circle cx="152" cy="148" r="82" fill="none" stroke="#1a1a1a" stroke-width="42"
+      stroke-dasharray="180 515" stroke-dashoffset="-232" transform="rotate(-90 152 148)"/>
+    <circle cx="152" cy="148" r="82" fill="none" stroke="#b8ccd6" stroke-width="42"
+      stroke-dasharray="103 515" stroke-dashoffset="-412" transform="rotate(-90 152 148)"/>
+    <!-- Center label -->
+    <text x="152" y="140" text-anchor="middle" font-family="Playfair Display, serif" font-size="38" font-weight="400" fill="#057dbc">45%</text>
+    <text x="152" y="162" text-anchor="middle" font-family="Source Code Pro, monospace" font-size="8" fill="#757575" letter-spacing="0.8" style="text-transform:uppercase">
+      <tspan data-de>Vollständig</tspan><tspan data-en>Fully digital</tspan>
+    </text>
+    <!-- Legend right side · x=310 -->
+    <!-- Seg 1 -->
+    <rect x="310" y="90" width="16" height="16" fill="#057dbc"/>
+    <text x="334" y="102" font-family="Playfair Display, serif" font-size="28" font-weight="400" fill="#057dbc">45%</text>
+    <text x="334" y="120" font-family="Lora, serif" font-size="13" fill="#1a1a1a">
+      <tspan data-de>Vollständig digitalisiert</tspan><tspan data-en>Fully digitized</tspan>
+    </text>
+    <!-- Seg 2 -->
+    <rect x="310" y="144" width="16" height="16" fill="#1a1a1a"/>
+    <text x="334" y="156" font-family="Playfair Display, serif" font-size="28" font-weight="400" fill="#1a1a1a">35%</text>
+    <text x="334" y="174" font-family="Lora, serif" font-size="13" fill="#1a1a1a">
+      <tspan data-de>Teilweise digitalisiert</tspan><tspan data-en>Partially digitized</tspan>
+    </text>
+    <!-- Seg 3 -->
+    <rect x="310" y="198" width="16" height="16" fill="#b8ccd6"/>
+    <text x="334" y="210" font-family="Playfair Display, serif" font-size="28" font-weight="400" fill="#4a4a4a">20%</text>
+    <text x="334" y="228" font-family="Lora, serif" font-size="13" fill="#1a1a1a">
+      <tspan data-de>Noch manuell</tspan><tspan data-en>Still manual</tspan>
+    </text>
+  </svg>
+  <figcaption class="foot">
+    <span><span data-de>Quelle: LogiAI-Studie, DACH, n=210, Q4 2025</span><span data-en>Source: LogiAI study, DACH, n=210, Q4 2025</span></span>
+    <span class="cap"><span data-de>Basis: Kernprozesse (Auftragsabwicklung, Disposition, Lager).</span><span data-en>Scope: core processes (order management, dispatch, warehouse).</span></span>
+  </figcaption>
+</figure>

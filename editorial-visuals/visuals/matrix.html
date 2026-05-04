@@ -1,0 +1,70 @@
+<!-- LogiAI editorial visual · matrix (decision matrix 2×2) · bilingual via :lang() -->
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;700&family=Source+Code+Pro:wght@400;700&display=swap");
+.lv-dm{--ink:#1a1a1a;--meta:#757575;--hair:#e2e8f0;--accent:#057dbc;background:#fff;color:var(--ink);font-family:"Lora",Georgia,serif;border-top:2px solid #000;border-bottom:2px solid #000;padding:20px 0 22px;box-sizing:border-box;width:100%;max-width:100%}
+.lv-dm *,.lv-dm *::before,.lv-dm *::after{box-sizing:border-box}
+.lv-dm .k{font-family:"Source Code Pro",monospace;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lv-dm .k .num{color:var(--ink);border:1px solid #000;padding:2px 6px;font-size:10px}
+.lv-dm h3{font-family:"Playfair Display",serif;font-size:26px;font-weight:400;line-height:1.12;letter-spacing:-.2px;color:var(--ink);margin:0 0 6px;text-wrap:balance}
+.lv-dm p.deck{font-family:"Lora",serif;font-size:14px;line-height:1.55;color:var(--ink);font-style:italic;margin:0 0 16px;max-width:62ch}
+.lv-dm .grid{display:grid;grid-template-columns:auto 1fr 1fr;grid-template-rows:auto 1fr 1fr;border:2px solid #000}
+.lv-dm .xh{padding:8px 14px;font-family:"Source Code Pro",monospace;font-size:10px;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;border-bottom:1px solid var(--hair)}
+.lv-dm .xh.muted{color:var(--meta)}
+.lv-dm .xh.right{border-left:1px solid var(--hair)}
+.lv-dm .yh{padding:14px 8px;font-family:"Source Code Pro",monospace;font-size:10px;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;border-right:1px solid var(--hair)}
+.lv-dm .yh.muted{color:var(--meta)}
+.lv-dm .yh.bot{border-top:1px solid #1a1a1a}
+.lv-dm .q{padding:20px 22px;background:#fff;color:var(--ink);position:relative;min-height:150px}
+.lv-dm .q.accent{background:var(--accent);color:#fff}
+.lv-dm .q.left2{border-left:1px solid var(--hair)}
+.lv-dm .q.bot{border-top:1px solid #1a1a1a}
+.lv-dm .q .tag{font-family:"Source Code Pro",monospace;font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--meta);margin-bottom:6px}
+.lv-dm .q .tag.danger{color:var(--accent)}
+.lv-dm .q.accent .tag{color:rgba(255,255,255,0.75)}
+.lv-dm .q .ttl{font-family:"Playfair Display",serif;font-size:24px;line-height:1.15;margin-bottom:8px;letter-spacing:-0.2px}
+.lv-dm .q .body{font-family:"Lora",serif;font-size:13px;line-height:1.5}
+.lv-dm .q.accent .body{color:rgba(255,255,255,0.88)}
+.lv-dm .foot{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px;padding-top:10px;border-top:1px solid var(--hair);font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--meta)}
+.lv-dm .foot .cap{font-family:"Lora",serif;font-style:italic;font-size:12px;letter-spacing:0;text-transform:none;color:var(--meta);font-weight:700}
+.lv-dm [data-de],.lv-dm [data-en]{display:none}
+:lang(de) .lv-dm [data-de]{display:initial}
+:lang(en) .lv-dm [data-en]{display:initial}
+@media (max-width:480px){.lv-dm{overflow-x:auto}}
+</style>
+<figure class="lv-dm" role="figure">
+  <div class="k"><span class="num">12</span>
+    <span data-de>Entscheidung · Make vs. Buy</span><span data-en>Decision · Make vs. Buy</span></div>
+  <h3>
+    <span data-de>Wann baut man einen Routing-Agent selbst?</span>
+    <span data-en>When do you build a routing agent in-house?</span>
+  </h3>
+  <p class="deck">
+    <span data-de>Entlang zweier Achsen: strategische Relevanz und verfügbare Expertise im Haus.</span>
+    <span data-en>Along two axes: strategic relevance and available in-house expertise.</span>
+  </p>
+  <div class="grid">
+    <div></div>
+    <div class="xh muted"><span data-de>Geringe Expertise →</span><span data-en>Low expertise →</span></div>
+    <div class="xh right"><span data-de>Hohe Expertise →</span><span data-en>High expertise →</span></div>
+
+    <div class="yh"><span data-de>↑ Hohe Relevanz</span><span data-en>↑ High relevance</span></div>
+    <div class="q"><div class="tag danger"><span data-de>Gefahrenzone</span><span data-en>Danger zone</span></div>
+      <div class="ttl"><span data-de>Kaufen &amp; integrieren</span><span data-en>Buy &amp; integrate</span></div>
+      <div class="body"><span data-de>Vendor mit Audit-Trail. Ownership über Daten, nicht Modell.</span><span data-en>Vendor with audit trail. Own the data, not the model.</span></div></div>
+    <div class="q accent left2"><div class="tag"><span data-de>Empfehlung</span><span data-en>Recommendation</span></div>
+      <div class="ttl"><span data-de>Selbst bauen</span><span data-en>Build in-house</span></div>
+      <div class="body"><span data-de>Strategisches Asset. Team, Budget, Roadmap committen.</span><span data-en>Strategic asset. Commit team, budget, roadmap.</span></div></div>
+
+    <div class="yh muted bot"><span data-de>↓ Geringe Relevanz</span><span data-en>↓ Low relevance</span></div>
+    <div class="q bot"><div class="tag"><span data-de>Empfehlung</span><span data-en>Recommendation</span></div>
+      <div class="ttl"><span data-de>Ignorieren</span><span data-en>Ignore</span></div>
+      <div class="body"><span data-de>Standard-Tools reichen. Keine Zeit verlieren.</span><span data-en>Off-the-shelf is enough. Don't waste cycles.</span></div></div>
+    <div class="q left2 bot"><div class="tag"><span data-de>Empfehlung</span><span data-en>Recommendation</span></div>
+      <div class="ttl"><span data-de>SaaS kaufen</span><span data-en>Buy SaaS</span></div>
+      <div class="body"><span data-de>Out-of-the-box. Monatliche Kündigung, keine Maßarbeit.</span><span data-en>Out of the box. Monthly opt-out, no custom work.</span></div></div>
+  </div>
+  <figcaption class="foot">
+    <span><span data-de>LogiAI · Entscheidungsrahmen</span><span data-en>LogiAI · Decision framework</span></span>
+    <span class="cap"><span data-de>Gefährlichste Zone unten-rechts: hohe Relevanz, keine Expertise.</span><span data-en>Most dangerous quadrant bottom-right: high relevance, no expertise.</span></span>
+  </figcaption>
+</figure>

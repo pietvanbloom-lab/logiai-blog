@@ -1,0 +1,109 @@
+<!-- LogiAI editorial visual · annotated (UI screenshot with callouts) · bilingual via :lang() -->
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;700&family=Source+Code+Pro:wght@400;700&display=swap");
+.lv-as{--ink:#1a1a1a;--meta:#757575;--hair:#e2e8f0;--accent:#057dbc;background:#fff;color:var(--ink);font-family:"Lora",Georgia,serif;border-top:2px solid #000;border-bottom:2px solid #000;padding:20px 0 22px;box-sizing:border-box;width:100%;max-width:100%}
+.lv-as *,.lv-as *::before,.lv-as *::after{box-sizing:border-box}
+.lv-as .k{font-family:"Source Code Pro",monospace;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lv-as .k .num{color:var(--ink);border:1px solid #000;padding:2px 6px;font-size:10px}
+.lv-as h3{font-family:"Playfair Display",serif;font-size:26px;font-weight:400;line-height:1.12;letter-spacing:-.2px;color:var(--ink);margin:0 0 6px;text-wrap:balance}
+.lv-as p.deck{font-family:"Lora",serif;font-size:14px;line-height:1.55;color:var(--ink);font-style:italic;margin:0 0 16px;max-width:62ch}
+.lv-as .grid{display:grid;grid-template-columns:2fr 1fr;gap:28px;align-items:start}
+@media (max-width:760px){.lv-as .grid{grid-template-columns:1fr;gap:20px}}
+.lv-as .ui{position:relative;border:1.5px solid #1a1a1a;background:#fafafa}
+.lv-as .tb{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#1a1a1a;color:#fff}
+.lv-as .tb .dot{width:10px;height:10px;border-radius:50%;background:#555}
+.lv-as .tb .url{font-family:"Source Code Pro",monospace;font-size:11px;letter-spacing:.8px;margin-left:10px;color:rgba(255,255,255,0.8)}
+.lv-as .ct{padding:20px}
+.lv-as .ord{font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--meta)}
+.lv-as .primary{position:relative;margin-top:14px;padding:16px;border:2px solid var(--accent);background:#fff}
+.lv-as .primary .row{display:flex;justify-content:space-between;align-items:baseline}
+.lv-as .primary .lbl{font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--accent);font-weight:700}
+.lv-as .primary .car{font-family:"Playfair Display",serif;font-size:24px;font-weight:400;margin-top:2px}
+.lv-as .primary .meta{text-align:right;font-family:"Source Code Pro",monospace}
+.lv-as .primary .meta .lbl2{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--meta)}
+.lv-as .primary .meta .val{font-size:16px;font-weight:700;margin-top:2px}
+.lv-as .why{position:relative;margin-top:16px;padding:14px 16px;background:#fff;border:1px solid var(--hair);font-family:"Lora",serif;font-style:italic;font-size:13.5px;line-height:1.55}
+.lv-as .alts{position:relative;margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lv-as .alt{padding:10px 12px;background:#fff;border:1px solid var(--hair)}
+.lv-as .alt .n{font-family:"Inter",sans-serif;font-size:13px;font-weight:700}
+.lv-as .alt .e{font-family:"Source Code Pro",monospace;font-size:11px;color:var(--meta);margin-top:2px}
+.lv-as .alt .nt{font-family:"Lora",serif;font-style:italic;font-size:11px;margin-top:4px}
+.lv-as .actions{position:relative;margin-top:14px;display:flex;gap:10px;justify-content:flex-end}
+.lv-as .btn{font-family:"Inter",sans-serif;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:8px 14px;border:1.5px solid #1a1a1a;cursor:pointer}
+.lv-as .btn.sec{background:#fff;color:#1a1a1a}
+.lv-as .btn.pri{background:#1a1a1a;color:#fff}
+.lv-as .co{position:absolute;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:"Source Code Pro",monospace;font-size:13px;font-weight:700;border:2px solid #fff;box-shadow:0 0 0 1.5px var(--accent);z-index:2}
+.lv-as .notes .item{display:flex;gap:12px;align-items:flex-start;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--hair)}
+.lv-as .notes .item:last-child{border-bottom:none}
+.lv-as .notes .num2{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:"Source Code Pro",monospace;font-size:13px;font-weight:700}
+.lv-as .notes .nt{font-family:"Inter",sans-serif;font-size:13px;font-weight:700}
+.lv-as .notes .nd{font-family:"Lora",serif;font-size:13px;line-height:1.5;margin-top:3px}
+.lv-as .foot{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px;padding-top:10px;border-top:1px solid var(--hair);font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--meta)}
+.lv-as .foot .cap{font-family:"Lora",serif;font-style:italic;font-size:12px;letter-spacing:0;text-transform:none;color:var(--meta);font-weight:700}
+.lv-as [data-de],.lv-as [data-en]{display:none}
+:lang(de) .lv-as [data-de]{display:initial}
+:lang(en) .lv-as [data-en]{display:initial}
+</style>
+<figure class="lv-as" role="figure">
+  <div class="k"><span class="num">13</span>
+    <span data-de>UI-Case · Dispatcher-Konsole</span><span data-en>UI case · Dispatcher console</span></div>
+  <h3>
+    <span data-de>Wie ein Routing-Agent seine Entscheidung erklärt</span>
+    <span data-en>How a routing agent explains its decision</span>
+  </h3>
+  <p class="deck">
+    <span data-de>Nicht nur „Spediteur X“, sondern warum. Vier Elemente, die Dispatcher akzeptieren lassen.</span>
+    <span data-en>Not just "Carrier X", but why. Four elements that get dispatchers to accept.</span>
+  </p>
+  <div class="grid">
+    <div class="ui">
+      <div class="tb"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">routix.io / dispatch / order-48291</span></div>
+      <div class="ct">
+        <div class="ord">Order #48291 · 340 kg · Hamburg → München</div>
+
+        <div class="primary">
+          <div class="co" style="top:-14px;left:-14px">1</div>
+          <div class="row">
+            <div>
+              <div class="lbl"><span data-de>Empfohlen</span><span data-en>Recommended</span></div>
+              <div class="car">DB Schenker · Express</div>
+            </div>
+            <div class="meta">
+              <div class="lbl2">ETA · <span data-de>Preis</span><span data-en>Price</span></div>
+              <div class="val">14:30 · € 284</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="why">
+          <div class="co" style="top:-14px;right:-14px">2</div>
+          <span data-de>Schenker hat auf dieser Route in den letzten 30 Tagen eine pünktliche Zustellung von 94%. Express ist 18 € teurer als Standard, liefert aber vor dem Kundentermin um 15:00. Kapazität im Zielhub ist bestätigt.</span>
+          <span data-en>Schenker has a 94% on-time rate on this route over the last 30 days. Express is €18 more than standard but delivers before the 15:00 customer slot. Capacity at the destination hub is confirmed.</span>
+        </div>
+
+        <div class="alts">
+          <div class="co" style="top:-14px;left:-14px">3</div>
+          <div class="alt"><div class="n">DHL · Standard</div><div class="e">16:15 · € 266</div><div class="nt"><span data-de>−€18, aber nach Kundentermin</span><span data-en>−€18, but after the customer slot</span></div></div>
+          <div class="alt"><div class="n">Kühne · Direct</div><div class="e">13:45 · € 342</div><div class="nt"><span data-de>Früher, aber +€58</span><span data-en>Earlier, but +€58</span></div></div>
+        </div>
+
+        <div class="actions">
+          <div class="co" style="bottom:-14px;right:-14px">4</div>
+          <button class="btn sec"><span data-de>Anders wählen</span><span data-en>Override</span></button>
+          <button class="btn pri"><span data-de>Bestätigen</span><span data-en>Confirm</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="notes">
+      <div class="item"><div class="num2">1</div><div><div class="nt"><span data-de>Primär-Vorschlag</span><span data-en>Primary suggestion</span></div><div class="nd"><span data-de>Spediteur + ETA + Preis in einer Zeile.</span><span data-en>Carrier + ETA + price in one line.</span></div></div></div>
+      <div class="item"><div class="num2">2</div><div><div class="nt"><span data-de>Begründung</span><span data-en>Reasoning</span></div><div class="nd"><span data-de>Drei Sätze in natürlicher Sprache, nicht Regel-IDs.</span><span data-en>Three sentences in natural language, no rule IDs.</span></div></div></div>
+      <div class="item"><div class="num2">3</div><div><div class="nt"><span data-de>Alternativen</span><span data-en>Alternatives</span></div><div class="nd"><span data-de>Zwei Plan-B-Optionen mit Trade-offs explizit.</span><span data-en>Two plan-B options with trade-offs explicit.</span></div></div></div>
+      <div class="item"><div class="num2">4</div><div><div class="nt"><span data-de>Override</span><span data-en>Override</span></div><div class="nd"><span data-de>Ein Klick zum Eingreifen. Grund wird geloggt.</span><span data-en>One click to intervene. Reason is logged.</span></div></div></div>
+    </div>
+  </div>
+  <figcaption class="foot">
+    <span><span data-de>Screenshot · Routix v4.2, März 2026</span><span data-en>Screenshot · Routix v4.2, March 2026</span></span>
+    <span class="cap"><span data-de>Begründung in natürlicher Sprache + Alternativen.</span><span data-en>Natural-language reasoning + alternatives.</span></span>
+  </figcaption>
+</figure>

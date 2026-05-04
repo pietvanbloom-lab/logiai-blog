@@ -1,0 +1,120 @@
+<!-- LogiAI editorial visual · arch (architecture diagram) · bilingual via :lang() -->
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;700&family=Source+Code+Pro:wght@400;700&display=swap");
+.lv-arch{--ink:#1a1a1a;--meta:#757575;--hair:#e2e8f0;--accent:#057dbc;background:#fff;color:var(--ink);font-family:"Lora",Georgia,serif;border-top:2px solid #000;border-bottom:2px solid #000;padding:20px 0 22px;box-sizing:border-box;width:100%;max-width:100%}
+.lv-arch *,.lv-arch *::before,.lv-arch *::after{box-sizing:border-box}
+.lv-arch .k{font-family:"Source Code Pro",monospace;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lv-arch .k .num{color:var(--ink);border:1px solid #000;padding:2px 6px;font-size:10px}
+.lv-arch h3{font-family:"Playfair Display",serif;font-size:26px;font-weight:400;line-height:1.12;letter-spacing:-.2px;color:var(--ink);margin:0 0 6px;text-wrap:balance}
+.lv-arch p.deck{font-family:"Lora",serif;font-size:14px;line-height:1.55;color:var(--ink);font-style:italic;margin:0 0 16px;max-width:62ch}
+.lv-arch svg{width:100%;height:auto;display:block}
+.lv-arch .foot{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px;padding-top:10px;border-top:1px solid var(--hair);font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--meta)}
+.lv-arch .foot .cap{font-family:"Lora",serif;font-style:italic;font-size:12px;letter-spacing:0;text-transform:none;color:var(--meta);font-weight:700}
+.lv-arch [data-de],.lv-arch [data-en]{display:none}
+:lang(de) .lv-arch [data-de]{display:initial}
+:lang(en) .lv-arch [data-en]{display:initial}
+.lv-arch tspan[data-de],.lv-arch tspan[data-en]{display:none}
+:lang(de) .lv-arch tspan[data-de],:lang(en) .lv-arch tspan[data-en]{display:initial}
+@media (max-width:480px){.lv-arch{overflow-x:auto}.lv-arch svg{min-width:520px}}
+</style>
+<figure class="lv-arch" role="figure">
+  <div class="k"><span class="num">03</span>
+    <span data-de>Architektur · Routing-Agent</span><span data-en>Architecture · Routing Agent</span></div>
+  <h3>
+    <span data-de>Ein Agent, drei Tools, ein Ledger</span>
+    <span data-en>One agent, three tools, one ledger</span>
+  </h3>
+  <p class="deck">
+    <span data-de>Wie ein LLM-Routing-Agent Aufträge an Spediteure vergibt, mit nachvollziehbarem Audit-Pfad.</span>
+    <span data-en>How an LLM routing agent assigns orders to carriers, with an auditable trail.</span>
+  </p>
+  <svg viewBox="0 0 760 380" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <defs>
+      <marker id="arr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0,0 L10,5 L0,10 Z" fill="#1a1a1a"/></marker>
+      <marker id="arr-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0,0 L10,5 L0,10 Z" fill="#057dbc"/></marker>
+    </defs>
+    <!-- columns -->
+    <line x1="180" y1="12" x2="180" y2="370" stroke="#e2e8f0"/>
+    <line x1="440" y1="12" x2="440" y2="370" stroke="#e2e8f0"/>
+    <text x="20" y="30" font-family="Source Code Pro,monospace" font-size="10" font-weight="700" letter-spacing="1" style="text-transform:uppercase">
+      <tspan data-de>Eingang</tspan><tspan data-en>Input</tspan>
+    </text>
+    <text x="200" y="30" font-family="Source Code Pro,monospace" font-size="10" font-weight="700" letter-spacing="1" style="text-transform:uppercase">Agent</text>
+    <text x="460" y="10" font-family="Source Code Pro,monospace" font-size="10" font-weight="700" letter-spacing="1" style="text-transform:uppercase">Tools</text>
+
+    <!-- arrows -->
+    <line x1="140" y1="108" x2="200" y2="115" stroke="#1a1a1a" stroke-width="1.25" marker-end="url(#arr-a)"/>
+    <text x="170" y="100" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="9" letter-spacing="0.6" style="text-transform:uppercase">POST /route</text>
+    <line x1="400" y1="85" x2="460" y2="46" stroke="#1a1a1a" stroke-width="1.25" marker-end="url(#arr-a)"/>
+    <text x="430" y="62" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="9" letter-spacing="0.6" style="text-transform:uppercase">
+      <tspan data-de>Preis?</tspan><tspan data-en>Price?</tspan>
+    </text>
+    <line x1="400" y1="115" x2="460" y2="114" stroke="#1a1a1a" stroke-width="1.25" marker-end="url(#arr-a)"/>
+    <text x="430" y="110" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="9" letter-spacing="0.6" style="text-transform:uppercase">
+      <tspan data-de>frei?</tspan><tspan data-en>free?</tspan>
+    </text>
+    <line x1="400" y1="145" x2="460" y2="182" stroke="#1a1a1a" stroke-width="1.25" marker-end="url(#arr-a)"/>
+    <text x="430" y="160" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="9" letter-spacing="0.6" style="text-transform:uppercase">
+      <tspan data-de>sicher?</tspan><tspan data-en>safe?</tspan>
+    </text>
+    <line x1="300" y1="170" x2="340" y2="220" stroke="#1a1a1a" stroke-width="1.25" marker-end="url(#arr-a)"/>
+    <line x1="460" y1="248" x2="480" y2="248" stroke="#057dbc" stroke-width="1.5" marker-end="url(#arr-b)"/>
+    <text x="470" y="244" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="9" fill="#057dbc" letter-spacing="0.6" style="text-transform:uppercase">sign</text>
+    <path d="M400 140 Q 560 200 580 230" fill="none" stroke="#057dbc" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#arr-b)"/>
+
+    <!-- boxes -->
+    <!-- input -->
+    <rect x="20" y="80" width="120" height="56" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <text x="32" y="100" font-family="Inter,sans-serif" font-size="12" font-weight="700"><tspan data-de>Auftrag</tspan><tspan data-en>Order</tspan></text>
+    <text x="32" y="118" font-family="Source Code Pro,monospace" font-size="10" fill="#757575" letter-spacing="0.6" style="text-transform:uppercase">WMS · webhook</text>
+    <!-- agent (core) -->
+    <rect x="199" y="59" width="202" height="112" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+    <rect x="200" y="60" width="200" height="110" fill="#1a1a1a"/>
+    <text x="212" y="80" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#fff"><tspan data-de>Routing-Agent</tspan><tspan data-en>Routing Agent</tspan></text>
+    <text x="212" y="104" font-family="Source Code Pro,monospace" font-size="10" fill="rgba(255,255,255,0.7)" letter-spacing="0.6" style="text-transform:uppercase">LLM · Claude / GPT-4</text>
+    <text x="212" y="158" font-family="Lora,serif" font-style="italic" font-size="10.5" fill="rgba(255,255,255,0.85)">
+      <tspan data-de>plant · wählt · begründet</tspan><tspan data-en>plans · picks · explains</tspan>
+    </text>
+    <!-- tools -->
+    <rect x="460" y="20" width="180" height="52" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <text x="472" y="40" font-family="Inter,sans-serif" font-size="12" font-weight="700"><tspan data-de>Tarif-API</tspan><tspan data-en>Rates API</tspan></text>
+    <text x="472" y="58" font-family="Source Code Pro,monospace" font-size="10" fill="#757575" letter-spacing="0.6" style="text-transform:uppercase">DHL · DB Schenker · Kühne</text>
+    <rect x="460" y="88" width="180" height="52" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <text x="472" y="108" font-family="Inter,sans-serif" font-size="12" font-weight="700"><tspan data-de>Kapazitäts-DB</tspan><tspan data-en>Capacity DB</tspan></text>
+    <text x="472" y="126" font-family="Source Code Pro,monospace" font-size="10" fill="#757575" letter-spacing="0.6" style="text-transform:uppercase">Postgres · read-only</text>
+    <rect x="460" y="156" width="180" height="52" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <text x="472" y="176" font-family="Inter,sans-serif" font-size="12" font-weight="700"><tspan data-de>Risiko-Check</tspan><tspan data-en>Risk Check</tspan></text>
+    <text x="472" y="194" font-family="Source Code Pro,monospace" font-size="10" fill="#757575" letter-spacing="0.6" style="text-transform:uppercase">
+      <tspan data-de>Regelwerk · ERP</tspan><tspan data-en>Rules · ERP</tspan>
+    </text>
+    <!-- output + ledger -->
+    <rect x="260" y="220" width="200" height="56" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <text x="272" y="240" font-family="Inter,sans-serif" font-size="12" font-weight="700"><tspan data-de>Entscheidung</tspan><tspan data-en>Decision</tspan></text>
+    <text x="272" y="258" font-family="Source Code Pro,monospace" font-size="10" fill="#757575" letter-spacing="0.6" style="text-transform:uppercase">
+      <tspan data-de>Spediteur + Route</tspan><tspan data-en>Carrier + route</tspan>
+    </text>
+    <rect x="480" y="230" width="200" height="56" fill="#f5f5f5" stroke="#1a1a1a" stroke-width="1.5"/>
+    <text x="492" y="250" font-family="Inter,sans-serif" font-size="12" font-weight="700">Audit Ledger</text>
+    <text x="492" y="268" font-family="Source Code Pro,monospace" font-size="10" fill="#757575" letter-spacing="0.6" style="text-transform:uppercase">
+      <tspan data-de>signiert · unveränderlich</tspan><tspan data-en>signed · immutable</tspan>
+    </text>
+
+    <!-- legend -->
+    <g transform="translate(20 356)">
+      <line x1="0" y1="0" x2="24" y2="0" stroke="#057dbc" stroke-width="1.25" stroke-dasharray="3 3"/>
+      <text x="30" y="4" font-family="Source Code Pro,monospace" font-size="9" letter-spacing="0.6" style="text-transform:uppercase">
+        <tspan data-de>Audit-Trace</tspan><tspan data-en>Audit trace</tspan>
+      </text>
+      <line x1="160" y1="0" x2="184" y2="0" stroke="#1a1a1a" stroke-width="1.25"/>
+      <text x="190" y="4" font-family="Source Code Pro,monospace" font-size="9" letter-spacing="0.6" style="text-transform:uppercase">
+        <tspan data-de>Daten / Aufruf</tspan><tspan data-en>Data / call</tspan>
+      </text>
+    </g>
+  </svg>
+  <figcaption class="foot">
+    <span><span data-de>Referenzarchitektur · LogiAI</span><span data-en>Reference architecture · LogiAI</span></span>
+    <span class="cap"><span data-de>Jeder Aufruf wird im Ledger signiert, kein Black Box.</span><span data-en>Every tool call is signed into the ledger. No black box.</span></span>
+  </figcaption>
+</figure>

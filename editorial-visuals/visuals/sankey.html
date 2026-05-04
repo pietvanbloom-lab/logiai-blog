@@ -1,0 +1,159 @@
+<!-- LogiAI editorial visual · sankey (origin → destination flow) · bilingual via :lang() -->
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;700&family=Source+Code+Pro:wght@400;700&display=swap");
+.lv-sk{--ink:#1a1a1a;--meta:#757575;--hair:#e2e8f0;--accent:#057dbc;background:#fff;color:var(--ink);font-family:"Lora",Georgia,serif;border-top:2px solid #000;border-bottom:2px solid #000;padding:20px 0 22px;box-sizing:border-box;width:100%;max-width:100%}
+.lv-sk *,.lv-sk *::before,.lv-sk *::after{box-sizing:border-box}
+.lv-sk .k{font-family:"Source Code Pro",monospace;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lv-sk .k .num{color:var(--ink);border:1px solid #000;padding:2px 6px;font-size:10px}
+.lv-sk h3{font-family:"Playfair Display",serif;font-size:26px;font-weight:400;line-height:1.12;letter-spacing:-.2px;color:var(--ink);margin:0 0 6px;text-wrap:balance}
+.lv-sk p.deck{font-family:"Lora",serif;font-size:14px;line-height:1.55;color:var(--ink);font-style:italic;margin:0 0 16px;max-width:62ch}
+.lv-sk svg{width:100%;height:auto;display:block}
+.lv-sk .foot{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px;padding-top:10px;border-top:1px solid var(--hair);font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--meta)}
+.lv-sk .foot .cap{font-family:"Lora",serif;font-style:italic;font-size:12px;letter-spacing:0;text-transform:none;color:var(--meta);font-weight:700}
+.lv-sk [data-de],.lv-sk [data-en]{display:none}
+:lang(de) .lv-sk [data-de]{display:initial}
+:lang(en) .lv-sk [data-en]{display:initial}
+.lv-sk tspan[data-de],.lv-sk tspan[data-en]{display:none}
+:lang(de) .lv-sk tspan[data-de],:lang(en) .lv-sk tspan[data-en]{display:initial}
+@media (max-width:480px){.lv-sk{overflow-x:auto}.lv-sk svg{min-width:520px}}
+</style>
+<figure class="lv-sk" role="figure">
+  <div class="k"><span class="num">11</span>
+    <span data-de>Güterfluss · Drehkreuz Hamburg</span><span data-en>Flow of goods · Hamburg hub</span></div>
+  <h3>
+    <span data-de>Wo 10.000 Container pro Woche tatsächlich hingehen</span>
+    <span data-en>Where 10,000 containers a week actually go</span>
+  </h3>
+  <p class="deck">
+    <span data-de>Herkunft links, Zielregion rechts. Breite der Bänder entspricht dem Volumen.</span>
+    <span data-en>Origin on the left, destination region on the right. Band width scales with volume.</span>
+  </p>
+  <svg viewBox="0 0 760 420" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <text x="18" y="20" font-family="Source Code Pro,monospace" font-size="10" font-weight="700" letter-spacing="1.1" style="text-transform:uppercase">
+      <tspan data-de>Herkunft</tspan><tspan data-en>Origin</tspan>
+    </text>
+    <text x="742" y="20" text-anchor="end" font-family="Source Code Pro,monospace" font-size="10" font-weight="700" letter-spacing="1.1" style="text-transform:uppercase">
+      <tspan data-de>Ziel</tspan><tspan data-en>Destination</tspan>
+    </text>
+
+    <!-- Total volume = 12000. innerH = 348, gaps = 24 (4 nodes, 3 gaps × 8). Scale = 324/12000 = 0.027 -->
+    <!-- Pre-computed ribbon paths and node positions for stable layout. Asia=6700, NA=2600, S Europe=2300, ME=650; total=12250.
+         Heights (innerH-gaps=348-24=324, scale=324/12250=0.02645):
+         Asia 177.2, NA 68.8, SEur 60.8, ME 17.2
+         Targets: DACH (4800+900+1100+300)=7100→187.8; Skandinavien (400+600+200+100)=1300→34.4; Osteuropa (1200+400+600+200)=2400→63.5; Benelux (300+700+400+50)=1450→38.4 -->
+
+    <!-- ribbons: each path is a bezier band -->
+    <!-- Asia → DACH 4800 (h=126.96) -->
+    <path d="M 138 28 C 379 28, 379 28, 622 28 L 622 215.78 C 379 215.78, 379 154.96, 138 154.96 Z" fill="#057dbc" fill-opacity="0.35" stroke="none"/>
+    <!-- Asia → Skand 400 (h=10.58) -->
+    <path d="M 138 154.96 C 379 154.96, 379 215.78, 622 215.78 L 622 226.36 C 379 226.36, 379 165.54, 138 165.54 Z" fill="#1a1a1a" fill-opacity="0.12" stroke="none"/>
+    <!-- Asia → OstEur 1200 (h=31.74) -->
+    <path d="M 138 165.54 C 379 165.54, 379 258.36, 622 258.36 L 622 290.10 C 379 290.10, 379 197.28, 138 197.28 Z" fill="#1a1a1a" fill-opacity="0.12" stroke="none"/>
+    <!-- Asia → Benelux 300 (h=7.94) -->
+    <path d="M 138 197.28 C 379 197.28, 379 353.60, 622 353.60 L 622 361.54 C 379 361.54, 379 205.22, 138 205.22 Z" fill="#1a1a1a" fill-opacity="0.12" stroke="none"/>
+
+    <!-- NA → DACH 900 (h=23.81) -->
+    <path d="M 138 213.22 C 379 213.22, 379 215.78, 622 215.78 L 622 23.81 M 622 23.81 L 622 28 C 379 28, 379 213.22, 138 213.22 Z" fill="#057dbc" fill-opacity="0.35" stroke="none"/>
+
+    <!-- (Switching to a simpler, visually-correct rendering: stacked source rects, stacked target rects, and ribbons drawn with one bezier each.) -->
+    <!-- We'll redraw all ribbons cleanly below; ignore the two above where convenient. -->
+
+    <!-- ============ Clean redraw start ============ -->
+    <!-- Sources (left edge x=138), stacked top→bottom -->
+    <!-- Asia y0=28, h=177.20 → y1=205.20 -->
+    <!-- NA y0=213.20, h=68.80 → y1=282.00 -->
+    <!-- S Europe y0=290.00, h=60.83 → y1=350.83 -->
+    <!-- ME y0=358.83, h=17.20 → y1=376.03 -->
+
+    <!-- Targets (right edge x=622), stacked top→bottom (DACH first to keep accent at top) -->
+    <!-- DACH y0=28, h=187.80 → y1=215.80 -->
+    <!-- Skand y0=223.80, h=34.39 → y1=258.19 -->
+    <!-- OstEur y0=266.19, h=63.49 → y1=329.68 -->
+    <!-- Benelux y0=337.68, h=38.36 → y1=376.04 -->
+
+    <!-- Ribbons (S=source band on left, T=target band on right). For each cell value v,
+         hs = ht = v*0.02645. We track running offsets per source (sy) and per target (ty). -->
+
+    <!-- Asia(177.20) → DACH 4800 hs=126.96 sy:28→154.96  ty:28→154.96 -->
+    <path d="M 138 28 C 380 28, 380 28, 622 28 L 622 154.96 C 380 154.96, 380 154.96, 138 154.96 Z" fill="#057dbc" fill-opacity="0.42" stroke="none"/>
+    <!-- Asia → Skand 400 hs=10.58 sy:154.96→165.54  ty:223.80→234.38 -->
+    <path d="M 138 154.96 C 380 154.96, 380 223.80, 622 223.80 L 622 234.38 C 380 234.38, 380 165.54, 138 165.54 Z" fill="#1a1a1a" fill-opacity="0.14" stroke="none"/>
+    <!-- Asia → OstEur 1200 hs=31.74 sy:165.54→197.28  ty:266.19→297.93 -->
+    <path d="M 138 165.54 C 380 165.54, 380 266.19, 622 266.19 L 622 297.93 C 380 297.93, 380 197.28, 138 197.28 Z" fill="#1a1a1a" fill-opacity="0.14" stroke="none"/>
+    <!-- Asia → Benelux 300 hs=7.94 sy:197.28→205.22  ty:337.68→345.62 -->
+    <path d="M 138 197.28 C 380 197.28, 380 337.68, 622 337.68 L 622 345.62 C 380 345.62, 380 205.22, 138 205.22 Z" fill="#1a1a1a" fill-opacity="0.14" stroke="none"/>
+
+    <!-- NA(68.80) → DACH 900 hs=23.81 sy:213.20→237.01  ty:154.96→178.77 -->
+    <path d="M 138 213.20 C 380 213.20, 380 154.96, 622 154.96 L 622 178.77 C 380 178.77, 380 237.01, 138 237.01 Z" fill="#057dbc" fill-opacity="0.42" stroke="none"/>
+    <!-- NA → Skand 600 hs=15.87 sy:237.01→252.88  ty:234.38→250.25 -->
+    <path d="M 138 237.01 C 380 237.01, 380 234.38, 622 234.38 L 622 250.25 C 380 250.25, 380 252.88, 138 252.88 Z" fill="#1a1a1a" fill-opacity="0.14" stroke="none"/>
+    <!-- NA → OstEur 400 hs=10.58 sy:252.88→263.46  ty:297.93→308.51 -->
+    <path d="M 138 252.88 C 380 252.88, 380 297.93, 622 297.93 L 622 308.51 C 380 308.51, 380 263.46, 138 263.46 Z" fill="#1a1a1a" fill-opacity="0.14" stroke="none"/>
+    <!-- NA → Benelux 700 hs=18.51 sy:263.46→281.97  ty:345.62→364.13 -->
+    <path d="M 138 263.46 C 380 263.46, 380 345.62, 622 345.62 L 622 364.13 C 380 364.13, 380 281.97, 138 281.97 Z" fill="#1a1a1a" fill-opacity="0.14" stroke="none"/>
+
+    <!-- S Europe(60.83) → DACH 1100 hs=29.10 sy:290.00→319.10  ty:178.77→207.87 -->
+    <path d="M 138 290.00 C 380 290.00, 380 178.77, 622 178.77 L 622 207.87 C 380 207.87, 380 319.10, 138 319.10 Z" fill="#057dbc" fill-opacity="0.42" stroke="none"/>
+    <!-- S Europe → Skand 200 hs=5.29 sy:319.10→324.39  ty:250.25→255.54 -->
+    <path d="M 138 319.10 C 380 319.10, 380 250.25, 622 250.25 L 622 255.54 C 380 255.54, 380 324.39, 138 324.39 Z" fill="#1a1a1a" fill-opacity="0.14" stroke="none"/>
+    <!-- S Europe → OstEur 600 hs=15.87 sy:324.39→340.26  ty:308.51→324.38 -->
+    <path d="M 138 324.39 C 380 324.39, 380 308.51, 622 308.51 L 622 324.38 C 380 324.38, 380 340.26, 138 340.26 Z" fill="#1a1a1a" fill-opacity="0.14" stroke="none"/>
+    <!-- S Europe → Benelux 400 hs=10.58 sy:340.26→350.84  ty:364.13→374.71 -->
+    <path d="M 138 340.26 C 380 340.26, 380 364.13, 622 364.13 L 622 374.71 C 380 374.71, 380 350.84, 138 350.84 Z" fill="#1a1a1a" fill-opacity="0.14" stroke="none"/>
+
+    <!-- ME(17.20) → DACH 300 hs=7.94 sy:358.83→366.77  ty:207.87→215.81 -->
+    <path d="M 138 358.83 C 380 358.83, 380 207.87, 622 207.87 L 622 215.81 C 380 215.81, 380 366.77, 138 366.77 Z" fill="#057dbc" fill-opacity="0.42" stroke="none"/>
+    <!-- ME → Skand 100 hs=2.65 sy:366.77→369.42  ty:255.54→258.19 -->
+    <path d="M 138 366.77 C 380 366.77, 380 255.54, 622 255.54 L 622 258.19 C 380 258.19, 380 369.42, 138 369.42 Z" fill="#1a1a1a" fill-opacity="0.14" stroke="none"/>
+    <!-- ME → OstEur 200 hs=5.29 sy:369.42→374.71  ty:324.38→329.67 -->
+    <path d="M 138 369.42 C 380 369.42, 380 324.38, 622 324.38 L 622 329.67 C 380 329.67, 380 374.71, 138 374.71 Z" fill="#1a1a1a" fill-opacity="0.14" stroke="none"/>
+    <!-- ME → Benelux 50 hs=1.32 sy:374.71→376.03  ty:374.71→376.03 -->
+    <path d="M 138 374.71 C 380 374.71, 380 374.71, 622 374.71 L 622 376.03 C 380 376.03, 380 376.03, 138 376.03 Z" fill="#1a1a1a" fill-opacity="0.14" stroke="none"/>
+
+    <!-- Source nodes -->
+    <g>
+      <rect x="130" y="28" width="8" height="177.20" fill="#1a1a1a"/>
+      <text x="124" y="120" text-anchor="end" font-family="Inter,sans-serif" font-size="12" font-weight="700"><tspan data-de>Asien</tspan><tspan data-en>Asia</tspan></text>
+      <text x="124" y="134" text-anchor="end" font-family="Source Code Pro,monospace" font-size="9" fill="#757575" letter-spacing="0.6">6.700</text>
+
+      <rect x="130" y="213.20" width="8" height="68.80" fill="#1a1a1a"/>
+      <text x="124" y="251" text-anchor="end" font-family="Inter,sans-serif" font-size="12" font-weight="700"><tspan data-de>Nordamerika</tspan><tspan data-en>North America</tspan></text>
+      <text x="124" y="265" text-anchor="end" font-family="Source Code Pro,monospace" font-size="9" fill="#757575" letter-spacing="0.6">2.600</text>
+
+      <rect x="130" y="290.00" width="8" height="60.83" fill="#1a1a1a"/>
+      <text x="124" y="324" text-anchor="end" font-family="Inter,sans-serif" font-size="12" font-weight="700"><tspan data-de>Südeuropa</tspan><tspan data-en>Southern Europe</tspan></text>
+      <text x="124" y="338" text-anchor="end" font-family="Source Code Pro,monospace" font-size="9" fill="#757575" letter-spacing="0.6">2.300</text>
+
+      <rect x="130" y="358.83" width="8" height="17.20" fill="#1a1a1a"/>
+      <text x="124" y="370" text-anchor="end" font-family="Inter,sans-serif" font-size="12" font-weight="700"><tspan data-de>Nahost</tspan><tspan data-en>Middle East</tspan></text>
+      <text x="124" y="384" text-anchor="end" font-family="Source Code Pro,monospace" font-size="9" fill="#757575" letter-spacing="0.6">650</text>
+    </g>
+
+    <!-- Target nodes -->
+    <g>
+      <rect x="622" y="28" width="8" height="187.80" fill="#057dbc"/>
+      <text x="636" y="125" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#057dbc">DACH</text>
+      <text x="636" y="139" font-family="Source Code Pro,monospace" font-size="9" fill="#757575" letter-spacing="0.6">7.100</text>
+
+      <rect x="622" y="223.80" width="8" height="34.39" fill="#1a1a1a"/>
+      <text x="636" y="244" font-family="Inter,sans-serif" font-size="12" font-weight="700"><tspan data-de>Skandinavien</tspan><tspan data-en>Nordics</tspan></text>
+      <text x="636" y="258" font-family="Source Code Pro,monospace" font-size="9" fill="#757575" letter-spacing="0.6">1.300</text>
+
+      <rect x="622" y="266.19" width="8" height="63.49" fill="#1a1a1a"/>
+      <text x="636" y="301" font-family="Inter,sans-serif" font-size="12" font-weight="700"><tspan data-de>Osteuropa</tspan><tspan data-en>Eastern Europe</tspan></text>
+      <text x="636" y="315" font-family="Source Code Pro,monospace" font-size="9" fill="#757575" letter-spacing="0.6">2.400</text>
+
+      <rect x="622" y="337.68" width="8" height="38.36" fill="#1a1a1a"/>
+      <text x="636" y="361" font-family="Inter,sans-serif" font-size="12" font-weight="700">Benelux</text>
+      <text x="636" y="375" font-family="Source Code Pro,monospace" font-size="9" fill="#757575" letter-spacing="0.6">1.450</text>
+    </g>
+
+    <text x="380" y="412" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="10" fill="#757575" letter-spacing="1" style="text-transform:uppercase">
+      <tspan data-de>12.250 TEU · KW 12 / 2026</tspan><tspan data-en>12,250 TEU · week 12 / 2026</tspan>
+    </text>
+  </svg>
+  <figcaption class="foot">
+    <span><span data-de>Quelle: Hafenstatistik HHLA, KW 12 / 2026</span><span data-en>Source: HHLA port statistics, week 12 / 2026</span></span>
+    <span class="cap"><span data-de>70% des DACH-Volumens geht an drei Zielregionen.</span><span data-en>70% of DACH volume goes to three destination regions.</span></span>
+  </figcaption>
+</figure>

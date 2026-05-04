@@ -1,0 +1,83 @@
+<!-- LogiAI editorial visual · map (warehouse pick path) · bilingual via :lang() -->
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;700&family=Source+Code+Pro:wght@400;700&display=swap");
+.lv-map{--ink:#1a1a1a;--meta:#757575;--hair:#e2e8f0;--accent:#057dbc;background:#fff;color:var(--ink);font-family:"Lora",Georgia,serif;border-top:2px solid #000;border-bottom:2px solid #000;padding:20px 0 22px;box-sizing:border-box;width:100%;max-width:100%}
+.lv-map *,.lv-map *::before,.lv-map *::after{box-sizing:border-box}
+.lv-map .k{font-family:"Source Code Pro",monospace;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lv-map .k .num{color:var(--ink);border:1px solid #000;padding:2px 6px;font-size:10px}
+.lv-map h3{font-family:"Playfair Display",serif;font-size:26px;font-weight:400;line-height:1.12;letter-spacing:-.2px;color:var(--ink);margin:0 0 6px;text-wrap:balance}
+.lv-map p.deck{font-family:"Lora",serif;font-size:14px;line-height:1.55;color:var(--ink);font-style:italic;margin:0 0 16px;max-width:62ch}
+.lv-map .leg{display:flex;flex-wrap:wrap;gap:14px 20px;margin-bottom:14px;font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase}
+.lv-map .leg .sw{display:inline-block;width:22px;height:0;border-top:2px solid currentColor;margin-right:6px;vertical-align:middle}
+.lv-map svg{width:100%;height:auto;display:block}
+.lv-map .foot{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px;padding-top:10px;border-top:1px solid var(--hair);font-family:"Source Code Pro",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--meta)}
+.lv-map .foot .cap{font-family:"Lora",serif;font-style:italic;font-size:12px;letter-spacing:0;text-transform:none;color:var(--meta);font-weight:700}
+.lv-map [data-de],.lv-map [data-en]{display:none}
+:lang(de) .lv-map [data-de]{display:initial}
+:lang(en) .lv-map [data-en]{display:initial}
+.lv-map tspan[data-de],.lv-map tspan[data-en]{display:none}
+:lang(de) .lv-map tspan[data-de],:lang(en) .lv-map tspan[data-en]{display:initial}
+@media (max-width:480px){.lv-map{overflow-x:auto}.lv-map svg{min-width:520px}}
+</style>
+<figure class="lv-map" role="figure">
+  <div class="k"><span class="num">04</span>
+    <span data-de>Operations · Lagerlayout</span><span data-en>Operations · Warehouse Layout</span></div>
+  <h3>
+    <span data-de>Pick-Path vor und nach dem Rerouting</span>
+    <span data-en>Pick path, before and after re-routing</span>
+  </h3>
+  <p class="deck">
+    <span data-de>Gleiche 14 Positionen, unterschiedliche Reihenfolgen. RL-Agent spart 41 Meter.</span>
+    <span data-en>Same 14 positions, different order. The RL agent saves 41 meters.</span>
+  </p>
+  <div class="leg">
+    <span><span class="sw" style="color:#1a1a1a"></span><span data-de>Baseline · 187 m</span><span data-en>Baseline · 187 m</span></span>
+    <span><span class="sw" style="color:#057dbc"></span><span data-de>Optimiert · 146 m</span><span data-en>Optimized · 146 m</span></span>
+  </div>
+  <svg viewBox="0 0 760 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <!-- shelf grid: 7 cols × 5 rows, inner area 720×300 starting at (20,20) -->
+    <g fill="#f5f5f5" stroke="#d0d5db" stroke-width="0.75">
+      <!-- row 0 --><rect x="24" y="24" width="94.86" height="52"/><rect x="126.86" y="24" width="94.86" height="52"/><rect x="229.71" y="24" width="94.86" height="52"/><rect x="332.57" y="24" width="94.86" height="52"/><rect x="435.43" y="24" width="94.86" height="52"/><rect x="538.29" y="24" width="94.86" height="52"/><rect x="641.14" y="24" width="94.86" height="52"/>
+      <!-- row 1 --><rect x="24" y="84" width="94.86" height="52"/><rect x="126.86" y="84" width="94.86" height="52"/><rect x="229.71" y="84" width="94.86" height="52"/><rect x="332.57" y="84" width="94.86" height="52"/><rect x="435.43" y="84" width="94.86" height="52"/><rect x="538.29" y="84" width="94.86" height="52"/><rect x="641.14" y="84" width="94.86" height="52"/>
+      <!-- row 2 --><rect x="24" y="144" width="94.86" height="52"/><rect x="126.86" y="144" width="94.86" height="52"/><rect x="229.71" y="144" width="94.86" height="52"/><rect x="332.57" y="144" width="94.86" height="52"/><rect x="435.43" y="144" width="94.86" height="52"/><rect x="538.29" y="144" width="94.86" height="52"/><rect x="641.14" y="144" width="94.86" height="52"/>
+      <!-- row 3 --><rect x="24" y="204" width="94.86" height="52"/><rect x="126.86" y="204" width="94.86" height="52"/><rect x="229.71" y="204" width="94.86" height="52"/><rect x="332.57" y="204" width="94.86" height="52"/><rect x="435.43" y="204" width="94.86" height="52"/><rect x="538.29" y="204" width="94.86" height="52"/><rect x="641.14" y="204" width="94.86" height="52"/>
+      <!-- row 4 --><rect x="24" y="264" width="94.86" height="52"/><rect x="126.86" y="264" width="94.86" height="52"/><rect x="229.71" y="264" width="94.86" height="52"/><rect x="332.57" y="264" width="94.86" height="52"/><rect x="435.43" y="264" width="94.86" height="52"/><rect x="538.29" y="264" width="94.86" height="52"/><rect x="641.14" y="264" width="94.86" height="52"/>
+    </g>
+    <text x="380" y="342" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="10" fill="#757575" letter-spacing="0.8" style="text-transform:uppercase">
+      <tspan data-de>Gang A · Länge 28 m</tspan><tspan data-en>Aisle A · 28 m</tspan>
+    </text>
+
+    <!-- Baseline (snake) path: 14 picks (col,row) sorted by row then col -->
+    <path d="M30 310 L71.4 50 L277.1 50 L482.9 50 L688.6 50 L174.3 110 L380 110 L585.7 110 L71.4 170 L482.9 170 L688.6 170 L277.1 230 L585.7 230 L174.3 290 L380 290" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.85"/>
+
+    <!-- Optimized (nearest-neighbor) path -->
+    <path d="M30 310 L174.3 290 L71.4 170 L71.4 50 L174.3 110 L277.1 50 L277.1 230 L380 290 L380 110 L482.9 50 L482.9 170 L585.7 230 L585.7 110 L688.6 170 L688.6 50" fill="none" stroke="#057dbc" stroke-width="2.25"/>
+
+    <!-- Picks: 14 numbered circles -->
+    <g font-family="Source Code Pro,monospace" font-size="8" font-weight="700" text-anchor="middle">
+      <circle cx="71.4" cy="50" r="6" fill="#fff" stroke="#1a1a1a" stroke-width="1.25"/><text x="71.4" y="53">1</text>
+      <circle cx="277.1" cy="50" r="6" fill="#fff" stroke="#1a1a1a" stroke-width="1.25"/><text x="277.1" y="53">2</text>
+      <circle cx="482.9" cy="50" r="6" fill="#fff" stroke="#1a1a1a" stroke-width="1.25"/><text x="482.9" y="53">3</text>
+      <circle cx="688.6" cy="50" r="6" fill="#fff" stroke="#1a1a1a" stroke-width="1.25"/><text x="688.6" y="53">4</text>
+      <circle cx="174.3" cy="110" r="6" fill="#fff" stroke="#1a1a1a" stroke-width="1.25"/><text x="174.3" y="113">5</text>
+      <circle cx="380" cy="110" r="6" fill="#fff" stroke="#1a1a1a" stroke-width="1.25"/><text x="380" y="113">6</text>
+      <circle cx="585.7" cy="110" r="6" fill="#fff" stroke="#1a1a1a" stroke-width="1.25"/><text x="585.7" y="113">7</text>
+      <circle cx="71.4" cy="170" r="6" fill="#fff" stroke="#1a1a1a" stroke-width="1.25"/><text x="71.4" y="173">8</text>
+      <circle cx="482.9" cy="170" r="6" fill="#fff" stroke="#1a1a1a" stroke-width="1.25"/><text x="482.9" y="173">9</text>
+      <circle cx="688.6" cy="170" r="6" fill="#fff" stroke="#1a1a1a" stroke-width="1.25"/><text x="688.6" y="173">10</text>
+      <circle cx="277.1" cy="230" r="6" fill="#fff" stroke="#1a1a1a" stroke-width="1.25"/><text x="277.1" y="233">11</text>
+      <circle cx="585.7" cy="230" r="6" fill="#fff" stroke="#1a1a1a" stroke-width="1.25"/><text x="585.7" y="233">12</text>
+      <circle cx="174.3" cy="290" r="6" fill="#fff" stroke="#1a1a1a" stroke-width="1.25"/><text x="174.3" y="293">13</text>
+      <circle cx="380" cy="290" r="6" fill="#fff" stroke="#1a1a1a" stroke-width="1.25"/><text x="380" y="293">14</text>
+    </g>
+    <!-- Start -->
+    <rect x="22" y="302" width="16" height="16" fill="#1a1a1a"/>
+    <text x="30" y="338" text-anchor="middle" font-family="Source Code Pro,monospace" font-size="9" letter-spacing="0.6" style="text-transform:uppercase">Start</text>
+
+    <text x="740" y="34" text-anchor="end" font-family="Lora,serif" font-style="italic" font-size="12">−41 m · −22%</text>
+  </svg>
+  <figcaption class="foot">
+    <span><span data-de>Quelle: Simulation, 10.000 Picks</span><span data-en>Source: Simulation, 10,000 picks</span></span>
+    <span class="cap"><span data-de>Der Agent vermeidet die Mittelgasse ganz.</span><span data-en>The agent avoids the center aisle entirely.</span></span>
+  </figcaption>
+</figure>
