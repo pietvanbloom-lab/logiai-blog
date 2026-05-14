@@ -1,0 +1,16 @@
+name = "logiai-tts-proxy"
+main = "worker.js"
+compatibility_date = "2024-12-01"
+
+# KV namespace for rate limiting (create via: wrangler kv namespace create TTS_RATE_LIMIT)
+# After creation, replace the id below with the actual namespace ID
+kv_namespaces = [
+  { binding = "TTS_RATE_LIMIT", id = "REPLACE_WITH_ACTUAL_KV_ID" }
+]
+
+# Secrets (set via: wrangler secret put ELEVENLABS_API_KEY)
+# Environment variables for voice config
+[vars]
+VOICE_EN = "onwK4e9ZLuTAKqWW03F9"
+VOICE_DE = "pqHfZKP75CvOlQylNhV4"
+TTS_MODEL = "eleven_flash_v2_5"
