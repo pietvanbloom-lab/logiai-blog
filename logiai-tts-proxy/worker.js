@@ -106,7 +106,11 @@ export default {
         const errText = await elevenResponse.text();
         console.error('ElevenLabs error:', elevenResponse.status, errText);
         return handleCors(request, new Response(
-          JSON.stringify({ error: 'TTS generation failed' }),
+          JSON.stringify({
+            error: 'TTS generation failed',
+            upstream_status: elevenResponse.status,
+            upstream_error: errText
+          }),
           { status: 502, headers: { 'Content-Type': 'application/json' } }
         ));
       }
