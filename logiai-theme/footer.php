@@ -60,8 +60,8 @@
       <div class="footer__col">
         <div class="footer__col-label"><?php esc_html_e( 'Follow', 'logiai' ); ?></div>
         <ul>
-          <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-          <li><a href="https://twitter.com" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
+          <li><a href="https://www.linkedin.com/company/logiai" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://x.com/logiai_blog" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
           <?php
           $rss_url = get_bloginfo( 'rss2_url' );
           ?>
