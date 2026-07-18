@@ -67,6 +67,19 @@ equivalents used everywhere else (`<repo>/...`, `runs/`, `memory/`,
 files to repo-relative" is enough. Also delete the IMPORT-ME notice block at
 the top of the orchestrator placeholder if `cp` kept any of it.
 
+## Step 1b — Import the optional items (one command)
+
+On the Mac, from the repo root:
+
+```bash
+bash tools/import-mac-optional.sh
+```
+
+Copies, commits, and pushes: `tools/fal_generate.py`, `memory/logiai_project.md`,
+`skills/logiai-production-stack/approval-board-template.html`, historical run
+logs into `runs/`, and KPI reports into `reports/`. The script prints anything
+it could not find so you can fix the source path and re-run.
+
 ## Step 2 — Enable the cloud Routine
 
 A Claude Code Remote Routine named **"LogiAI Production Stack — Daily"** was
