@@ -1,0 +1,45 @@
+# LogiAI production stack runtime config (TEMPLATE — IMPORT PENDING)
+#
+# IMPORT-ME: The live config is on the operator's Mac at
+# ~/Documents/Claude/Scheduled/logiai-production-stack/config.yml.
+# Copy it over this file (MIGRATION.md, step 1). Values below are safe
+# defaults derived from the editorial-engine config template so a cloud run
+# can operate before the import.
+
+caps:
+  daily:
+    tool_calls: 250
+    wall_clock_seconds: 1800
+    usd_estimate: 5.00
+  weekly:
+    tool_calls: 500
+    wall_clock_seconds: 3600
+    usd_estimate: 12.00
+
+phase_models:
+  preflight: haiku
+  strategy: sonnet
+  monitoring: haiku
+  scoring: haiku
+  verification: sonnet
+  drafting: sonnet
+  editorial_visuals: haiku
+  quality_gate: sonnet
+  approval: haiku
+  publishing: sonnet
+  compliance: haiku
+  performance: sonnet
+
+loop_detection:
+  max_same_tool_calls_per_phase: 4
+  similarity_threshold: 0.85
+
+drift_guard:
+  enabled: true
+  alignment_check_per_phase: true
+  styleguide_sync_check: true
+
+approval_timeouts:
+  soft_escalation_hours: 2
+  hard_escalation_hours: 24
+  no_response_action: hold

@@ -1,0 +1,103 @@
+# editorial-engine portal config for LogiAI
+# This file makes the LogiAI production stack runnable from this GitHub repo
+# (same operating model as the Business Intelligence Hub).
+# Read by the editorial-engine-* skills and by the LogiAI daily production run.
+
+portal:
+  id: logiai
+  name: LogiAI
+  url: https://logiai.blog
+  language: en
+  bilingual: false
+  styleguide_path: CONTENT-STYLEGUIDE.md   # repo-relative; master styleguide
+  hard_rules:
+    - No em-dashes anywhere in generated content
+    - En-dash only in numeric ranges, otherwise hyphen
+    - No emoji in article body or meta description
+    - No brief-header metadata in the published body (brief-leak-guard must exit 0)
+    - Editorial visuals must be style-inlined before publish (visual-style-guard must exit 0)
+    - Never auto-publish to WordPress without operator approval
+  workspace_dir: workspace/
+
+strategy:
+  cadence: "0 7 * * *"   # daily 07:00 CET (see MIGRATION.md for the cloud Routine)
+  themes:
+    - { name: AI in Operations, weight: 25 }
+    - { name: Autonomous Vehicles, weight: 15 }
+    - { name: Supply Chain Visibility, weight: 15 }
+    - { name: AI in Sales/Solutions/Tender, weight: 15 }
+    - { name: Startups & Tools, weight: 15 }
+    - { name: Last-Mile, weight: 10 }
+    - { name: Regulation & Market, weight: 5 }
+  escalation_triggers:
+    - Breaking signal with direct logistics impact
+    - Story touching a company already covered in the last 30 days
+    - Regulatory change affecting EU logistics
+
+monitoring:
+  cadence: daily
+  sources:
+    tier1:
+      - Reuters (logistics, shipping, supply chain)
+      - FreightWaves
+      - The Loadstar
+      - Transport Topics
+      - Supply Chain Dive
+      - Trans.info
+      - Logistics Manager
+      - TechCrunch (logistics/supply chain/AI)
+      - Maersk Insights
+      - ASCM
+    tier2:
+      - LinkedIn logistics thought leaders
+      - Startup blogs and press releases
+      - Industry conference announcements
+      - Public analyst snippets (McKinsey, Gartner, BCG)
+
+scoring:
+  model: five-criteria    # see skills/logiai-scoring/SKILL.md
+  priority_thresholds:
+    p1_breaking: 80
+    p2_standard: 60
+    p3_backlog: 40
+
+quality_gate:
+  pass_threshold: 85      # see skills/logiai-quality-gate/SKILL.md (25-point checklist)
+
+drafting:
+  voice_brief: CONTENT-STYLEGUIDE.md
+  formats: [blog-post, newsletter-lead, newsletter-item, startup-spotlight]
+
+publishing:
+  adapter: wordpress-rest
+  config:
+    site: logiai.blog
+    default_status: draft   # operator approval flips to publish
+    pre_publish_guards:
+      - brief-leak-guard.py
+      - tools/visual-style-guard.py
+    visual_inliner: tools/editorial-visual-inline.py
+    visuals_library: editorial-visuals/
+
+approval:
+  channel: gmail-label
+  config:
+    address: pietvanbloom@gmail.com
+    fallback: inline-question   # AskUserQuestion when run interactively
+
+performance:
+  kpis:
+    - published_posts_per_week
+    - newsletter_open_rate
+    - organic_sessions
+    - avg_quality_score
+
+compliance:
+  audience_tags: [logistics-professionals, ai-practitioners, startup-scene]
+
+# State files (repo-relative)
+state:
+  published_log: memory/logiai_published.md
+  action_tracker: tracker/LogiAI Action Tracker.html
+  run_logs: runs/
+  cap_history: runs/cap-history.csv

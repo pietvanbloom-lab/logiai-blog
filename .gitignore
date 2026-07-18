@@ -22,3 +22,7 @@ yarn-error.log*
 dist/
 build/
 .cache/
+
+# Runtime workspace clutter
+workspace/*
+!workspace/.gitkeep
