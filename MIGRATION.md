@@ -1,5 +1,11 @@
 # LogiAI Production Stack — GitHub Migration Guide
 
+> **Status 2026-07-18:** Step 1 (Mac import) completed, including the
+> repo-relative path rewrite in the orchestrator and config. Optional items
+> still Mac-only: `fal_generate.py`, `memory/logiai_project.md`,
+> `approval-board-template.html`, historical run logs and KPI reports
+> (see `tools/README.md`). Next: Step 2 (enable the Routine), then Step 3.
+
 Goal: the entire LogiAI production stack (skills, config, memory, guards,
 approval flow) runs from this repo, like the Business Intelligence Hub. A
 cloud Routine clones the repo daily and executes the pipeline; your Mac no

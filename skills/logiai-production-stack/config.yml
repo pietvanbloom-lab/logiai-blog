@@ -110,7 +110,7 @@ goal_drift_guard:
   enabled: true
   check_format: "Phase {phase}: goal='{goal}', current_action='{action}', aligned={bool}"
   on_mismatch: stop_and_escalate
-  log_path: "~/Documents/Claude/Scheduled/logiai-production-stack/runs/{date}_drift.log"
+  log_path: "runs/{date}_drift.log"
 
 # ─────────────────────────────────────────────
 # Loop Detection
@@ -144,7 +144,7 @@ cap_enforcement:
 # Telemetry — what to log per run for later tuning
 # ─────────────────────────────────────────────
 telemetry:
-  log_path: "~/Documents/Claude/Scheduled/logiai-production-stack/runs/{date}_{time}.log"
+  log_path: "runs/{date}_{time}.log"
   track:
     - phase
     - model_used
@@ -165,7 +165,7 @@ telemetry:
 # After 3 runs in a given mode, recommend new caps at 1.5x median actuals
 # and prompt operator to update this file.
 tuning:
-  history_file: "~/Documents/Claude/Scheduled/logiai-production-stack/runs/cap-history.csv"
+  history_file: "runs/cap-history.csv"
   recommend_after_runs: 3
   recommended_buffer: 1.5         # 1.5x median actuals
   operator_must_approve: true
@@ -200,8 +200,8 @@ approval_email:
     # If a single thread carries multiple labels (operator accident)
     order: [preview_go, approve, defer, skip]
   paths:
-    decisions_dir: "~/Documents/Claude/Scheduled/logiai-approval-mail/decisions"
-    sent_dir:      "~/Documents/Claude/Scheduled/logiai-approval-mail/sent"
+    decisions_dir: "workspace/approval-mail/decisions"
+    sent_dir:      "workspace/approval-mail/sent"
   scopes:
     # What approval_email is allowed to authorize without further human input.
     auto_draft_on_approve:     true   # Stage 1 approve -> autonomous drafting + QC

@@ -12,8 +12,8 @@ End-to-end orchestrator for logiai.blog. Runs Action Tracker, editorial pipeline
 
 | Input | Path / Source | Purpose |
 |-------|---------------|---------|
-| **Runtime Config** | `~/Documents/Claude/Scheduled/logiai-production-stack/config.yml` | **Required.** Model assignments per phase, hard caps, drift guard, loop detection. Read FIRST. |
-| Action Tracker | `/Users/maxxposs/Documents/Logistics LAB/LogiAI Action Tracker.html` | Open tasks, parsed from `EMBEDDED_TASKS` array |
+| **Runtime Config** | `skills/logiai-production-stack/config.yml` | **Required.** Model assignments per phase, hard caps, drift guard, loop detection. Read FIRST. |
+| Action Tracker | `tracker/LogiAI Action Tracker.html` | Open tasks, parsed from `EMBEDDED_TASKS` array |
 | Content Register | `memory/logiai_published.md` | Duplicate-check, content history |
 | LogiAI Project Memory | `memory/logiai_project.md` | Editorial strategy context |
 | Cowork Sessions | `mcp__session_info__list_sessions` (last 30) | Detect new in-flight work |
@@ -44,12 +44,12 @@ Skill checks `$ARGUMENTS` for mode flag. Default mode is `daily`.
 
 1. **Read `config.yml`** first. Parse model assignments, caps for current mode, drift/loop settings.
 2. Initialize run state: counters at 0 (tool_calls, wall_seconds, estimated_usd), per-phase and per-draft trackers ready.
-3. **Read queue folder** `~/Documents/Claude/Scheduled/logiai-production-stack/queue/*.md`. If files exist that match today's date or are date-less, treat them as operator pre-approved work packages for this run. Each file describes a one-shot instruction set, scope of autonomy, and post-execution cleanup (usually "delete this queue file once executed"). Honor scope strictly: pre-approval applies only to the work package described in the file, never extended to other actions.
+3. **Read queue folder** `queue/*.md`. If files exist that match today's date or are date-less, treat them as operator pre-approved work packages for this run. Each file describes a one-shot instruction set, scope of autonomy, and post-execution cleanup (usually "delete this queue file once executed"). Honor scope strictly: pre-approval applies only to the work package described in the file, never extended to other actions.
 4. Read `MEMORY.md` index, `memory/logiai_published.md`, `memory/logiai_project.md`.
 5. Read Action Tracker HTML, parse `EMBEDDED_TASKS` array (regex on the `const EMBEDDED_TASKS = [` block until matching `];`).
 6. Filter to `status: "Open"`, sort by priority (High, Medium, Low), then by `date_added` ascending.
 7. Check current WordPress REST API access: `curl -s https://logiai.blog/wp-json/wp/v2/posts?per_page=1`. If 401, stop and escalate (T021 unresolved).
-8. Log run start to `~/Documents/Claude/Scheduled/logiai-production-stack/runs/YYYY-MM-DD_HHMM.log` with config snapshot.
+8. Log run start to `runs/YYYY-MM-DD_HHMM.log` with config snapshot.
 9. **Write Phase-0 drift-guard line** to the log: goal, current action, aligned=yes/no.
 
 ## Phase 1: Action Tracker Sweep (modes: daily, weekly, tracker-only)
@@ -64,7 +64,7 @@ For each Open task, sorted by priority:
    - `Content` → defer to Phase 3 (Drafting). Skip in Phase 1.
    - `Design` → propose CSS/HTML change as diff, **hard stop before applying** to main.css.
 3. **Autonomy rules**:
-   - Low-risk auto-execute: read-only audits, draft generation, local file writes in Logistics LAB, memory updates.
+   - Low-risk auto-execute: read-only audits, draft generation, local file writes in the repo working tree, memory updates.
    - Hard-stop required: WordPress publish, git push to main, DNS/Cloudflare changes, deletion of any file, any credential write, any task status flip to "Done" without operator confirmation.
 4. **Update tracker**: when a task is successfully completed or its scope changes, propose an Edit to the HTML file (status flip, description append). Operator approves before the Edit is applied.
 5. **Time budget**: max 30 minutes total in Phase 1, prioritize by HIGH > MEDIUM. Carry over unfinished tasks to next run.
@@ -115,11 +115,11 @@ For each candidate from Phase 2:
    - Geographic distribution (routes, hubs) → `map.html`
    - Direct quote worth amplifying → `pullquote.html`
    - Market position quadrant → `matrix.html`
-   Reference library: `/Users/maxxposs/Documents/Logistics LAB/editorial-visuals/visuals/`
-   Also check: `/Users/maxxposs/Documents/Projects/Logistics LAB/Branding/LogiAI Blog Design Elements/visuals/`
+   Reference library: `editorial-visuals/visuals/`
+   Also check (Mac-local only, skip when running from the repo/cloud): `/Users/maxxposs/Documents/Projects/Logistics LAB/Branding/LogiAI Blog Design Elements/visuals/`
    Apply Apple-inspired design rules from `DESIGN.md` (black/gray palette, SF Pro-equivalent fonts, #0071e3 accent).
 4. **Featured image brief (REQUIRED):** Include two image brief options (Option A editorial photographic, Option B diagrammatic) in the draft package. Reference style from DESIGN.md.
-5. Save draft to `/Users/maxxposs/Documents/Logistics LAB/logiai-draft-YYYY-MM-DD-{slug}.md`.
+5. Save draft to `workspace/logiai-draft-YYYY-MM-DD-{slug}.md`.
 
 ## Phase 4: QC + Compliance (modes: daily, weekly, content-only)
 
@@ -136,7 +136,7 @@ For each draft from Phase 3:
 
 Before any publish:
 
-1. **Operator present (interactive session): render the Approval Board widget.** Use the visualize/show_widget tool with the template at `~/Documents/Claude/Scheduled/logiai-production-stack/approval-board-template.html`. Populate the four piles with current items:
+1. **Operator present (interactive session): render the Approval Board widget.** Use the visualize/show_widget tool with the template at `skills/logiai-production-stack/approval-board-template.html`. Populate the four piles with current items:
    - Pile 1 "Ready for publish": one card per `READY-FOR-PUBLISH` or soft-escalated draft (id letter, title, QC score, pillar, word count, suggested slot, amber badge for time-sensitive items). Publish / Skip / Defer segmented buttons per card, recommended option marked.
    - Pile 2 "Open decisions": non-draft decisions (dedup conflicts, drift sync, slotting) with custom option buttons.
    - Pile 3 "Backup candidates": checkboxes, checked = draft next run.
@@ -149,7 +149,7 @@ Before any publish:
 ## Phase 6: Publishing (only if approved in Phase 5)
 
 **Pre-flight (run once, before any publish):**
-`python3 "/Users/maxxposs/Documents/Logistics LAB/fal_generate.py" check --wp`
+`python3 "tools/fal_generate.py" check --wp`
 
 - **WP FAIL** (HTTP 401): hard-stop the entire publish. POST nothing. Surface to operator (app password / T021).
 - **fal FAIL** (HTTP 401): WP is fine, so publishing still proceeds. Skip custom image generation, use the library placeholder from the mapping below, and flag "custom image pending fal-key renewal" in the run log and to the operator. Never block a publish on a dead fal key.
@@ -158,10 +158,10 @@ For each draft operator approved:
 
 1. Call `logiai-publishing` skill to format for WordPress (HTML blocks, internal links, Yoast meta).
 1a. **Inline every editorial visual (REQUIRED, kses-safe).** Editorial-visual snippets carry a `<style>` block with `.lv-*` class selectors. WordPress can ship that as unstyled plain text when the `<style>` is dropped (root cause of the post-600 drift, 2026-06-29). Before building the post body, convert each visual to inline-styled, English-only HTML:
-   `python3 "/Users/maxxposs/Documents/Logistics LAB/editorial-visual-inline.py" <snippet.html> --lang en -o <inlined.html>`
+   `python3 "tools/editorial-visual-inline.py" <snippet.html> --lang en -o <inlined.html>`
    Use the inlined output in the post content. Never POST a `<style>`-block visual via REST.
 1b. **Visual-style guard (HARD RULE, run before every WP POST/PATCH that contains a visual).** Mirror brief-leak-guard:
-   `python3 "/Users/maxxposs/Documents/Logistics LAB/visual-style-guard.py" --file <content.html>` on the outgoing body, and `--post <ID>` after publish to verify live. Exit 0 = CLEAN (publish allowed). Exit 1 = REJECT (a `lv-*` figure lacks inline styles or a `<style>` block is present): block the publish, hard escalation.
+   `python3 "tools/visual-style-guard.py" --file <content.html>` on the outgoing body, and `--post <ID>` after publish to verify live. Exit 0 = CLEAN (publish allowed). Exit 1 = REJECT (a `lv-*` figure lacks inline styles or a `<style>` block is present): block the publish, hard escalation.
 2. **Select or generate featured image (REQUIRED before publish):**
    - Check `logiai-images/` folder against story pillar using this mapping:
      | WP Media ID | File | Use for |
@@ -172,7 +172,7 @@ For each draft operator approved:
      | 458 | `04_autonomous_truck.png` | P1 Autonomous Trucking |
      | 454 | `05_compliance.png` | P6 EU AI Act, compliance, regulation |
    - If no pre-made image fits the story angle, generate one with the fal tool (preferred over the fal MCP for unattended runs):
-     `python3 "/Users/maxxposs/Documents/Logistics LAB/fal_generate.py" publish-image --prompt "<Image Brief Option A>" --filename <slug>.jpg --alt "<alt text>" --title "<title>" --attach-post <ID> --style cinematic`
+     `python3 "tools/fal_generate.py" publish-image --prompt "<Image Brief Option A>" --filename <slug>.jpg --alt "<alt text>" --title "<title>" --attach-post <ID> --style cinematic`
      It generates (fal-ai/nano-banana-2), downloads, uploads to `wp/v2/media`, and attaches as `featured_media` in one call, printing the media id. Apply DESIGN.md style in the prompt: clean, professional, minimal, no text overlays.
    - If the Phase 6 pre-flight reported fal FAIL, skip generation and use the placeholder media id from the mapping; record "image: placeholder, swap pending" in the run log.
    - fal key lives in Keychain (`security add-generic-password -a fal -s fal-api-key -w "KEY_ID:SECRET" -U`), falling back to `~/Documents/.fal_key`. The `check`/`publish-image` commands read it automatically.
@@ -194,7 +194,7 @@ For each draft operator approved:
 2. Compare last week's KPIs (publishing cadence, quality scores, indexing progress, GSC clicks if accessible) against targets.
 3. Generate learning signals: which Pillars are over/underperforming, which sources to weight up/down, which content patterns work.
 4. Append signals to `memory/logiai_project.md` under "Weekly Signals" section.
-5. Output: weekly KPI report saved to `/Users/maxxposs/Documents/Logistics LAB/reports/YYYY-WW-kpi-report.md`.
+5. Output: weekly KPI report saved to `reports/YYYY-WW-kpi-report.md`.
 
 ## Output Format
 
