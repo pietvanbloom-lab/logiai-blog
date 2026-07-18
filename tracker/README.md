@@ -1,5 +1,5 @@
 # Action Tracker
 
-> **IMPORT-ME:** Place `LogiAI Action Tracker.html` from the operator's Mac in
-> this folder (MIGRATION.md, step 1). The daily production run reads and
-> updates it here; status flips still require operator approval.
+`LogiAI Action Tracker.html` is the live tracker (imported from the Mac,
+2026-07-18). The daily production run parses its `EMBEDDED_TASKS` array and
+updates it here; status flips still require operator approval.

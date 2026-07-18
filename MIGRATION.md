@@ -1,5 +1,11 @@
 # LogiAI Production Stack — GitHub Migration Guide
 
+> **Status 2026-07-18:** Step 1 (Mac import) completed, including the
+> repo-relative path rewrite in the orchestrator and config. Optional items
+> still Mac-only: `fal_generate.py`, `memory/logiai_project.md`,
+> `approval-board-template.html`, historical run logs and KPI reports
+> (see `tools/README.md`). Next: Step 2 (enable the Routine), then Step 3.
+
 Goal: the entire LogiAI production stack (skills, config, memory, guards,
 approval flow) runs from this repo, like the Business Intelligence Hub. A
 cloud Routine clones the repo daily and executes the pipeline; your Mac no
@@ -60,6 +66,19 @@ equivalents used everywhere else (`<repo>/...`, `runs/`, `memory/`,
 `tracker/`). Asking Claude on the Mac to "rewrite local paths in these two
 files to repo-relative" is enough. Also delete the IMPORT-ME notice block at
 the top of the orchestrator placeholder if `cp` kept any of it.
+
+## Step 1b — Import the optional items (one command)
+
+On the Mac, from the repo root:
+
+```bash
+bash tools/import-mac-optional.sh
+```
+
+Copies, commits, and pushes: `tools/fal_generate.py`, `memory/logiai_project.md`,
+`skills/logiai-production-stack/approval-board-template.html`, historical run
+logs into `runs/`, and KPI reports into `reports/`. The script prints anything
+it could not find so you can fix the source path and re-run.
 
 ## Step 2 — Enable the cloud Routine
 
