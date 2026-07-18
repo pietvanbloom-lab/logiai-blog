@@ -18,7 +18,7 @@ Bevor irgendetwas anderes greift, gelten diese Regeln. Sie werden nicht diskutie
 6. **Kein "in der heutigen schnelllebigen Welt".** Wenn der Einstieg austauschbar ist, gehört er gelöscht.
 7. **Keine LinkedIn-Sätze.** Sätze, die wie ein Tipp aus einem Karriere-Newsletter klingen ("Und das ist genau, was Führungskräfte heute brauchen."), sind sofort zu streichen.
 8. **Keine deutsche Substantivierungsorgie.** "Die Umsetzung der Implementierung der Optimierung" ist Tod durch Genitiv. Aktiv, konkret, Verben.
-9. **Kein Brief-Header im veröffentlichten Text.** Interne Brief-Metadaten gehören ins Planungsdokument, niemals in den Artikel-Body. Verboten im Body: `Pillar:`, `Stilmix-Zuordnung`, `Target word count`, `Featured image:`, `Image Brief`, `Internal links: Post N`, sowie die Modus-Begriffe `Analyse-Hausstil`, `Erklär-Modus`, `Haltungs-Modus`, `Schluss-Verdikt`, `Setup-Punchline`. Ein einziger solcher Marker ist ein Auto-Fail. Pflicht-Check vor jedem Publish: `python3 "/Users/maxxposs/Documents/Logistics LAB/brief-leak-guard.py" --post N` (Exit 0 = clean). Ursprung: Post 493 Toyota, 2026-05-29, kompletter Brief-Block stand live.
+9. **Kein Brief-Header im veröffentlichten Text.** Interne Brief-Metadaten gehören ins Planungsdokument, niemals in den Artikel-Body. Verboten im Body: `Pillar:`, `Stilmix-Zuordnung`, `Target word count`, `Featured image:`, `Image Brief`, `Internal links: Post N`, sowie die Modus-Begriffe `Analyse-Hausstil`, `Erklär-Modus`, `Haltungs-Modus`, `Schluss-Verdikt`, `Setup-Punchline`. Ein einziger solcher Marker ist ein Auto-Fail. Pflicht-Check vor jedem Publish: `python3 "brief-leak-guard.py" --post N` (Exit 0 = clean). Ursprung: Post 493 Toyota, 2026-05-29, kompletter Brief-Block stand live.
 
 ---
 
