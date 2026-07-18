@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LogiAI Action Tracker</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue:    #057dbc;
+    --ink:     #1a1a1a;
+    --mid:     #555;
+    --subtle:  #888;
+    --border:  #e2e0db;
+    --bg:      #f7f6f4;
+    --white:   #ffffff;
+    --radius:  6px;
+
+    --bug:      #dc2626;
+    --content:  #7c3aed;
+    --seo:      #16a34a;
+    --tech:     #2563eb;
+    --design:   #d97706;
+
+    --open:     #6b7280;
+    --inprog:   #d97706;
+    --done:     #16a34a;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-left { display: flex; align-items: center; gap: 12px; }
+  .logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+  .header h1 { font-size: 16px; font-weight: 600; letter-spacing: -0.2px; }
+  .header-meta { font-size: 12px; color: var(--subtle); display:flex; align-items:center; gap:10px; }
+  .header-meta span { color: var(--ink); font-weight: 500; }
+  .sync-badge { font-size: 10.5px; padding: 3px 9px; border-radius: 12px; font-weight: 600; letter-spacing:.3px; }
+  .sync-badge.online  { background: #d1fae5; color: #065f46; border:1px solid #a7f3d0; }
+  .sync-badge.offline { background: #fef3c7; color: #92400e; border:1px solid #fde68a; cursor:help; }
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--ink); color: var(--white); padding: 10px 18px;
+    border-radius: var(--radius); font-size: 12.5px; font-weight: 500;
+    box-shadow: 0 6px 20px rgba(0,0,0,.18); z-index: 500;
+    opacity: 0; pointer-events: none; transition: opacity .25s;
+  }
+  .toast.show { opacity: 1; }
+  .toast.error { background: #b91c1c; }
+  .toast.success { background: #15803d; }
+
+  /* ── TOOLBAR ── */
+  .toolbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .filter-group { display: flex; align-items: center; gap: 4px; padding: 10px 0; border-right: 1px solid var(--border); padding-right: 16px; margin-right: 16px; flex-shrink: 0; }
+  .filter-group:last-child { border-right: none; }
+  .filter-label { font-size: 11px; color: var(--subtle); text-transform: uppercase; letter-spacing: .5px; margin-right: 4px; flex-shrink: 0; }
+  .filter-btn {
+    font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 20px;
+    border: 1px solid transparent; cursor: pointer; background: transparent;
+    color: var(--mid); transition: all .15s; white-space: nowrap; flex-shrink: 0;
+  }
+  .filter-btn:hover { background: var(--bg); }
+  .filter-btn.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
+  .filter-btn.active.bug    { background: var(--bug);     border-color: var(--bug); }
+  .filter-btn.active.content{ background: var(--content); border-color: var(--content); }
+  .filter-btn.active.seo    { background: var(--seo);     border-color: var(--seo); }
+  .filter-btn.active.tech   { background: var(--tech);    border-color: var(--tech); }
+  .filter-btn.active.design { background: var(--design);  border-color: var(--design); }
+
+  /* ── STATS BAR ── */
+  .stats {
+    display: flex; gap: 24px; padding: 16px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--white);
+  }
+  .stat { display: flex; align-items: center; gap: 8px; }
+  .stat-num { font-size: 22px; font-weight: 700; line-height: 1; color: var(--ink); }
+  .stat-lbl { font-size: 11px; color: var(--subtle); text-transform: uppercase; letter-spacing: .4px; }
+
+  /* ── MAIN ── */
+  .main { padding: 24px 32px; max-width: 1280px; }
+
+  /* ── TABLE ── */
+  .table-wrap { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px;
+    color: var(--subtle); padding: 12px 16px; text-align: left;
+    background: var(--bg); border-bottom: 1px solid var(--border);
+  }
+  thead th:first-child { width: 52px; }
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background .1s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #fafaf9; }
+  tbody tr.done-row { opacity: .55; }
+  tbody td { padding: 13px 16px; vertical-align: middle; }
+  .td-id { font-size: 11px; color: var(--subtle); font-weight: 600; font-family: monospace; }
+  .td-title { font-weight: 500; font-size: 13.5px; line-height: 1.3; max-width: 380px; }
+  .td-desc { font-size: 12px; color: var(--mid); line-height: 1.35; margin-top: 3px; }
+  .td-source { font-size: 11px; color: var(--subtle); max-width: 180px; }
+  .td-date { font-size: 11px; color: var(--subtle); white-space: nowrap; }
+
+  /* ── TYPE BADGE ── */
+  .badge {
+    display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px;
+    font-size: 11px; font-weight: 600; letter-spacing: .3px; white-space: nowrap;
+  }
+  .badge-Bug     { background: #fef2f2; color: var(--bug);     border: 1px solid #fecaca; }
+  .badge-Content { background: #f5f3ff; color: var(--content); border: 1px solid #ddd6fe; }
+  .badge-SEO     { background: #f0fdf4; color: var(--seo);     border: 1px solid #bbf7d0; }
+  .badge-Tech    { background: #eff6ff; color: var(--tech);    border: 1px solid #bfdbfe; }
+  .badge-Design  { background: #fffbeb; color: var(--design);  border: 1px solid #fde68a; }
+
+  /* ── STATUS PILL (clickable) ── */
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
+    cursor: pointer; border: 1.5px solid; transition: opacity .15s; white-space: nowrap;
+    user-select: none;
+  }
+  .status-pill:hover { opacity: .75; }
+  .status-pill .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .pill-Open     { color: var(--open);   border-color: #d1d5db; background: #f9fafb; }
+  .pill-Open .dot { background: var(--open); }
+  .pill-InProgress { color: var(--inprog); border-color: #fde68a; background: #fffbeb; }
+  .pill-InProgress .dot { background: var(--inprog); }
+  .pill-Done     { color: var(--done);   border-color: #bbf7d0; background: #f0fdf4; }
+  .pill-Done .dot { background: var(--done); }
+
+  /* ── PRIORITY DOT ── */
+  .prio { display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .prio-High   { background: #ef4444; }
+  .prio-Medium { background: #f59e0b; }
+  .prio-Low    { background: #9ca3af; }
+
+  /* ── EMPTY STATE ── */
+  .empty { text-align: center; padding: 48px 16px; color: var(--subtle); }
+  .empty strong { display: block; font-size: 15px; color: var(--mid); margin-bottom: 6px; }
+
+  /* ── ADD TASK ── */
+  .add-row td { background: #fafaf9; }
+  .add-btn {
+    background: none; border: 1.5px dashed var(--border); border-radius: var(--radius);
+    color: var(--subtle); font-size: 12px; padding: 8px 16px; cursor: pointer;
+    width: 100%; text-align: left; transition: all .15s;
+  }
+  .add-btn:hover { border-color: var(--blue); color: var(--blue); background: #f0f7fd; }
+
+  /* ── ADD FORM ── */
+  .add-form { display: none; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin: 16px 0; }
+  .add-form.visible { display: block; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .form-row.full { grid-template-columns: 1fr; }
+  .form-group { display: flex; flex-direction: column; gap: 4px; }
+  .form-group label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; color: var(--subtle); }
+  .form-group input, .form-group select, .form-group textarea {
+    border: 1px solid var(--border); border-radius: var(--radius); padding: 8px 10px;
+    font-size: 13px; font-family: inherit; color: var(--ink);
+    background: var(--white); outline: none; transition: border-color .15s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--blue); }
+  .form-group textarea { resize: vertical; min-height: 72px; }
+  .form-actions { display: flex; gap: 8px; }
+  .btn-primary {
+    background: var(--blue); color: var(--white); border: none;
+    border-radius: var(--radius); padding: 8px 18px; font-size: 13px;
+    font-weight: 600; cursor: pointer; transition: opacity .15s;
+  }
+  .btn-primary:hover { opacity: .85; }
+  .btn-secondary {
+    background: none; border: 1px solid var(--border); color: var(--mid);
+    border-radius: var(--radius); padding: 8px 18px; font-size: 13px;
+    cursor: pointer; transition: all .15s;
+  }
+  .btn-secondary:hover { border-color: var(--ink); color: var(--ink); }
+
+  /* ── SCAN INFO ── */
+  .scan-info {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
+  }
+  .scan-info-left { font-size: 12px; color: var(--subtle); }
+  .scan-info-left strong { color: var(--ink); }
+  .count-badge { font-size: 12px; font-weight: 600; color: var(--mid); background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 3px 10px; }
+
+  /* ── DRAWER ── */
+  .drawer-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.18); z-index: 200;
+  }
+  .drawer-overlay.open { display: block; }
+  .drawer {
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: 440px; max-width: 100vw;
+    background: var(--white); border-left: 1px solid var(--border);
+    box-shadow: -6px 0 32px rgba(0,0,0,.09);
+    z-index: 201; display: flex; flex-direction: column;
+    transform: translateX(100%); transition: transform .22s ease;
+  }
+  .drawer.open { transform: translateX(0); }
+  .drawer-header {
+    padding: 20px 20px 16px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  }
+  .drawer-title { font-size: 14px; font-weight: 600; line-height: 1.35; flex: 1; }
+  .drawer-meta { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .drawer-close {
+    background: none; border: none; cursor: pointer; color: var(--subtle);
+    font-size: 18px; padding: 2px 4px; line-height: 1; flex-shrink: 0;
+    transition: color .15s;
+  }
+  .drawer-close:hover { color: var(--ink); }
+  .drawer-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+  .drawer-section-label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .5px; color: var(--subtle); margin-bottom: 6px;
+  }
+  .drawer-desc { font-size: 13px; color: var(--mid); line-height: 1.55; }
+  .drawer-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+  .prompt-hint { font-size: 11px; color: var(--subtle); margin-bottom: 8px; }
+  .prompt-box {
+    font-size: 12.5px; font-family: inherit; color: var(--ink);
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 12px;
+    width: 100%; resize: vertical; min-height: 180px;
+    line-height: 1.6; outline: none; transition: border-color .15s;
+  }
+  .prompt-box:focus { border-color: var(--blue); }
+  .drawer-footer { padding: 16px 20px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+  .copy-btn {
+    flex: 1; background: var(--blue); color: var(--white); border: none;
+    border-radius: var(--radius); padding: 10px 18px;
+    font-size: 13px; font-weight: 600; cursor: pointer; transition: background .2s;
+  }
+  .copy-btn:hover { opacity: .88; }
+  .copy-btn.copied { background: var(--done); }
+  tbody tr.clickable-row { cursor: pointer; }
+  tbody tr.clickable-row:hover { background: #f0f7fd; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="logo-dot"></div>
+    <h1>LogiAI Action Tracker</h1>
+  </div>
+  <div class="header-meta">
+    <span class="sync-badge offline" id="sync-badge" title="">Loading...</span>
+    Last scan: <span id="last-scan-display"></span>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="filter-group">
+    <span class="filter-label">Type</span>
+    <button class="filter-btn active" data-filter-type="all">All</button>
+    <button class="filter-btn bug" data-filter-type="Bug">Bug</button>
+    <button class="filter-btn content" data-filter-type="Content">Content</button>
+    <button class="filter-btn seo" data-filter-type="SEO">SEO</button>
+    <button class="filter-btn tech" data-filter-type="Tech">Tech</button>
+    <button class="filter-btn design" data-filter-type="Design">Design</button>
+  </div>
+  <div class="filter-group">
+    <span class="filter-label">Status</span>
+    <button class="filter-btn active" data-filter-status="all">All</button>
+    <button class="filter-btn" data-filter-status="Open">Open</button>
+    <button class="filter-btn" data-filter-status="InProgress">In Progress</button>
+    <button class="filter-btn" data-filter-status="Done">Done</button>
+  </div>
+  <div class="filter-group">
+    <span class="filter-label">Prio</span>
+    <button class="filter-btn active" data-filter-priority="all">All</button>
+    <button class="filter-btn" data-filter-priority="High">High</button>
+    <button class="filter-btn" data-filter-priority="Medium">Medium</button>
+    <button class="filter-btn" data-filter-priority="Low">Low</button>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num" id="stat-total">0</div>
+    <div class="stat-lbl">Total</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" id="stat-open" style="color:var(--open)">0</div>
+    <div class="stat-lbl">Open</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" id="stat-inprog" style="color:var(--inprog)">0</div>
+    <div class="stat-lbl">In Progress</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" id="stat-done" style="color:var(--done)">0</div>
+    <div class="stat-lbl">Done</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- ADD FORM -->
+  <div class="add-form" id="add-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" id="f-title" placeholder="Short action title">
+      </div>
+      <div class="form-group">
+        <label>Type</label>
+        <select id="f-type">
+          <option value="Bug">Bug</option>
+          <option value="Content">Content</option>
+          <option value="SEO">SEO</option>
+          <option value="Tech">Tech</option>
+          <option value="Design">Design</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Priority</label>
+        <select id="f-priority">
+          <option value="High">High</option>
+          <option value="Medium" selected>Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row full">
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="f-desc" placeholder="What needs to be done and why?"></textarea>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Source / Notes</label>
+        <input type="text" id="f-source" placeholder="e.g. Observed on article page">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-primary" onclick="saveNewTask()">Add Task</button>
+      <button class="btn-secondary" onclick="hideForm()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- SCAN INFO + COUNT -->
+  <div class="scan-info">
+    <div class="scan-info-left">
+      Showing <strong id="visible-count">0</strong> tasks
+      <span id="filter-desc"></span>
+    </div>
+    <button class="btn-secondary" onclick="showForm()" style="font-size:12px;padding:6px 14px;">+ Add task manually</button>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-wrap">
+    <table id="task-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title + Description</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Prio</th>
+          <th>Source</th>
+          <th>Added</th>
+        </tr>
+      </thead>
+      <tbody id="task-tbody"></tbody>
+    </table>
+  </div>
+
+</div><!-- /main -->
+
+<!-- DRAWER OVERLAY -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <div style="flex:1">
+      <div class="drawer-title" id="drawer-title"></div>
+      <div class="drawer-meta" id="drawer-meta"></div>
+    </div>
+    <button class="drawer-close" onclick="closeDrawer()" title="Close">&#x2715;</button>
+  </div>
+  <div class="drawer-body">
+    <div>
+      <div class="drawer-section-label">Description</div>
+      <div class="drawer-desc" id="drawer-desc"></div>
+    </div>
+    <hr class="drawer-divider">
+    <div>
+      <div class="drawer-section-label">Execution prompt</div>
+      <p class="prompt-hint">Copy this, paste into chat, and Claude will ask clarifying questions then execute.</p>
+      <textarea class="prompt-box" id="drawer-prompt" spellcheck="false"></textarea>
+    </div>
+  </div>
+  <div class="drawer-footer">
+    <button class="copy-btn" id="copy-btn" onclick="copyPrompt()">&#x2398; Copy prompt</button>
+    <button class="btn-secondary" onclick="closeDrawer()">Close</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// EMBEDDED TASK DATA — regenerated by daily scan
+// ============================================================
+const LAST_SCAN = "2026-07-18T09:40:00";
+
+const EMBEDDED_TASKS = [
+  {"id": "T001", "title": "Content Audit HTML — standalone delivery file", "type": "Tech", "status": "Done", "priority": "High", "description": "Built LogiAI Content Audit.html with prioritized improvement slots (Prio 01 through 05+) for all 20 articles. Saved to Logistics LAB folder.", "source": "Session: Content Audit (Apr 2026)", "date_added": "2026-04-22"},
+  {"id": "T002", "title": "6 stat callout embeds (Prio 01)", "type": "Content", "status": "Done", "priority": "High", "description": "Built and embedded 6 inline SVG stat callout blocks into WordPress articles via REST API. Posts updated and republished.", "source": "Session: Prio 01 Stat Callouts", "date_added": "2026-04-28"},
+  {"id": "T003", "title": "6 data charts bar + line (Prio 02)", "type": "Content", "status": "Done", "priority": "High", "description": "Built and embedded 6 data visualization charts (bar + line SVGs) into targeted WordPress articles. Scraped live data, inserted via REST API.", "source": "Session: Prio 02 Charts", "date_added": "2026-04-30"},
+  {"id": "T004", "title": "4 architecture diagrams (Prio 03)", "type": "Content", "status": "Done", "priority": "High", "description": "Built and embedded 4 SVG architecture diagrams into posts 6 (Agentic AI), 10 (FedEx Workforce), 25 (Multi-Agent Warehouses), 139 (MCP 97M).", "source": "Session: Prio 03 Architecture (2026-05-04)", "date_added": "2026-05-04"},
+  {"id": "T005", "title": "Hero image alignment fix -- CSS measure token", "type": "Bug", "status": "Done", "priority": "High", "description": "Three mismatched column widths on article pages: header 760px, hero image full container (~1192px), body 680px. Fixed by introducing --article-measure: 760px in main.css, constraining hero to calc(--article-measure + 48px).", "source": "Session: Hero Image Fix (2026-05-04)", "date_added": "2026-05-04"},
+  {"id": "T006", "title": "Article body centering fix -- margin auto", "type": "Bug", "status": "Done", "priority": "High", "description": ".article-body__content was flush-left (left=278px) vs .article-header__inner centered at left=494px. Added margin-left:auto; margin-right:auto to align all three zones at the same left edge.", "source": "Session: Hero Image Fix (2026-05-04)", "date_added": "2026-05-04"},
+  {"id": "T007", "title": "GitHub repo setup -- pietvanbloom-lab/logiai-blog", "type": "Tech", "status": "Done", "priority": "Medium", "description": "Initialized repo with DESIGN.md, index.html mockup, README.md. Git credentials stored in macOS Keychain. Push workflow established.", "source": "Session: Push LogiAI blog to GitHub (Apr 2026)", "date_added": "2026-04-18"},
+  {"id": "T008", "title": "Cloudflare DNS and CDN setup", "type": "Tech", "status": "Done", "priority": "Medium", "description": "Cloudflare configured as DNS/CDN provider for logiai.blog. Domain routing and SSL active.", "source": "Session: Logi AI Lab - Cloudflare & GitHub (Apr 2026)", "date_added": "2026-04-19"},
+  {"id": "T009", "title": "Submit sitemap.xml to Google Search Console", "type": "SEO", "status": "Done", "priority": "High", "description": "DONE 2026-05-11. sitemap_index.xml + sitemap.xml confirmed live (both 200 OK). sitemap_index.xml was first submitted 2026-05-06 (Status: Success, 88 discovered pages). Re-submitted 2026-05-11 after T023/T024/T026 published/scheduled to trigger fresh crawl. No further action needed.", "source": "Project Memory / Launch notes", "date_added": "2026-05-04"},
+  {"id": "T010", "title": "Verify Google indexing coverage", "type": "SEO", "status": "Done", "priority": "High", "description": "DONE 2026-05-11. Coverage verified: 18 of 27 published articles indexed as of 2026-05-08. No blocking errors (no noindex, no 404, no crawl anomalies). 'Discovered - currently not indexed' queue cleared (0 affected pages). 9 gap articles are recent April/May posts not yet crawled - expect indexing within days after sitemap re-submission today. Indexed pages include: Complete Guide (May 8), FedEx Network 2.0 (May 7), homepage (May 6), Kodiak AI (May 1), 9 x March articles (Apr 25-27). Action: monitor next week, use GSC URL Inspection for any persistent gaps.", "source": "Inferred from launch status", "date_added": "2026-05-04"},
+  {"id": "T011", "title": "Yoast SEO meta audit -- all articles", "type": "SEO", "status": "Done", "priority": "Medium", "description": "DONE 2026-05-12. Yoast meta audit complete across all published articles. 23/24 passed initial audit; Post 401 (Complete Guide) was the only gap and was fixed via T020 on 2026-05-11. All current posts now have Yoast title, meta description, and focus keyword set. Operator-approved status flip 2026-05-12 (interactive session after morning daily-run).", "source": "Inferred from site setup", "date_added": "2026-05-04"},
+  {"id": "T012", "title": "Internal linking audit between articles", "type": "SEO", "status": "Done", "priority": "Medium", "description": "Add contextual cross-links between related articles to improve crawlability and pass link equity. Start with cluster topics: Agentic AI, MCP, Warehouse Automation.", "source": "Inferred from content structure", "date_added": "2026-05-04", "last_modified": "2026-05-28T09:38:46"},
+  {"id": "T013", "title": "Prio 04+ content enhancements from Content Audit", "type": "Content", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "Content Audit identified remaining improvement slots beyond Prio 03. Likely targets: pull quotes, comparison tables, summary/TL;DR boxes. Check LogiAI Content Audit.html for full slot list.", "source": "LogiAI Content Audit.html", "date_added": "2026-05-04"},
+  {"id": "T014", "title": "Mobile responsiveness check -- article pages", "type": "Design", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "Verify the hero image fix (--article-measure token) and body centering render correctly on mobile viewports (320px to 768px). Check that SVG embeds (charts, diagrams) scale properly.", "source": "Session: Hero Image Fix (2026-05-04)", "date_added": "2026-05-04"},
+  {"id": "T015", "title": "Push theme changes to GitHub repo", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "main.css changes (--article-measure token + body centering fix) are live on WordPress but not committed to pietvanbloom-lab/logiai-blog. Export theme zip or push main.css diff.", "source": "Session: Hero Image Fix (2026-05-04)", "date_added": "2026-05-04"},
+  {"id": "T016", "title": "Editorial visuals -- push to GitHub / Pages", "type": "Design", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "editorial-visuals folder in Logistics LAB needs to be finalized and pushed. Optionally publish via GitHub Pages for sharing.", "source": "Session: Setup editorial visuals (Apr 2026)", "date_added": "2026-05-04"},
+  {"id": "T017", "title": "Verify 'Listen to this article' audio player", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "Audio player widget visible on article pages. Verify it works correctly, loads audio files, and does not cause JS errors or layout shift.", "source": "Observed on logiai.blog article page", "date_added": "2026-05-04"},
+  {"id": "T018", "title": "Newsletter / mailing list integration", "type": "Content", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "No visible newsletter signup on the site. Consider adding a ConvertKit or Mailchimp opt-in, especially on the homepage and high-traffic articles.", "source": "Inferred from site review", "date_added": "2026-05-04"},
+  {"id": "T019", "title": "Publish AI in Logistics 2026 Complete Guide to WordPress", "type": "Content", "status": "Done", "priority": "High", "description": "Article file ai-in-logistics-2026-complete-guide-PUBLISH-READY.md was committed to GitHub (commit f132126) with 4 embedded editorial visuals (stat #01, bar #02, pullquote #03, timeline #04), but the WordPress publish step was not completed -- session ended due to usage limits. Publish via WordPress REST API or admin panel.", "source": "Session: Setup editorial visuals and push GitHub (2026-05-04)", "date_added": "2026-05-04"},
+  {"id": "T020", "title": "Fix missing Yoast meta description for Post 401", "type": "SEO", "status": "Done", "priority": "High", "description": "During the T011 Yoast audit, 23/24 articles passed. Post 401 ('AI in Logistics 2026: Complete Guide') is the only article missing a meta description. Programmatic fix was blocked by WordPress.com content script isolation. Manual fix: WP Admin -> Post 401 -> Yoast SEO panel -> Google preview -> click the meta description field -> paste: 'The complete 2026 guide to AI in logistics. Covers autonomous trucking, warehouse automation, supply chain visibility, and how to evaluate AI vendors for your operation.' (169 chars).", "source": "Session: SEO LogiAI (2026-05-05)", "date_added": "2026-05-05"},
+  {"id": "T021", "title": "Store WordPress Application Password in macOS Keychain", "type": "Tech", "status": "Done", "priority": "Medium", "description": "DONE 2026-05-11. WordPress Application Password stored in macOS Keychain (account: pietvanbloom, label: logiai-wp-app-password). REST API auth verified 200 OK. Automated sessions can now retrieve credentials without manual input. Operator-approved status flip 2026-05-12 (carried over from 2026-05-11 16:07 post-run log).", "source": "Session: Enhance LogiAI blog content with audit improvements (2026-05-05)", "date_added": "2026-05-05"},
+  {"id": "T022", "title": "Embed Prio 01-03 content blocks into Art 02, 03, 04, 09", "type": "Content", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "Four articles were intentionally skipped during the Prio 01-03 enhancement sessions because their WordPress post IDs could not be matched: Art 02 (AMR deployment guide), Art 03 (AI route optimization deep-dive), Art 04 (Agentic AI case study -- FedEx + SAP), Art 09 (How to evaluate and buy AI logistics software). First confirm these are published posts and find their IDs, then apply the appropriate stat callout, bar/line chart, and architecture diagram embeds via REST API.", "source": "Session: Enhance LogiAI blog content with audit improvements (2026-05-05)", "date_added": "2026-05-05"},
+  {"id": "T023", "title": "QC check and publish AI Agents: Pilot to Production article", "type": "Content", "status": "Done", "priority": "High", "description": "Published 2026-05-11. WordPress Post ID 451. URL: https://logiai.blog/2026/05/11/ai-agents-logistics-pilot-to-production-2026/ QC score 8.5/10. Published via REST API with 4 internal links, Yoast meta set.", "source": "Session: Plan SEO content strategy for blog (2026-05-07)", "date_added": "2026-05-07"},
+  {"id": "T024", "title": "Draft and publish EU AI Act Playbook article (Week 1 Tuesday)", "type": "Content", "status": "Done", "priority": "Medium", "description": "Drafted and scheduled 2026-05-11. WordPress Post ID 452. Scheduled publication: 2026-05-13T08:00:00. URL: https://logiai.blog/2026/05/13/eu-ai-act-compliance-playbook-freight-forwarders-2026/ QC score 9/10. Scheduled via REST API with 3 internal links, Yoast meta set.", "source": "Session: Plan SEO content strategy for blog (2026-05-07)", "date_added": "2026-05-07"},
+  {"id": "T025", "title": "Remove URL-Prefix GSC property after Domain property confirmed stable", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "Two GSC properties are now active in parallel: URL-Prefix (https://logiai.blog/) and Domain (logiai.blog). The Domain property is stronger and already shows 104 pages from the Yoast sitemap. Once indexing is confirmed stable (1-2 weeks), remove the URL-Prefix property to avoid split reporting.", "source": "Session: Check status of in-progress items (2026-05-07)", "date_added": "2026-05-07"},
+  {"id": "T026", "title": "Draft and publish Week 1 Friday (16 May) article from content calendar", "type": "Content", "status": "Done", "priority": "High", "description": "DONE 2026-05-11. Post ID 460 scheduled for 2026-05-16T08:00:00. Title: ChatGPT, Claude, Gemini: Which AI Model Works Best for Logistics Tasks? URL: https://logiai.blog/?p=460. Featured image: Media ID 459 (fal.ai generated, t026-chatgpt-claude-gemini-logistics.png). Category: Supply Chain (17010). Tags: ChatGPT, Claude AI, Gemini, AI Tools, Logistics Technology. cmp.html editorial visual embedded. SEO title: ChatGPT vs Claude vs Gemini for Logistics Tasks (2026).", "source": "Session: Plan SEO content strategy for blog (2026-05-07)", "date_added": "2026-05-08"},
+  {"id": "T027", "title": "Draft and publish Weeks 2-4 articles (9 articles remaining in content plan)", "type": "Content", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "The 4-week content calendar includes 12 articles total. After completing Week 1 (T023, T024, T026), 9 articles remain across Weeks 2-4 on the Sun/Tue/Fri cadence. Full details are in logiai-content-strategy-4weeks.md. Topics to cover include GenAI tool comparisons, demand forecasting deep-dives, and step-by-step workflow guides -- all identified as gaps in the existing 27-article sitemap. Use logiai-drafting + logiai-quality-gate per article.", "source": "Session: Plan SEO content strategy for blog (2026-05-07)", "date_added": "2026-05-08"},
+  {"id": "T028", "title": "Create and publish 20 daily AI Prompt posts (Mon-Fri content rotation)", "type": "Content", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "The 4-week content strategy includes 20 AI Prompts published Mon-Fri alongside the main articles (Sun/Tue/Fri). Each prompt follows a copy-paste template format and is a distinct content type from the main blog posts. Details and prompt templates are in logiai-content-strategy-4weeks.md. These boost publication frequency and can rank for long-tail prompt-related queries.", "source": "Session: Plan SEO content strategy for blog (2026-05-07)", "date_added": "2026-05-08"},
+  {"id": "T029", "title": "Run competitor SEO gap analysis with customized searchfit-seo plugin", "type": "SEO", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "The searchfit-seo plugin was customized for logiai.blog with all 7 topic pillars, target audience, tone, and known competitors pre-loaded: FreightWaves, Supply Chain Dive, McKinsey Logistics. The plugin is saved to searchfit-seo.plugin. Next step: run a competitor analysis to identify keyword gaps and content opportunities logiai.blog is missing vs. these three competitors. Use the competitor-analyzer agent from the plugin.", "source": "Session: Customize searchfit-seo plugin for blog (2026-05-08)", "date_added": "2026-05-08"},
+  {"id": "T030", "title": "Activate logiai-production-stack-daily scheduled task in Cowork", "type": "Tech", "status": "Done", "priority": "High", "description": "DONE 2026-05-12. Scheduled task confirmed active and firing. Proof of activation: daily run executed 2026-05-12 07:00 CET, log at ~/Documents/Claude/Scheduled/logiai-production-stack/runs/2026-05-12_0700.log. Operator-approved status flip 2026-05-12 (interactive session after morning daily-run).", "source": "Session: Logiai action scan (2026-05-11)", "date_added": "2026-05-11"},
+  {"id": "T031", "title": "Request manual URL indexing in GSC for 40 'Discovered - not indexed' pages", "type": "SEO", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "Google Search Console shows 40 pages in 'Discovered - currently not indexed' state as of May 11, 2026. Sitemap was re-submitted today but the 40 pages may not be crawled quickly. Use the URL Inspection tool in GSC to manually request indexing for each affected URL, starting with the 9 newest articles from April/May that are not yet indexed. This accelerates crawl scheduling beyond waiting for the sitemap cycle.", "source": "Session: Set up LogiAI daily production mode (2026-05-11)", "date_added": "2026-05-11"},
+  {"id": "T032", "title": "Automate WordPress publish step end-to-end (no manual paste)", "type": "Tech", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "High", "description": "Operator explicitly requested that Claude take over the WordPress publish step automatically after approval, instead of producing a publish-package for manual paste. Current state: Chrome MCP only, no dedicated WordPress MCP installed. Options: (1) build or install a WordPress MCP that handles post creation, featured image upload, Yoast meta, category/tags, and schedule, or (2) automate via WordPress REST API using the Application Password from T021 stored in Keychain. Resolution removes the 5-minute manual paste workflow per article and unblocks the production stack hard-stop on the publish phase. [DONE 2026-06-17 (operator-approved, rescope/close): satisfied. WordPress.com content-authoring MCP now handles post create/update, featured image, categories/tags, schedule, AND Yoast meta (posts.create/update meta) end-to-end; proven via REST publish path (2026-05-20) and Yoast-meta-via-REST (T065, 2026-06-17). Manual-paste workflow eliminated. The Phase 5 publish hard-stop that remains is the intentional operator approval gate, not the manual-paste problem this task described.]", "source": "Session: Embed style guide into production (2026-05-12)", "date_added": "2026-05-12"},
+  {"id": "T033", "title": "Fix weekday mismatch in production stack publish scheduling", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "Production stack scheduled the EU AI Act Playbook article for 'Tuesday 2026-05-13', but 2026-05-13 is a Wednesday. Operator flagged the weekday label as wrong. The Sun/Tue/Fri cadence logic in logiai-publishing or the upstream scheduling helper should compute the weekday name from the actual date instead of hardcoding labels, to avoid future mismatches when articles are rescheduled.", "source": "Session: Embed style guide into production (2026-05-12)", "date_added": "2026-05-12"},
+  {"id": "T034", "title": "Verify T024 EU AI Act Playbook is actually scheduled in WordPress", "type": "Content", "status": "Done", "priority": "High", "description": "DONE 2026-05-14 (operator-approved). Wrap-up 2026-05-13: Post 452 verified as draft (schedule had not fired) and moved to Trash; Post 464 confirmed live since 2026-05-12 with 2 internal links, 5 tags, 1 category, excerpt. Featured Image (Media ID 465, 1200x669, 136KB) attached with alt-text and caption. T037 + T041 effectively closed under this wrap-up.", "source": "Session: Embed style guide into production (2026-05-12)", "date_added": "2026-05-12"},
+  {"id": "T035", "title": "Upload TTS plugin v2.1 ZIP to fix broken Text to Voice player", "type": "Tech", "status": "Done", "priority": "High", "description": "DONE 2026-05-14 (operator-approved). v2.1.0 selector fix (.article-body added alongside .entry-content) applied in WP Admin via Plugins -> Add New -> Upload Plugin -> Replace Current. Live test had previously confirmed 7569 chars of article text are detected with the new selector.", "source": "Session: LogiAI Text to Voice (2026-05-13)", "date_added": "2026-05-13"},
+  {"id": "T036", "title": "Eliminate ElevenLabs API key exposure in frontend JS", "type": "Tech", "status": "Done", "priority": "High", "description": "DONE 2026-05-14 (operator-approved). Confirm in follow-up which option was implemented (A: Web Speech API, or B: Cloudflare Worker proxy) and that the ElevenLabs key is no longer present in page source. If Option B was chosen, ensure the Worker has a usage cap configured. If Option A was chosen, document the voice-quality tradeoff in memory.", "source": "Session: LogiAI Text to Voice (2026-05-13)", "date_added": "2026-05-13"},
+  {"id": "T037", "title": "Attach featured image to Post 464 (EU AI Act Playbook)", "type": "Content", "status": "Done", "priority": "Medium", "description": "DONE 2026-05-14 (operator-approved). Featured image attached 2026-05-13: Media ID 465 (1200x669 web-JPEG, 136KB) with alt-text 'EU AI Act 2026 enforcement deadline visualization for freight forwarders and logistics operators' and caption. Theme generated logiai-hero, logiai-featured, logiai-grid, logiai-thumb variants automatically. Upload path went via WP Admin Media (PNG -> web-JPEG pre-optimization) because the WPCOM MCP base64 channel hit a token limit on the 1.6MB source PNG (see T042).", "source": "Session: Embed style guide into production (2026-05-12) + Logiai production stack daily mode (2026-05-13)", "date_added": "2026-05-13"},
+  {"id": "T038", "title": "Clean up stale queue file 2026-05-13-priority.md", "type": "Tech", "status": "Done", "priority": "Low", "description": "The production-stack queue file at ~/Documents/Claude/Scheduled/logiai-production-stack/queue/2026-05-13-priority.md is stale: it was scoped as a pre-approval to fix Post 452, which has since been unscheduled and replaced by Post 464. The 2026-05-13 daily run could not autonomously retarget. Decide: delete the file, or rewrite it scoped to Post 464 (e.g. attach featured image, run final QC) so the next daily run can execute.", "source": "Session: Logiai production stack daily mode (2026-05-13)", "date_added": "2026-05-13"},
+  {"id": "T039", "title": "Diversify priority mix in editorial backlog (P5 saturation 44%)", "type": "Content", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "The 2026-05-13 production-stack scan flagged P5 saturation: 44% of published articles are P5, while P2 and P4 are under-served. Six story candidates were surfaced (project44 Autopilot P4+P5, Kodiak+Roehl Dallas-Houston P1, Kodiak+West Fraser Timber Alberta P1, Seegrid 20M autonomous miles P2, Hirschbach+Aurora P1, Humble Robotics P1). Slot the next 3 publishing windows (Fri 2026-05-15, Sun 2026-05-17, Tue 2026-05-19) with a mix that pulls P2/P4 share up.", "source": "Session: Logiai production stack daily mode (2026-05-13)", "date_added": "2026-05-13"},
+  {"id": "T040", "title": "Resolve WordPress.com wp-content directory permission for media uploads", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "Image uploads via the WPCOM MCP (wpcom-mcp-content-authoring) repeatedly fail with 'Unable to create directory wp-content'. This blocks automated featured-image attachment for new posts (most recently Post 464). Investigate WordPress.com Atomic backend permissions on the wp-content/uploads path, or determine whether the app password / OAuth scope used by the MCP needs the 'upload_files' capability. Once fixed, retry the Post 464 image upload to confirm.", "source": "Session: Embed style guide into production (2026-05-12)", "date_added": "2026-05-13"},
+  {"id": "T041", "title": "Decide fate of orphaned Post 452 draft", "type": "Content", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "closed": "2026-06-19 operator-approved: post 452 already purged from WP (REST 404), trash window long expired", "description": "Post 452 (v1 EU AI Act Playbook) was set to draft status on 2026-05-12 to prevent it from auto-publishing as a duplicate of the live Post 464. Post 452 still exists in WordPress as a draft. Decide: delete it (clean DB), keep as historical reference, or archive its content elsewhere before deletion. NOTE 2026-05-13: Post 452 was moved to Trash during the T034 verification wrap-up (30-day restore window). This task may now be auto-closable.", "source": "Session: Embed style guide into production (2026-05-12)", "date_added": "2026-05-13"},
+  {"id": "T042", "title": "Pre-optimize featured images to web-JPEG before MCP upload", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "MCP base64 upload channel fails for source images around 1.6MB due to token limits in the MCP transport. Workaround used for Post 464 featured image: convert source PNG to 1200x669 web-JPEG (136KB) and let the operator upload it via WP Admin Media, then attach via MCP using the resulting Media ID. Codify this: add an image-prep step to the publish workflow that resizes and re-encodes featured images to <500KB JPEG before the MCP upload attempt, so the WPCOM MCP path works end-to-end without operator intervention. Related to T040 but a distinct failure mode (token limit vs directory permission).", "source": "Session: Verify EU AI Act WordPress scheduling (2026-05-13)", "date_added": "2026-05-14"},
+  {"id": "T043", "title": "Sync styleguide drift between inline and master rules", "type": "Tech", "status": "Done", "priority": "Medium", "description": "Production stack preflight on both 2026-05-13 and 2026-05-14 flagged the same styleguide drift: inline has an extra Rule #8 (Pressemitteilungs-Echos) that master lacks, and master Rule #5 (doppelte Verneinung) is absent from inline. Drift is being preserved across runs (no autonomous sync by design). Operator decision needed: either merge Rule #5 into inline and remove or upstream Rule #8, or declare the inline delta intentional and document the rationale. Resolves a recurring preflight warning in the daily run log.", "source": "Session: Logiai production stack daily mode (2026-05-14)", "date_added": "2026-05-14"},
+  {"id": "T044", "title": "Reduce TTS latency for long articles (eleven_turbo_v2_5 or chunking)", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "Long articles (~7000+ chars) take up to 60s to start playback because ElevenLabs streams the entire generation as one chunk. Operator-noted in TTS rollout session: options are switching to eleven_turbo_v2_5 model for faster first-byte, or implementing client-side text chunking with sequential audio segment fetches. Not user-blocking (worker call itself is 200 OK in <1s), pure UX improvement.", "source": "Session: LogiAI Text to Voice + Logiai production stack daily mode (2026-05-12 to 2026-05-14)", "date_added": "2026-05-15"},
+  {"id": "T045", "title": "Extend ElevenLabs subscription for WordPress audio generation", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "Cloudflare TTS Worker deployed at logiai-tts-proxy.pietvanbloom.workers.dev (Version fd54eed4) with KV rate limiting and voice-config. Audio generation via WordPress editor Generate Audio button is gated on extending the ElevenLabs subscription tier. Once subscription quota is increased, operators can generate audio per article directly from the WP post editor.", "source": "Session: LogiAI Text to Voice (2026-05-15)", "date_added": "2026-05-16"},
+  {"id": "T046", "title": "Swap featured image on Post 475 before Aurora publish (Tue 08:00 CET)", "type": "Content", "status": "Done", "priority": "High", "description": "Post 475 (Aurora/McLane autonomous hauls) is scheduled for Tue 2026-05-19 08:00 CET but currently uses the wrong fallback featured_media=458 (autonomous_truck.png). The proper featured image was generated but MCP upload failed due to base64 param limit (related to T040/T042). Manual action: WP Admin -> Media Library -> upload /Users/maxxposs/Documents/ContentFabrik/bilder/aurora-mclane-featured-2026-05-17.jpg (234 KB). Set Alt text: Volvo VNL Autonomous tractor at dawn on a Texas highway, low side angle. Open Post 475, swap Featured Image to the new media ID, Save. Deadline before Tue 08:00 CET 2026-05-19.", "source": "Session: Logiai production stack daily mode (2026-05-17)", "date_added": "2026-05-17"},
+  {"id": "T047", "title": "Activate LogiAI approval-mail two-step Gmail label workflow", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "New approval-mail system was built at ~/Documents/Claude/Scheduled/logiai-approval-mail/ (SKILL.md, setup_labels.py, send_mail.py, config.yml.patch, scheduled-task-spec.md). Activation steps: 1) Run python3 setup_labels.py to create 4 Gmail labels (logiai/approve, logiai/skip, logiai/defer, logiai/preview-go). Requires GMAIL_MARKUS_APP_PASSWORD env or Keychain entry gmail-markus-app-password. 2) Verify labels visible in Gmail web. 3) SMTP smoke-test: python3 -c \"from send_mail import send; send(...)\" then drag mail to logiai/approve label. 4) Append config.yml.patch to logiai-production-stack/config.yml and flip enabled: true. 5) Register scheduled-task logiai-approval-scan-1200. Replaces AskUserQuestion gate, mobile-friendly, reversible via enabled: false.", "source": "Session: Logiai production stack daily mode (2026-05-17)", "date_added": "2026-05-17"},
+  {"id": "T048", "title": "Publish project44 Autopilot draft to WordPress (Wed 2026-05-20)", "type": "Content", "status": "Done", "priority": "High", "description": "READY-FOR-REVIEW draft project44 Autopilot: Visibility Becomes the Operating System (1,117 words, QC 9.8/10) needs operator approval to slot. Primary recommendation: Wed 2026-05-20 08:00 CET. Featured image via fal.ai (Brief A in draft) or Media 402 fallback. Closes P4 pillar gap (currently 3.3%). Draft file: ~/Documents/Logistics LAB/logiai-draft-2026-05-18-project44-autopilot.md.", "source": "Session: Logiai production stack daily mode (2026-05-18)", "date_added": "2026-05-18"},
+  {"id": "T049", "title": "Decide Kodiak x2 signals fate before 14d expiry (Thu 2026-05-21)", "type": "Content", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "closed": "2026-06-19 operator-approved: signal window expired 2026-05-21, discarded", "description": "Two Kodiak signals in shortlist (11d old) hit 14d-expiry on Thu 2026-05-21. P1 Autonomous Trucking already filled by Aurora Post 475. Options: discard, repurpose for different angle, or stretch to non-P1 frame. Decision needed by Wed 2026-05-20 latest.", "source": "Session: Logiai production stack daily mode (2026-05-18)", "date_added": "2026-05-18"},
+  {"id": "T050", "title": "Publish SAP Sapphire / Autonomous Enterprise draft (slot Fri 2026-05-22)", "type": "Content", "status": "Done", "priority": "High", "description": "New draft from 2026-05-19 production stack run: SAP Sapphire 2026 / Autonomous Enterprise / Anthropic-Claude partnership (May 12, conf 9.5, P5+P3+P7). Auto-approved (QC 9.6/10), READY-FOR-REVIEW, 760 body words, Stratechery setup-punchline, 2 visuals, 2 image briefs, 6 sources. Recommended slot: Fri 2026-05-22 08:00 CET. Operator slot decision required.", "source": "Session: Logiai production stack daily mode (2026-05-19 07:38)", "date_added": "2026-05-19"},
+  {"id": "T051", "title": "Pick featured-image source for project44 and SAP drafts (fal.ai vs Media 453)", "type": "Content", "status": "Done", "priority": "Medium", "description": "Two inventory drafts (project44 Autopilot, SAP Sapphire Autonomous Enterprise) need featured-image decision before publish. Operator must choose fal.ai generated image or Media ID 453 fallback for each. Required before slot decisions in T048 (Wed 2026-05-20) and T050 (Fri 2026-05-22) can proceed.", "source": "Session: Logiai production stack daily mode (2026-05-20 07:40)", "date_added": "2026-05-20"},
+  {"id": "T052", "title": "Approve GXO + KION Epinoy autonomous truck as Tue 2026-05-26 P2 candidate", "type": "Content", "status": "Done", "priority": "Medium", "description": "New signal surfaced 2026-05-20: GXO + KION autonomous industrial truck pilot at Epinoy warehouse. Recommended as P2 candidate for Tue 2026-05-26 publishing slot. Confirm relevance, pillar alignment, and clear for drafting in next production run.", "source": "Session: Logiai production stack daily mode (2026-05-20 07:40)", "date_added": "2026-05-20"},
+  {"id": "T053", "title": "Decide EU AI Act Digital Omnibus draft: publish, merge into Post 464, or defer", "type": "Content", "status": "Done", "priority": "High", "description": "Draft from 2026-05-22 prod-stack run (P6, 93/100, Verified) sits in Logistics LAB awaiting operator pickup. 3-tag overlap with Post 464 (May 12) flagged as news-driven follow-up. Decide disposition (publish as follow-up, merge into 464, or defer), pick image option A (photographic) or B (diagrammatic), and assign schedule slot Mon 2026-05-25 or Wed 2026-05-27 at 08:00 CET. File: logiai-draft-2026-05-22-eu-ai-act-digital-omnibus.md.", "source": "Session: Logiai production stack daily mode (2026-05-22)", "date_added": "2026-05-22"},
+  {"id": "T054", "title": "Trim EU AI Act draft meta description from 220 to 156 chars before publish", "type": "SEO", "status": "Done", "priority": "Medium", "description": "Pre-publish chore flagged in QC for the EU AI Act Digital Omnibus draft (logiai-draft-2026-05-22-eu-ai-act-digital-omnibus.md). Current meta description is 220 characters, must be reduced to 156 characters or less before WordPress publish to satisfy SERP truncation rules.", "source": "Session: Logiai production stack daily mode (2026-05-22)", "date_added": "2026-05-22"},
+  {"id": "T055", "title": "Build mu-plugin to expose Yoast SEO meta keys via REST register_post_meta", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "Optional permanent fix on logiai.blog. Today Yoast SEO Title and Meta Description cannot be written via the WP REST API, only through the WP-Admin UI. Workaround uses Claude in Chrome to drive the Yoast sidebar (proven working autonomously). A small mu-plugin that calls register_post_meta for the three Yoast keys would expose them to REST and collapse the publish + SEO step into a single POST. Removes the only remaining manual step in the auto-publish chain.", "source": "Session: Logiai production stack daily mode (2026-05-22, post 486 Yoast setup)", "date_added": "2026-05-22"},
+  {"id": "T056", "title": "Set Yoast SEO meta for Post 490 manually in WP Admin before Mon 08:00 CET", "type": "SEO", "status": "Done", "priority": "High", "description": "Post 490 (EU AI Act Digital Omnibus) is scheduled to publish Mon 2026-05-25 08:00 CET, but Yoast SEO meta did not persist via REST (same known issue as posts 484/486). Operator must set focus keyphrase, SEO title, and meta description manually before fire time: https://logiai.blog/wp-admin/post.php?post=490&action=edit. Long-term fix is tracked under T055 (mu-plugin to expose Yoast meta via REST).", "source": "Session: Logiai production stack daily mode (2026-05-22 0739)", "date_added": "2026-05-23"},
+  {"id": "T057", "title": "Approve Einride Ohio cabless L4 draft for Thu 2026-05-28 publish", "type": "Content", "status": "Done", "priority": "High", "description": "Operator reply needed to 2026-05-25 12:00 preview email. Reply logiai/preview-go to publish Einride Ohio cabless L4 draft Thu 2026-05-28 08:00 CET, or logiai/skip to kill. Also decide featured image: F1 (fallback Media 458, contradicts cabless angle) vs F2 (fal.ai gen from Image Brief A, recommended).", "source": "Session: Logiai production stack daily mode (2026-05-25)", "date_added": "2026-05-25"},
+  {"id": "T058", "title": "Set Yoast meta description manually for Post 493 before Fri 2026-05-29 08:00 CET", "type": "SEO", "status": "Done", "priority": "High", "description": "DONE 2026-05-30 via wp.data Gutenberg injection. focuskw: 'Toyota automated logistics vendor consolidation', metadesc confirmed persisted via REST verification. Originally: Yoast metadesc did not persist via REST for Post 493 (Toyota Automated Logistics).", "source": "Session: Logiai production stack daily mode (2026-05-24)", "date_added": "2026-05-25"},
+  {"id": "T059", "title": "Fix internal-link anchor matcher to handle missing or changed slugs", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "During Post 493 publish, the publishing step inserted 2 of 3 planned internal links. The post 47 anchor did not match in the source text and was skipped silently. Investigate the anchor-matching logic in the production-stack publish step; make the matcher resilient to slug changes, partial matches, or missing target anchors, and log a warning when an anchor cannot be placed.", "source": "Session: Logiai production stack daily mode (2026-05-24)", "date_added": "2026-05-25"},
+  {"id": "T060", "title": "Approve Locus + Nexera Robotics draft for Mon 2026-06-01 publish slot", "type": "Content", "status": "Done", "priority": "High", "description": "Today 07:38 production-stack run auto-approved the Locus Robotics acquires Nexera Robotics draft (P2/P7, score 22, Verified, 4 Tier 1+2 sources, deal date 2026-05-19). 836 EN body words, picking-wall thesis, differentiated from Post 486 (GXO/KION floor automation) and Post 493 (Toyota ASRS). Stage 1 brief at decisions/2026-05-26-0745-stage1-brief.md. Operator must label logiai/preview-go (or skip/defer) for Mon 2026-06-01 08:00 CET slot. Draft: logiai-draft-2026-05-26-locus-nexera-picking-wall.md.", "source": "Session: Logiai production stack daily mode (2026-05-26)", "date_added": "2026-05-26"},
+  {"id": "T061", "title": "Pick featured-image source for Locus/Nexera draft (F1/F2/F3)", "type": "Content", "status": "Done", "priority": "Medium", "description": "Featured image decision required for Locus/Nexera draft before Mon 2026-06-01 publish: F1 fallback (existing library), F2 fal.ai Nano Banana 2 gripper close-up (recommended, matches picking-wall headline), F3 fal.ai isometric warehouse diagram. Two image briefs already attached to draft package. Pick one before publishing run reads the queue.", "source": "Session: Logiai production stack daily mode (2026-05-26)", "date_added": "2026-05-26"},
+  {"id": "T062", "title": "Publish Stord $250M Series F draft to WordPress", "type": "Content", "status": "Done", "priority": "High", "description": "Stord $250M Series F Physical Intelligence Layer article. Published 2026-05-27 as Post 519 at https://logiai.blog/2026/05/27/stord-physical-ai-fulfillment/ during interactive operator session (bac1664f).", "source": "Session: Logiai production stack 2026-05-27 (bac1664f)", "date_added": "2026-05-27"},
+  {"id": "T063", "title": "Set Yoast SEO meta for Post 496 (Einride) before Thu 08:00 CET", "type": "SEO", "status": "Done", "priority": "High", "description": "DONE 2026-05-30 via wp.data Gutenberg injection. focuskw: 'Einride autonomous trucks Ohio public roads', metadesc confirmed persisted via REST verification. Originally: Post 496 (Einride Ohio cabless L4 truck) needed Yoast before publish.", "source": "Session: Logiai action scan 2026-05-27 (c3b46ff5)", "date_added": "2026-05-27"},
+  {"id": "T064", "title": "Set Yoast SEO meta for Post 498 (Locus/Nexera) before Mon 2026-06-01", "type": "SEO", "status": "Done", "priority": "Medium", "description": "DONE 2026-05-30 via wp.data Gutenberg injection. focuskw: 'Locus Robotics Nexera warehouse automation', metadesc confirmed persisted via REST verification. Originally: Post 498 (Locus Robotics + Nexera) scheduled Mon 2026-06-01.", "source": "Session: Logiai action scan 2026-05-27 (c3b46ff5)", "date_added": "2026-05-27"},
+  {"id": "T065", "title": "Set Yoast SEO meta for Post 519 (Stord $250M) in WP Admin", "type": "SEO", "status": "Done", "wp_post_id": 519, "closes_on": "manual", "priority": "High", "description": "Post 519 published 2026-05-27 (Stord $250M Series F). Set Yoast: keyphrase = \"physical intelligence logistics AI\", title = \"Stord $250M: The Physical Intelligence Layer in Logistics | LogiAI\", meta description = \"Stord closes $250M Series F at $3B valuation, double in 12 months. Inside the Physical Intelligence Layer reshaping omnichannel fulfillment.\" [DONE 2026-06-17 (operator-approved): all three Yoast fields set via WP.com content-authoring MCP posts.update meta; persisted and confirmed. No manual WP Admin needed; REST meta-write path works.]", "source": "Session: Logiai production stack 2026-05-27 (bac1664f)", "date_added": "2026-05-28"},
+  {"id": "T066", "title": "Submit Post 519 + backlog posts 483/484/486/490/491 to GSC for indexing", "type": "SEO", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "Post 519 (Stord) published 2026-05-27 and not yet submitted to Google Search Console. Also catch up on earlier posts not yet submitted: 483, 484, 486, 490, 491. Use GSC URL Inspection tool to request indexing for each URL.", "source": "Session: Logiai production stack 2026-05-27 (bac1664f)", "date_added": "2026-05-28"},
+  {"id": "T067", "title": "Investigate Cloudflare vs WordPress traffic discrepancy", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "Operator noticed a gap between Cloudflare and WordPress visitor/view counts (session 7cea0b8a). Session ended waiting for 4 numbers from operator: Cloudflare total requests + unique visitors (7d), and WordPress views + visitors (7d). Once operator provides these, analysis can explain the gap: cache hit rate, bot share, asset-vs-page ratio.", "source": "Session: logiai.blog traffic discrepancy (7cea0b8a)", "date_added": "2026-05-28"},
+  {"id": "T068", "title": "Resume production run 2026-05-28 -- Loop LDP draft incomplete after ECONNRESET", "type": "Tech", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "High", "description": "Production stack run (session 747fd327) stopped with ECONNRESET after scoring/verification for Loop LDP (44/50, Priority A, Confidence 9/10). Draft not written or published. Resume: write Loop LDP article (P4 SC Visibility, 5M raise, DUX 2.0 architecture, CEO Matt McKinney quoted) and publish to WordPress. [CLOSED-STALE 2026-06-17 (operator-approved): underlying news is Loop's $95M Series C + LDP launch, announced 2026-04-17, now ~2 months old. News window passed; never drafted. Not worth reviving as fresh content. Closed without publishing.]", "source": "Session: Logiai production stack 2026-05-28 (747fd327)", "date_added": "2026-05-28"},
+  {"id": "T069", "title": "Set Yoast SEO meta and featured image for Post 525 (Amazon ASCS) before Tue 2026-06-02 08:00 CET", "type": "SEO", "status": "Done", "priority": "High", "description": "FULLY DONE 2026-05-30. Yoast: focuskw 'Amazon Supply Chain Services inventory visibility', metadesc set via wp.data. Featured image: media ID 542 (post-525-amazon-supply-chain-visibility.png) uploaded and set via REST. Both confirmed.", "source": "Session: Logiai production stack daily mode (a1c5d857, 2026-05-29)", "date_added": "2026-05-30"},
+  {"id": "T070", "title": "Set Yoast SEO meta and featured image for Post 526 (Prologis TMV Fund) before Wed 2026-06-03 08:00 CET", "type": "SEO", "status": "Done", "priority": "Medium", "description": "FULLY DONE 2026-05-30. Yoast: focuskw 'Prologis ABS logistics startup fund', metadesc set via wp.data. Featured image: media ID 543 (post-526-prologis-abs-logistics-fund.png) uploaded and set via REST. Both confirmed.", "source": "Session: Logiai production stack daily mode (a1c5d857, 2026-05-29)", "date_added": "2026-05-30"},
+  {"id": "T071", "title": "Add FAQ and HowTo schema to relevant articles", "type": "SEO", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "Indexing audit (2026-05-30) P2 recommendation: Yoast auto-generates Article/WebSite/Org/BreadcrumbList schema, but FAQ and HowTo schema are not used. Add FAQ schema to Q-and-A style posts and HowTo schema to step-by-step guides (Yoast supports both) to win rich results and long-tail snippets. [PROGRESS 2026-06-19: schema deliverable ready in logiai-seo-authority-proposal-2026-06-19.md (FAQ for cornerstones 464/592/460/549 + HowTo for 110/50/179/184, paste-ready JSON-LD). HONESTY NOTE: Google deprecated HowTo (2023) + restricted FAQ rich results (2023); remaining value is GEO/answer-engines, pairs with T073. Operator chose to hold application this session. Post 401 already carries FAQ schema.]", "source": "logiai-indexing-audit-2026-05-30.md", "date_added": "2026-05-31"},
+  {"id": "T072", "title": "Earn external backlinks to lift domain authority", "type": "SEO", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "Indexing audit (2026-05-30) root cause: logiai.blog is indexed but does not rank because it is a young, low-authority domain (launched March 2026). Earn a handful of external links: guest mention, relevant directory, LinkedIn posts linking back, logistics community references. Even a few links move a new domain.", "source": "logiai-indexing-audit-2026-05-30.md", "date_added": "2026-05-31"},
+  {"id": "T073", "title": "Decide AI-crawler policy in robots.txt (answer-engine visibility)", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "Indexing audit (2026-05-30) P3 decision: robots.txt currently blocks GPTBot, ClaudeBot, Google-Extended, meta-externalagent, CCBot, Bytespider via Disallow: /. For an AI-topic blog whose readers live inside ChatGPT/Claude/Gemini/Perplexity, this also blocks citation in AI answers (GEO), not just training. Make a deliberate decision: consider allowing ai-input (real-time grounding) while keeping ai-train=no, instead of the Cloudflare default.", "source": "logiai-indexing-audit-2026-05-30.md", "date_added": "2026-05-31"},
+  {"id": "T074", "title": "Reframe strategy brief section 0: ranking, not indexing, is the gate", "type": "Content", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "Indexing audit (2026-05-30) corrected a stale assumption: the blog IS indexed (site:logiai.blog returns homepage + multiple posts). The real blocker is RANKING and AUTHORITY, not crawlability. Update the strategy brief's section 0 to drop the 'indexing is the gate' framing so downstream monitoring/scoring use the correct premise.", "source": "logiai-indexing-audit-2026-05-30.md", "date_added": "2026-05-31"},
+  {"id": "T075", "title": "Map low-difficulty long-tail EU keyword targets per article", "type": "SEO", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "Indexing audit (2026-05-30) P1: stop targeting head terms (e.g. 'EU AI Act compliance', owned by the EU Commission and legal authorities) and pick narrow long-tail EU queries a young site can win, e.g. 'EU AI Act risk class for freight pricing algorithms' or 'EU AI Act human oversight example warehouse robotics'. Use the searchfit-seo:keyword-clustering skill to map low-difficulty targets per article. [PROGRESS 2026-06-19: long-tail EU keyword target table for 12 priority posts delivered in logiai-seo-authority-proposal-2026-06-19.md. Optional next: searchfit-seo:keyword-clustering to expand each seed into a 3-5 query cluster + confirm difficulty.]", "source": "logiai-indexing-audit-2026-05-30.md", "date_added": "2026-05-31"},
+  {"id": "T076", "title": "Strengthen internal linking into EU AI Act and AI Agents clusters", "type": "SEO", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "Indexing audit (2026-05-30) P2: build topical authority cluster by cluster. Strengthen internal links pointing into the EU AI Act and AI Agents anchor articles so they accumulate internal authority. Distinct from the earlier site-wide internal-link pass (T012); this is cluster-anchor focused. [PROGRESS 2026-06-19 operator-approved: applied all 6 Priority A+B internal links via REST. 592 (new EU AI Act cornerstone, was 0 inbound, now 4): 464/490/156/10 -> 592. 464 (now 5 inbound): 484/401 -> 464. Posts 10 + 401 added later same day with safe anchors (10: 'workforce of AI agents' prose; 401: visible FAQ-answer 'EU AI Act'). Priority C (3 AI-agents links to 451) not applied: 451 already strong at 12 inbound. Full map: logiai-seo-authority-proposal-2026-06-19.md]", "source": "logiai-indexing-audit-2026-05-30.md", "date_added": "2026-05-31"},
+  {"id": "T077", "title": "Publish parked cluster #2 draft: AI tools for freight forwarders", "type": "Content", "status": "Done", "priority": "Medium", "description": "Blog strategy review (2026-05-30) produced a QC-passed draft (100/100, zero em-dashes) reframing 'AI tools for freight forwarders' as five distinct jobs (document data entry, customs, quoting, carrier matching, visibility). It is parked as an approved draft, not yet live. Files: logiai-draft-2026-05-30-ai-tools-freight-forwarders.md + logiai-qc-2026-05-30-ai-tools-freight-forwarders.md. To ship: generate featured image, set Yoast, publish live.", "source": "Session: Blog strategy review (2026-05-30)", "date_added": "2026-05-31"},
+  {"id": "T078", "title": "Decide disposition of held 2026-05-30 production drafts", "type": "Content", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "Three draft files from the 2026-05-30 production runs are sitting in Logistics LAB awaiting a publish/slot/skip decision: logiai-draft-2026-05-30-blue-yonder-model-factory.md, logiai-draft-2026-05-30-manhattan-sightline.md, logiai-draft-2026-05-30-eu-ai-act-logistics-checklist.md. Confirm current WordPress status of each (some may already be scheduled or live) and decide disposition for any not yet handled.", "source": "Session: Logiai production stack daily mode (2026-05-30)", "date_added": "2026-05-31"},
+  {"id": "T079", "title": "Re-space scheduled posts 548/549/550 to match 3/week cadence", "type": "Content", "status": "Done", "priority": "Medium", "description": "Jun 1-6 schedule is booked solid with six posts (498/525/526/548/549/550), roughly 2x the 3-articles-per-week target. Re-space posts 548/549/550 into the week of Jun 8 to match cadence and avoid over-publishing.", "source": "Session: Logiai production stack daily mode (2026-06-01)", "date_added": "2026-06-01"},
+  {"id": "T080", "title": "Slot two QC-passed drafts: Siemens+KION and Rotterdam-Oslo", "type": "Content", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "closed": "2026-06-19 operator-approved: satisfied, both live (566 Jun15, 567 Jun17)", "description": "Two drafts queued from May 31 passed QC cleanly (0 em-dashes, Verified/High, ~9/10 auto-approve): Siemens + KION Digital Twin (P2, ~870w) and EU Rotterdam-Oslo Freight Corridor (P1 evergreen, ~1232w). Slot into open publish slots, proposed Mon Jun 8 and Wed Jun 10.", "source": "Session: Logiai production stack daily mode (2026-06-01)", "date_added": "2026-06-01"},
+  {"id": "T081", "title": "Fix Stage 1 selection mail not firing in morning production run", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "The 12:00 approval scan found 0 items because the morning Stage 1 selection mail has not been sent for several days (latest Stage 1 brief 2026-05-26 while Stage 2 files exist through 05-30). The logiai-production-stack morning run writes the brief to disk but does not dispatch the selection mail in autonomous mode, so Stage 2 has nothing to act on. Investigate and fix the dispatch.", "source": "Session: Logiai approval scan 1200 (2026-05-31)", "date_added": "2026-06-01"},
+  {"id": "T082", "title": "Complete full logiai.blog SEO audit (prior run interrupted before report)", "type": "SEO", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "The SEO audit session for logiai.blog started the SearchFit seo-audit skill but ended before delivering the structured audit report (crawlability, meta tags, headings, images, structured data, internal linking, mobile). Re-run the audit to completion and capture concrete findings, then convert any non-duplicate findings into tracker tasks.", "source": "Session: Logiai.blog SEO audit", "date_added": "2026-06-02"},
+  {"id": "T083", "title": "Set Yoast SEO meta for posts 548, 549, 550 before Jun 4 publish", "type": "SEO", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "High", "description": "Posts 548 (Manhattan Sightline, Thu Jun 4), 549 (AI Tools for Freight Forwarders, Fri Jun 5), and 550 (Blue Yonder + NVIDIA, Sat Jun 6) were published as scheduled drafts but Yoast SEO meta could not be set via REST (known persistence bug). Set title, meta description, and focus keyword for all three via WP Admin -> each post -> Yoast panel -> Save Draft before their scheduled publish times. [VERIFIED DONE 2026-06-17 (operator-approved): custom Yoast title + meta description confirmed live via REST on all three posts; REST persistence no longer blocking.]", "source": "Session: Logiai production stack daily mode (2026-06-02)", "date_added": "2026-06-03"},
+  {"id": "T084", "title": "Delete orphan media items 551/553/555 from WP media library", "type": "Tech", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "A double-run on featured image generation for posts 548/549/550 left three orphan media items (IDs 551, 553, 555) in the WordPress media library. They are harmless but should be cleaned up. Delete via WP Admin -> Media or via REST API DELETE /wp/v2/media/<id>?force=true with the stored Application Password.", "source": "Session: Logiai production stack daily mode (2026-06-02)", "date_added": "2026-06-03"},
+  {"id": "T085", "title": "Re-check GSC indexing count after Jun 1 sitemap fix (target Jun 8-9)", "type": "SEO", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "The Jun 1 post-sitemap.xml fix confirmed Success with 38 discovered pages (last read Jun 1). The Pages coverage report snapshot is dated 5/29 and predates the fix. Re-check GSC Coverage report around Jun 8-9 to confirm indexed count has climbed from 20. If still low, use GSC URL Inspection tool on the remaining not-indexed posts. Note: T066 manual indexing submissions also pending.", "source": "Session: Logiai production stack daily mode (2026-06-03)", "date_added": "2026-06-03"},
+  {"id": "T086", "title": "Wire brief-leak-guard.py into automated pre-publish pipeline check", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "brief-leak-guard.py (committed to logiai-blog repo, commit 14f1117) is a regex scanner that detects brief marker leaks in post bodies (Pillar:, Stilmix-Zuordnung, Target word count, Featured image:, Image Brief, Internal links: Post N, mode terms). It runs standalone via: python3 brief-leak-guard.py --post <ID>. It is NOT yet wired into the automated production pipeline. Add a call to the guard script in the logiai-drafting or logiai-quality-gate skill (after body assembly, before REST publish) so every draft is scanned automatically. Exit 1 should block publish.", "source": "Session: Article text removal (2026-06-02)", "date_added": "2026-06-03"},
+  {"id": "T087", "title": "Swap placeholder featured image on Post 576 (Coupa) before Jun 23", "type": "Content", "status": "Done", "wp_post_id": 576, "closes_on": "manual", "priority": "High", "description": "Post 576 still carries placeholder media 402 as featured image. Generate a fresh fal.ai image and swap it before the Jun 23 publish date, same flow as Post 578 (media 577). [VERIFIED DONE 2026-06-17 (operator-approved): Post 576 featured_media is 596 (coupa-rossum-document-ai.jpg, 1408x768, story-specific, alt set), swapped 2026-06-11. Placeholder 402 no longer in use. No new image needed.]", "source": "Session: Logiai production stack daily mode (2026-06-05)", "date_added": "2026-06-05"},
+  {"id": "T088", "title": "Label Jun 5 Stage 1 mail: Fernride yard tractors / track-and-trace proposals", "type": "Content", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "closed": "2026-06-19 operator-approved: stale, approval-mail flow disabled 2026-06-17", "description": "Stage 1 selection mail sent Jun 5 07:35 with two evergreen proposals: A Fernride driverless yard tractors at Muuga port (companion to post 567), B AI track-and-trace agents explainer (fills P4 gap). Apply logiai/approve label to trigger drafting at the 12:00 scan; unlabeled defaults to defer after 24h. Open slots ~Jun 19 and ~Jun 28.", "source": "Session: Logiai production stack daily mode (2026-06-05)", "date_added": "2026-06-05"},
+  {"id": "T089", "title": "Decide EU AV testbed pact draft: merge into post 567, standalone, or skip", "type": "Content", "status": "Done", "priority": "High", "description": "Production run 2026-06-10 escalated a duplicate-risk: EU AV testbed pact story (score 8.0) overlaps scheduled post 567 which fires Jun 17. Operator must decide merge, standalone, or skip before post 567 goes live.", "source": "Session: Logiai production stack daily mode (2026-06-10)", "date_added": "2026-06-10"},
+  {"id": "T090", "title": "Label Jun 10 Stage 1 mail: EU AI Act guidelines / Einride Nasdaq drafts", "type": "Content", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "High", "description": "Stage 1 selection mail [LogiAI 2026-06-10] sent to markus.possiel@gmail.com with two READY-FOR-PUBLISH drafts: A (EU AI Act high-risk guidelines for logistics shift-planning AI, consultation closes Jun 23) and B (Einride Nasdaq listing, ENRD, 1.35B USD). Operator must label the thread to trigger Stage 2 preview and publish. [DONE 2026-06-17 (operator-approved): SUPERSEDED, both drafts already reached the schedule. A = post 592 (EU AI Act high-risk guidelines, Jun 19); B = post 594 (Einride, Jun 24). No labeling needed. While verifying, found and resolved a DUPLICATE: post 597 was a byte-identical copy of 592 at the same Jun 19 07:00 slot (generic reused image 454, glitched timeline header, -2 slug). Set 597 to draft to prevent a double-publish. Canonical EU AI Act post = 592 (story-specific image 591, clean timeline visual). Operator may trash 597 once confirmed.]", "source": "Session: Logiai production stack daily mode (2026-06-10)", "date_added": "2026-06-10"},
+  {"id": "T091", "title": "Label Jun 11 Stage 1 mail: Volvo 3B autonomous plan draft", "type": "Content", "status": "Done", "priority": "Medium", "description": "Stage 1 selection mail sent to markus.possiel@gmail.com on 2026-06-11 07:39. Item A is the new Volvo $3B autonomous plan draft (QC 96/100, auto-approve route). Items B/C re-surface the deferred Jun 10 picks (EU AI Act guidelines, Einride Nasdaq), item D is the testbed-pact decision (tracked as T089). Operator must apply approve/skip/defer/preview-go labels; without labels the items default to defer after 24h and no publish happens.", "source": "Session: Logiai production stack daily mode (2026-06-11)", "date_added": "2026-06-11"},
+  {"id": "T092", "title": "Overlap-check Amazon Proteus EUR 10B candidate vs post 183", "type": "Content", "status": "Done", "priority": "Low", "description": "Jun 11 production run scored Amazon Proteus EUR 10B at 7.8 as a backup candidate but flagged a required overlap check against existing post 183 before drafting. Run the overlap check; if distinct enough, promote to the editorial backlog, otherwise drop the candidate.", "source": "Session: Logiai production stack daily mode (2026-06-11)", "date_added": "2026-06-11"},
+  {"id": "T093", "title": "Publish Amazon Proteus robotics foundation model draft to WordPress", "type": "Content", "status": "Done", "priority": "High", "description": "Draft A from the 2026-06-12 production run (~727 words): Amazon Proteus plus robotics foundation model plus EUR 10B Europe investment. Overlap vs post 183 cleared (183 was the April last-mile robot; this is the June warehouse foundation-model robot). QC ~96/100, brief-leak-guard CLEAN, READY-FOR-PUBLISH. Held in approval queue, awaiting an approve label before WordPress publish.", "source": "Session: Logiai production stack daily mode (2026-06-12)", "date_added": "2026-06-12"},
+  {"id": "T094", "title": "Publish Yusen AI Disruption Radar draft to WordPress", "type": "Content", "status": "Done", "priority": "Medium", "description": "Draft B from the 2026-06-12 production run (~736 words): Yusen built its own AI Disruption Radar; angle is 3PL build-vs-buy vs project44/Everstream. QC ~90/100 (Partial verification handled with full attribution), Compliance PASS, READY-FOR-PUBLISH. Held in approval queue, awaiting an approve label before WordPress publish.", "source": "Session: Logiai production stack daily mode (2026-06-12)", "date_added": "2026-06-12"},
+  {"id": "T095", "title": "Detect text-based approval replies in Gmail threads, not just labels", "type": "Tech", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "High", "description": "Approval gate reads Gmail labels only. On Jun 10 the operator replied LogiAI/approve as message text on the approval thread; the system never registered it because no label was applied. Missed 2 days running, with 6 ready items stuck (Proteus, Yusen, Volvo 3B, EU AI Act guidelines, Einride, AV testbed-pact decision). Add detection or an alert: when an approval thread has a text reply matching approve/skip/defer but no matching label, surface it in the stage-1 mail or flag for the operator instead of silently defaulting to defer. [DONE 2026-06-17 (operator-approved): text-reply reconciliation added to logiai-approval-mail/SKILL.md. scan_decisions (Stage 1) now searches subject:[LogiAI DATE] threads, reads bodies of unlabeled threads, and honors a clear approve/skip/defer reply as that decision (recorded source:text-reply, logged loudly) before any 24h defer default. scan_preview (Stage 2) keeps publish gated on the logiai/preview-go LABEL; a publish-text reply only triggers a [LogiAI Action Needed] alert, never an auto-publish. Hard rules + failure-modes table updated. Scan is LLM-driven per SKILL.md, so no standalone script change required; labels never applied autonomously.]", "source": "Session: Logiai production stack daily mode (2026-06-12)", "date_added": "2026-06-12"},
+  {"id": "T096", "title": "Set Yoast SEO meta for posts 592, 600, 601, 590 via WP REST", "type": "SEO", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "Pending follow-ups: post 592 (EU AI Act high-risk guidelines, Jun 19), 600 (Amazon Proteus), 601 (Yusen radar), 590 (Volvo 3B). Suggested values are in the published register. [CORRECTION 2026-06-17: (1) post ID fixed 597 -> 592 (597 was an accidental duplicate; 592 is canonical, see T090). (2) Premise updated: REST does NOT silently drop Yoast fields anymore. Confirmed 2026-06-17 on post 519 (T065): _yoast_wpseo_title / _metadesc / _focuskw persist via WP.com content-authoring MCP posts.update meta.] [DONE 2026-06-17 (operator-approved): Yoast title + meta description + focus keyphrase set and persisted via REST on all four (592, 600, 601, 590); values confirmed in API response. Duplicate 597 moved to Trash (recoverable) the same session.]", "source": "Session: Logiai production stack daily mode (2026-06-13 and 2026-06-14)", "date_added": "2026-06-14"},
+  {"id": "T097", "title": "Trash parked Volvo duplicate draft post 602", "type": "Tech", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "closed": "2026-06-19 operator-approved: post 602 set to trash via WP REST, confirmed status=trash", "description": "During the Jun 14 run, a freshly-built Volvo 3B post (602) duplicated an existing better post (590) that was kept and re-slotted to Jul 3. Post 602 was parked as a draft rather than deleted. Trash it from the WordPress drafts to keep the library clean.", "source": "Session: Logiai production stack daily mode (2026-06-14)", "date_added": "2026-06-14"},
+  {"id": "T098", "title": "Decide Einride Nasdaq draft (E) disposition: publish, defer, or merge", "type": "Content", "status": "Done", "wp_post_id": 594, "closes_on": "manual", "priority": "Medium", "closed": "2026-06-19 operator-approved: SATISFIED, not a loose draft. Einride already scheduled as post 594 (status=future, Jun 24 07:00, slug einride-nasdaq-listing-autonomous-freight-2026). Task was stale per T090 note; closing to stop the loop.", "description": "Draft E (Einride Nasdaq) has been carried in the backlog across the Jun 13 and Jun 14 production boards with no operator decision. It re-surfaces every run. Decide whether to publish it, defer it, or merge it into an existing post so it stops looping through the queue.", "source": "Session: Logiai production stack daily mode (2026-06-13 and 2026-06-14)", "date_added": "2026-06-14"},
+  {"id": "T099", "title": "Slot or hold agentic freight back office draft (Cargofy + Opereit)", "type": "Content", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "The 2026-06-20 production run auto-approved one fresh draft: an 'agentic freight back office' trend piece built on two new European funding rounds, Cargofy (9.6M euro Series A, EU-Startups Jun 18) and Opereit (2.5M dollar pre-seed, Tech Funding News Jun 5). QC ~9.0/10 (0 em-dashes, thesis up front, 2 cited sources, vendor claims flagged, 1 comparison visual), Compliance PASS, Verified-Partial, score ~8.0. Held at the Phase 5 approval gate because the operator was absent. Decide: slot it into an open publish window or hold it. Note: AI Agents is already the largest pillar (~32%), a soft saturation flag, so weigh pillar diversification before slotting.", "source": "Session: Logiai production stack daily mode (2026-06-20)", "date_added": "2026-06-20"},
+  {"id": "T100", "title": "Slot or hold Veloq / Rohlik / EIB e-grocery fulfilment draft", "type": "Content", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "The 2026-06-22 production run auto-approved one fresh, non-duplicate, EU-strong draft: Veloq / Rohlik / EIB (EIB 30M euro venture debt for the AI e-grocery fulfilment OS that Rohlik spun out as the standalone company Veloq). Stratechery-mode analysis, ~790 words, stat + structural-comparison visuals, 3 internal links, image briefs. QC ~9.2/10, Compliance PASS, Verified across the official EIB release plus Brussels Times, Retail Tech Innovation Hub, and Rohlik. Held at the Phase 5 approval gate (operator absent, approval-mail disabled). Recommended slot: week of Jul 6, ahead of the carryover back-office-agents draft (T099). Deliberately diversifies away from the saturated AI-Agents pillar. Distinct topic from T099.", "source": "Session: Logiai production stack daily mode (2026-06-22)", "date_added": "2026-06-22"},
+  {"id": "T101", "title": "Renew expired fal.ai API key and store in Keychain", "type": "Tech", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "High", "description": "The fal.ai API key is rejected with HTTP 401 (confirmed by fal_generate.py check across the Jun 22-24 production runs). This blocks all featured-image generation, so scheduled posts fall back to placeholder images. Renew at fal.ai/dashboard/keys, then store as the source of truth in Keychain: security add-generic-password -a fal -s fal-api-key -w 'KEY_ID:SECRET' -U. The Phase 6 preflight (fal_generate.py check --wp) will report fal OK once the key is live, which then unblocks the placeholder swaps on posts 622 and 623 (see T102). RESOLVED 2026-07-08: operator supplied new key, stored in Keychain (fal-api-key) + fallback ~/Documents/.fal_key; preflight check --wp returns fal OK (probe HTTP 200) and WP OK.", "source": "Session: Logiai production stack daily mode (2026-06-23, 2026-06-24)", "date_added": "2026-06-24"},
+  {"id": "T102", "title": "Swap placeholder featured images and set Yoast meta on posts 622 and 623", "type": "Content", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "High", "description": "Posts 622 (Veloq / Rohlik / EIB e-grocery, Jul 6) and 623 (Cargofy / Opereit agentic back office, Jul 10) currently carry placeholder featured images because the fal.ai key is expired (see T101). Before each publish date: generate a story-specific fal.ai image and swap it via fal_generate.py publish-image --attach-post, then set the Yoast title, meta description, and focus keyphrase (via the WP.com content-authoring MCP posts.update meta, with the wp.data editor store as fallback if REST does not persist). Blocked by T101. UPDATE 2026-07-08: IMAGE PORTION DONE - custom fal images generated and attached (622 -> media 646, 623 -> media 647), verified via featured_media. REMAINING: Yoast title/meta/focus keyphrase for 622 and 623 (REST does not persist Yoast, needs WP editor UI). Kept Open for the Yoast step only.", "source": "Session: Logiai production stack daily mode (2026-06-23, 2026-06-24)", "date_added": "2026-06-24"},
+  {"id": "T103", "title": "Reconcile content register: fix 592/597 ID label and add missing row for post 594", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "Two register-hygiene gaps surfaced repeatedly in the Jun 23-24 runs. (1) The Jun 19 EU AI Act post is live as WordPress ID 592, but the published content register still labels it 597 (597 was the accidental duplicate, now trashed; 592 is canonical per T090 and T096). Update the register entry to 592. (2) Live post 594 (Einride Nasdaq listing, published Jun 24) has no row in the register; add it. Both are documentation-only, no WordPress change.", "source": "Session: Logiai production stack daily mode (2026-06-23, 2026-06-24)", "date_added": "2026-06-24"},
+  {"id": "T104", "title": "Delete three stale temp publish files in Logistics LAB", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "The Jun 23-24 production runs flagged three temporary publish files left in the Logistics LAB folder from prior runs as safe to delete. Remove them to keep the working folder clean (analogous to the T038 stale-queue cleanup). Confirm none are referenced by a scheduled post before deleting.", "source": "Session: Logiai production stack daily mode (2026-06-23, 2026-06-24)", "date_added": "2026-06-24"},
+  {"id": "T105", "title": "Publish held DSV / CargoWise draft into the Jul 8 slot", "type": "Content", "status": "Done", "wp_post_id": 633, "closes_on": "manual", "priority": "High", "description": "A DSV / CargoWise draft was produced on 2026-06-27 and carried over through the Jun 28 and Jun 29 NO-DRAFT runs. QC 9.2, auto-approve route, Verified. It is confirmed as the candidate for the only open near-term slot, Jul 8 (schedule is otherwise full through Jul 10: 601 Yusen Jul 1, 590 Volvo Jul 3, 622 Veloq/Rohlik Jul 6, 623 Cargofy/Opereit Jul 10). Action before Jul 8: operator approval, then publish via WP.com content-authoring MCP, generate a story-specific featured image (blocked on fal.ai key, see T101), and set Yoast title, meta description, and focus keyphrase. Distinct topic from T099 (Cargofy/Opereit) and T100 (Veloq/Rohlik).", "source": "Session: Logiai production stack daily mode (2026-06-28, 2026-06-29)", "date_added": "2026-06-29"},
+  {"id": "T106", "title": "Draft EU AI Act Digital Omnibus piece when Official Journal publication lands (July 2026)", "type": "Content", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "High", "description": "The Jun 29 production run flagged a clean forward hook: the EU AI Act Digital Omnibus formal Official Journal publication is anticipated in July 2026. When it actually lands it is a fresh, EU-strong, on-pillar story to draft. TRIGGER CHECK (hardened 2026-07-04): each daily run, check EUR-Lex directly, not just news coverage. Search eur-lex.europa.eu Official Journal for the regulation amending Regulation (EU) 2024/1689 (Digital Omnibus, procedure ref 2025/0836(COD)); trigger fires when an OJ L reference with publication date exists. Status Jul 4: Parliament endorsed Jun 16, Council adopted Jun 29, OJ publication pending (expected within July, enters into force 3 days after). PRE-DRAFT READY: logiai-draft-2026-07-04-eu-ai-act-omnibus-official-journal.md holds the full article; on trigger day fill placeholders [OJ-DATE], [OJ-REF], [IN-FORCE-DATE], [MONTHS-REMAINING], re-verify sources, then run QC + publish pipeline. Internal links to posts 156/464/490/597 (chain capstone). Pillar saturated; framing is legal finality, distinct from 490 (deal) and 597 (guidelines).", "source": "Session: Logiai production stack daily mode (2026-06-29)", "date_added": "2026-06-29"},
+  {"id": "T107", "title": "Set Yoast SEO meta for Post 633 (DSV/CargoWise Tango) via WP editor", "type": "SEO", "status": "Done", "wp_post_id": 633, "closes_on": "manual", "priority": "Medium", "description": "Post 633 (DSV CargoWise vs Tango build-vs-buy) was published scheduled for 2026-07-08. REST still does not persist Yoast meta, so set it manually in the WP editor before the Jul 8 publish: focus keyword 'dsv cargowise tango', SEO title 'DSV Drops CargoWise for Tango: The Forwarder Build vs Buy Bet'. The post excerpt is already set as a metadesc fallback. Systemic REST fix is tracked separately in T055. NOTE 2026-07-08: featured image for 633 is now a custom fal image (media 644), but this task tracks the Yoast meta step, which is still outstanding and needs the WP editor UI. Kept Open.", "source": "Session: Logiai production stack daily mode (2026-06-30)", "date_added": "2026-07-01"},
+  {"id": "T108", "title": "Re-save 4 LogiAI skills in Settings to refresh stale plugin cache", "type": "Tech", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "The read-only plugin skill cache is stale vs the bundle: cached logiai-publishing and logiai-editorial-visuals are missing the post-600 visual-inlining rules (editorial-visual-inline.py + visual-style-guard.py), and cached logiai-drafting lacks the Tracker ID field. Cannot be synced from a session. Operator must re-save the 4 affected skills in Settings > Capabilities before the next publish cycle (622 on Jul 6) so future drafts/publishes use current rules.", "source": "Session: Logiai production stack daily mode (2026-07-04)", "date_added": "2026-07-04"},
+  {"id": "T109", "title": "Slot or hold one of three parked Jul 13 candidates: Octup, Carrier Logistics, CMA CGM", "type": "Content", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "The 2026-07-08 production run found no forced single-day hook (schedule full through Jul 10, first open slot week of Jul 13) and parked three soft candidates for the next operator-present run: (1) Octup, 12M USD seed, AI ops platform for 3PLs, strongest fit (P5/P7); (2) Carrier Logistics, PE acquisition plus AI overhaul, medium fit; (3) CMA CGM buying FedEx Supply Chain for 1.4B USD into CEVA, adjacent M&A not AI. Decide which (if any) to draft for the Jul 13 slot; Octup is the recommended lead. Weigh AI-Agents pillar saturation when choosing. UPDATE 2026-07-11: superseded by the 2026-07-11 run, which drafted the actual pieces (see T110). Octup dropped as stale, Gartner promoted in its place, Carrier Logistics and CMA CGM drafted.", "source": "Session: Logiai production stack daily mode (2026-07-08)", "date_added": "2026-07-08"},
+  {"id": "T110", "title": "Preview and slot 3 held Jul 13 drafts: Gartner, STG, CMA CGM", "type": "Content", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "High", "description": "The 2026-07-11 production run drafted 3 QC-clean pieces (830 to 869 words, 4 H2 each, zero em/en-dashes) and held them at the Phase 5 approval gate (approval mail disabled, nothing published): (1) logiai-draft-2026-07-11-gartner-supply-chain-tech-trends-2026.md (830w, Gartner SC Tech Trends 2026, official PR 2026-06-30); (2) logiai-draft-2026-07-11-stg-carrier-logistics-ltl-ai-agents.md (858w, STG acquires Carrier Logistics for LTL agentic platform, STG PR 2026-04-13); (3) logiai-draft-2026-07-11-cma-cgm-ai-at-scale-shipping.md (869w, CMA CGM AI at scale with Mistral, 200 plus use cases). Each has editorial-visual specs, two image briefs, Yoast fields, sources, QC notes. Action: operator preview, then slot into open windows for the week of Jul 13, generate story-specific featured images, and set Yoast meta in the WP editor. Advances T109.", "source": "Session: Logiai production stack daily mode (2026-07-11)", "date_added": "2026-07-11"},
+  {"id": "T111", "title": "Decide Octup evergreen (non-news) treatment; funding hook now stale", "type": "Content", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Low", "description": "The 2026-07-11 run dropped the Octup story from the Jul 13 news queue because its 12M USD seed round actually closed 2025-07-22 (roughly a year old), which fails the date-currency check. Octup was flagged so it is not re-queued as fresh news. Open decision for the operator: whether Octup (AI operating system for 3PLs) is worth an evergreen, non-news treatment (e.g. an explainer or category piece) given the strong topical fit but stale funding hook. If yes, re-frame away from the funding angle before drafting.", "source": "Session: Logiai production stack daily mode (2026-07-11)", "date_added": "2026-07-11"},
+  {"id": "T112", "title": "Draft Auger 50M USD Series B piece (verified 9 Jul 2026, ready on command)", "type": "Content", "status": "Done", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "The 2026-07-14 operator-absent production run surfaced one clean, date-verified new candidate but did not draft it (the approval gate needs an operator). Auger raised a 50M USD Series B announced 9 Jul 2026, led by Eclipse; total funding now 150M USD; customers include Meta Reality Labs, Fanatics, and Kimberly-Clark; founder Dave Clark (ex-Amazon operations chief). Auger builds an autonomous supply chain operating system. Corroborated across GeekWire, PYMNTS, WWD, and Supply Chain Digital; dedup-clean vs the register. Caveat: it lands in the P5 AI-Agents pillar, already roughly 32 percent saturated, so weigh pillar balance before slotting. Action: on the next operator-present run, draft and slot Auger. Note for context: a competing Altana '200M Series C' lead was dropped as a republished Jul 2024 raise (stale, the same trap as Octup).", "source": "Session: Logiai production stack daily mode (2026-07-14)", "date_added": "2026-07-14"},
+  {"id": "T113", "title": "Confirm Yoast meta persisted on posts 673/674/675/688 in WP Admin", "type": "SEO", "status": "Open", "wp_post_id": null, "closes_on": "manual", "priority": "Medium", "description": "Recent production runs set Yoast SEO title and meta on posts 673, 674, 675, and 688 (Auger) via the REST API, but prior posts hit a known REST-persistence quirk where Yoast fields do not stick. Verify in WP Admin (or via a REST re-read) that the focus keyword, SEO title, and meta description actually persisted on all four posts; re-set manually in the WP editor UI for any that did not. Systemic REST fix is tracked in T055; the related single-post case is T107 (post 633).", "source": "Session: Logiai production stack daily mode (2026-07-15 / 2026-07-16)", "date_added": "2026-07-16"},
+  {"id": "T114", "title": "Swap custom fal featured image on post 688 (Auger), replace placeholder media 453", "type": "Design", "status": "Open", "wp_post_id": 688, "closes_on": "manual", "priority": "Low", "description": "Post 688 (Auger Series B autonomous supply chain OS, live 2026-07-15) currently uses the P5 control-room placeholder image (media 453) because the fal image generation check timed out during the publish run. Generate a story-specific featured image via the fal pipeline once the fal key is confirmed, then swap it in on post 688.", "source": "Session: Logiai production stack daily mode (2026-07-15 / 2026-07-16)", "date_added": "2026-07-16"},
+];
+
+// ============================================================
+// STATE
+// ============================================================
+const LS_KEY = "logiai-tracker-v1";
+const SERVER_BASE = "http://127.0.0.1:9193";
+let SERVER_AVAILABLE = false;
+let SERVER_LAST_SCAN = null;
+let activeTypeFilter     = "all";
+let activeStatusFilter   = "all";
+let activePriorityFilter = "all";
+let tasks = [];
+
+// ============================================================
+// SERVER BRIDGE
+// ============================================================
+async function probeServer() {
+  try {
+    const r = await fetch(SERVER_BASE + "/health", { method: "GET", cache: "no-store" });
+    return r.ok;
+  } catch (e) { return false; }
+}
+
+async function fetchServerTasks() {
+  const r = await fetch(SERVER_BASE + "/tasks", { cache: "no-store" });
+  if (!r.ok) throw new Error("GET /tasks failed: " + r.status);
+  return await r.json();
+}
+
+async function postStatus(id, status, reason) {
+  const r = await fetch(SERVER_BASE + "/tasks/" + encodeURIComponent(id) + "/status", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status, reason: reason || "", actor: "browser" })
+  });
+  if (!r.ok) throw new Error("POST status failed: " + r.status + " " + (await r.text()));
+  return await r.json();
+}
+
+async function postNewTask(task) {
+  const r = await fetch(SERVER_BASE + "/tasks", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(task)
+  });
+  if (!r.ok) throw new Error("POST /tasks failed: " + r.status);
+  return await r.json();
+}
+
+function updateSyncBadge() {
+  const el = document.getElementById("sync-badge");
+  if (!el) return;
+  if (SERVER_AVAILABLE) {
+    el.textContent = "SYNCED";
+    el.className = "sync-badge online";
+    el.title = "Connected to logiai-tracker server at " + SERVER_BASE + ". Status changes are persisted server-side and audited.";
+  } else {
+    el.textContent = "OFFLINE";
+    el.className = "sync-badge offline";
+    el.title = "Server not reachable (" + SERVER_BASE + "). Falling back to embedded data + localStorage. Status changes will not be synced.";
+  }
+}
+
+function showToast(msg, kind) {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.className = "toast show " + (kind || "");
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => { el.className = "toast"; }, 2400);
+}
+
+function sortTasks(arr) {
+  const prioOrder = { High: 0, Medium: 1, Low: 2 };
+  const statOrder = { Open: 0, InProgress: 1, Done: 2 };
+  return arr.sort((a, b) => {
+    if (statOrder[a.status] !== statOrder[b.status]) return statOrder[a.status] - statOrder[b.status];
+    if (prioOrder[a.priority] !== prioOrder[b.priority]) return prioOrder[a.priority] - prioOrder[b.priority];
+    return 0;
+  });
+}
+
+function loadTasksFromEmbedded() {
+  // Fallback mode (server unavailable): seed from embedded constant
+  // and merge localStorage overrides.
+  const base = EMBEDDED_TASKS.map(t => Object.assign({}, t));
+
+  let overrides = {};
+  try { overrides = JSON.parse(localStorage.getItem(LS_KEY) || "{}"); } catch(e) {}
+
+  base.forEach(t => {
+    if (overrides[t.id]) {
+      Object.assign(t, overrides[t.id]);
+      t._manual = true;
+    }
+  });
+
+  const userKeys = Object.keys(overrides).filter(k => k.startsWith("U"));
+  userKeys.forEach(k => {
+    if (!base.find(t => t.id === k)) {
+      base.push(Object.assign({}, overrides[k]));
+    }
+  });
+
+  return sortTasks(base);
+}
+
+async function loadTasks() {
+  if (SERVER_AVAILABLE) {
+    try {
+      const data = await fetchServerTasks();
+      SERVER_LAST_SCAN = data.last_scan || LAST_SCAN;
+      return sortTasks((data.tasks || []).map(t => Object.assign({}, t)));
+    } catch (e) {
+      console.warn("Server fetch failed, falling back:", e);
+      SERVER_AVAILABLE = false;
+      updateSyncBadge();
+    }
+  }
+  SERVER_LAST_SCAN = LAST_SCAN;
+  return loadTasksFromEmbedded();
+}
+
+function saveOverride(id, patch) {
+  let overrides = {};
+  try { overrides = JSON.parse(localStorage.getItem(LS_KEY) || "{}"); } catch(e) {}
+  overrides[id] = Object.assign(overrides[id] || {}, patch);
+  localStorage.setItem(LS_KEY, JSON.stringify(overrides));
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+const STATUS_CYCLE = { Open: "InProgress", InProgress: "Done", Done: "Open" };
+const STATUS_LABEL = { Open: "Open", InProgress: "In Progress", Done: "Done" };
+
+async function cycleStatus(id) {
+  const t = tasks.find(x => x.id === id);
+  if (!t) return;
+  const next = STATUS_CYCLE[t.status] || "Open";
+  const prev = t.status;
+
+  if (SERVER_AVAILABLE) {
+    try {
+      const result = await postStatus(id, next, "");
+      Object.assign(t, result.task);
+      tasks = sortTasks(tasks);
+      render();
+      showToast("Status -> " + STATUS_LABEL[next] + " (synced)", "success");
+    } catch (e) {
+      console.error(e);
+      showToast("Sync fehlgeschlagen: " + e.message, "error");
+      // No optimistic write — keep prev state visible
+    }
+  } else {
+    t.status = next;
+    t._manual = true;
+    saveOverride(id, { status: next, _manual: true });
+    tasks = sortTasks(tasks);
+    render();
+    showToast("Status -> " + STATUS_LABEL[next] + " (local only, not synced)", "");
+  }
+}
+
+function render() {
+  const tbody = document.getElementById("task-tbody");
+  const filtered = tasks.filter(t => {
+    const typeOk     = activeTypeFilter     === "all" || t.type === activeTypeFilter;
+    const statusOk   = activeStatusFilter   === "all" ||
+                       (activeStatusFilter === "InProgress" ? t.status === "InProgress" : t.status === activeStatusFilter);
+    const priorityOk = activePriorityFilter === "all" || t.priority === activePriorityFilter;
+    return typeOk && statusOk && priorityOk;
+  });
+
+  document.getElementById("visible-count").textContent = filtered.length;
+
+  // Stats (always all tasks)
+  document.getElementById("stat-total").textContent  = tasks.length;
+  document.getElementById("stat-open").textContent   = tasks.filter(t => t.status === "Open").length;
+  document.getElementById("stat-inprog").textContent = tasks.filter(t => t.status === "InProgress").length;
+  document.getElementById("stat-done").textContent   = tasks.filter(t => t.status === "Done").length;
+
+  // Filter description
+  const parts = [];
+  if (activeTypeFilter !== "all")     parts.push("type: " + activeTypeFilter);
+  if (activeStatusFilter !== "all")   parts.push("status: " + STATUS_LABEL[activeStatusFilter]);
+  if (activePriorityFilter !== "all") parts.push("prio: " + activePriorityFilter);
+  document.getElementById("filter-desc").textContent = parts.length ? " - " + parts.join(", ") : "";
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><strong>No tasks match the current filter.</strong>Try clearing filters above.</div></td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(t => {
+    const isDone = t.status === "Done";
+    const prioClass = "prio-" + t.priority;
+    return `<tr class="${isDone ? "done-row" : ""} clickable-row" onclick="openDrawer('${t.id}')">
+      <td class="td-id">${t.id}</td>
+      <td>
+        <div class="td-title">${esc(t.title)}</div>
+        ${t.description ? `<div class="td-desc">${esc(t.description)}</div>` : ""}
+      </td>
+      <td><span class="badge badge-${t.type}">${t.type}</span></td>
+      <td>
+        <span class="status-pill pill-${t.status}" onclick="event.stopPropagation(); cycleStatus('${t.id}')" title="Click to advance status">
+          <span class="dot"></span>${STATUS_LABEL[t.status]}
+        </span>
+      </td>
+      <td><span class="prio ${prioClass}" title="${t.priority}"></span></td>
+      <td class="td-source">${esc(t.source || "")}</td>
+      <td class="td-date">${t.date_added || ""}</td>
+    </tr>`;
+  }).join("");
+}
+
+function esc(s) {
+  return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+// ============================================================
+// FILTERS
+// ============================================================
+document.querySelectorAll("[data-filter-type]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("[data-filter-type]").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeTypeFilter = btn.dataset.filterType;
+    render();
+  });
+});
+
+document.querySelectorAll("[data-filter-status]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("[data-filter-status]").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeStatusFilter = btn.dataset.filterStatus;
+    render();
+  });
+});
+
+document.querySelectorAll("[data-filter-priority]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("[data-filter-priority]").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activePriorityFilter = btn.dataset.filterPriority;
+    render();
+  });
+});
+
+// ============================================================
+// ADD TASK FORM
+// ============================================================
+function showForm() {
+  document.getElementById("add-form").classList.add("visible");
+  document.getElementById("f-title").focus();
+}
+function hideForm() {
+  document.getElementById("add-form").classList.remove("visible");
+  ["f-title","f-desc","f-source"].forEach(id => document.getElementById(id).value = "");
+}
+async function saveNewTask() {
+  const title = document.getElementById("f-title").value.trim();
+  if (!title) { alert("Title is required."); return; }
+  const id = "U" + Date.now();
+  const task = {
+    id,
+    title,
+    type:       document.getElementById("f-type").value,
+    priority:   document.getElementById("f-priority").value,
+    status:     "Open",
+    description: document.getElementById("f-desc").value.trim(),
+    source:     document.getElementById("f-source").value.trim() || "Added manually",
+    date_added: new Date().toISOString().slice(0,10)
+  };
+
+  if (SERVER_AVAILABLE) {
+    try {
+      await postNewTask(task);
+      tasks = await loadTasks();
+      hideForm();
+      render();
+      showToast("Task added (synced)", "success");
+      return;
+    } catch (e) {
+      console.error(e);
+      showToast("Add failed: " + e.message, "error");
+      return;
+    }
+  }
+
+  // offline fallback
+  task._manual = true;
+  saveOverride(id, task);
+  tasks = await loadTasks();
+  hideForm();
+  render();
+}
+
+// ============================================================
+// PROMPT TEMPLATES
+// ============================================================
+const PROMPT_INTRO = {
+  Bug:     "Fix the following bug on logiai.blog",
+  Content: "Work on the following content task for logiai.blog",
+  SEO:     "Implement the following SEO improvement for logiai.blog",
+  Tech:    "Implement the following technical task for logiai.blog",
+  Design:  "Fix the following design issue on logiai.blog"
+};
+
+function buildPrompt(t) {
+  const intro = PROMPT_INTRO[t.type] || "Work on the following task for logiai.blog";
+  return `${intro}:
+
+Task ID: ${t.id}
+Title: ${t.title}
+Type: ${t.type}  |  Priority: ${t.priority}
+
+Details:
+${t.description || "No description provided."}
+
+Source: ${t.source || ""}
+
+Please ask any clarifying questions you need before starting, then implement the task.`;
+}
+
+// ============================================================
+// DRAWER
+// ============================================================
+function openDrawer(id) {
+  const t = tasks.find(x => x.id === id);
+  if (!t) return;
+
+  document.getElementById("drawer-title").textContent = t.title;
+  document.getElementById("drawer-desc").textContent = t.description || "No description.";
+  document.getElementById("drawer-prompt").value = buildPrompt(t);
+
+  const meta = document.getElementById("drawer-meta");
+  meta.innerHTML =
+    `<span class="badge badge-${t.type}">${t.type}</span>` +
+    `<span class="status-pill pill-${t.status}" style="pointer-events:none"><span class="dot"></span>${STATUS_LABEL[t.status] || t.status}</span>` +
+    `<span class="prio prio-${t.priority}" title="${t.priority} priority" style="display:inline-block"></span>` +
+    `<span style="font-size:11px;color:var(--subtle);font-family:monospace">${t.id}</span>`;
+
+  const btn = document.getElementById("copy-btn");
+  btn.textContent = "⎘ Copy prompt";
+  btn.classList.remove("copied");
+
+  document.getElementById("drawer-overlay").classList.add("open");
+  document.getElementById("drawer").classList.add("open");
+}
+
+function closeDrawer() {
+  document.getElementById("drawer-overlay").classList.remove("open");
+  document.getElementById("drawer").classList.remove("open");
+}
+
+function copyPrompt() {
+  const text = document.getElementById("drawer-prompt").value;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById("copy-btn");
+    btn.textContent = "Copied!";
+    btn.classList.add("copied");
+    setTimeout(() => {
+      btn.textContent = "⎘ Copy prompt";
+      btn.classList.remove("copied");
+    }, 2200);
+  }).catch(() => {
+    // fallback for browsers that block clipboard
+    const ta = document.getElementById("drawer-prompt");
+    ta.select();
+    document.execCommand("copy");
+    const btn = document.getElementById("copy-btn");
+    btn.textContent = "Copied!";
+    btn.classList.add("copied");
+    setTimeout(() => { btn.textContent = "⎘ Copy prompt"; btn.classList.remove("copied"); }, 2200);
+  });
+}
+
+// esc key closes drawer
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeDrawer(); });
+
+// ============================================================
+// INIT
+// ============================================================
+async function init() {
+  SERVER_AVAILABLE = await probeServer();
+  updateSyncBadge();
+
+  tasks = await loadTasks();
+
+  const scanStr = SERVER_LAST_SCAN || LAST_SCAN;
+  if (scanStr) {
+    document.getElementById("last-scan-display").textContent = new Date(scanStr).toLocaleString("en-GB", {
+      day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit"
+    });
+  }
+
+  render();
+}
+
+init();
+</script>
+</body>
+</html>

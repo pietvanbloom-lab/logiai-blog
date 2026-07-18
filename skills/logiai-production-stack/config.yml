@@ -1,45 +1,212 @@
-# LogiAI production stack runtime config (TEMPLATE — IMPORT PENDING)
-#
-# IMPORT-ME: The live config is on the operator's Mac at
-# ~/Documents/Claude/Scheduled/logiai-production-stack/config.yml.
-# Copy it over this file (MIGRATION.md, step 1). Values below are safe
-# defaults derived from the editorial-engine config template so a cloud run
-# can operate before the import.
+# LogiAI Production Stack — Runtime Configuration
+# Editable without touching SKILL.md. Skill reads this on every run start.
+# Pricing as of May 2026 (per 1M tokens, input / output)
 
+version: 1
+last_updated: 2026-05-11
+
+# ─────────────────────────────────────────────
+# Model Pricing Reference (USD per 1M tokens)
+# ─────────────────────────────────────────────
+models:
+  haiku-4-5:
+    id: claude-haiku-4-5-20251001
+    input_per_1m: 1.00
+    output_per_1m: 5.00
+    use_for: structured, deterministic, file ops, API calls
+  sonnet-4-6:
+    id: claude-sonnet-4-6
+    input_per_1m: 3.00
+    output_per_1m: 15.00
+    use_for: reasoning, writing quality, source critique, trend analysis
+  opus-4-6:
+    id: claude-opus-4-6
+    input_per_1m: 15.00
+    output_per_1m: 75.00
+    use_for: rare escalations only, ambiguous compliance edge cases
+
+# ─────────────────────────────────────────────
+# Model Assignment per Phase
+# ─────────────────────────────────────────────
+# Each entry maps a phase or sub-task to a model id from the table above.
+phase_models:
+  phase_0_preflight:               haiku-4-5
+  phase_1_action_sweep_seo:        haiku-4-5
+  phase_1_action_sweep_bug_code:   sonnet-4-6
+  phase_1_action_sweep_tech_infra: haiku-4-5
+  phase_1_action_sweep_design:     sonnet-4-6
+  phase_2_monitoring:              haiku-4-5
+  phase_2_scoring:                 haiku-4-5
+  phase_2_verification:            sonnet-4-6
+  phase_3_drafting:                sonnet-4-6
+  phase_3_editorial_visuals:       haiku-4-5
+  phase_4_qc_checklist:            haiku-4-5
+  phase_4_compliance:              sonnet-4-6
+  phase_6_publishing:              haiku-4-5
+  phase_7_memory_update:           haiku-4-5
+  phase_8_performance_review:      sonnet-4-6
+
+# Escalation override: when QC or Compliance returns "ambiguous" twice in a row,
+# retry the decision with this model. Logged in run summary.
+escalation_model: opus-4-6
+escalation_max_calls_per_run: 2
+
+# ─────────────────────────────────────────────
+# Hard Caps — wer zuerst zuschlägt, stoppt den Run
+# ─────────────────────────────────────────────
 caps:
   daily:
-    tool_calls: 250
-    wall_clock_seconds: 1800
-    usd_estimate: 5.00
+    total_usd:        3.00
+    total_tool_calls: 200
+    total_wall_min:   90
+    per_phase:
+      tool_calls: 50
+      wall_min:   30
+      usd:        0.80
+    per_draft:
+      tool_calls: 25
+      usd:        0.50
+
   weekly:
-    tool_calls: 500
-    wall_clock_seconds: 3600
-    usd_estimate: 12.00
+    total_usd:        5.00
+    total_tool_calls: 300
+    total_wall_min:   120
+    per_phase:
+      tool_calls: 80
+      wall_min:   45
+      usd:        1.20
+    per_draft:
+      tool_calls: 25
+      usd:        0.50
 
-phase_models:
-  preflight: haiku
-  strategy: sonnet
-  monitoring: haiku
-  scoring: haiku
-  verification: sonnet
-  drafting: sonnet
-  editorial_visuals: haiku
-  quality_gate: sonnet
-  approval: haiku
-  publishing: sonnet
-  compliance: haiku
-  performance: sonnet
+  tracker_only:
+    total_usd:        1.00
+    total_tool_calls: 80
+    total_wall_min:   40
+    per_phase:
+      tool_calls: 50
+      wall_min:   30
+      usd:        0.50
 
-loop_detection:
-  max_same_tool_calls_per_phase: 4
-  similarity_threshold: 0.85
+  content_only:
+    total_usd:        2.50
+    total_tool_calls: 150
+    total_wall_min:   60
+    per_phase:
+      tool_calls: 50
+      wall_min:   30
+      usd:        0.80
+    per_draft:
+      tool_calls: 25
+      usd:        0.50
 
-drift_guard:
+# ─────────────────────────────────────────────
+# Goal-Drift-Guard
+# ─────────────────────────────────────────────
+# Before entering each phase, the skill writes a 1-2 sentence self-check:
+# "Phase {N} goal: ... | Current action: ... | Aligned? yes/no"
+# If "no" or if the action references a different phase/output, stop and escalate.
+goal_drift_guard:
   enabled: true
-  alignment_check_per_phase: true
-  styleguide_sync_check: true
+  check_format: "Phase {phase}: goal='{goal}', current_action='{action}', aligned={bool}"
+  on_mismatch: stop_and_escalate
+  log_path: "~/Documents/Claude/Scheduled/logiai-production-stack/runs/{date}_drift.log"
 
-approval_timeouts:
-  soft_escalation_hours: 2
-  hard_escalation_hours: 24
-  no_response_action: hold
+# ─────────────────────────────────────────────
+# Loop Detection
+# ─────────────────────────────────────────────
+# If the same tool is called with substantially the same arguments more than N
+# times within a phase, treat as a loop and abort the phase.
+loop_detection:
+  enabled: true
+  same_tool_threshold: 4         # 4 identical-ish calls in same phase = loop
+  similarity_method: arg_hash    # hash of normalized arguments
+  on_loop: abort_phase_and_log
+
+# ─────────────────────────────────────────────
+# Cap Enforcement Order
+# ─────────────────────────────────────────────
+# When multiple caps trigger simultaneously, log all but report the first one
+# that exceeded its threshold in chronological order.
+cap_enforcement:
+  check_order:
+    - per_phase.tool_calls
+    - per_phase.wall_min
+    - per_phase.usd
+    - per_draft.tool_calls
+    - per_draft.usd
+    - total.tool_calls
+    - total.wall_min
+    - total.usd
+  on_cap_hit: stop_current_phase_save_state_continue_next_run
+
+# ─────────────────────────────────────────────
+# Telemetry — what to log per run for later tuning
+# ─────────────────────────────────────────────
+telemetry:
+  log_path: "~/Documents/Claude/Scheduled/logiai-production-stack/runs/{date}_{time}.log"
+  track:
+    - phase
+    - model_used
+    - tool_calls_count
+    - wall_seconds
+    - input_tokens
+    - output_tokens
+    - estimated_usd
+    - cap_hits
+    - drift_mismatches
+    - loop_aborts
+  summary_to_chat: true
+
+# ─────────────────────────────────────────────
+# Tuning Policy
+# ─────────────────────────────────────────────
+# After each run, append actuals to runs/cap-history.csv.
+# After 3 runs in a given mode, recommend new caps at 1.5x median actuals
+# and prompt operator to update this file.
+tuning:
+  history_file: "~/Documents/Claude/Scheduled/logiai-production-stack/runs/cap-history.csv"
+  recommend_after_runs: 3
+  recommended_buffer: 1.5         # 1.5x median actuals
+  operator_must_approve: true
+
+#
+
+# ─────────────────────────────────────────────
+# Approval Email (async approval channel)
+# ─────────────────────────────────────────────
+approval_email:
+  enabled: false              # 2026-06-17: reverted to operator-present approval; approval-scan-1200 task paused. Flip back to true (and re-enable the task) for away-mode.
+  account: gmail_markus       # uses gmail_markus IMAP MCP + SMTP fallback
+  inbox: markus.possiel@gmail.com
+  subject_prefix_stage1: "[LogiAI {date}]"
+  subject_prefix_stage2: "[LogiAI Preview {date}]"
+  subject_prefix_publish: "[LogiAI Published {date}]"
+  subject_prefix_error: "[LogiAI Publish Error]"
+  labels:
+    approve:     "logiai/approve"
+    skip:        "logiai/skip"
+    defer:       "logiai/defer"
+    preview_go:  "logiai/preview-go"
+  defaults_if_unlabeled:
+    stage1_after_hours: 24      # unlabeled stage 1 items default to "defer"
+    stage1_default:     "defer"
+    stage2_after_hours: 24      # unlabeled preview defaults to "skip" (conservative for publish)
+    stage2_default:     "skip"
+  rate_limit:
+    send_delay_sec: 1.0
+    batch_max:      20          # cap items per cycle to avoid Gmail spam flag
+  conflict_resolution:
+    # If a single thread carries multiple labels (operator accident)
+    order: [preview_go, approve, defer, skip]
+  paths:
+    decisions_dir: "~/Documents/Claude/Scheduled/logiai-approval-mail/decisions"
+    sent_dir:      "~/Documents/Claude/Scheduled/logiai-approval-mail/sent"
+  scopes:
+    # What approval_email is allowed to authorize without further human input.
+    auto_draft_on_approve:     true   # Stage 1 approve -> autonomous drafting + QC
+    auto_publish_on_preview:   true   # Stage 2 preview-go -> autonomous WP publish
+    auto_tracker_flip:         false  # Tracker status flips still need operator-present
+    auto_tracker_flip_on_publish: false  # Step-1 placeholder (tracker-autoflip spec). When enabled: explicit tracker_id / back-ref wp_post_id matches may flip to Done on publish. Heuristic + closes_on:manual never auto-flip. Keep false until step 3 of rollout.
+    auto_git_push:             false  # NEVER autonomous
+    auto_file_delete:          false  # NEVER autonomous
