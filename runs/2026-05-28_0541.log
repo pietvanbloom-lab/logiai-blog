@@ -1,0 +1,84 @@
+=== LOGIAI PRODUCTION STACK — DAILY RUN ===
+Run date:    2026-05-28
+Run time:    05:41 UTC (07:41 CET)
+Mode:        daily
+Log path:    ~/Documents/Claude/Scheduled/logiai-production-stack/runs/2026-05-28_0541.log
+Model map:   haiku-4-5 (file ops, structured), sonnet-4-6 (reasoning, writing, verification)
+
+CONFIG SNAPSHOT:
+  daily caps: total_usd=$3.00, tool_calls=200, wall_min=90
+  per_phase:  tool_calls=50, wall_min=30, usd=$0.80
+  per_draft:  tool_calls=25, usd=$0.50
+  approval_email: enabled (gmail_markus, markus.possiel@gmail.com)
+
+--- PHASE -1: STYLEGUIDE DRIFT CHECK ---
+Status:  COMPLETED (from prior session, no compaction)
+Result:  Styleguide in sync. All 8 Hard Rules in all 8 skill files match master CONTENT-STYLEGUIDE.md.
+Log:     "Styleguide in sync — zero drift across drafting, quality-gate, publishing, editorial-visuals (cache + bundle)."
+
+--- PHASE 0: PRE-FLIGHT ---
+Goal:    Verify pipeline readiness before editorial work begins.
+Drift guard: Phase 0: goal='verify pipeline readiness', current_action='check WP REST API + parse tracker + init log', aligned=yes
+
+[05:41] Queue folder: EMPTY (no pre-approved work packages)
+[05:41] WP REST API: 200 OK (User-Agent: curl/8.4.0, Cloudflare pass)
+[05:41] Action Tracker parsed: LAST_SCAN=2026-05-27T07:00:00
+
+OPEN TASKS (sorted High→Medium→Low):
+  HIGH:
+    T062 [Content] Approve or decide Stord $250M Series F draft — NOTE: Post 519 published 2026-05-27T09:56 CET per memory. Tracker shows Open but was resolved.
+    T063 [SEO]     Set Yoast SEO meta for Einride Post 496 — URGENT, fires TODAY 2026-05-28T08:00 CET
+  MEDIUM:
+    T013 [Content] Prio 04+ content enhancements from Content Audit
+    T014 [Design]  Mobile responsiveness check — article pages
+    T022 [Content] Embed Prio 01-03 blocks into Art 02/03/04/09 (post IDs unknown)
+    T027 [Content] Draft and publish Weeks 2-4 articles (9 remaining)
+    T029 [SEO]     Run competitor SEO gap analysis (searchfit-seo plugin)
+    T031 [SEO]     Request manual URL indexing in GSC for 40 pages
+    T064 [SEO]     Set Yoast SEO meta for Locus/Nexera Post 498 — fires 2026-06-01
+  LOW:
+    T015 [Tech]    Push theme changes to GitHub
+    T016 [Design]  Editorial visuals push to GitHub/Pages
+    T017 [Tech]    Verify audio player
+    T018 [Content] Newsletter/mailing list integration
+    T025 [Tech]    Remove URL-Prefix GSC property
+    T028 [Content] 20 daily AI Prompt posts
+    T033 [Tech]    Fix weekday mismatch in publish scheduling
+    T039 [Content] Diversify P5 editorial backlog
+
+SCHEDULED POSTS (for awareness):
+  Post 496 (Einride Ohio cabless L4): 2026-05-28T08:00 CET — FIRING TODAY
+  Post 498 (Locus/Nexera):          2026-06-01T08:00 CET
+  Post 491 (AWS Connect Decisions):  2026-05-27T08:00 CET — should have fired yesterday
+  Post 493 (Toyota Automated):       2026-05-29T08:00 CET — tomorrow
+
+Phase 0 STATUS: COMPLETE
+
+--- PHASE 1: ACTION TRACKER SWEEP ---
+Goal:    Triage Open tasks, identify autonomous actions + approval-email items.
+Drift guard: Phase 1: goal='action tracker triage', current_action='classify open tasks by risk/type', aligned=yes
+
+AUTONOMOUS ACTIONS EXECUTED: none (all open items require operator decision or human-browser interaction)
+
+APPROVAL EMAIL ITEMS (flagged for Phase 5):
+  CRITICAL (fires TODAY):
+    T063 — Set Yoast SEO meta for Einride Post 496 BEFORE 08:00 CET 2026-05-28
+            Post: https://logiai.blog/wp-admin/post.php?post=496&action=edit
+            focuskw: einride ease logistics ohio cabless autonomous electric truck
+            SEO title: Einride Launches Cabless L4 Trucks in Ohio with Ease Logistics (2026)
+            meta desc: Einride deploys cabless autonomous electric trucks with Ease Logistics in Ohio — the first commercial L4 EV freight haul in the US Midwest.
+
+  TRACKER NOTE (no flip without operator approval):
+    T062 — Stord draft status: Post 519 was published LIVE 2026-05-27T09:56 CET.
+            T062 should be marked Done. Please confirm and flip in tracker.
+
+  SEO PENDING (fires 2026-06-01):
+    T064 — Set Yoast SEO meta for Locus/Nexera Post 498 before Mon 2026-06-01 08:00 CET
+
+DEFERRED (Medium/Low, no autonomous path):
+  T013, T014, T022, T027, T029, T031 — content/SEO tasks, need operator session
+  T015, T016, T017, T018, T025, T028, T033, T039 — low priority, deferred
+
+Phase 1 STATUS: COMPLETE (0 autonomous actions, 3 items flagged for approval email)
+
+

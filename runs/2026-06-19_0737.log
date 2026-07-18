@@ -1,0 +1,104 @@
+# LogiAI Production Stack Run Log
+date: 2026-06-19
+time: 0737 CEST
+mode: daily
+operator: absent (scheduled autonomous run)
+model: opus-single (claude-opus-4-8)
+approval_email: disabled (config enabled=false; reverted to operator-present gate 2026-06-17)
+
+## Phase -1: Styleguide Drift Check
+goal='verify inline Hard Rules match master CONTENT-STYLEGUIDE.md', current_action='grep-compare bundle vs cache for 4 skills', aligned=yes
+RESULT: Styleguide in sync. Bundle == Cache for drafting/quality-gate/publishing/editorial-visuals.
+All carry em-dash ban + brief-leak guard + floskel list. No drift. No propagation needed.
+
+## Phase 0: Preflight
+goal='load state and verify pipeline health', current_action='read config/memory/tracker + WP REST check', aligned=yes
+- config.yml parsed: daily caps (USD 3.00 / 200 calls / 90 min). phase_models loaded.
+- Queue folder: empty (only processed/ subdir). No pre-approved work packages.
+- WP REST API: HTTP 200 (healthy, T021 resolved).
+- Latest LIVE post: 592 "The EU Named Your Shift-Planning AI in Its High-Risk Examples" (2026-06-19T07:00, slug eu-ai-act-high-risk-guidelines-logistics-2026). Went live today as planned.
+  NOTE: register tracked this as post 597; live ID is 592 (same slug + title). ID bookkeeping discrepancy, flagged for operator.
+- Action Tracker parsed: 98 task objects, 57 Done, 41 Open (0 High, all Medium/Low).
+
+## Phase 1: Action Tracker Sweep
+goal='execute low-risk Open tasks, surface gated ones', current_action='classify 41 open tasks', aligned=yes
+- 41 Open carried. 0 autonomously executable (all operator-dependent or infra-gated:
+  GSC manual indexing, WP.com media permissions, ElevenLabs subscription, external backlinks,
+  git push, file deletion, mu-plugin, credential writes).
+- Stale/satisfied tasks flagged for operator close (NO status flips - operator controls Done):
+  - T049 Kodiak x2 signals: EXPIRED (deadline 2026-05-21, long past).
+  - T080 Slot Siemens+KION + Rotterdam-Oslo drafts: SATISFIED (566 LIVE Jun 15, 567 LIVE Jun 17).
+  - T088 Label Jun 5 Stage 1 mail: STALE (approval-mail flow disabled 2026-06-17).
+  - T098 Einride Nasdaq draft (E): operator disposition still pending.
+
+## Phase 2: Editorial Pipeline (Monitoring -> Scoring -> Verification)
+goal='surface 1-5 fresh non-duplicate verified EU-lean candidates', current_action='4-query EU scan + 2 verification passes', aligned=yes
+- Scan: 6 web queries (general EU logistics AI, autonomous freight, warehouse robotics, AI agents + 2 verification).
+- Candidates evaluated and rejected:
+  - Amazon AI warehouse robot / EUR10B Europe push: DUPLICATE of scheduled post 600 (Proteus, Jun 29). Blocked.
+  - EU AI Act full-effect framing: SATURATED vs post 592 (live today) + 464 + 490.
+  - Logistics Reply GaliLEA Dynamic Intelligence: STALE (announced 2026-01-19).
+  - PTV Mira AI agent: STALE (announced 2026-01-19, presented 2026-02-25).
+  - PlusAI/IVECO Southern Europe L4: STALE (2026-01-12).
+  - Loop $95M Series C: STALE (2026-04-19).
+  - DHL Global Forwarding route optimization: STALE (2026-01-11) + DHL covered (post 578).
+  - Smart Robotics EUR10M Series A: dated 2026-05-14, dedup-adjacent to post 498 (Locus/Nexera). Backup-watch.
+- Backup-watch (no decision needed): Alitheon $8M Series A1 (off-core geo, biometrics), EIC 2026 Work Programme EUR1.4B embodied-intelligence/Physical AI (macro/policy, broad).
+- RESULT: 0 fresh candidates pass to Phase 3.
+
+## Phase 3: Drafting
+SKIPPED - no candidates from Phase 2. No new drafts.
+
+## Phase 4: QC + Compliance
+SKIPPED - no drafts.
+
+## Phase 5: Approval Gate
+NO-PUBLISH. Nothing to approve (0 drafts, 0 autonomously-executable tracker tasks).
+No stage-1 selection mail (approval_email disabled + no candidates).
+
+## Phase 7: Memory Update
+- Run log written (this file).
+- cap-history.csv row appended.
+- logiai_published.md: NO changes (nothing published).
+- Action Tracker HTML: NO changes (no status flips; operator-gated).
+
+## Caps / Telemetry
+tool_calls: ~18 | wall_seconds: ~700 | estimated_usd: ~0.85 | cap_hits: none | drift_mismatches: 0 | loop_aborts: 0
+
+## Pipeline forward schedule (from register, unverified-future via REST anon)
+576 Jun 23 | 578 Jun 26 | 600 Jun 29 | 601 Jul 1 | 590 Jul 3
+Cadence intact at 3/week. No gap before next operator-present session.
+
+## OPERATOR SESSION ADDENDUM (2026-06-19, Markus present)
+Approval dialog run. Actions executed within operator-approved scope:
+- WP REST: post 602 (Volvo duplicate draft) -> trashed (confirmed status=trash). Reversible.
+- WP REST: post 452 verified already purged (404). No action.
+- Verified post 594 (Einride Nasdaq) = status=future, scheduled Jun 24 07:00. T098 was stale, not a loose draft.
+- Action Tracker status flips (operator-approved, 6 tasks Open->Done):
+  T041 (452 purged), T049 (Kodiak expired), T080 (566/567 live), T088 (mail disabled),
+  T097 (602 trashed), T098 (Einride already scheduled as 594).
+- Open task count: 41 -> 35.
+- WP writes: 1 (trash 602). git: 0. file deletes: 0.
+- Next: operator chose SEO focus (indexing push + internal linking/schema). Mode TBD.
+
+## SEO AUTHORITY WORK (operator-approved, 2026-06-19)
+Operator skipped GSC, chose internal-linking + schema + keyword proposals.
+- Deliverable: /Users/maxxposs/Documents/Logistics LAB/logiai-seo-authority-proposal-2026-06-19.md
+- Link-graph finding: AI Agents cornerstone 451 = 12 inbound (strong); EU AI Act cornerstone 464 = 3 inbound; new post 592 (live today) = 0 inbound.
+- T076 APPLIED 4 internal links via WP REST PATCH (each verified live):
+  464 -> 592, 490 -> 592, 156 -> 592 (592 now 3 inbound), 484 -> 464 (464 now 4 inbound).
+  Skipped 10 (in-URL anchor, weak fit) + 401 (FAQ-schema risk) by editorial judgment.
+- T071 schema: deliverable ready, operator HOLD (Google FAQ/HowTo rich results deprecated; GEO value only).
+- T075 keywords: 12-post long-tail EU table delivered.
+- Tracker T076/T071/T075 annotated with progress (left Open).
+- WP writes this session total: 5 (1 trash + 4 link PATCH). git: 0. file deletes: 0.
+
+## SEO AUTHORITY WORK - UPDATE (operator requested full A+B, 2026-06-19)
+- Applied the 2 held links with safe anchors: 10 -> 592 (anchor "workforce of AI agents", body prose) and 401 -> 464 (anchor "EU AI Act" in visible FAQ answer). Both verified live.
+- Priority A+B now COMPLETE (6/6): 592 inbound 0 -> 4 (464/490/156/10); 464 inbound 3 -> 5 (484/401).
+- WP writes this session total: 7 (1 trash + 6 link PATCH). git: 0. file deletes: 0.
+
+## SCHEMA + KEYWORD DELIVERABLES BUILT (operator requested, 2026-06-19)
+- logiai-schema-jsonld-2026-06-19.md: paste-ready FAQ JSON-LD for 464/592/460/549 + HowTo for 110/50/179/184, Q&A/steps extracted from live bodies. NOT applied to WP (awaiting operator go).
+- logiai-keyword-clusters-2026-06-19.md: 12 posts expanded into long-tail EU query clusters (primary + 3-4 supporting each, intent + heuristic difficulty).
+- T071/T075 deliverables now complete as standalone files. Application of FAQ schema to WP still pending operator decision.

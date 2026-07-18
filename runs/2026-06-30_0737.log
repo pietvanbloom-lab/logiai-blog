@@ -1,0 +1,36 @@
+LogiAI Production Stack - Daily Run
+Date: 2026-06-30 07:37 CEST (Tue)  Mode: daily  Operator: ABSENT (scheduled)  Approval-mail: DISABLED (config enabled=false)
+Caps (daily): $3.00 / 200 tool calls / 90 min. Posture: read + draft only, NO publish/push/delete/Done-flip.
+
+Phase -1 Styleguide drift: IN SYNC. Master CONTENT-STYLEGUIDE.md mtime 2026-06-02 (unchanged). Inline Hard Rules in all 4 bundle skills (drafting/quality-gate/publishing/editorial-visuals) match master Section 0: em-dash ban, Floskeln list (#4), brief-header guard (#9 -> QC item 26 + brief-leak-guard.py), and the post-600 editorial-visual inlining requirement (publishing #6 editorial-visual-inline.py + visual-style-guard.py). No drift, no propagation. aligned=yes
+Phase 0 Preflight: WP REST 200 OK (curl UA curl/8.4.0). Latest LIVE post 600 (Amazon Proteus, 2026-06-29) confirmed. Tracker parsed (LAST_SCAN 2026-06-29T07:45, 106 tasks: 63 Done / 43 Open). Register + strategy memory loaded. Queue folder empty (processed/ only; no pre-approval). Held draft logiai-draft-2026-06-27-dsv-cargowise-tango.md present. aligned=yes
+Phase 1 Action sweep: 43 Open (3 High, was 41 on Jun29 -> +T105). All 3 High operator/credential-gated, 0 autonomously-executable writes:
+  - T101 Renew expired fal.ai API key (Keychain) -> operator credential. BLOCKS T102.
+  - T102 Swap placeholder featured images (622/623) + set Yoast meta -> blocked by T101 (fal 401) + Yoast needs WP Admin UI.
+  - T105 Publish held DSV/CargoWise draft into Jul 8 slot -> publish action, Phase 5 hard-stop, needs operator approval.
+  Re-surfaced for operator (read-only this run, no flips): also T099/T100 (622 Jul6 / 623 Jul10 slotted -> recommend close), T103 register hygiene + weekly sync, T104 temp-file delete, T073 robots.txt AI-crawler policy. aligned=yes
+Phase 2 Monitoring/Scoring/Verification: 3-query scan (EU logistics AI, EU AI Act Omnibus OJ, week-of Jun23 deals). 0 fresh high-impact non-dup EU-strong candidates warranting a draft.
+  Rejected/known: Logistica OS EUR1.5M pre-seed (Berlin) -> EU yes but P5 AI-Agents saturated + thin pre-seed + thematically same as held post 623 (EU freight back-office agents); Loop $95M (April STALE); project44/LunaPath (DUP-483/332); AWS Connect Decisions (covered post 491); Oliver Wyman EU SC Tech Report (Feb STALE); Knapp/IFA/GlobalTrade roundups (not discrete stories).
+  WATCH (unchanged, draft on trigger): EU AI Act Digital Omnibus - EP plenary approval 2026-06-16 (423-57-174); Council adoption + OJ publication still pending, expected before 2 Aug 2026. Topic already covered by posts 490 + 597 (high dedup risk on P6). Clean discrete trigger = actual OJ publication. Not yet occurred.
+Phase 3 Drafting: SKIPPED (deliberate NO-DRAFT). Schedule full thru Jul10 (601 Jul1, 590 Jul3, 622 Jul6, 623 Jul10). Single open near slot Jul8 already covered by held DSV/CargoWise draft (QC 9.2 AUTO-APPROVE). No editorial need today.
+Phase 4 QC/Compliance: SKIPPED (no new draft).
+Phase 5 Approval gate: HARD STOP. Operator absent + approval-mail disabled => no async channel. Nothing to publish. Held DSV/CargoWise draft remains READY-FOR-PUBLISH (recommended Jul8, = T105). NO publish, NO tracker flip, NO git, NO delete executed.
+Phase 7 Memory: run log written. Register NOT modified (no publish). Tracker HTML NOT modified (Done-flips need operator). MEMORY.md unchanged.
+Outcome: NO-PUBLISH NO-DRAFT (deliberate). Styleguide in-sync. 43 open carried (0 autonomously executable; 3 High operator/credential-gated incl. new T105). Schedule full thru Jul10; 1 held draft ready for Jul8. 0 WP writes, 0 git, 0 delete. Within caps.
+
+--- ADDENDUM: operator-present approval pass (same day, Markus present) ---
+Operator ran approval dialog (AskUserQuestion x4). Decisions:
+  1. DSV/CargoWise held draft -> PUBLISH to Jul 8 slot.
+  2. T099 + T100 -> flip to Done.
+  3. fal key -> operator will renew (placeholder used meanwhile).
+  4. EU AI Act Omnibus -> WAIT for OJ publication (stay on WATCH).
+Phase 6 PUBLISH executed (operator-approved):
+  - Built 2 editorial visuals (stat $78M CargoWise bill; cmp buy-CargoWise vs own-Tango decision axes), inlined via editorial-visual-inline.py --lang en, both visual-style-guard CLEAN.
+  - Assembled body (16743 chars, 3 h2, 2 figures, 3 internal links 483/460/549, 0 em-dash, 0 en-dash, 0 style-block). brief-leak-guard CLEAN + visual-style-guard CLEAN pre-POST.
+  - Created 7 tags (788290516-521 + reused TMS 788290430). POST /posts -> 201. Post ID 633, status=future, date 2026-07-08T07:00:00, featured_media=402 (placeholder, swap pending T101), categories [788290369, 392657747], slug dsv-cargowise-tango-build-vs-buy-tms-2026.
+  - Verified via authenticated context=edit GET: 2 figures / 0 style / 3 h2 / 0 em-dash confirmed stored. brief-leak-guard --post 633 CLEAN.
+Phase 7 writes (operator-approved):
+  - Action Tracker: T099 Done, T100 Done, T105 Done (wp_post_id 633). Open count 43 -> 40, Done 63 -> 66. Backup: LogiAI Action Tracker.html.bak-2026-06-30.
+  - Register: post 633 row appended (2026-06-30 run block).
+  - Yoast for 633 NOT set (known REST issue) - operator to set via editor JS before Jul 8 (focus "dsv cargowise tango", SEO title "DSV Drops CargoWise for Tango: The Forwarder Build vs Buy Bet"). excerpt set as metadesc fallback.
+Outcome (post-addendum): 1 PUBLISH (post 633, future Jul8), 3 tracker Done-flips, register + log updated. fal key still 401 (operator renewing). 0 git, 0 delete. Within caps.

@@ -1,0 +1,144 @@
+# LogiAI Production Stack Run — 2026-05-14 07:00 CET
+# Mode: daily (scheduled, operator not present)
+# Config snapshot: v1, last_updated 2026-05-11
+# Caps (daily): total_usd=3.00, total_calls=200, total_min=90, per_phase=50/30/0.80, per_draft=25/0.50
+
+## Phase -1: Styleguide Drift Check
+
+- Master read: CONTENT-STYLEGUIDE.md (548 lines, Sections 0, 2, 4, 5, 7, 10 verified)
+- Bundle vs Cache parity: drafting (10033b OK), quality-gate (11353b OK), publishing (10133b OK), editorial-visuals (13677b OK). All four pairs IDENTICAL via diff.
+- Master Section 0 vs inline Hard Rules: SAME DRIFT as 2026-05-13 run.
+  - Drafting inline: Master Rule #5 (Keine doppelte Verneinung) absent; inline has context-specific Rule #8 (Keine Pressemitteilungs-Echos) not in master Section 0.
+  - Quality-Gate inline: mirrors drafting drift; adds concrete threshold "mehr als drei Genitiv-Glieder hintereinander".
+  - Publishing inline: scan-list (em-dash, en-dash, emoji, floskel) — not a Section 0 copy, no drift.
+  - Editorial-Visuals inline: visual-specific rules; adds "Keine PR-Sprache" rule for legend labels — purposeful extension, not drift.
+- Decision (autonomous mode): NO SYNC. Same drift identified yesterday, intentional context-specificity. Surface to operator in run summary.
+- Drift-guard Phase -1: goal='detect drift', current_action='diff master vs 4 inline copies', aligned=yes.
+
+## Phase 0: Pre-flight
+
+- WP REST API public list: HTTP 200 (logiai.blog/wp-json/wp/v2/posts)
+- Latest published post: 464 (2026-05-12T18:31:47), featured_media=465 NEW since yesterday's run
+  - Image 465: "EU AI Act 2026 Logistics Compliance Featured Image", uploaded 2026-05-13T12:31, source_url logiai.blog/wp-content/uploads/2026/05/logiai-eu-ai-act-2026-featured-web.jpg
+  - INTERPRETATION: operator (or another session) resolved T037 between 2026-05-13 morning run and 2026-05-14 morning run.
+- Post 452 still 401 (unscheduled / private), confirming it remains orphaned.
+- Memory check: logiai_published.md aligned with WP REST state.
+- Action Tracker parse: 41 total tasks (18 Done, 23 Open). New since yesterday: T035, T036, T037, T038, T039, T040, T041.
+- Queue file 2026-05-13-priority.md: STILL STALE.
+  - File date (2026-05-13) != today (2026-05-14) and not date-less, so per Phase 0 step 3 rules, pre-approval scope does not extend to this run.
+  - Even if scope did extend: target (Post 452) is unpublished, featured image now exists on Post 464 (the live one). Work package obsolete.
+  - Action: leave file in place (NEVER delete without explicit confirmation). T038 already exists in tracker to handle cleanup.
+- Drift-guard Phase 0: goal='preflight', current_action='read configs/memory/tracker, verify WP', aligned=yes.
+
+## Phase 1: Action Tracker Sweep (read-only triage)
+
+Top open tasks by priority. Statuses are read-only this run; no autonomous flips.
+
+HIGH priority:
+- T032 [Tech] — Automate WP publish end-to-end. Blocked on operator decision (WPCOM MCP vs REST API automation). Carry over.
+- T034 [Content] — Verify Post 452 EU AI Act scheduled. RESOLVED in memory (Post 452 unscheduled 2026-05-12, replaced by Post 464). SAFE TO FLIP DONE. Surface to operator.
+- T035 [Tech] — Upload TTS plugin v2.1 ZIP. WP admin upload; out of autonomous scope (file deploy + irreversible until rollback). Surface.
+- T036 [Tech] — Eliminate ElevenLabs API key exposure in frontend JS. CRITICAL SECURITY. Option A (Web Speech API, free, 30 min, lower quality) vs Option B (Cloudflare Worker proxy, 2-3 h, full quality). Operator decision needed. Until then: confirm hard usage cap on ElevenLabs dashboard. Surface.
+
+MEDIUM priority:
+- T012 [SEO] — Internal linking audit. Defer (dedicated session needed).
+- T013 [Content] — Prio 04+ enhancements. Defer (content audit work).
+- T014 [Design] — Mobile responsiveness check. Requires browser; defer.
+- T022 [Content] — Embed Prio 01-03 into Art 02/03/04/09. Defer.
+- T027 [Content] — Draft 9 remaining Week 2-4 articles. Editorial pipeline scope; tied to slotting decision below.
+- T029 [SEO] — Competitor SEO gap analysis. Read-only, deferred.
+- T031 [SEO] — GSC manual indexing 40 pages. External-only action.
+- T037 [Content] — Attach featured image to Post 464. RESOLVED (REST API confirms featured_media=465 on Post 464, image uploaded 2026-05-13 12:31). SAFE TO FLIP DONE. Surface to operator.
+- T040 [Tech] — WordPress.com wp-content directory permission for media uploads. Surface (probably related to MCP-vs-REST decision in T032).
+
+LOW priority — all carry over: T015, T016, T017, T018, T025, T028, T033, T038, T039, T041.
+
+Decisions made this phase: NONE (no autonomous status flips per hard rules).
+
+Surface for operator approval:
+- T034: flip to Done (memory confirms resolution).
+- T037: flip to Done (WP REST API confirms featured_media set on Post 464).
+- T036: critical security decision (Option A vs Option B) pending.
+- T038: cleanup of stale queue file 2026-05-13-priority.md. Operator confirms delete.
+- T033: weekday mismatch in scheduling logic (2026-05-14 is Thursday, was correct yesterday; the original bug was 2026-05-13 = Wednesday tagged as Tuesday).
+
+Drift-guard Phase 1: goal='triage open tasks read-only', current_action='parse 41 tasks, classify by priority+type, no flips', aligned=yes.
+
+## Phase 2: Editorial Pipeline (Monitoring + Scoring + Verification)
+
+Light scan (3 web queries, Haiku-tier reasoning). Story candidates surfaced:
+
+NEW since 2026-05-13 run:
+1. **Aurora + McLane (Berkshire Hathaway)** — Daily Dallas-Houston, Aurora Driver, safety driver in cab. CNBC 2026-05-06. Confidence 9.0, P1. Large fleet operator (McLane is Berkshire-owned), commercial corridor at scale. Single-tier source (CNBC primary), confirm with FreightWaves before drafting.
+2. **Torc Robotics commercialization push** — RAN 2026-05-08. P1. Lower priority vs Aurora/McLane.
+
+CARRY-FORWARD from 2026-05-13:
+3. **project44 Autopilot** — GlobeNewswire + FreightWaves + LogisticsMgmt + Yahoo Finance + Manila Times. 2026-05-11. Confidence 9.0, P4 + P5. Headline numbers: 4% freight spend reduction, 70% manual coordination reduction, 75% faster sourcing, 40% disruption-cost reduction. Builds on Post 332 (LunaPath acquisition). **STILL TOP PICK** for P4 gap-fill.
+4. **Kodiak + Roehl Dallas-Houston** — RAN + Heavy Duty Trucking + Trucking Dive. 2026-05-07. Confidence 8.5, P1.
+5. **Kodiak + West Fraser Alberta (logging)** — GlobeNewswire + Manila Times. 2026-05-07. Confidence 8.0, P1. International first + new vertical.
+6. **Hirschbach + Aurora 500-truck deal** — Confidence 8.0, P1.
+7. **Seegrid 20M autonomous miles** — 2026-05-12. Confidence 8.5, P2. Fills P2 gap.
+
+Duplicate check (vs logiai_published.md):
+- No exact title matches.
+- project44 Autopilot vs Post 332 (LunaPath acquisition): same parent, materially different product launch story. PROCEED.
+- Aurora/McLane vs Post 338 (Kodiak Midwest): different vendor, different fleet. PROCEED.
+- Kodiak stories: post 338 covered Kodiak Midwest entry. Roehl and West Fraser are new milestones; some tag overlap risk but story is materially different. PROCEED with single Kodiak story if slotted.
+
+Saturation watch:
+- P5 Agentic AI: 12 of 27 posts = 44%. SATURATION WARNING ACTIVE. Avoid P5-only candidates.
+- P4 SC Visibility: 1 of 27 = 4%. UNDER-SERVED. project44 Autopilot fills this.
+- P3 Demand Forecasting: 2 of 27 = 7%. UNDER-SERVED.
+- P2 Warehouse Automation: 2 of 27 = 7%. UNDER-SERVED. Seegrid fills this.
+
+Output Phase 2: 5 verified candidates ready for slotting decision (1 NEW + 4 carried).
+
+Drift-guard Phase 2: goal='scan upstream + shortlist verified candidates', current_action='3 web searches + duplicate check + saturation map', aligned=yes.
+
+## Phase 3: Drafting — SKIPPED (autonomous mode)
+
+Rationale (same as 2026-05-13): drafting costs ~15-25 calls + $0.30-$0.50 per article; Phase 5 requires operator approval to be useful; slotting decision still queued. Per-draft cap ($0.50) makes it costly to produce a draft for a candidate the operator may not slot. Best autonomous outcome is a clean shortlist for operator review.
+
+## Phase 4: QC + Compliance — N/A (no new drafts)
+
+## Phase 5: Approval Gate — DEFERRED to operator-present session
+
+Operator decisions queued for next interactive session:
+
+1. **Slotting decision (5 candidates)** for next Sun/Tue/Fri slots (2026-05-17 Sun, 2026-05-19 Tue, 2026-05-22 Fri):
+   - project44 Autopilot (top pick, P4 gap-fill, Confidence 9.0)
+   - Aurora + McLane Berkshire (P1, NEW today, Confidence 9.0)
+   - Seegrid 20M miles (P2 gap-fill, Confidence 8.5)
+   - Kodiak + Roehl Dallas-Houston (P1, Confidence 8.5)
+   - Kodiak + West Fraser Alberta (P1, novel vertical, Confidence 8.0)
+2. **Tracker status flips** (3 safe-to-flip Done):
+   - T034 (Post 452 verification — resolved in memory)
+   - T037 (featured image — confirmed live on Post 464)
+   - Optional: T024 status note if still showing Done with stale Post 452 reference.
+3. **T036 ElevenLabs security decision**: Option A (Web Speech API) or Option B (Cloudflare Worker proxy).
+4. **T038 cleanup**: delete stale queue file 2026-05-13-priority.md (work package obsolete).
+5. **T033 fix**: scheduling logic weekday mismatch (low priority, but still open).
+6. **Styleguide drift**: operator review of inline Rule #8 (Pressemitteilungs-Echos) and missing Master Rule #5 (doppelte Verneinung) — keep, sync, or invert.
+
+## Phase 6: Publishing — SKIPPED (no approvals in autonomous mode)
+
+## Phase 7: Memory Update
+
+- logiai_published.md: no changes (no publishes this run).
+- Action Tracker HTML: no status flips this run.
+- MEMORY.md: no new memory files.
+- Run log: this file.
+- cap-history.csv: append below.
+
+Drift-guard Phase 7: goal='update memory + log', current_action='write log + csv', aligned=yes.
+
+## Run Totals
+
+- Tool calls (approx): 20
+- Wall clock: ~10 min
+- Estimated USD: < $0.10 (read-heavy + 3 web searches, Haiku tier)
+- Cap status: well under all daily caps
+- Models invoked (effective): Haiku 4.5 orchestration; no Sonnet/Opus delegation
+- Loop aborts: 0
+- Drift mismatches: 0
+- Goal-drift checks: 5 of 5 phases aligned

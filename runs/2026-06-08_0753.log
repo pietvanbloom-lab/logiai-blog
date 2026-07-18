@@ -1,0 +1,65 @@
+# LogiAI Production Stack - Run Log
+Date: 2026-06-08 (Monday)  Time: 07:53 CEST  Mode: daily (autonomous, scheduled, operator not present)
+
+## Config snapshot
+- caps.daily: total_usd 3.00, total_tool_calls 200, total_wall_min 90; per_phase tc50/wall30/usd0.80
+- phase_models: preflight/monitoring/scoring/QC = haiku-4-5; verification/drafting/compliance = sonnet-4-6
+- approval_email: enabled (gmail_markus). gmail_markus + gmail_piet MCPs expose read/move/flag/search only, NO send tool -> no Stage 1 mail dispatched; approval surfaced via report.
+
+## Phase -1: Styleguide Drift Check
+Phase -1: goal='verify inline Hard Rules match master CONTENT-STYLEGUIDE.md', current_action='grep markers master vs 8 inline copies', aligned=yes
+- Master: CONTENT-STYLEGUIDE.md v1.0 (Mai 2026), 23706 bytes. Section 0 Hard Rules present.
+- Marker parity check (em-dash ban / brief-leak guard / Stilmix 70-20-10): bundle and cache copies identical per skill.
+  drafting em3/leak1/stil3 ; quality-gate em5/leak5/stil5 ; publishing em3/leak1/stil0 ; editorial-visuals em1/leak0/stil0.
+- quality-gate carries full enforcement set. Result: STYLEGUIDE IN SYNC. No drift. Continue.
+
+## Phase 0: Pre-flight
+Phase 0: goal='load state and verify access', current_action='read config, queue, memory, tracker, WP REST', aligned=yes
+- Queue folder empty: no operator pre-approved work packages.
+- Memory read: logiai_project, logiai_strategy_2026_06, logiai_published, logiai_indexing_status.
+- Action Tracker parsed: 49 tasks total (35 Done, 14 Open). 0 High, 6 Medium, 8 Low.
+- WP REST check: GET wp/v2/posts?per_page=1 (UA curl/8.4.0) -> HTTP 200. Auth healthy, T021 stays resolved.
+
+## Phase 1: Action Tracker Sweep
+Phase 1: goal='triage open tasks, low-risk only, propose flips', current_action='classify + report', aligned=yes
+Open (14): T013 T014 T022 T027 T029 T031 (Medium); T015 T016 T017 T018 T025 T028 T033 T039 (Low).
+- 0 High. No low-risk auto-execute work: all Open items are Content (defer to Phase 3 pipeline), operator-gated (GSC login / newsletter infra / property removal), or hard-stop (git push T015/T016).
+- T031 (GSC indexing re-check) is DUE today per logiai_indexing_status (next re-check ~2026-06-08/09). Requires Search Console login -> OPERATOR-ONLY. Surfaced, not actioned.
+- T033 (weekday mismatch in publish scheduling) touches publish-scheduling logic -> surfaced for operator, not auto-edited.
+- Carry over all 14 Open tasks.
+
+## Phase 2: Editorial Pipeline (Monitoring / Scoring / Verification)
+Phase 2: goal='find fresh verified non-duplicate candidates', current_action='scan + dedup', aligned=yes
+- Monitoring: 2 targeted web scans (EU logistics-AI June 2026; agentic/TMS/warehouse/EU-reg this week).
+- Signals: evergreen market-size pieces (AI-in-SC 14bn->50bn), conference previews (DELIVER Europe Jun 3-4, SAP Hannover Messe Apr, MODEX 2026), already-covered deals (Loop $95M Series C Apr 19; STG/Carrier Logistics on watch list; agentic-TMS covered in posts 483/549/576).
+- Result: 0 verified FRESH (last 24-72h) high-impact non-duplicate candidates.
+- Forward hook recorded: EU AI Act high-risk regime applicable 2 Aug 2026 -> strong timed angle for compliance cross-cut, slot mid-to-late July (P6 / Supply Chain & Operations AI).
+
+## Phase 3: Drafting
+- SKIPPED. No qualifying candidate. Pipeline buffered through 2026-06-26 (548 Jun8, 549 Jun10, 550 Jun12, 566 Jun15, 567 Jun17, 576 Jun23, 578 Jun26). Cadence capped 3/week. Disciplined no-draft to avoid over-stock / dedup risk.
+
+## Phase 4: QC + Compliance
+- N/A (no drafts).
+
+## Phase 5: Approval Gate
+Phase 5: goal='present decisions to operator', current_action='produce report (no send channel)', aligned=yes
+- 0 ready-for-publish, 0 escalations. Hard rule respected: NO auto-publish.
+- No tracker status flips proposed requiring approval.
+- No Stage 1 mail: no send capability in gmail MCPs. Surfaced in chat report. No spam risk.
+
+## Phase 6: Publishing
+- NONE.
+
+## Phase 7: Memory + Telemetry
+- logiai_published.md: no changes (nothing published).
+- Action Tracker HTML: no changes (no approved flips).
+- MEMORY.md: no new memory files.
+- Cap actuals: ~13 tool calls, ~9 wall min, est. ~$0.30. No cap hits, no drift mismatches, no loop aborts.
+- No user-file deletions. No git pushes.
+
+## Next run notes
+- T031 GSC indexing re-check DUE NOW (operator, Search Console login). Confirm Pages report refreshes past 5/29 and Discovered/Crawled counts drop after post-sitemap.xml Success (38 pages).
+- EU AI Act 2 Aug 2026 high-risk deadline: plan a compliance piece for mid-to-late July.
+- Post 576 featured image swap (placeholder media 402) before Jun 23.
+- Watch list: STG/Carrier Logistics (Apr 13, agentic LTL TMS); Tecsys (Jun 1); Descartes OpsForce (Mar 19).
+- Pipeline full through Jun 26; next genuine content gap ~late June. Thin pillars: P3 Demand Forecasting, P4 SC Visibility.

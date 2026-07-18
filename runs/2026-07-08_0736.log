@@ -1,0 +1,53 @@
+LogiAI Production Stack run log
+Date: 2026-07-08 07:36 CEST | Mode: daily | Operator: absent (scheduled) | approval_email: disabled
+
+Phase -1 Styleguide Drift Check:
+  Bundle + master authoritative pair used. Standing note unchanged (from Jul 4/7): plugin skill cache STALE vs bundle
+  (logiai-publishing missing rules 6+7 visual-inline/style-guard; logiai-editorial-visuals missing REST-inlining block;
+  logiai-drafting missing Tracker ID field). Cache read-only from Cowork; cannot sync here. OPERATOR ACTION still open:
+  re-save the 4 skills in Settings > Capabilities. No publish this run, so no exposure. Continued on bundle+master.
+
+Phase 0 Pre-flight:
+  drift-guard: Phase 0: goal='init state, verify inputs', current_action='read config/queue/memory/tracker/WP', aligned=yes
+  config.yml parsed (caps.daily: $3.00 / 200 calls / 90 min). Queue: EMPTY (only processed/).
+  WP REST: HTTP 200. Post 633 (DSV builds its own AI platform) CONFIRMED LIVE, fired 2026-07-08T07:00 as scheduled.
+  Recent live chain intact: 633 (Jul8) <- 622 Rohlik (Jul6) <- 590 Volvo (Jul3) <- 601 Yusen (Jul1) <- 600 Amazon Proteus (Jun29).
+  Remaining future queue (per prior logs): 623 (Jul10). Schedule full through Jul 10; first open slot week of Jul 13.
+
+Phase 1 Action Tracker Sweep:
+  drift-guard: Phase 1: goal='triage open tasks', current_action='classify, carry gated items', aligned=yes
+  Standing gated items carried over (all operator/UI/credential-gated, no autonomous action possible):
+    T101 (High, fal.ai key renewal) CREDENTIAL-GATED, operator only. Posts on placeholder images until renewed.
+    T102 (High, images+Yoast 622/623) blocked by T101 + WP Admin UI.
+    T107 (Medium, Yoast for 633) WP-UI-gated. NOTE: 633 now live -> Yoast pass for 633 is actionable by operator.
+  No autonomous low-risk executions this run. Open backlog unchanged (~41 open).
+
+Phase 2 Monitoring + Scoring + Verification:
+  drift-guard: Phase 2: goal='check T106 trigger + find fresh verified candidates', current_action='web + EUR-Lex scan', aligned=yes
+  T106 TRIGGER CHECK (EU AI Act Digital Omnibus OJ publication): STILL PENDING as of Jul 8.
+    All current sources (DLA Piper, Gibson Dunn, White & Case, EC digital-strategy, Consilium) say OJ publication
+    'anticipated'/'expected' in July 2026, ahead of the 2 Aug 2026 deadline; NONE confirm actual OJ publication yet.
+    Council final green light Jun 29 (confirmed). Enters force day 3 after OJ. Annex III high-risk -> 2027-12-02, Annex I -> 2028-08-02.
+    Direct EUR-Lex verification of OJ:L_202601689 amendment entry blocked this run (web_fetch provenance restriction);
+    corroborated via multiple dated law-firm trackers instead. T106 STAYS ARMED; top editorial priority when OJ lands.
+    Pre-draft READY at Logistics LAB/logiai-draft-2026-07-04-eu-ai-act-omnibus-official-journal.md
+    (placeholders [OJ-DATE][OJ-REF][IN-FORCE-DATE][MONTHS-REMAINING]).
+  Fresh scan (last ~72h): no single-day hook forced. 3 soft candidates PARKED for operator review / Jul 13 slot:
+    1. Octup (Tel Aviv) raised $12M seed (Shine Capital + JAL Ventures), AI operations platform for 3PLs.
+       Strongest fit: AI-native + logistics + funding (P5/P7). New entity -> low dup risk. Needs date/robustness verify before draft.
+    2. PE firm acquires Carrier Logistics (TMS vendor), pledges AI overhaul (FreightWaves). AI-hooked but vendor-internal; medium hook.
+    3. CMA CGM to buy FedEx Supply Chain for $1.4B into CEVA (Supply Chain Dive). Big M&A, primarily consolidation not AI; adjacent.
+  Also noted (not fresh single hook): SVT Robotics SOFTBOT live at 30 DHL sites expanding to 100 (DHL heavily covered, posts 578/etc.).
+  Duplicate-check: n/a (no candidate forwarded to drafting).
+
+Phase 3-4: SKIPPED (0 candidates forced; schedule full through Jul 10; first open slot week of Jul 13).
+Phase 5: NOTHING TO APPROVE. Operator absent + approval_email disabled -> no publish, no status flips. 0 WP writes, 0 git, 0 deletes.
+Phase 6: SKIPPED (nothing approved).
+
+Phase 7 Memory Update:
+  logiai_published.md: no changes (nothing published; 633 was already scheduled/logged prior run).
+  Action Tracker: no status flips (operator approval required).
+  T106 memory: fact unchanged (armed, OJ pending); no edit needed.
+  This log + cap-history row written.
+
+Telemetry: ~10 tool calls, ~6 min wall, est. $0.18, cap_hits=0, drift_mismatches=0, loop_aborts=0.

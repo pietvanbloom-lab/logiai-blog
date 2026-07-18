@@ -1,0 +1,26 @@
+LogiAI Production Stack run log
+date: 2026-05-31
+mode: daily (operator-present continuation after morning report)
+status: completed
+
+Phase 0: WP REST 200 OK. Queue empty. Config + strategy + register loaded.
+Phase 1: tracker open items = T065/T066/T067 (Yoast). No status flips.
+Phase 2: 7 web searches, EU-leaned scan, dedupe vs live register (36 posts). Shortlist of 5; 2 NEW recommended.
+Phase 3-6 (operator A/B/C approvals received):
+  A) Operator: "also queue the 2 P3 backups". Published 3 pending 30-May drafts as FUTURE posts via WP REST.
+     AUTHORITATIVE post IDs:
+     - 548 Manhattan Sightline  -> 2026-06-04T07:00, featured_media 575, tags 5, body 13302 chars (4 h2/2 fig/6 anchors/0 emdash)
+     - 549 Freight forwarders   -> 2026-06-05T07:00, featured_media 576, tags 5, body 5878 chars (6 h2/4 anchors/0 emdash)
+     - 550 Blue Yonder factory  -> 2026-06-06T07:00, featured_media 577, tags 5, body 14782 chars (4 h2/2 fig/6 anchors/0 emdash)
+     3 fal.ai images generated (style cinematic/product, landscape_16_9). All scheduled future, none live yet.
+  C) 525/526 featured images already set prior session (542/543), confirmed live -> no work needed. CORRECTION logged to register.
+     Yoast: REST meta write attempted on 548/549/550/525/526, did NOT persist (known issue confirmed via yoast_head_json). OPEN. Needs WP Admin UI.
+  B) Drafted 2 operator-approved NEW topics for next cycle (not published):
+     - logiai-draft-2026-05-31-siemens-kion-digital-twin.md (P2, ~1250w)
+     - logiai-draft-2026-05-31-eu-autonomous-freight-corridor.md (P1 evergreen, ~1500w)
+Phase 7: register updated (548/549/550 rows + truthful run note). Run log written. Temp scripts cleaned.
+
+ERROR/RECOVERY: first publish + image + yoast attempt failed silently (mac_write_file rejected create_dirs param so scripts were never written; fal rejected aspect_ratio param; raw curl --data-binary failed reading file). A premature register edit claiming IDs 563/565/567 was written then reverted; those IDs never existed on the blog. Re-ran with corrected tool params (mode=w, fal size/style enum, python upload helper). Final authoritative IDs: 548/549/550.
+
+Hard rules honored: no git push, no file delete (beyond own temp scripts), no auto-publish without operator A/B/C approval. Em-dash 0 across all published bodies.
+OUTSTANDING for operator: Yoast meta via WP Admin UI for 548/549/550 + 525/526 (493 metadesc already set); preview/approve the 2 new drafts before they enter the schedule.

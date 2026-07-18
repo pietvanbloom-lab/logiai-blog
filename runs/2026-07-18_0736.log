@@ -1,0 +1,37 @@
+LogiAI Production Stack - Daily Run - 2026-07-18 07:36 CEST (scheduled, operator ABSENT)
+mode: daily | approval_email.enabled=false (operator-present gate) -> NO publish, NO autonomous drafting this run
+
+Phase -1 (styleguide drift): CLEAN. Master CONTENT-STYLEGUIDE.md Section 0 read (9 Hard Rules, incl. Rule 1 em-dash ban and Rule 9 brief-leak-guard). Inline styleguide-compliance blocks verified in all 4 skills (drafting, quality-gate, publishing, editorial-visuals). Bundle copies and plugin-cache copies are byte-identical on the Hard-Rule lines (md5 match per skill). Drafting inline Hard Rules 1-9 match master verbatim. "Styleguide in sync." No propagation needed.
+
+Phase 0 (pre-flight): config.yml parsed (daily caps: 3.00 USD / 200 tool calls / 90 min). Queue folder EMPTY (only processed/ subdir, no dated pre-approval package). WP REST check HTTP 200. fal_generate.py check --wp: fal OK (probe 200), WP auth OK (user Piet Van Bloom) - both green, no T101-style key expiry. Action Tracker parsed: 114 tasks (73 Done, 41 Open), unchanged vs 07-17. Register + project memory loaded. NOTE: EMBEDDED_TASKS array contains a trailing comma at line 115, strict json.loads fails; parser needs a trailing-comma strip (documented here for a future tracker-hygiene task).
+
+Phase 1 (Action Tracker sweep): report-only, no status flips (operator absent).
+- 41 Open. Sole High-priority item is T106 (armed EU AI Act Digital Omnibus OJ trigger). All other Open items are Medium/Low and operator-dependent or carry-over.
+- Operator-dependent backlog carried: T113 (verify Yoast persisted on posts 673/674/675/688), T114 (swap custom fal image on post 688), T108 (re-save 4 LogiAI skills to refresh stale plugin cache), T111 (Octup evergreen decision), T107 area (Yoast post 633), plus standing SEO/tech/design backlog.
+- No Bug/Tech/SEO/Design task auto-executed.
+
+T106 EU AI Act Digital Omnibus OJ check (2026-07-18): NEGATIVE, but materially closer than yesterday.
+- Direct EUR-Lex fetch of CELEX:32024R1689 succeeded this time (HTTP 200, full body, 1.59 MB). "Modified by" block lists ONLY corrigenda: 32024R1689R(01) ES/DE/FR/GA/LT/HU/SK/SL/SV, R(02) NL/SL, R(03) CS, R(04) ES/NL. NO amending regulation. Zero 2026/nnnn references anywhere in the relationship block. Definitive: the Digital Omnibus amendment is NOT yet in the Official Journal.
+- NEW STATE ADVANCE vs 07-17: the final act was SIGNED on 8 July 2026 (Parliament adopted 16 Jun, Council final green light 29 Jun, signature 8 Jul). Signature is the last procedural step before OJ publication. Law-firm trackers now describe it as awaiting OJ publication, entering into force in July 2026, ahead of the original 2 Aug 2026 high-risk deadline.
+- Substance confirmed for the pre-draft: Annex III stand-alone high-risk obligations deferred to 2 Dec 2027; Annex I embedded-product high-risk to 2 Aug 2028; new Article 5 prohibition covering AI-generated non-consensual intimate imagery and CSAM; 3-month watermarking grace period for systems placed on market before 2 Aug 2026, compliance by 2 Dec 2026.
+- Today 18 Jul is DAY 1 of the pinned window (18 Jul - 2 Aug). Trigger stays ARMED, top priority. Pre-draft logiai-draft-2026-07-04-eu-ai-act-omnibus-official-journal.md ready with placeholders [OJ-DATE] / [OJ-REF] / [IN-FORCE-DATE] / [MONTHS-REMAINING]. Continue daily OJ checks; on trigger, re-verify against the live EUR-Lex OJ page before filling placeholders.
+
+Phase 2 (monitoring + scoring + verification): ONE new high-quality candidate surfaced, dedup-clear.
+- CANDIDATE-01 Walden Robotics. 300M USD seed out of stealth at 1.1B USD valuation, announced 2026-07-15. Co-led by Deviation Capital and Toyota Motor Corp (plus Toyota's strategic-investment and early-stage VC arms); other backers Nvidia, Boeing, AE Ventures, Samsung Ventures, CoreWeave Ventures. Cambridge MA, founded January 2026, spun out of a Toyota robotics research lab. Builds its own hardware, software and AI models for general-purpose robots that keep learning in production. Robots have been doing production work at a Toyota plant in North America since February, first pilot to real work in under two months. Focus: manufacturing AND logistics facilities.
+  - VERIFICATION: Verified. Official BusinessWire release 2026-07-15 + company newsroom + Bloomberg + The Robot Report + Tech Startups + Cooley (deal counsel). Multi-source, primary-source anchored, 3 days old, date-currency clean.
+  - SCORING: high. Direct-impact filter PASS (robots deployed in logistics facilities, not a generic AI-trend story). Pillar P2 Warehouse Automation / Physical AI. Strong continuity with posts 486 (GXO/KION Epinoy), 498 (Locus/Nexera picking wall), 600 (Amazon Proteus foundation model), 519 (Stord physical intelligence layer). Angle available: general-purpose vs task-specific robotics economics, and what a 6-month-old Toyota spinout at 1.1B says about how fast the physical-AI capital cycle now moves.
+  - DEDUP: CLEAN. Zero Walden rows in the register. Tag overlap with Physical AI / Warehouse Automation exists but company, event and thesis are new. Pillar diversification favorable: post 688 (Jul 15) was P5 Agentic AI, and P5 remains the saturated cluster, so a P2 slot is the right next move.
+- REJECTED / WATCH: RyderVentures physical-AI thesis piece (FreightWaves) is commentary, not an event. Cargofy 11M USD Series A extension already covered via post 623 (Cargofy 9.6M EUR Series A). Loop 95M Series C re-confirmed stale (April) for the third run running; do not re-surface. All other hits were trend roundups and listicles.
+
+Phase 3-4 (drafting / QC): NOT executed. Operator absent AND queue folder empty (no pre-approval package). Per the 2026-07-17 precedent, candidates are surfaced only; no autonomous local drafting without an operator pre-approval file.
+
+Phase 5 (approval gate): NOT entered (no publish path without operator; approval_email disabled).
+Phase 6 (publishing): NOT entered.
+Phase 7 (memory): run log written; cap-history row appended. No register changes (nothing published). No tracker Done flips (operator absent).
+
+Cadence: week Jul 13-19 = posts 673 + 674 + 675 (Jul 13) and 688 (Jul 15). Week of Jul 20 has no slot filled yet. Walden Robotics is the recommended first slot.
+
+Caps: well under. ~14 tool calls, wall ~5 min, est ~0.24 USD. No cap hits, no drift mismatches, no loop aborts.
+Constraints honored: no WP publish, no git push, no file delete, no tracker Done flip, no em-dashes.
+
+Operator to-do carried: (1) T106 ARMED and now post-signature, OJ publication imminent within the 18 Jul - 2 Aug window; on trigger day fill the pre-draft placeholders, re-verify against EUR-Lex, run QC, publish. (2) Approve drafting of CANDIDATE-01 Walden Robotics for the week of Jul 20 (drop a queue file to allow autonomous drafting on the next run, or approve in-session). (3) T113 confirm Yoast persisted on posts 673/674/675/688. (4) T114 swap custom fal image on post 688 (fal key is green again, so this is now unblocked). (5) T108 re-save 4 LogiAI skills to refresh stale plugin cache. (6) T111 decide Octup evergreen treatment. (7) Optional tracker hygiene: strip the trailing comma in EMBEDDED_TASKS so strict JSON parsers stop failing.

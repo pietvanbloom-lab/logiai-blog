@@ -1,0 +1,74 @@
+# LogiAI Production Stack - Run Log
+Date: 2026-06-09 (Tuesday)  Time: 07:37 CEST  Mode: daily (autonomous, scheduled, operator not present)
+
+## Config snapshot
+- caps.daily: total_usd 3.00, total_tool_calls 200, total_wall_min 90; per_phase tc50/wall30/usd0.80
+- phase_models: preflight/monitoring/scoring/QC = haiku-4-5; verification/drafting/compliance = sonnet-4-6
+- approval_email: enabled (gmail_markus). gmail_markus + gmail_piet MCPs expose read/move/flag/search only, NO send tool -> no Stage 1 mail dispatched; approval surfaced via report.
+
+## Phase -1: Styleguide Drift Check
+Phase -1: goal='verify inline Hard Rules match master CONTENT-STYLEGUIDE.md', current_action='fingerprint master vs 8 inline copies', aligned=yes
+- Master: CONTENT-STYLEGUIDE.md 23706 bytes (unchanged vs 2026-06-08 baseline). Section 0 Hard Rules present.
+- Bundle vs Cache: byte-identical per skill. drafting 11069 / quality-gate 13078 / publishing 11705 / editorial-visuals 13808.
+- Marker parity stable vs prior baseline. Result: STYLEGUIDE IN SYNC. No drift. Continue.
+
+## Phase 0: Pre-flight
+Phase 0: goal='load state and verify access', current_action='read config, queue, memory, tracker, WP REST', aligned=yes
+- Queue folder empty: no operator pre-approved work packages.
+- Memory read: logiai_project, logiai_strategy_2026_06, logiai_published, logiai_indexing_status.
+- Action Tracker parsed: 49 tasks total (35 Done, 14 Open). 0 High, 6 Medium, 8 Low.
+- WP REST check: GET wp/v2/posts?per_page=1 (UA curl/8.4.0) -> HTTP 200. Auth healthy, T021 stays resolved.
+- Schedule verification: post 548 confirmed LIVE 2026-06-08T07:00 (status=publish). Scheduler firing correctly.
+
+## Phase 1: Action Tracker Sweep
+Phase 1: goal='triage open tasks, low-risk only, propose flips', current_action='classify + report', aligned=yes
+Open (14): T013 T014 T022 T027 T029 T031 (Medium); T015 T016 T017 T018 T025 T028 T033 T039 (Low).
+- 0 High. No low-risk auto-execute work fitting daily budget: all Open items are Content (defer to Phase 3 pipeline), operator-gated (GSC login / git push / newsletter infra / property removal), or hard-stop.
+- T031 (GSC indexing re-check) DUE NOW per logiai_indexing_status (next re-check ~2026-06-08/09). Requires Search Console login -> OPERATOR-ONLY. Surfaced, not actioned. (Title "40" figure stale; real not-indexed set ~5 content URLs.)
+- T015 / T016 (git push theme + editorial visuals) -> hard-stop, operator approval required.
+- T033 (weekday mismatch in publish scheduling) touches publish-scheduling logic -> surfaced for operator, not auto-edited.
+- T029 (competitor SEO gap analysis) -> low-risk read-only but heavy; recommend dedicated content/tracker session. Carried.
+- Carry over all 14 Open tasks. No status flips proposed (operator controls Done).
+
+## Phase 2: Editorial Pipeline (Monitoring / Scoring / Verification)
+Phase 2: goal='find fresh verified non-duplicate candidates', current_action='scan + dedup', aligned=yes
+- Monitoring: 3 targeted web scans (EU logistics-AI June 2026; agentic/TMS/supply-chain this week; logistics-tech acquisitions/funding/launches DHL/DSV/Maersk).
+- Signals: evergreen trend pieces (Oliver Wyman EU SC Tech 2026, KNAPP/Dataiku 2026 trends), past conferences (DELIVER Europe Jun 3-4, SAP Hannover Messe Apr), already-covered (SAP agents post 484, DHL customs AI post 578). One newish item: DHL Supply Chain x Robust.AI Carter robots -> LatAm/Mexico geography (weak EU fit), ~3 weeks old (Fortune May 20), collides with DHL post 578 + saturated P2 warehouse-robotics cluster (486/493/498). Dedup + saturation guard would flag.
+- Result: 0 verified FRESH (last 24-72h) high-impact non-duplicate EU-leaning candidates.
+- Forward hook retained: EU AI Act high-risk regime applicable 2 Aug 2026 -> compliance cross-cut, slot mid-to-late July.
+
+## Phase 3: Drafting
+- SKIPPED. No qualifying candidate. Pipeline buffered: 548 (LIVE Jun8), 549 (Jun10), 550 (Jun12), 566 (Jun15), 567 (Jun17), 576 (Jun23), 578 (Jun26). Cadence 3/week. Open slots: 1 in wk Jun15-21, 1 in wk Jun22-28. No urgency; disciplined no-draft to avoid stale/dedup-adjacent content.
+
+## Phase 4: QC + Compliance
+- N/A (no drafts).
+
+## Phase 5: Approval Gate
+Phase 5: goal='present decisions to operator', current_action='produce report (no send channel)', aligned=yes
+- 0 ready-for-publish, 0 escalations. Hard rule respected: NO auto-publish.
+- No tracker status flips proposed requiring approval.
+- No Stage 1 mail: gmail MCPs have no send capability. Surfaced in chat report. No spam risk.
+
+## Phase 6: Publishing
+- NONE.
+
+## Phase 7: Memory + Telemetry
+- logiai_published.md: post 548 row annotated LIVE-confirmed 2026-06-09 (status sync only, no publish action).
+- Action Tracker HTML: no changes (no approved flips).
+- MEMORY.md: no new memory files.
+- Cap actuals: ~16 tool calls, ~8 wall min, est. ~$0.35. No cap hits, no drift mismatches, no loop aborts.
+- No user-file deletions. No git pushes.
+
+## Next run notes
+- T031 GSC indexing re-check DUE (operator, Search Console login). Confirm Pages report refreshes past 5/29 and Discovered/Crawled counts drop after post-sitemap.xml Success (38 pages, confirmed landed 2026-06-02).
+- EU AI Act 2 Aug 2026 high-risk deadline: plan a compliance piece for mid-to-late July (forward hook).
+- Post 576 (Coupa/Rossum, sched Jun 23) needs fal.ai featured image swap (placeholder media 402) before Jun 23.
+- Yoast-via-REST still not persisting: posts 548/549/550 + 493/525/526 (T065/T066/T067) need WP Admin UI or editor JS store. Operator-gated.
+- Watch list: DHL x Robust.AI Carter (LatAm, weak EU fit); STG/Carrier Logistics (Apr 13); Tecsys (Jun 1); Descartes OpsForce (Mar 19); project44 Preferred Carriers (P4 follow-up).
+- Pipeline full through Jun 26; thin pillars P3 Demand Forecasting, P4 SC Visibility for next genuine content gap.
+
+## Phase 1 follow-up (operator approved T015 + T016, same session)
+- T015 (Push theme changes): repo main.css lagged the live WordPress theme. Fetched live /wp-content/themes/logiai-theme/assets/css/main.css (clean superset, 34 new lines incl. --article-measure: 760px block + aligncenter + body-content centering, 0 local-only lines lost). Wrote to repo, committed (73dfe8c), pushed origin/main. Verified: origin/main main.css has 5 article-measure refs. T015 -> DONE.
+- T016 (Editorial visuals push): editorial-visuals/ (18 files) was already committed AND on origin/main (repo had 0 unpushed commits). Confirmed via git ls-tree origin/main (18 files). 'editorial-visuals 2/' Finder duplicate left untracked. GitHub Pages publish optional, not done. T016 -> DONE.
+- Tracker: T015 + T016 flipped Open -> Done with completion notes (operator-approved). Open tasks now 12 (was 14).
+- Stale .git/index.lock (0 bytes) cleared on Mac before commit. git push auth via osxkeychain (user pietvanbloom@gmail.com). No other files committed (strict scope; many untracked drafts/zips/backups left untouched). main.css.bak left on disk (untracked, not deleted per hard rule).

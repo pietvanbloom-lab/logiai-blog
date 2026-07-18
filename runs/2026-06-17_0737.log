@@ -1,0 +1,53 @@
+# LogiAI Production Stack — Run Log
+# Date: 2026-06-17  Time: 07:37 CET  Mode: daily  Operator: ABSENT (scheduled)
+
+## Phase -1: Styleguide Drift Check
+Phase -1: goal='verify inline Hard Rules match master CONTENT-STYLEGUIDE.md', current_action='compare master Section 0 vs 4 cache skills', aligned=yes
+- Master CONTENT-STYLEGUIDE.md Section 0 (Hard Rules) read; mtime unchanged 2026-06-02 (no edit since last sync confirmation).
+- Cache skills present and reproducing hard rules: logiai-drafting (em-dash refs 3, brief-leak 1, styleguide-block 2), logiai-quality-gate (5/4/6), logiai-publishing (3/1/1), logiai-editorial-visuals (1/0/2; brief-leak n/a for visuals skill).
+- RESULT: Styleguide in sync. No drift. Continue to Phase 0. (Consistent with Jun 14/15/16.)
+
+## Phase 0: Pre-flight
+Phase 0: goal='load config, verify environment, parse open work', current_action='read config.yml + queue + register + WP check', aligned=yes
+- config.yml parsed. Mode=daily caps: $3.00 / 200 calls / 90 min total.
+- Queue folder EMPTY (only processed/ subdir). No operator pre-approved work packages.
+- WP REST API: GET /wp/v2/posts?per_page=1 -> HTTP 200 (access OK, T021 not blocking).
+- Strategy memory (logiai_strategy_2026_06) + last run log read.
+- LIVE check: post 567 (autonomous-trucks-europe-rotterdam-oslo-corridor) fired LIVE 2026-06-17T07:00 as scheduled. Prior: 566 Jun15, 550 Jun12, 549 Jun10, 548 Jun8. Cadence on track (3/week).
+- Schedule full through Jul 3 (597 Jun19 | 576 Jun23 | 578 Jun26 | 600 Jun29 | 601 Jul1 | 590 Jul3) per prior run state; future-status read skipped (needs auth; read-only run, trusting confirmed state).
+
+## Phase 1: Action Tracker Sweep
+Phase 1: goal='process autonomously-executable open tasks', current_action='parse EMBEDDED_TASKS, classify', aligned=yes
+- Tracker parsed: 98 tasks total, 49 Open (7 High, 25 Medium, 17 Low). By type: Tech 20, Content 15, SEO 12, Design 2.
+- Open High: T032 (automate WP publish), T065/T083 (Yoast via Admin), T068 (resume ECONNRESET draft), T087 (image swap post 576), T090 (label Jun10 stage-1 mail), T095 (text-reply approval detection).
+- Operator ABSENT + schedule full -> 0 autonomously executable. SEO audits (T029/T082/T075/T076/T071/T072) are heavy build/audit work deferred by prior runs; Yoast/GSC/decisions/deletions all operator-gated. 0 status flips (need operator).
+- STALE/likely-satisfied tasks flagged for operator close (NOT flipped):
+  * T080 "Slot two QC-passed drafts: Siemens+KION and Rotterdam-Oslo" -> both now LIVE (566 Jun15, 567 Jun17). Recommend Done.
+  * T083 "Yoast meta for 548/549/550 before Jun 4 publish" -> all three long live. Likely superseded/stale.
+  * T049 "Decide Kodiak x2 signals before 14d expiry (Thu 2026-05-21)" -> expired ~4 weeks. Recommend close as expired.
+- All 49 carried over. Indexing-first: T031 GSC re-check remains DUE for operator (no GSC access in scheduled run).
+
+## Phase 2: Editorial Pipeline (light monitoring scan)
+Phase 2: goal='find a verified non-duplicate story strong enough to jump a full-thru-Jul3 schedule', current_action='3-query Europe-lean scan + dedup', aligned=yes
+- 3 targeted searches (SC&Ops AI EU / autonomous-freight-AI-agents / warehouse-robotics funding).
+- Surfaced: AI agents in freight brokerage scaling (C.H. Robinson 30+ agents 3M tasks; DHL HappyRobot EU appointment/carrier coordination) -> strong evergreen AI-Agents angle, EU relevance via DHL, but pillar already covered (549 + 590 scheduled) -> backup-watch; Hai Robotics $200M Series C/D (Jun 9, Asia-led, 8 days stale) -> backup-watch; Figure AI $1B humanoid (US, not logistics-core) -> skip; Richtech warehouse acquisition (US, real-estate, minor) -> skip.
+- Dedup: nothing breaks the full queue through Jul 3. Consistent with Jun 14/15/16 precedent.
+- DECISION: NO new drafting. Phase 3 + Phase 4 skipped (schedule full). Backup-watch carried: AI-agents-in-freight-brokerage (DHL HappyRobot EU angle), Hai Robotics.
+
+## Phase 3/4: Drafting + QC
+- Skipped. No new candidates; pipeline full through Jul 3.
+
+## Phase 5: Approval Gate (operator absent)
+Phase 5: goal='act only within operator-approved scope', current_action='no candidates, no publish, no mail', aligned=yes
+- 0 READY-FOR-PUBLISH drafts, 0 queue pre-approvals, 0 new decisions. No stage-1 selection mail sent (nothing to select; avoids inbox noise, consistent with Jun 6-9 + Jun 15/16 precedent).
+- 0 publishes, 0 tracker status flips, 0 git push, 0 deletions.
+
+## Phase 7: Memory + Telemetry
+- logiai_published.md: no changes (no publishes this run).
+- Action Tracker: no edits (no operator-approved flips).
+- Loop detection: 0 aborts. Drift mismatches: 0. Cap hits: 0.
+- WP writes: 0. Mail sends: 0. git: 0. deletes: 0. (read-only run)
+- Totals (approx): tool calls ~14 of 200; wall ~10 min of 90; est USD ~0.45 of 3.00.
+- SCHEDULE (unchanged, healthy): 567 Jun17 LIVE | 597 Jun19 | 576 Jun23 | 578 Jun26 | 600 Jun29 | 601 Jul1 | 590 Jul3.
+- Operator follow-ups (carried): Yoast via Admin for scheduled posts (597/576/600/601/590); fal.ai featured image swap for 576 (placeholder 402) before Jun 23; T031 GSC re-check; close stale T080/T083/T049.
+Run complete 2026-06-17.

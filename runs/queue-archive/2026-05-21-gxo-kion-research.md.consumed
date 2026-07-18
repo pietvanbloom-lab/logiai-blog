@@ -1,0 +1,35 @@
+---
+queue_file: 2026-05-21-gxo-kion-research
+scope: monitoring-only
+expires_after_run: true
+operator_pre_approved_by: Markus
+approved_at: 2026-05-20T07:55+02:00
+---
+
+# Pre-approved scope for tomorrow's daily run (2026-05-21)
+
+## What
+
+Add the **GXO + KION autonomous industrial truck deployment at Épinoy, France** as a Tier 1 priority candidate during Phase 2 monitoring tomorrow.
+
+## Why this is queued
+
+The 2026-05-20 daily run flagged this as the strongest P2 (Warehouse Automation) candidate of the week. Operator confirmed today that P2 saturation gap should be addressed next; current published mix is 44% P5 vs 7% P2 (2 of 27 posts). Operator approved this as the Tue 2026-05-26 slot candidate.
+
+## Autonomous scope (granted)
+
+- Phase 2 monitoring may fetch the GXO press release, KION specs, and related coverage without additional approval.
+- Phase 2 scoring + verification may run normally on this candidate.
+- Phase 3 drafting MAY proceed if scoring lands in priority class Lead (>= 80) or Supporting Item (60-79) and the duplicate-check passes.
+- If drafted, output to `/Users/maxxposs/Documents/Logistics LAB/logiai-draft-2026-05-21-gxo-kion-epinoy.md`.
+
+## Out of scope
+
+- No publishing (Phase 6 still hard-stops on operator).
+- No tracker status flips.
+- No outreach to GXO or KION.
+
+## Post-execution
+
+- Tomorrow's run should DELETE this queue file once the candidate has been routed through Phase 2-4 (per Phase 0 queue-file cleanup convention).
+- If the candidate fails duplicate-check or scoring, leave a one-line note in the run log naming the candidate.

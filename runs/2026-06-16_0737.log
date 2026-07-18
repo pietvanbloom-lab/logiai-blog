@@ -1,0 +1,47 @@
+# LogiAI Production Stack — Run Log
+# Date: 2026-06-16  Time: 07:37 CET  Mode: daily  Operator: ABSENT (scheduled)
+
+## Phase -1: Styleguide Drift Check
+Phase -1: goal='verify inline Hard Rules match master CONTENT-STYLEGUIDE.md', current_action='grep+compare 4 cache skills vs master Section 0', aligned=yes
+- Master Section 0 (9 Hard Rules) read. Inline styleguide-compliance blocks in logiai-drafting, logiai-quality-gate, logiai-publishing, logiai-editorial-visuals (cache) all reproduce em-dash/en-dash rules, Hard Rule 9 brief-header leak + brief-leak-guard.py, and the Floskel verbotsliste.
+- RESULT: Styleguide in sync. No drift. Continue to Phase 0. (Matches Jun 15 T043 confirmation.)
+
+## Phase 0: Pre-flight
+Phase 0: goal='load config, verify environment, parse open work', current_action='read config.yml + queue + register + WP check', aligned=yes
+- config.yml parsed. Mode=daily caps: $3.00 / 200 calls / 90 min total.
+- Queue folder EMPTY (only processed/ subdir). No operator pre-approved work packages.
+- WP REST API: GET /wp/v2/posts?per_page=1 -> HTTP 200 (access OK, T021 not blocking).
+- Published register + strategy memory read. Schedule full through Jul 3.
+- Latest published confirmed via WP REST: 566 (Jun15 LIVE), 550 (Jun12), 549 (Jun10), 548 (Jun8). Cadence on track (3/week).
+
+## Phase 1: Action Tracker Sweep
+Phase 1: goal='process autonomously-executable open tasks', current_action='assess open tracker state', aligned=yes
+- Tracker triaged in depth Jun 15 (operator-present): 20 tasks flipped to Done, Open 69->49.
+- 49 open tasks remaining are operator-dependent: Yoast-via-Admin (T065/T083/T096), GSC manual (T031/T066/T085), pending image swap (T087), deletions (T084/T097), open decisions, unbuilt tech, content backlog, SEO build.
+- Operator ABSENT + schedule full -> 0 autonomously executable, 0 status flips (flips need operator). All carried over.
+- Indexing-first goal note: T031 GSC re-check remains DUE for operator (cannot action without GSC access).
+
+## Phase 2: Editorial Pipeline (light monitoring scan)
+Phase 2: goal='find a verified non-duplicate story strong enough to jump a full-thru-Jul3 schedule', current_action='3-query light scan + dedup', aligned=yes
+- 3 targeted searches (SC&Ops AI / Freight&Autonomous / AI Agents+EU AI Act), Europe-lean.
+- Surfaced: q.beyond "AI Act as a Service" (Jun 9) -> dedup-adjacent to 490/597, niche vendor launch; EC Code of Practice on AI-content labelling (Jun 10) -> not logistics-core, EU AI Act thread saturated (490+597); Nomagic hires M. Wulfmeier ex-DeepMind (EU warehouse, hire not deal) -> backup-watch; Home Depot/SIMPL acquisition (last-mile, US, date unclear) -> backup-watch; Loop $95M Series C (Apr 2026, stale); PlusAI SuperDrive 6.0 (Mar 2026, stale + autonomous-trucking already saturated 475/496/567/590).
+- Dedup: nothing breaks the full queue. Consistent with Jun 14/15 precedent.
+- DECISION: NO new drafting. Phase 3 + Phase 4 skipped (schedule full). Backup-watch carried: Nomagic, Home Depot/SIMPL.
+
+## Phase 3/4: Drafting + QC
+- Skipped. No new candidates; pipeline full through Jul 3.
+
+## Phase 5: Approval Gate (operator absent)
+Phase 5: goal='act only within operator-approved scope', current_action='no candidates, no publish, no mail', aligned=yes
+- 0 READY-FOR-PUBLISH drafts, 0 queue, 0 new decisions. No stage-1 selection mail sent (nothing to select; avoids inbox noise, consistent with Jun 6-9 + Jun 15 precedent).
+- 0 publishes, 0 tracker status flips, 0 git push, 0 deletions.
+
+## Phase 7: Memory + Telemetry
+- logiai_published.md: no changes (no publishes this run).
+- Action Tracker: no edits (no operator-approved flips).
+- Loop detection: 0 aborts. Drift mismatches: 0. Cap hits: 0.
+- WP writes: 0. Mail sends: 0. git: 0. deletes: 0. (read-only run)
+- Totals (approx): tool calls ~12 of 200; wall ~9 min of 90; est USD ~0.40 of 3.00.
+- SCHEDULE (unchanged, healthy): 566 Jun15 LIVE | 567 Jun17 (+F testbed merge) | 597 Jun19 | 576 Jun23 | 578 Jun26 | 600 Jun29 | 601 Jul1 | 590 Jul3.
+- Operator follow-ups still open (carried): Yoast via Admin/JS store for scheduled posts (567/597/576/600/601/590 per register notes); fal.ai featured image swap for 576 (placeholder 402) before Jun 23; T031 GSC re-check.
+Run complete 2026-06-16.

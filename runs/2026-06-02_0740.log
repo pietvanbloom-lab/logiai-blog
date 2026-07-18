@@ -1,0 +1,69 @@
+===== LogiAI Production Stack — DAILY RUN 2026-06-02_0740 CET (autonomous, no operator present) =====
+
+PHASE -1 PREFLIGHT — Styleguide drift check
+  Master: Logistics LAB/CONTENT-STYLEGUIDE.md Section 0 (8 Hard Rules) read.
+  Inline copies compared: drafting, quality-gate, publishing, editorial-visuals (bundle).
+  RESULT: "Styleguide in sync". All 8 hard rules present + identical in all 4 skills (rephrased per skill role but semantically identical). No drift. Continue.
+
+PHASE 0 PREFLIGHT
+  Queue folder empty (no pre-approved one-shot packages).
+  Memory loaded: MEMORY.md, logiai_published.md, logiai_project, logiai_strategy_2026_06.
+  WP REST check: GET /wp-json/wp/v2/posts -> HTTP 200 (read OK, no T021/T021 auth block).
+  Action Tracker parsed: 19 Open tasks (5 High SEO-Yoast, 5 Medium SEO/Content, rest Low backlog).
+  Goal-drift Phase 0: goal='load state + verify access', action='reads + curl', aligned=yes.
+
+PHASE 1 ACTION TRACKER SWEEP (read-only; no Done-flips, operator controls Done)
+  Yoast cluster T063(496)/T064(498)/T065(493)/T066(525)/T067(526): SUBSTANTIVELY COMPLETE.
+    - Verified live: post 525 went LIVE today 2026-06-02T07:00 with custom Yoast meta
+      (title "Amazon ASCS Beats Your 3PL on Inventory Visibility - LogiAI" + custom desc). T066 satisfied.
+    - 493/496/498 all LIVE; Yoast confirmed in prior run (yoast_head_json). 526 scheduled 06-03, Yoast set 06-01 via JS-store.
+    - RECOMMEND operator flip T063/T064/T065/T066 to Done; T067 to Done once 526 fires 06-03.
+  No low-risk auto-execute task selected: remaining open tasks are operator-gated
+    (T015/T016 git push = hard stop; T014 mobile + design = hard stop; T029 competitor SEO, T031 indexing
+     [substantively fixed 06-01, sitemap re-check window 3-7d still open]; content backlog T013/T022/T027/T028/T018/T039).
+  Goal-drift Phase 1: goal='triage open tasks safely', action='verify Yoast + classify', aligned=yes.
+
+PHASE 2 EDITORIAL UPSTREAM (monitoring + scoring + verification + dedup)
+  Strategy: 3 pillars (SC&Ops AI 40 / Freight&Autonomous 30 / AI Agents&Tools 30), EU lean ~70/30, indexing-first.
+  Pipeline status: BUFFERED 3 weeks deep. Scheduled: 526(06-03), 548(06-08), 549(06-10), 550(06-12), 566(06-15), 567(06-17).
+    Open slots: wk Jun15-21 has 1 free slot; wk Jun22-28 empty (needs 3).
+  Monitoring scan (web, EU-lean, last 72h focus): top hot stories all ALREADY PUBLISHED ->
+    project44/LunaPath=post 483, SAP Sapphire=484, AWS agentic=491 (dedup blocks).
+  Fresh non-duplicate candidates found, but all carry STALE news pegs:
+    1. STG acquires Carrier Logistics Inc. (AI-native LTL/last-mile TMS, agentic dispatch) — P7/Deals — announced 2026-04-13 (~7wk). Score ~6.6/10. Dedup clean. US-centric (against EU lean).
+    2. Loop 5M Series C (disruption-prediction SC decision AI) — P4/P5 — announced 2026-04-17 (~6.5wk). Score ~6.2/10. Dedup clean. US.
+    3. Harbinger acquires Phantom AI (medium-duty EV L2 ADAS) — P1-adjacent — announced 2026-02-25 (~3mo). Score ~4.5/10. Weak fit (vehicle ADAS, not logistics-AI core). Drop.
+  DECISION: No fresh, EU-leaning, non-duplicate story strong enough to draft today. Pipeline well-buffered, so no forced draft. Shortlist surfaced for operator (recommend STG/CLI as evergreen 'AI-native TMS for LTL' angle for the Jun22 slot, or wait for fresher peg).
+  Goal-drift Phase 2: goal='feed funnel with verified non-dup candidates', action='scan+score+dedup', aligned=yes.
+
+PHASE 3-4 DRAFTING + QC: SKIPPED — no candidate cleared the bar this run. 0 drafts, 0 QC.
+
+PHASE 5 APPROVAL GATE: Hard-stop honored. No operator present -> no publish, no tracker Done-flip, no git push, no deletes. Report produced.
+
+PHASE 7 MEMORY: No publishes and no approved tracker changes -> no register/tracker writes. This run log + cap-history row only.
+
+HARD RULES HONORED: no auto-publish, no git push, no file delete, no Done-flip, no em-dashes.
+OPEN FOR OPERATOR:
+  (a) Flip Yoast tasks T063/T064/T065/T066 -> Done (verified complete); T067 after 06-03.
+  (b) Pick a Jun22-28 content direction (3 slots open): greenlight STG/CLI evergreen angle, or request fresher monitoring next run.
+  (c) T031 indexing sitemap re-check window (3-7 days from 06-01) is now opening — worth a GSC look.
+
+===== OPERATOR CONTINUATION (2026-06-02): fresh re-scan + T031 GSC re-check =====
+APPROVED items 1 (fresh scan for fresher peg, Jun22-28 slots) + 3 (T031 GSC re-check). Yoast Done-flips NOT approved -> tracker untouched.
+
+(1) FRESH RE-SCAN (deeper, last-72h + EU-lean + trade press):
+  Verdict: still NO fresh breaking, EU-leaning, non-duplicate story today. All specific hits dated or dedup-risky:
+    - Locus Array (full autonomous fulfillment w/ picking arm) BusinessWire 2026-04-10 -> dedup-RISK vs post 498 (Locus/Nexera, published 06-01); too soon, same vendor+theme.
+    - DHL Supply Chain + HappyRobot agentic comms -> Nov 2025 (6mo old), already broadly covered.
+    - Exol physical-AI FaaS (MODEX 2026), Loop $95M (Apr 17), STG/Carrier Logistics (Apr 13) -> all stale pegs.
+    - Hot agentic items (project44/LunaPath, SAP Sapphire, AWS) already published (483/484/491).
+  RECOMMENDATION to operator: market in a news lull; for indexing-first strategy, fill Jun22-28 with EVERGREEN search-intent explainers (dedup-clean) rather than a stale peg. Candidate angles surfaced (no draft generated this run). Re-scan closer to date for any breaking peg.
+
+(3) T031 GSC RE-CHECK (Claude in Chrome, sc-domain:logiai.blog):
+  WIN: post-sitemap.xml flipped to SUCCESS, 38 discovered pages (Submitted Jun 1 / Last read Jun 1). The 06-01 durable discovery fix LANDED.
+  sitemap_index.xml = Success, 38 discovered. news-sitemap.xml = Success, 1 (by design).
+  Pages report still 20 indexed / 11 not (last GSC update 5/29, predates fix); 11 breakdown unchanged (4 redirect, 1 404, 4 Discovered, 2 Crawled, all Not Started).
+  Expect indexed count to rise as Google crawls the 38 discovered URLs. Memory logiai_indexing_status updated. Next re-check ~06-08/09.
+
+Hard rules honored: no publish, no git push, no deletes, no tracker Done-flip, no em-dashes.
+  OPERATOR DECISION (06-02): Jun22-28 slots = WAIT + re-scan daily. No evergreen pre-draft; each daily run scans for a fresh breaking peg before drafting.

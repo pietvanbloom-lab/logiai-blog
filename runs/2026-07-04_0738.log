@@ -1,0 +1,49 @@
+LogiAI Production Stack run log
+Date: 2026-07-04 07:38 CEST | Mode: daily | Operator: absent (scheduled) | approval_email: disabled
+
+Phase -1 Styleguide Drift Check:
+  Master CONTENT-STYLEGUIDE.md vs bundle inline copies: IN SYNC (sentinel checks pass, role-scoped sections as expected).
+  DRIFT NOTED: plugin skill cache (claude-hostloop-plugins/.../skills/logiai-*) is STALE vs bundle:
+    - logiai-publishing cache missing rules 6+7 (editorial-visual-inline.py + visual-style-guard.py, post-600 fix)
+    - logiai-editorial-visuals cache missing REST-inlining block
+    - logiai-drafting cache missing Tracker ID field (tracker-autoflip spec)
+  Cache is read-only from Cowork sessions; cannot sync here. OPERATOR ACTION: re-save the 4 skills in
+  Settings > Capabilities so the cache picks up the current bundle versions. Run continued using
+  bundle + master as authoritative (no publish this run, so no exposure).
+
+Phase 0 Pre-flight:
+  drift-guard: Phase 0: goal='init state, verify inputs', current_action='read config/queue/memory/tracker/WP', aligned=yes
+  config.yml parsed (caps.daily: $3.00 / 200 calls / 90 min). Queue: EMPTY (only processed/).
+  Action Tracker parsed: 107 total, 41 Open (2 High, 21 Medium, 18 Low). Unchanged vs 2026-07-03.
+  WP REST: HTTP 200. Post 590 (Volvo $3B) CONFIRMED LIVE, fired 2026-07-03T07:00 as scheduled.
+  Future queue intact: 622 (Jul 6) / 633 (Jul 8) / 623 (Jul 10). Schedule full through Jul 10.
+
+Phase 1 Action Tracker Sweep:
+  drift-guard: Phase 1: goal='triage open tasks', current_action='classify, carry over gated items', aligned=yes
+  T101 (High, fal.ai key renewal): CREDENTIAL-GATED, operator only. Carried over. Posts 622/623/633 still on placeholder images.
+  T102 (High, images+Yoast 622/623): blocked by T101 + WP Admin UI. Carried over.
+  T107 (Medium, Yoast for 633): WP-UI-gated (editor JS store). Carried over.
+  No autonomous low-risk executions this run (all remaining items operator-gated, UI-gated, or deferred content work).
+  41 tasks carried over.
+
+Phase 2 Monitoring + Scoring + Verification:
+  drift-guard: Phase 2: goal='find fresh verified candidates + check T106 trigger', current_action='web scan', aligned=yes
+  T106 trigger check: EU AI Act Digital Omnibus OJ publication STILL PENDING as of Jul 4.
+    Parliament endorsed Jun 16, Council final green light Jun 29, OJ publication "imminent"/expected July,
+    enters into force day 3 after publication. Annex III high-risk deferred to 2027-12-02, Annex I to 2028-08-02.
+    T106 stays ARMED. When OJ lands: fast-draft is the top editorial priority (P6, follow-up chain 156 -> 464 -> 490 -> 597).
+  Fresh scan (last 48h): 0 candidates cleared the bar. Loop $95M (Apr), Descartes/Idelic (Apr 23),
+    Swarm $10M (Jun 10) all stale; project44/LunaPath already covered (post 332); Fernride Muuga yard ops
+    undated single-source (parked as possible P1 Europe candidate for manual review).
+  Duplicate-check: n/a (no candidates forwarded).
+
+Phase 3-4: SKIPPED (0 candidates; schedule full through Jul 10; first open slot wk of Jul 13).
+Phase 5: NOTHING TO APPROVE. Operator absent + approval_email disabled -> no publish, no status flips. 0 WP writes, 0 git, 0 deletes.
+Phase 6: SKIPPED (nothing approved).
+
+Phase 7 Memory Update:
+  logiai_published.md: no changes (nothing published).
+  Action Tracker: no status flips (operator approval required).
+  This log + cap-history row written.
+
+Telemetry: ~18 tool calls, ~9 min wall, est. $0.25, cap_hits=0, drift_mismatches=0, loop_aborts=0.

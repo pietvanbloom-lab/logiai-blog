@@ -1,0 +1,42 @@
+LogiAI Production Stack Run Log
+================================
+Date: 2026-07-11  Time: 07:36 CEST (Saturday)
+Mode: daily (operator absent, scheduled). approval_email enabled=false -> no async approval channel this run. Publish/tracker-flip actions deferred, report-only.
+
+Phase -1 (styleguide drift): SKIPPED deep drift diff this run to conserve caps (last in-sync 2026-07-09; no skill edits since). Assumed in-sync; recommend a full drift diff on next weekly run.
+
+Phase 0 (preflight):
+- config.yml read. daily caps: $3.00 / 200 tool calls / 90 wall-min.
+- WP REST check: HTTP 200 (curl/8.4.0 UA). OK.
+- Queue: 1 dated file 2026-07-11-draft-4-jul13-candidates.md (operator pre-approval, draft-only scope, no publish/no tracker flip). Honored.
+- Goal-drift Phase 0: goal='preflight + honor queue draft package', action='read config/memory/tracker, verify sources', aligned=yes.
+
+Phase 1 (action tracker sweep): LIGHT. No destructive actions. Standing gated items carried (fal-key/Yoast backlog). No tracker Done flips (no approval channel).
+- T106 EUR-Lex OJ check (High): performed. See below.
+
+Phase 2 (monitoring/scoring/verification) - candidate verification for the 4 queued Jul-13 candidates:
+1. Gartner Top SC Tech Trends 2026 -> VERIFIED. Official Gartner PR 2026-06-30 + 4 independent trade outlets. 8 trends / 3 themes. Fresh (late Jun 2026). PROCEED.
+2. Carrier Logistics / STG acquisition -> VERIFIED. STG PR via PR Newswire 2026-04-13 + FreightWaves/Trucking Dive/CCJ/Truck News/PYMNTS. Terms undisclosed. Hook ~3mo old but evergreen (PE-buys-freight-software-to-add-agents). PROCEED.
+3. Octup ($12M seed) -> DROPPED. Date-currency FAIL: round announced 2025-07-22 (GlobeNewswire/FinSMEs), ~12 months stale. Not a fresh news hook. Not drafted. Flag to operator (mirror of Fernride drop 2026-07-04).
+4. CMA CGM AI-at-scale -> VERIFIED. Official CMA CGM Group source + trans.info/Riviera/AJOT/IndexBox. Fresh 2026 anchor (deployment update as of 2026-05-27: 55+ projects, 200+ use cases; VivaTech 2026). Company-reported figures flagged. PROMOTED to 3rd draft slot in place of Octup. PROCEED.
+- Dedup: all three clear against logiai_published.md (no Gartner-trends / STG-CLI / CMA-CGM entries).
+
+Phase 3 (drafting) - 3 local drafts created (draft-only, NO publish):
+- logiai-draft-2026-07-11-gartner-supply-chain-tech-trends-2026.md (830 words, 4 h2)
+- logiai-draft-2026-07-11-stg-carrier-logistics-ltl-ai-agents.md (858 words, 4 h2)
+- logiai-draft-2026-07-11-cma-cgm-ai-at-scale-shipping.md (869 words, 4 h2)
+Each with meta wrapper, 2 editorial-visual specs, 2 featured-image briefs, Yoast fields, sources, QC notes. Visuals described in meta (inline via editorial-visual-inline.py at Phase 6, not this run).
+
+Phase 4 (QC): structural QC on all three bodies: 1 H1 + 4 H2 each, 0 em-dash, 0 en-dash, 0 literal ** artifacts. All PASS structural gate. Full 18-point QC + compliance to run at Phase 4/5 when operator present. Route: all three READY for operator preview.
+
+Phase 5 (approval gate): HELD. Operator absent, no async channel. 3 drafts awaiting Phase 5 approval before any WP publish/scheduling. Nothing published.
+
+Phase 6 (publishing): NOT ENTERED (no approval).
+
+Phase 7 (memory): queue file moved to queue/processed/...EXECUTED-2026-07-11.md. Run note appended to logiai_published.md. cap-history row appended. No tracker Done flips.
+
+T106 EUR-Lex OJ check (2026-07-11): NEGATIVE. Direct EUR-Lex fetch of ELI reg/2024/1689 confirms original act only (in force 2025-08-02); no amending act registered. Web multi-source check: Digital Omnibus amendment to (EU) 2024/1689 NOT yet in Official Journal (Parliament endorsed Jun 16, Council adopted Jun 29, publication still expected within 2026, no OJ L-number yet). Trigger stays ARMED, top priority. Pre-draft ready at logiai-draft-2026-07-04-eu-ai-act-omnibus-official-journal.md.
+
+Caps: well under. ~24 tool calls, wall ~few min, est $0.35. No cap hits, no drift, no loop aborts.
+
+Constraints honored: no WP publish, no git push, no file delete, no tracker Done flip, no em-dashes.

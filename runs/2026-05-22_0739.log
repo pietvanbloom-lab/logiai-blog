@@ -1,0 +1,252 @@
+# LogiAI Production Stack Run Log
+# Date: 2026-05-22 07:39 CET (Fri)
+# Mode: daily
+# Trigger: scheduled-task `logiai-production-stack---daily-mode`
+# Operator presence: ABSENT (scheduled, unattended)
+
+================================================================================
+PHASE -1: PREFLIGHT / STYLEGUIDE DRIFT CHECK
+================================================================================
+Phase -1: goal='verify inline Hard Rules in 4 prod-stack skills match master CONTENT-STYLEGUIDE Section 0', current_action='SHA hash + grep across 8 files', aligned=yes
+
+- Master read: /Users/maxxposs/Documents/Logistics LAB/CONTENT-STYLEGUIDE.md (548 lines)
+- Bundle vs Cache hashes (identical for all 4 skills):
+    drafting           ec5a0f38344d8169fb21e21b4b59364817822aca
+    quality-gate       4488ab529c15b7faf5c7034dd1ba2aa48ad61271
+    publishing         15bf887124b56980d84415a703cedafcdaf99edc
+    editorial-visuals  3ab0d14299c59d8d2701675dec811a7fae550b3c
+- Inline Hard Rules in drafting (lines 36-43): rules 1-8 match master Section 0 byte-for-byte
+- editorial-visuals (lines 36-40): 5 rules adapted for visual context, all consistent with master
+- quality-gate, publishing: both reference master via "## Styleguide Compliance" block with explicit em-dash + Hard Rule enforcement
+- DRIFT STATUS: in sync. No propagation needed today.
+
+================================================================================
+PHASE 0: PRE-FLIGHT
+================================================================================
+Phase 0: goal='load config, queue, registers, tracker, verify WP REST', current_action='read 5 inputs + curl WP REST endpoint', aligned=yes
+
+- config.yml: parsed, mode=daily caps loaded (USD 3.00, calls 200, wall 90min, per_phase calls 50)
+- Queue folder: empty (no operator pre-approvals today)
+- Memory: MEMORY.md, logiai_published.md (30 live + 2 scheduled = 32 rows), logiai_project.md
+- Action Tracker: parsed, 43 tasks total, 27 Done, 16 Open (0 High, 7 Medium, 9 Low)
+    - By type: SEO=3, Content=7, Design=2, Tech=4
+- WP REST API check: HTTP 200, 0.29s latency, access OK
+- Recent published: Post 483 project44 (May 20 live), Post 484 SAP (scheduled today 08:00 CET, firing in ~15min), Post 486 GXO/KION (scheduled Tue 2026-05-26)
+- Approval-mail flow: setup files present at ~/Documents/Claude/Scheduled/logiai-approval-mail/
+    - SKILL.md, send_mail.py, setup_labels.py, config.yml.patch, scheduled-task-spec.md
+    - decisions/, sent/ dirs empty (no Stage 1 emails ever sent)
+    - Scheduled task `logiai-approval-scan-1200` STILL NOT REGISTERED (operator one-shot manual step pending from 2026-05-20)
+- Post 484 (SAP scheduled today 08:00 CET): 404 at 07:45 CET (expected, fires in ~15min)
+
+================================================================================
+PHASE 1: ACTION TRACKER SWEEP
+================================================================================
+Phase 1: goal='triage 16 open tasks, propose autonomous low-risk actions', current_action='classified 16 open by priority + type, surveyed autonomy potential', aligned=yes
+
+- 0 HIGH-priority open tasks (closed in prior runs)
+- 7 MEDIUM open: T012 SEO internal linking, T013 Content Prio 04+, T014 Design mobile check, T022 Content embed visuals, T027 Content Weeks 2-4, T029 SEO competitor gap, T031 SEO GSC manual indexing
+- 9 LOW open: T015 Tech git push, T016 Design GitHub Pages push, T017 Tech audio player verify, T018 Content newsletter, T025 Tech GSC URL-prefix property, T028 Content 20 prompts, T033 Tech weekday mismatch, T039 Content P5 saturation, T041 Content Post 452 fate
+- Autonomous actions executed: NONE in Phase 1 today
+    - All open items require operator presence: git push / GSC writes / design changes / content scope decisions
+- Signal extracted for Phase 2: T039 P5 saturation guidance applied (avoid P5-primary candidates today)
+- All 16 open items carried over to next run
+
+================================================================================
+PHASE 2: EDITORIAL PIPELINE UPSTREAM (Monitoring + Scoring + Verification)
+================================================================================
+Phase 2: goal='scan underserved pillars, score candidates, verify, dedup-check', current_action='3 WebSearch (P6 EU AI Act, P1 Trucking, P3 Demand) + 1 verification search', aligned=yes
+
+CANDIDATE A (selected for drafting): EU AI Act Digital Omnibus deal, 7 May 2026
+- Sources: Hogan Lovells, Travers Smith, White & Case, Latham, Modulos, Global Policy Watch, Lexology
+- Substance:
+    * Council + Parliament provisional agreement, May 7 2026, part of Digital Omnibus initiative
+    * Annex III standalone high-risk systems: deferred to 2 December 2027 (was 2 August 2026)
+    * Annex I embedded AI (machinery, lifts, etc.): deferred to 2 August 2028
+    * August 2 2026 still applies to: transparency, GPAI, prohibitions
+    * Article 6(1) narrowed: AI "used solely for user assistance, performance optimization, efficiency or automation, or convenience and quality control" NOT a safety component unless failure endangers health/safety
+    * Commission missed February 2026 Article 6 guidance deadline
+    * Provisional only, awaiting formal adoption
+- Scoring (5 criteria):
+    Logistics relevance     : 22/25 (touches multiple logistics AI use cases)
+    Timeliness              : 19/20 (May 7 2026, ~2 weeks)
+    Strategic significance  : 19/20 (resets compliance roadmap; directly updates Post 464)
+    Data quality            : 14/15 (6 independent authoritative legal sources)
+    Audience fit            : 19/20 (Compliance + Ops leads = LogiAI ICP)
+    ---
+    TOTAL                   : 93/100  =  Lead Story (>=80)
+- Verification: VERIFIED (multiple independent legal sources, dates match)
+- Duplicate-check vs logiai_published.md:
+    Exact title match       : none
+    Pillar match            : P6 (same as Post 464)
+    Tag overlap             : 3 tags overlap (EU AI Act, Compliance, Regulation) -> WARNUNG triggered
+    Pillar saturation       : P6 = 1/30 (3%), under-served
+    Result                  : DUPLICATE-RISK FLAG (pillar match + 3 tag overlap), MITIGATED via explicit follow-up framing to Post 464, 4 new tags (Digital Omnibus, Article 6, Annex III, December 2027)
+    Operator decision needed: publish as follow-up | merge into Post 464 update | defer
+
+CANDIDATE B (surfaced, not drafted): Aurora El Paso route expansion + Kodiak Roehl Transport TX (P1)
+- Date currency: medium (Post 475 covered Aurora May 19, this is incremental)
+- Dedup risk: HIGH (Post 475 just published 3 days ago, same pillar)
+- Recommendation: SKIP this cycle, revisit if a fresh non-Aurora story emerges
+
+CANDIDATE C (surfaced, not drafted): NVIDIA State of AI in Retail and CPG 2026 (P3 Demand Forecasting)
+- Headline data: 58% retailers actively deploying AI (up from 42%), 47% using/assessing agentic AI, 64% report supply-chain challenges YoY
+- Date currency: WEAK (report published Q1 2026, already widely covered)
+- Pillar: P3 (under-served, only 0 P3 posts in register)
+- Recommendation: DEFER unless freshened with new data; could anchor a P3 piece later if operator wants to seed the pillar
+
+Output of Phase 2: 1 verified Lead-Story candidate drafted (A), 2 secondary candidates surfaced (B, C) for operator visibility.
+
+================================================================================
+PHASE 3: DRAFTING (Candidate A)
+================================================================================
+Phase 3: goal='draft EU AI Act Digital Omnibus follow-up per Phase 2 selection', current_action='analyse-mode draft + 2 editorial visuals + 2 image briefs', aligned=yes
+
+- Draft saved: /Users/maxxposs/Documents/Logistics LAB/logiai-draft-2026-05-22-eu-ai-act-digital-omnibus.md
+- Title (chosen, within 12-word Hard Rule): "The EU AI Act August Cliff Moved. The Interesting Question Moved Too." (12 words)
+- 3 title variants supplied in draft for operator pick
+- Stilmix: Analyse-Hausstil (70%, Stratechery setup-punchline)
+- Word count: 959 (within 800-1100 Deep Article range)
+- Lead: italic, 2 sentences (revised from 3 after QC)
+- H2 structure: 4 sections (what got pushed -> Article 6 reshape -> 3 things change -> agents implication)
+- Editorial visuals: 2 selected (REQUIRED met)
+    1. stat.html: "Aug 2 -> Dec 2" hero number (17-month delay)
+    2. timeline.html: 3-step August 2026 / Dec 2027 / Aug 2028 timeline
+- Featured image briefs: Option A photographic + Option B diagrammatic (REQUIRED met)
+- Internal links proposed: Post 464 (explicit reference in lead, mandatory for follow-up framing), Post 451, Post 486
+- SEO metadata: focuskw "EU AI Act Digital Omnibus logistics", meta-title 79c, meta-description 220c (note: meta-description over the 156c WP limit, needs trim before publish)
+
+================================================================================
+PHASE 4: QC + COMPLIANCE
+================================================================================
+Phase 4: goal='run 18-point QC + 5 compliance checks on Candidate A draft', current_action='programmatic grep + Floskel scan + manual checklist', aligned=yes
+
+Quality-Gate Checklist (18 points):
+  01 Headline <=12 words                      : PASS (12, at limit; trimmed from 13)
+  02 Thesis in first 3 paragraphs             : PASS (lead + paragraph 2: "real story is in Article 6")
+  03 H2s tell the story                       : PASS (skeleton-readable: what moved -> what stayed -> what to do)
+  04 >=3 concrete facts                       : PASS (May 7 2026 date, Dec 2 2027, Aug 2 2028, 17 months, Article 6 wording)
+  05 >=1 original source linked               : PASS (6 sources in frontmatter)
+  06 Vendor claims marked/sourced             : PASS (sources cited inline in implications)
+  07 Methodology mentioned                    : PASS (provisional-agreement caveat in paragraph 4)
+  08 Implications paragraph present           : PASS ("Three things change for operators this quarter")
+  09 Zero em-dashes (Hard Rule #1)            : PASS (0 em-dashes after final scan)
+  10 Word count within range                  : PASS (959, target 800-1100)
+  11 No banned Floskeln                       : PASS (Floskel scan returned 0 hits)
+  12 No LinkedIn-style sentences              : PASS
+  13 Active voice dominates                   : PASS (passive-construction proxy returned 0)
+  14 Concrete numbers used                    : PASS (Aug 2 2026, Dec 2 2027, Aug 2 2028, 17 months, 47 pages)
+  15 Lead italic, 2 sentences                 : PASS (revised from 3 to 2 in QC pass)
+  16 Vendor names correctly spelled           : PASS (EU AI Act, Digital Omnibus, Annex I/III, Article 6)
+  17 Editorial visuals included               : PASS (2 visuals: stat + timeline)
+  18 Featured image briefs included           : PASS (Option A + Option B per DESIGN.md)
+  ---
+  SCORE: 18/18  =  10/10  =  AUTO-APPROVE route on QC
+
+Compliance Checks (5):
+  01 EU AI Act                                : PASS (journalism, not regulated product)
+  02 GDPR                                     : PASS (no personal data; only public legal-firm bylines)
+  03 Copyright                                : PASS (original analysis, legal-firm reporting paraphrased + attributed)
+  04 Taxonomy                                 : PASS (P6 primary, P5 secondary, 7 tags assigned, 4 new + 3 overlap with Post 464)
+  05 Editorial independence                   : PASS (skeptical of "delay" headline framing, analytical reposition)
+
+Route: AUTO-APPROVE on QC + Compliance, BUT dedup duplicate-risk WARNUNG triggered.
+Final route: READY-FOR-PUBLISH with operator-decision overlay (publish | merge-into-464 | defer).
+
+================================================================================
+PHASE 5: APPROVAL GATE (HARD STOP, operator absent)
+================================================================================
+Phase 5: goal='surface READY-FOR-PUBLISH draft + dedup decision to operator', current_action='AskUserQuestion unavailable (unattended); producing structured report; not sending Stage 1 approval mail because Stage 2 scan task unregistered', aligned=yes (operator-absent variance)
+
+Queued for operator decision when next online:
+  ITEM 1 [PUBLISH-READY-WITH-DEDUP-FLAG] Draft logiai-draft-2026-05-22-eu-ai-act-digital-omnibus.md
+    - Pillar: P6 EU AI Act (+P5 secondary)
+    - Quality Score: 10/10 (18 QC + 5 compliance checks pass)
+    - Word count: 959
+    - Duplicate risk: 3 tags overlap with Post 464; framing mitigates as follow-up update
+    - Operator decisions needed:
+        a) Disposition: publish as new follow-up post | merge into Post 464 as Update | defer
+        b) If publish: image option A (photographic) or B (diagrammatic)
+        c) If publish: schedule slot Mon 2026-05-25 08:00 CET OR Wed 2026-05-27 08:00 CET
+        d) Pre-publish: trim meta description from 220c to <=156c (noted in draft)
+  ITEM 2 [TRACKER] No tracker status flips proposed in Phase 1 today
+  ITEM 3 [APPROVAL-MAIL] Scheduled task `logiai-approval-scan-1200` still NOT REGISTERED
+    - 3rd consecutive run carrying this item forward
+    - Stage 1 send withheld today to avoid dangling mail without Stage 2 scanner
+  ITEM 4 [SECONDARY CANDIDATES] surfaced not drafted:
+    - Candidate B (Aurora El Paso, P1) - SKIP recommendation, too close to Post 475
+    - Candidate C (NVIDIA Retail+CPG 2026, P3) - DEFER, weak timeliness, could seed P3 later
+
+NO autonomous WordPress writes. No tracker writes. No git pushes. No approval-mail writes.
+
+================================================================================
+PHASE 6: PUBLISHING (skipped, operator absent)
+================================================================================
+Phase 6: skipped per Phase 5 hard-stop rule.
+
+================================================================================
+PHASE 7: MEMORY UPDATE + ARTIFACTS
+================================================================================
+Phase 7: goal='write run log + cap-history.csv', current_action='this file + CSV row', aligned=yes
+
+- Run log: this file (runs/2026-05-22_0739.log)
+- cap-history.csv: row appended below
+- logiai_published.md: NOT updated (no publish this run; Post 484 fires automatically at 08:00 CET via WP scheduler, will be reconciled next run)
+- Action Tracker HTML: NOT edited (no status flips today)
+- MEMORY.md index: NOT updated (no new memory files created)
+- Draft remains at /Users/maxxposs/Documents/Logistics LAB/logiai-draft-2026-05-22-eu-ai-act-digital-omnibus.md awaiting operator pickup
+
+================================================================================
+RUN TOTALS
+================================================================================
+- Tool calls used        : ~26 (4 WebSearch, 8 bash, 5 Read, 3 Write/Edit on draft, 2 Edit on log, ~tasks)
+- Wall clock             : ~12 min
+- Estimated USD          : ~$0.30 (Haiku orchestration, 4 web searches medium-heavy, no Sonnet drafting tool, no image gen)
+- Caps status            : USD 10% / calls 13% / time 13% of daily caps (well within all limits)
+- Loop aborts            : 0
+- Drift mismatches       : 0
+- Hard-rule violations   : 1 caught in QC (13-word title), fixed before final
+- Autonomous writes      : run log + cap-history.csv + 1 local draft md (Logistics LAB folder)
+- No publish, no push, no tracker write, no register update, no approval-mail send.
+
+NEXT-RUN CARRY:
+- Post 484 SAP fires today 08:00 CET; reconcile to register next run
+- Post 490 EU AI Act follow-up published as scheduled (see addendum below)
+- Approval-mail scheduled task still needs operator registration (4th consecutive carry)
+- 16 Action Tracker items remain open, no High priority
+- Two secondary candidates (Aurora P1 incremental, NVIDIA P3 Retail+CPG) noted for operator visibility
+
+================================================================================
+PHASE 6: PUBLISHING (operator-approved post-run addendum, ~07:55 CET)
+================================================================================
+Operator decision after seeing draft report: "Publish draft" + 3 recommended-default selections
+  - Schedule: Mon 2026-05-25 08:00 CET
+  - Featured image: reuse Media ID 454 (05_compliance.png, pre-mapped P6)
+  - Post 464 cross-link: forward-link only from new post, leave 464 unchanged
+
+Execution:
+- WP App Password retrieved from Keychain (security find-internet-password -s logiai.blog), account=pietvanbloom
+- 7 tag IDs resolved: 3 existing (EU AI Act 761967805, Compliance 85113, Regulation 5566) + 4 newly created (Digital Omnibus 788290442, Article 6 788290443, Annex III 788290444, December 2027 788290445)
+- HTML body built: 10,540 chars, 0 em-dashes, 0 en-dashes, 2 inline editorial-visuals blocks (stat + timeline), 2 internal links (Post 464 in lead, Post 451 in section 4)
+- POST /wp/v2/posts: HTTP 201
+    - Post ID: 490
+    - status: future
+    - date (CEST): 2026-05-25T08:00:00 / date_gmt: 2026-05-25T06:00:00
+    - slug: eu-ai-act-digital-omnibus-may-2026-logistics
+    - featured_media: 454 (reused, no fal.ai generation)
+    - categories: 7742354 (Policy & Regulation), 788290360 (Rules, Risk & Strategy), 610719119 (AI & Automation)
+    - tags: all 7 attached
+    - excerpt: 150c (within 156 limit)
+    - eventual public URL: https://logiai.blog/2026/05/25/eu-ai-act-digital-omnibus-may-2026-logistics/
+- Verification GET /wp/v2/posts/490: HTTP 200, all fields correct
+- Yoast meta NOT persisted via REST (known issue, same as posts 484/486); operator should set Yoast SEO via WP Admin UI before Mon 08:00 if green indicators needed
+- logiai_published.md: +1 row Post 490, header sync stamp updated to 2026-05-22, totals updated (28 live + 3 scheduled)
+- Draft md file kept at /Users/maxxposs/Documents/Logistics LAB/logiai-draft-2026-05-22-eu-ai-act-digital-omnibus.md for audit
+
+REVISED RUN TOTALS (incl. publish addendum):
+- Tool calls used        : ~36 (4 WebSearch, 9 bash, 7 mac_terminal, 5 Read, 3 Write, 6 Edit, ~tasks)
+- Wall clock             : ~20 min
+- Estimated USD          : ~$0.35 (Haiku orchestration, no Sonnet, no image gen)
+- Caps status            : USD 12% / calls 18% / time 22% of daily caps (well within all limits)
+- Hard-rule violations   : 1 caught in QC (13-word title), fixed; published title is 12 words
+- Autonomous writes (post-approval): 4 new tag entities, 1 new post (490) scheduled, register update, run log update
+- No git pushes, no tracker edits, no file deletions, no fal.ai image gen.

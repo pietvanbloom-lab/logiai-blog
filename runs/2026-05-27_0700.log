@@ -1,0 +1,215 @@
+# LogiAI Production Stack Run Log
+# Date: 2026-05-27 07:00 CET | Mode: daily | Model: claude-sonnet-4-6
+
+## Config Snapshot
+- Mode: daily
+- Caps: total_usd=$3.00, total_tool_calls=200, total_wall_min=90
+- Per-phase: tool_calls=50, wall_min=30, usd=$0.80
+- Per-draft: tool_calls=25, usd=$0.50
+- Models: haiku-4-5 (structured), sonnet-4-6 (writing), opus-4-6 (escalation only)
+- Approval email: enabled (gmail_markus)
+
+## Phase -1: Styleguide Drift Check
+- Checked: master CONTENT-STYLEGUIDE.md Sections 0,2,4,5,7,10
+- Checked: bundle logiai-{drafting,quality-gate,publishing,editorial-visuals}.md
+- Checked: cache logiai-{drafting,quality-gate}.md (publishing/editorial-visuals confirmed by pattern)
+- Result: STYLEGUIDE IN SYNC
+- T043 propagation from 2026-05-17 holds (synergistisch, transformative, doppelte Verneinung, Pressemitteilungs demoted)
+- aligned=yes
+
+## Phase 0: Pre-flight
+- Config: read OK
+- Queue folder: empty (no queue files)
+- Memory: logiai_published.md read (37 posts: 33 live + 4 scheduled)
+- Memory: logiai_project.md read
+- Action Tracker: parsed 43 tasks total
+  - Open: 15 tasks
+  - In Progress: 1 task (T012)
+  - Done: 27 tasks
+- WP REST API: GET /posts?per_page=1 -> 200 OK
+- Run log: initialized
+- Phase 0 drift-guard: goal='initialize run state and verify prerequisites', current_action='reading config, memory, tracker, API check', aligned=yes
+
+## Phase 1: Action Tracker Sweep
+- Phase 1 drift-guard: goal='triage open tracker tasks, execute low-risk ones, surface approvals needed', current_action='processing open tasks by priority', aligned=yes
+
+### Open Task Inventory (priority-sorted)
+HIGH priority Open: 0 tasks
+MEDIUM priority Open/InProgress:
+  - T012 (In Progress, SEO): Internal linking - EXECUTED 2026-05-26, awaiting operator spot-check + Done flip
+  - T013 (Open, Content): Prio 04+ enhancements -> deferred to Phase 3
+  - T014 (Open, Design): Mobile responsiveness check
+  - T022 (Open, Content): Embed blocks Art 02-04-09 -> deferred to Phase 3
+  - T027 (Open, Content): Weeks 2-4 articles -> deferred to Phase 3
+  - T029 (Open, SEO): Competitor SEO gap analysis
+  - T031 (Open, SEO): GSC manual URL indexing
+
+LOW priority Open: T015, T016, T017, T018, T025, T028, T033, T039
+
+### Phase 1 Actions
+
+#### T012 - Internal Linking (In Progress -> Done candidate)
+- Status: Executed 2026-05-26 (19/19 posts patched, 22 links inserted)
+- Action: Propose status flip to Done (requires operator approval per hard rule)
+- Queued for Phase 5 approval gate
+
+#### T014 - Mobile Responsiveness (Design, Medium)
+- Action: Read-only audit - propose CSS/HTML check (no auto-apply)
+- Status: Deferred (no Claude-in-Chrome available in automated run, cannot visual-check live site)
+- Carry over to next interactive session
+
+#### T029 - Competitor SEO gap analysis (SEO, Medium)
+- Action: This requires searchfit-seo competitor-analyzer agent with live web access
+- Status: Carry over - this is a substantial task requiring operator-present session
+- Note: Log as "carried over, requires interactive session"
+
+#### T031 - GSC manual URL indexing (SEO, Medium)
+- Action: Read-only guidance. Manual GSC URL Inspection tool requires browser/operator interaction
+- Status: Carry over - cannot execute in automated mode (no GSC MCP available)
+- Note: Recommend operator use GSC URL Inspection for newest articles (posts 483,484,486,490,491)
+
+## Phase 2: Editorial Pipeline - Monitoring start
+- Phase 2 drift-guard: goal='scan sources, score candidates, verify stories for drafting', current_action='running logiai-monitoring', aligned=yes
+
+[MONITORING COMPLETE]
+
+### Phase 2: Candidates Evaluated
+
+**Sources scanned:** Reuters, FreightWaves, Supply Chain Dive, Transport Topics, The Loadstar, TechCrunch, Logistics Manager, Trans.info, Maersk Insights, ASCM + web search (last 7 days)
+
+**Candidates evaluated:** 7
+**Passed 7-day freshness filter:** 1
+**Rejected (stale):** 6
+
+#### Rejection Log
+| ID | Headline | Source | Published | Age | Rejection Reason |
+|----|----------|--------|-----------|-----|-----------------|
+| REJ-01 | Coupa Inspire conference AI features | Supply Chain Dive | 2026-05-15 | 12 days | Stale - exceeds 7-day filter |
+| REJ-02 | Shippeo acquires Logward | Logistics Manager | 2026-05-07 | 20 days | Stale |
+| REJ-03 | Amazon ASCS warehouse AI pilot | TechCrunch | 2026-05-05 | 22 days | Stale |
+| REJ-04 | Loop Returns funding round | FreightWaves | 2026-05-04 | 23 days | Stale |
+| REJ-05 | Descartes MacroPoint OpsForce launch | Transport Topics | 2026-03-04 | 84 days | Stale |
+| REJ-06 | FourKites Loft platform update | Supply Chain Dive | 2026-02-09 | 107 days | Stale |
+
+#### Verified Candidate
+
+=== STORY CANDIDATE ===
+ID: 20260527-001
+Headline: Stord Closes $250M Series F at $3B Valuation
+Source: FreightWaves
+Source URL: https://www.freightwaves.com/news/stord-raises-250m-series-f
+Date Published: 2026-05-26
+Source Tier: 1
+Theme Cluster: Agentic AI / Physical Intelligence
+Secondary Themes: Warehouse Automation, Fulfillment Technology, Funding
+
+SUMMARY:
+Atlanta-based Stord closed a $250M Series F at a $3B valuation, double its valuation from 12 months prior. The company processes $15B GMV across 1,000+ customers and ~100 facilities. Revenue grew 10x in four years. Stord Labs (physical AI + robotics hub, Atlanta) launched March 2026. AI Chat assistant launched same month for natural language inventory queries. Total raised: $775M+ across 8 acquisitions (Ware2Go/UPS, Shipwire/Ceva, Quiet Logistics Dallas, others). CEO Sean Henry: "We are building the intelligence layer for physical logistics." Investor Strike Capital Soo Bum Kim: "Stord is doing for physical commerce what Salesforce did for CRM."
+
+WHY IT COUNTS:
+Stord is constructing a Physical Intelligence Layer - an AI-native system where agents interact with physical goods flows in real time. This is directly relevant to logistics professionals evaluating next-generation fulfillment platforms. The $3B valuation signals market validation of the AI-over-physical-operations thesis.
+
+PRIMARY SOURCE STATUS: Original source (FreightWaves), corroborated by company announcement.
+
+MARKET CONTEXT: Follows GXO/KION Epinoy physical AI deployment (covered May 26). Confirms convergence of capital toward AI-native fulfillment platforms rather than pure capacity plays.
+
+SCORING:
+- Logistics Impact: 5/5 (direct fulfillment market relevance)
+- Source Quality: 5/5 (FreightWaves Tier 1, company-confirmed)
+- Freshness: 5/5 (yesterday)
+- Uniqueness: 4/5 (funding story, but physical AI angle is differentiated)
+- Pillar Fit: 5/5 (P5 Agentic AI, P2 secondary)
+Total Score: 24/25 - Priority Class: A
+
+VERIFICATION:
+- Source robustness: FreightWaves original, company confirmed - VERIFIED
+- Factual accuracy: All figures cross-checked ($250M, $3B, $15B GMV, 10x revenue, 1,000+ customers) - VERIFIED
+- Date currency: 2026-05-26 (1 day ago) - CURRENT
+- Confidence Score: 9/10 - Status: VERIFIED
+
+DEDUP CHECK:
+- Tag overlap with post 486 (GXO/KION): 2 tags - CLEAN (below 3-tag threshold)
+- Tag overlap with Locus/Nexera post: 1 tag - CLEAN
+- No exact title match - CLEAN
+- Pillar: P5 primary (avoids 4th consecutive P2 in same window)
+
+Phase 2 output: 1 verified, non-duplicate candidate - Stord $250M
+- Phase 2 drift-guard: goal='scan sources, score candidates, verify stories', current_action='phase 2 complete, 1 candidate passed', aligned=yes
+
+## Phase 3: Drafting
+
+- Phase 3 drift-guard: goal='draft verified candidates with LogiAI tone, 2 visuals, image brief, 3 internal links', current_action='writing Stord article to disk', aligned=yes
+- Candidate: Stord $250M (ID: 20260527-001)
+- Draft path: /Users/maxxposs/Documents/Logistics LAB/logiai-draft-2026-05-27-stord-physical-ai-fulfillment.md
+- Word count: ~910 words
+- Visuals: 2 (stat.html: 10x revenue growth | cmp.html: Stord vs Amazon FBA vs Traditional 3PL)
+- Internal links: 3 (post 486 GXO/KION, post 483 project44 Autopilot, post 451 pilot-to-production)
+- Image brief: Option A (editorial photographic, fulfillment center with AI Chat interface) + Option B (three-tier architecture diagram)
+- Hard rules check: no em-dashes, no "transformative"/"synergistisch"/"leverage"/"Game-Changer", no emojis in editorial text - PASS
+- Draft status: WRITTEN - proceeding to Phase 4 QC
+
+## Phase 4: QC + Compliance
+
+- Phase 4 drift-guard: goal='run QC checklist and compliance on draft, route to approval gate', current_action='18-point QC + compliance check', aligned=yes
+- Draft: logiai-draft-2026-05-27-stord-physical-ai-fulfillment.md
+- QC score: 17/18 (1 minor issue: meta description trimmed from 202 to 140 chars - fixed in draft)
+- QC normalized: 9/10 - AUTO-APPROVE eligible
+- Compliance: PASS (EU AI Act: PASS, GDPR: PASS, Copyright: PASS, Taxonomy: PASS)
+- Draft status updated to: READY-FOR-PUBLISH
+- Routing: Phase 5 Approval Gate (hard stop)
+
+## Phase 5: Approval Gate (HARD STOP)
+
+Presenting to operator via AskUserQuestion. No publish proceeds without explicit response.
+
+## Phase 6: Publishing
+
+- Phase 6 drift-guard: goal='publish operator-approved draft to WordPress via REST API', current_action='POST /wp-json/wp/v2/posts', aligned=yes
+- Draft: logiai-draft-2026-05-27-stord-physical-ai-fulfillment.md
+- Auth: Keychain logiai-wp-app-password (pietvanbloom@logiai.blog), User-Agent curl/8.4.0
+- Categories: 610719119 (AI & Automation), 401377356 (Logistics Tech), 788289393 (Deals & Tenders)
+- Tags used: 788290439 (Physical AI), 762117663 (Agentic AI), 788290440 (Warehouse Automation)
+- Tag create attempt result: REST 401 (manage_categories not granted to app password) - skipped Fulfillment Technology / Funding / Series F
+- featured_media: 453 (03_control_room.png, P5 fallback)
+- Gutenberg blocks: paragraph, heading (h3), html (2x editorial visuals)
+- Internal links embedded: post 486, post 483, post 451
+- Publish script: outputs/logiai_publish_2026_05_27.py (urllib, no deps)
+- Result: HTTP 201 Created
+- Post ID: 519
+- URL: https://logiai.blog/2026/05/27/stord-physical-ai-fulfillment/
+- Published: 2026-05-27T09:56:37
+- Verify GET /wp-json/wp/v2/posts/519: HTTP 200 OK
+- Yoast meta: sent via REST, known issue - did not persist. Operator to set via WP Admin UI (post 519)
+- Phase 6 complete: POST 519 LIVE
+
+## Phase 7: Memory Update
+
+- Phase 7 drift-guard: goal='update logiai_published.md, flip T012 Done, finalise run log', current_action='editing memory + tracker', aligned=yes
+
+### Actions completed
+1. logiai_published.md: row 519 appended (LIVE 2026-05-27T09:56), total updated 33+4 → 34+4, P5 count 12 → 13, last full sync date updated, gap analysis updated
+2. LogiAI Action Tracker.html: T012 status "In Progress" → "Done" (operator-approved "B flip")
+3. Run log: Phase 6 + Phase 7 entries appended (this block)
+
+### Operator action items (manual, not auto-executable)
+- Set Yoast SEO for Post 519 in WP Admin UI: Focus keyphrase "physical intelligence logistics AI", SEO title "Stord $250M: The Physical Intelligence Layer in Logistics | LogiAI", Meta description "Stord closes $250M Series F at $3B valuation, double in 12 months. Inside the Physical Intelligence Layer reshaping omnichannel fulfillment."
+- GSC URL Inspection: submit https://logiai.blog/2026/05/27/stord-physical-ai-fulfillment/ for indexing
+- T014 (Mobile Responsiveness): carry over to next interactive session
+- T029 (Competitor SEO gap analysis): requires interactive session with searchfit-seo
+- T031 (GSC manual URL indexing): also submit posts 483, 484, 486, 490, 491 if not yet done
+
+## Run Summary
+
+| Phase | Status | Notes |
+|-------|--------|-------|
+| -1 Styleguide Drift | PASS | In sync, T043 propagation holds |
+| 0 Pre-flight | PASS | Config OK, WP API 200, 43 tracker tasks parsed |
+| 1 Tracker Sweep | DONE | T012 queued for Done flip; T014/T029/T031 carried over |
+| 2 Monitoring | DONE | 7 candidates, 6 rejected (stale), 1 verified (Stord $250M, Score 24/25) |
+| 3 Drafting | DONE | ~910 words, 2 visuals, 3 internal links, PASS hard-rules |
+| 4 QC + Compliance | DONE | QC 9/10, Compliance PASS, meta description fixed |
+| 5 Approval Gate | DONE | Operator: "A publish, B flip" |
+| 6 Publishing | DONE | Post 519 LIVE 2026-05-27T09:56:37 |
+| 7 Memory Update | DONE | logiai_published.md + Action Tracker + run log updated |
+
+Outcome: 1 article published (Post 519), 1 tracker task closed (T012). Run complete.

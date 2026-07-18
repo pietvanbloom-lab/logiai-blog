@@ -1,0 +1,84 @@
+# LogiAI Production Stack Run Log
+date: 2026-06-24
+time: 0737 CEST (scheduled daily slot; container clock 2026-06-24 05:36 UTC = 07:36 CEST, fired on time)
+mode: daily
+operator: absent (scheduled autonomous run)
+model: opus-single (claude-opus-4-8)
+approval_email: disabled (config enabled=false; operator-present gate since 2026-06-17)
+
+## Phase -1: Styleguide Drift Check
+goal='verify inline Hard Rules match master CONTENT-STYLEGUIDE.md', current_action='master mtime + bundle/cache diff + em-dash grep for 4 skills', aligned=yes
+RESULT: Styleguide in sync. Master CONTENT-STYLEGUIDE.md mtime 2026-06-02 (unchanged). Bundle==Cache diff: quality-gate 0, publishing 0, editorial-visuals 0; drafting = 1 line, confirmed = the optional "Tracker ID:" draft-template field (line 192, NOT a styleguide Hard Rule). Em-dash ban present in all 4 cache skills (drafting 23 / quality-gate 47 / publishing 25 / editorial-visuals 33). No master-vs-inline drift. No propagation needed.
+
+## Phase 0: Preflight
+goal='load state and verify pipeline health', current_action='read config/memory/tracker + WP REST check', aligned=yes
+- config.yml parsed: daily caps (USD 3.00 / 200 calls / 90 min). phase_models loaded. approval_email enabled=false.
+- Queue folder: empty (only processed/ subdir). No pre-approved work packages.
+- WP REST API: HTTP 200 (healthy, UA curl/8.4.0).
+- Post 594 (einride-nasdaq-listing-autonomous-freight-2026) LIVE today 2026-06-24T07:00 as scheduled. Cadence 3/week intact.
+- Recent LIVE (WP REST, publish status): 594 Jun24 | 576 Jun23 | 592 Jun19 | 567 Jun17 | 566 Jun15 | 550 Jun12 | 549 Jun10 | 548 Jun08.
+- Action Tracker parsed cleanly: 100 task objects, 63 Done, 37 Open. Open = 22 Medium / 15 Low, 0 High. Types: 16 Tech, 10 Content, 9 SEO, 2 Design. NO delta vs 2026-06-23 (still 37 open).
+- Forward schedule (register): 594 Jun24 (LIVE) | 578 Jun26 | 600 Jun29 | 601 Jul1 | 590 Jul3 | 622 Jul6 | 623 Jul10. NO publishing gap. First fully open slot ~ Jul8 (Wed), then wk of Jul13.
+- Carryover ready-for-publish drafts: 0 (Veloq + back-office both slotted as future posts 622 + 623 on 2026-06-22).
+
+## Phase 1: Action Tracker Sweep
+goal='execute low-risk Open tasks, surface gated ones', current_action='classify 37 open tasks + read-only sitemap/robots health check', aligned=yes
+- 37 Open carried. 0 autonomously executable within daily budget/safety: all operator-dependent or infra-gated.
+- Infra/operator-gated (unchanged): GSC manual indexing (T031/T066/T085), WP.com media perms (T040), image pre-opt (T042), ElevenLabs (T045), approval-mail (T047/T081, disabled by design), schema apply (T071 HOLD), backlinks (T072), robots.txt AI-crawler policy (T073), git push (T015/T016, never autonomous), mu-plugin Yoast REST (T055), file delete (T084, never autonomous), Cloudflare (T067), brief-leak-guard pipeline wiring (T086). Heavy SEO audits (T029, T082) out of daily budget -> carried.
+- READ-ONLY health checks run this phase (low-risk, indexing-first aligned):
+  - Sitemaps healthy: sitemap_index.xml 200, sitemap.xml 200, news-sitemap.xml 200, post-sitemap.xml = 48 URLs. wp-sitemap.xml 301 -> Yoast index (normal). No broken sitemap reference.
+  - T073 NEW ACTIONABLE DATA: live robots.txt is the Cloudflare-default AI-blocking config. `User-agent: *` -> `Content-Signal: search=yes,ai-train=no`, Allow: /. Explicit `Disallow: /` for Amazonbot, Applebot-Extended, Bytespider, CCBot, ClaudeBot, CloudflareBrowserRenderingCrawler, Google-Extended, GPTBot, meta-externalagent. CONFLICT: this blocks the exact AI answer-engines (ChatGPT/Claude/Google AI) that the ai-visibility / AEO ambition targets. Operator decision required (live robots.txt edit = never autonomous). Surfaced in Phase 5.
+- Operator-close candidates re-flagged (NO status flips; operator controls Done): T075 (long-tail EU keywords, delivered Jun19), T076 (internal linking EU AI Act + AI Agents, delivered Jun19), T078 (held 2026-05-30 drafts -> 566/567 published), T099 (back-office draft -> slotted post 623), T100 (Veloq draft -> slotted post 622).
+- Operator-decision tasks: T071 (FAQ/HowTo schema HOLD; GEO value only), T073 (AI-crawler policy, now with concrete data above).
+
+## Phase 2: Editorial Pipeline (Monitoring -> Scoring -> Verification)
+goal='surface 1-5 fresh non-duplicate verified EU-lean candidates', current_action='6-query EU + freshest-window scan across all 3 pillars', aligned=yes
+- Scan: 6 web queries (EU warehouse robotics funding Jun2026; SC demand forecasting Europe Jun2026; autonomous trucking Europe Jun2026; logistics AI startup funding/acquisition wk Jun22; SC visibility AI platform Europe Jun2026; logistics AI agents freight forwarding Europe Jun2026).
+- Rejected:
+  - Cargofy EUR9.6M + Opereit $2.5M = DUP of scheduled post 623 (Jul10, back-office agents).
+  - Amazon EUR10B / Proteus = DUP of scheduled post 600 (Jun29).
+  - Smart Robotics EUR10M (NL, May14) = STALE (>30d). Rejected repeatedly.
+  - Sereact $110M Series B (Stuttgart physical AI, Cortex 2.0) = April-dated (STALE) + US-Boston-office framing. Backup-watch (EU physical-AI scaling).
+  - project44 SAP-Store endorsed app (Jun16) = thin/incremental partnership PR, dedup-adjacent to post 483 (project44 Autopilot). Reject.
+  - DHL Global Forwarding route optimization = Jan 11 2026 STALE + dedup-adjacent to scheduled post 578 (DHL customs AI, Jun26). Reject.
+  - EU TraceMap (Commission food traceability) = April 2026 STALE + niche. Reject.
+  - Oliver Wyman EU SC Tech Report = Feb 2026 STALE + broad. Reject.
+  - Fernride (Estonia, Muuga seaport, driverless terminal tractors w/ commercial revenue) = EU + interesting, but P1/autonomous saturated now (594 LIVE today / 567 / 590 / 475 / 496), fresh-June hook unconfirmed. Backup-watch.
+  - EU AI Act items = saturated vs 592 LIVE. Reject.
+- ACCEPTED: 0 candidates. No story cleared freshness + non-duplicate + verification + pillar-diversification bar.
+- DECISION: deliberate NO-DRAFT (matches Jun17/18/19/21/23 discipline). Pipeline full thru Jul10, no gap; P5/AI-Agents ~32% saturation; no fresh EU candidate of sufficient quality. Phases 3 + 4 SKIPPED.
+
+## Phase 3: Drafting
+SKIPPED (no accepted candidate). 0 drafts produced.
+
+## Phase 4: QC + Compliance
+SKIPPED (no draft).
+
+## Phase 5: Approval Gate
+HARD STOP. Operator absent + approval_email disabled. NO publish, NO git push, NO tracker status flip, NO file delete.
+- READY-FOR-PUBLISH this run: 0 new. Carryover: 0 (both prior held drafts now slotted as 622/623).
+- Decisions surfaced for operator (no action taken):
+  1. NEW: T073 AI-crawler policy decision now has concrete data. Live robots.txt blocks GPTBot / ClaudeBot / Google-Extended / CCBot / Bytespider / meta-externalagent / Amazonbot / Applebot-Extended and sets Content-Signal ai-train=no. This directly blocks the AI answer-engines the ai-visibility goal targets. Operator to decide: keep blocking (privacy/training-control) vs allow ai-input for AEO visibility.
+  2. Close satisfied tracker tasks (operator controls Done): T075, T076, T078, T099 (slotted 623), T100 (slotted 622).
+  3. PRE-PUBLISH FOLLOW-UPS for scheduled July posts (still open):
+     a. fal.ai key expired (401) -> swap custom featured images on 622 (placeholder media 457) + 623 (placeholder media 453) before Jul6/Jul10. featured_media trivially PATCHable once key renewed.
+     b. Set Yoast meta via editor JS store for 622 + 623 (REST does not persist on this site).
+  4. T071 FAQ/HowTo schema HOLD (operator decision; GEO value only).
+  5. Register ID discrepancy (re-flag, unresolved since Jun19): Jun19 EU AI Act post is LIVE as ID 592 in WP REST; register addendum labels it 597. Operator to confirm true IDs for the Jun12 board batch.
+  6. Register completeness: post 594 (Einride Nasdaq) is LIVE today but has no dedicated register table row (only noted as Jun12 board item E "no decision, stays in backlog"). Recommend adding a 594 register row at next weekly full-sync.
+  7. Temp files from 2026-06-22 publish in Logistics LAB (.publish-veloq-body.html / .publish-backoffice-body.html / .publish-logiai.py) safe to delete (file delete never autonomous).
+- Backup-watch carried: Sereact (EU physical-AI scaling), Fernride (driverless yard/terminal tractors, EU), Arqh (logistics workflow AI), project44 (watch for a larger story than the SAP-Store endorsement).
+
+## Phase 7: Memory Update
+- Run log written (this file).
+- cap-history.csv row appended.
+- logiai_published.md: NO changes (nothing published; 594-row gap flagged for weekly sync rather than partial-metadata autonomous edit).
+- Action Tracker HTML: NO changes (no status flips; operator-gated).
+- No new draft file created (deliberate NO-DRAFT).
+
+## Caps / Telemetry
+tool_calls: ~14 | wall_seconds: ~600 | estimated_usd: ~0.70 | cap_hits: none | drift_mismatches: 0 | loop_aborts: 0
+All within daily caps (200 calls / 90 min / USD 3.00).
+
+## Pipeline forward schedule
+594 Jun24 (LIVE) | 578 Jun26 | 600 Jun29 | 601 Jul1 | 590 Jul3 | 622 Jul6 | 623 Jul10. Cadence intact 3/week. First fully open slot ~ Jul8 (Wed), then wk of Jul13. 0 WP writes, 0 git, 0 delete this run.

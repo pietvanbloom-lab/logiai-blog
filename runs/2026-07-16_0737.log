@@ -1,0 +1,35 @@
+LogiAI Production Stack - Daily Run - 2026-07-16 07:37 CEST (scheduled, operator ABSENT)
+mode: daily | approval_email.enabled=false (operator-present gate) -> NO publish, NO autonomous drafting this run
+
+Phase -1 (styleguide drift): CLEAN. Master CONTENT-STYLEGUIDE.md mtime 2026-06-02 (unchanged since last CLEAN run, 549 lines, 29 Hard-Rule lines, Rule 1 "Keine em-dashes" intact). All 4 inline skill copies newer (quality-gate 2026-06-02, drafting/publishing/editorial-visuals 2026-07-04). No master edit since 06-02 -> no new drift possible. "Styleguide in sync." No propagation needed.
+
+Phase 0 (pre-flight): config.yml parsed (daily caps: 3.00 USD / 200 calls / 90 min). Queue folder EMPTY (only processed/ subdir; no dated pre-approval package). WP REST check: HTTP 200 (auth OK, UA curl/8.4.0). Action Tracker parsed: 112 tasks (73 Done, 39 Open) - matches 07-15 operator addendum (open 42->39 after T109/T110/T112 flips). Register + project memory loaded.
+
+Phase 1 (Action Tracker sweep): report-only, no status flips (operator absent).
+- 39 Open = 1 High (T106) + 38 Medium/Low. High T106 is the armed EU AI Act Digital Omnibus trigger, top priority (see OJ check below).
+- Medium/Low backlog unchanged, carried over (T013/T014/T022/T027 content; T029/T031/T066/T071/T072/T075/T076/T082 SEO; T040/T042/T045/T047/T073/T081/T086/T108 tech; T078 held-drafts disposition; T014 design).
+- No Bug/Tech/SEO/Design task auto-executed (all need operator approval or are carry-over).
+
+T106 EU AI Act OJ check (2026-07-16): STILL NEGATIVE, no material change vs 07-15.
+- Web check: Parliament adopted 16 Jun 2026, Council final green light 29 Jun 2026. Legislative act "will be published in the OJ shortly", enters into force 3rd day after publication. One law-firm alert now frames formal publication/adoption "before 2 August 2026" (slightly widens the latest-date envelope vs the prior 30 Jul pin).
+- No OJ L-number assigned as of today (EUR-Lex L-series shows no Digital Omnibus regulation number yet). COM(2025) 836 final is the proposal ref; final Regulation number not yet issued.
+- Today 16 Jul is PRE-window (window pinned 18-30 Jul, latest possibly 2 Aug). Trigger stays ARMED. Continue daily OJ checks; T106 pre-draft becomes top breaking piece the moment the L-number lands.
+
+Phase 2 (monitoring + scoring + verification): lean scan, dedup vs register clean.
+- Auger 50M USD Series B: NO LONGER a candidate - PUBLISHED 2026-07-15 as post 688 (operator-approved). Register row confirmed.
+- New listicle hits screened for date-currency and REJECTED as stale (stale-republish trap avoided):
+  - Loop 95M USD Series C: announced 2026-04-17 (~3 months old). Not breaking. WATCH only.
+  - Augment 85M USD Series A (Augie logistics teammate): announced 2025-09-04 (~10 months old). Very stale. WATCH only.
+- No NEW date-current, well-corroborated funding/product story surfaced today. Both are P5 Agentic AI anyway, and P5 is >40% saturated (pillar guard active) - low priority even if fresher.
+- Date-currency discipline held.
+
+Phase 3-4 (drafting/QC): NOT executed. Operator absent AND no queue pre-approval file AND no draftable date-current candidate. Per operator-absent + no-queue precedent, surface candidates only; no autonomous local drafting.
+
+Phase 5 (approval gate): NOT entered (no publish path without operator; approval_email disabled).
+Phase 6 (publishing): NOT entered.
+Phase 7 (memory): run log written; cap-history row appended. No register changes (nothing published). No tracker Done flips (operator absent).
+
+Caps: well under. ~10 tool calls, wall ~few min, est ~0.20 USD. No cap hits, no drift mismatches, no loop aborts.
+Constraints honored: no WP publish, no git push, no file delete, no tracker Done flip, no em-dashes.
+
+Operator to-do carried: (1) T106 armed - expect OJ L-number in the 18 Jul - 2 Aug window; (2) confirm Yoast fields persisted on posts 673/674/675/688 in WP Admin; (3) swap custom fal image on post 688 (currently P5 placeholder 453); (4) tracker Done flips still require operator presence.

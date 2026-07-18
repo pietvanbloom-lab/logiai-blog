@@ -1,0 +1,141 @@
+# LogiAI Production Stack Run — 2026-05-15 07:00 CET
+# Mode: daily (scheduled, operator not present)
+# Config snapshot: v1, last_updated 2026-05-11
+# Caps (daily): total_usd=3.00, total_calls=200, total_min=90, per_phase=50/30/0.80, per_draft=25/0.50
+
+## Phase -1: Styleguide Drift Check
+
+- Master read: CONTENT-STYLEGUIDE.md (Sections 0, 2, 4, 5, 7, 10 verified).
+- Bundle vs Cache parity: drafting (10033b OK), quality-gate (11353b OK), publishing (10133b OK), editorial-visuals (13677b OK). All four pairs IDENTICAL via diff.
+- Master Section 0 vs inline Hard Rules: SAME DRIFT as 2026-05-13 and 2026-05-14 runs. Operator created T043 (Medium Tech, opened between 2026-05-14 and today) to formally track the sync question. Drift sync is now scoped to its own tracker task; autonomous run does not act on it.
+  - Drafting inline: Master Rule 5 (Keine doppelte Verneinung) absent; inline has context-specific Rule 8 (Keine Pressemitteilungs-Echos) not in master Section 0. Inline Floskel list missing "synergistisch".
+  - Quality-Gate inline: mirrors drafting drift.
+  - Publishing inline: scan-list only, no Section 0 copy, no drift.
+  - Editorial-Visuals inline: visual-specific extension (PR-Sprache rule), purposeful, no drift.
+- Decision (autonomous mode): NO SYNC. T043 owns the resolution.
+- Drift-guard Phase -1: goal='detect drift', current_action='diff master vs 4 inline copies', aligned=yes.
+
+## Phase 0: Pre-flight
+
+- config.yml parsed: daily caps active, model assignments confirmed.
+- WP REST API public list: HTTP 200 (logiai.blog/wp-json/wp/v2/posts).
+- Latest 3 posts: 464 (2026-05-12, featured_media=465), 451 (2026-05-11, fm=453), 401 (2026-04-19, fm=402). No new publishes since 2026-05-12.
+- Memory check: logiai_published.md aligned with WP REST state (last full sync 2026-05-12).
+- Action Tracker parse: 43 total tasks. Open=21 (down from 23 on 2026-05-14). Done=22 (up from 20). Operator closed T034 and T037 between 2026-05-14 and 2026-05-15 (both were surfaced as "safe to flip Done" yesterday). Net change confirms the run-to-operator feedback loop is working.
+- NEW Open tasks since 2026-05-14:
+  - T042 [Medium Tech] Pre-optimize featured images to web-JPEG before MCP upload.
+  - T043 [Medium Tech] Sync styleguide drift between inline and master rules.
+- Queue file 2026-05-13-priority.md: STILL STALE. Date mismatch (file=2026-05-13, today=2026-05-15) AND target (Post 452) remains unpublished AND featured image already live on Post 464. T038 owns cleanup. No autonomous delete.
+- Drift-guard Phase 0: goal='preflight reads and state verification', current_action='read configs/memory/tracker, verify WP, no writes', aligned=yes.
+
+## Phase 1: Action Tracker Sweep (read-only triage)
+
+21 Open tasks. Read-only triage this run; no autonomous status flips per Hard Rules.
+
+HIGH priority:
+- T032 [Tech] Automate WP publish end-to-end. Blocked on operator decision (WPCOM MCP vs REST API automation). Carry over.
+
+MEDIUM priority:
+- T012 [SEO] Internal linking audit. Defer (dedicated session needed).
+- T013 [Content] Prio 04+ enhancements. Defer (content audit work).
+- T014 [Design] Mobile responsiveness check. Requires browser; defer.
+- T022 [Content] Embed Prio 01-03 into Art 02/03/04/09. Defer.
+- T027 [Content] Draft 9 remaining Week 2-4 articles. Editorial pipeline scope; tied to slotting decision below.
+- T029 [SEO] Competitor SEO gap analysis. Read-only, deferred.
+- T031 [SEO] GSC manual indexing 40 pages. External-only action.
+- T040 [Tech] WordPress.com wp-content directory permission. Likely linked to T032 decision.
+- T042 [Tech] NEW. Pre-optimize featured images to web-JPEG before MCP upload. Surface for operator scoping.
+- T043 [Tech] NEW. Sync styleguide drift between inline and master rules. This formalises the drift question from the last three runs; surface to operator.
+
+LOW priority (carry-over): T015, T016, T017, T018, T025, T028, T033, T038, T039, T041.
+
+Surface for operator approval:
+- T042 scoping. Quick win: write a small Python pre-process step that the publishing skill calls before WP media upload.
+- T043 drift resolution. Two valid resolutions:
+  (a) Sync inline copies to mirror master Section 0 exactly: add "Keine doppelte Verneinung" back, drop "Pressemitteilungs-Echos" from Hard Rules (move it to a "Style notes" sub-section); add "synergistisch" to floskel list.
+  (b) Update master Section 0 to match inline: declare "Pressemitteilungs-Echos" a Section 0 Hard Rule, drop "doppelte Verneinung" or move it to Section 9. The inline expansion has held up across multiple QC passes, so the inline list may actually be the better source of truth.
+  Either path closes T043; preference for (a) on principle ("master is master"), but (b) is defensible.
+- T038 cleanup: delete stale queue file 2026-05-13-priority.md. Operator confirms delete.
+
+Drift-guard Phase 1: goal='triage open tasks read-only', current_action='parse 43 tasks, classify by priority+type, no flips', aligned=yes.
+
+## Phase 2: Editorial Pipeline (Monitoring + Scoring + Verification)
+
+Light scan only (Haiku-tier). No new sources scraped this run; carry-forward shortlist from 2026-05-14 still valid for slotting purposes. Next operator-present session should run a fresh full monitoring sweep.
+
+CARRY-FORWARD candidates (verified, awaiting slotting):
+1. **project44 Autopilot** (2026-05-11) Confidence 9.0, P4 + P5, GlobeNewswire + FreightWaves + LogisticsMgmt + Yahoo + Manila Times. STILL TOP PICK. Headline numbers: 4% freight spend reduction, 70% manual coordination reduction, 75% faster sourcing, 40% disruption-cost reduction. Builds on Post 332 (LunaPath acquisition). Fills P4 gap (currently 1 of 27, under-served).
+2. **Aurora + McLane (Berkshire Hathaway)** (CNBC 2026-05-06) Confidence 9.0 (single primary, FreightWaves confirmation recommended), P1.
+3. **Seegrid 20M autonomous miles** (RAN 2026-05-12) Confidence 8.5, P2. Fills P2 gap (currently 2 of 27, under-served). Stat-led format fits.
+4. **Kodiak + Roehl Dallas-Houston** (RAN + Heavy Duty Trucking + Trucking Dive, 2026-05-07) Confidence 8.5, P1.
+5. **Kodiak + West Fraser Alberta** (GlobeNewswire + Manila Times, 2026-05-07) Confidence 8.0, P1. International first + new vertical (logging).
+
+Duplicate check status: unchanged from 2026-05-14 verdict. All five PROCEED candidates verified non-duplicate.
+
+Saturation status (unchanged):
+- P5 Agentic AI: 12 of 27 = 44%. SATURATION WARNING ACTIVE.
+- P4 SC Visibility: 1 of 27 = 4%. UNDER-SERVED.
+- P3 Demand Forecasting: 2 of 27 = 7%. UNDER-SERVED.
+- P2 Warehouse Automation: 2 of 27 = 7%. UNDER-SERVED.
+
+Drift-guard Phase 2: goal='maintain candidate shortlist + saturation map', current_action='re-affirm carry-forward shortlist, no new web queries', aligned=yes.
+
+## Phase 3: Drafting — SKIPPED (autonomous mode)
+
+Same rationale as 2026-05-13 and 2026-05-14: drafting consumes ~15-25 calls + $0.30-$0.50 per article. Phase 5 requires operator approval to be useful. Per-draft cap ($0.50) makes pre-emptive drafts costly if operator slots a different candidate. Best autonomous outcome is a clean shortlist for operator review. T027 (draft 9 remaining articles) is the parent task for any subsequent operator-driven drafting.
+
+## Phase 4: QC + Compliance — N/A (no new drafts)
+
+## Phase 5: Approval Gate — DEFERRED to operator-present session
+
+Operator decisions queued (cumulative since 2026-05-14):
+
+1. **Slotting decision (5 candidates)** for next Sun/Tue/Fri slots (next available: 2026-05-17 Sun, 2026-05-19 Tue, 2026-05-22 Fri):
+   - project44 Autopilot (top pick, P4 gap-fill, Confidence 9.0)
+   - Aurora + McLane Berkshire (P1, Confidence 9.0)
+   - Seegrid 20M miles (P2 gap-fill, Confidence 8.5)
+   - Kodiak + Roehl Dallas-Houston (P1, Confidence 8.5)
+   - Kodiak + West Fraser Alberta (P1, novel vertical, Confidence 8.0)
+
+2. **T043 Styleguide drift resolution**: choose path (a) sync inline to master, or (b) elevate inline to master. Recommendation: path (a) on principle. T043 should not stay open longer than one weekly review cycle.
+
+3. **T042 image pre-optimization scoping**: confirm Python pre-process step (size + format target) before publishing-skill MCP upload.
+
+4. **T038 cleanup**: delete stale queue file `2026-05-13-priority.md` (work package obsolete since Post 452 unscheduled and Post 464 featured image already live).
+
+5. **T036 ElevenLabs security decision** (carry-over from 2026-05-14): Option A (Web Speech API) vs Option B (Cloudflare Worker proxy).
+
+6. **T033 fix**: scheduling logic weekday mismatch (low priority but still open).
+
+7. **T035 carry-over**: Upload TTS plugin v2.1 ZIP (admin upload, out of autonomous scope).
+
+## Phase 6: Publishing — SKIPPED (no approvals in autonomous mode)
+
+## Phase 7: Memory Update
+
+- logiai_published.md: no changes (no publishes this run; last sync 2026-05-12 still authoritative).
+- Action Tracker HTML: no status flips this run.
+- MEMORY.md: no new memory files.
+- Run log: this file.
+- cap-history.csv: append below.
+
+Drift-guard Phase 7: goal='write log + cap-history row, no other writes', current_action='write log + csv', aligned=yes.
+
+## Run Totals
+
+- Tool calls (approx): 18
+- Wall clock: ~12 min
+- Estimated USD: < $0.10 (read-heavy, Haiku tier, no Sonnet/Opus delegation)
+- Cap status: well under all daily caps
+- Models invoked (effective): Haiku 4.5 orchestration
+- Loop aborts: 0
+- Drift mismatches: 0
+- Goal-drift checks: 6 of 6 phases aligned
+
+## Notes for Operator
+
+The autonomous daily run pattern is stabilising: three consecutive runs (2026-05-13, 2026-05-14, 2026-05-15) have surfaced the same decision queue with two items closed each cycle. The bottleneck is the operator-present approval gate, not the autonomous pipeline. Two structural follow-ups worth considering on the next interactive session:
+
+- Resolve T043 (styleguide drift) so the Phase -1 noise stops repeating.
+- Resolve T038 (queue file cleanup) so the queue check no longer surfaces a stale file.
+- Slot one of the verified candidates so the editorial pipeline can progress past Phase 2.

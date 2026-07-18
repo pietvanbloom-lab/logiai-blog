@@ -1,0 +1,94 @@
+=== LogiAI Operator-Approved Execution Run ===
+Started: 2026-05-26 ~08:15 CET (operator-present, follows scheduled run at 07:38)
+Mode: post-approval execution
+
+[Operator decisions received via chat]
+- Posts 491+493: approved if not already done (both confirmed scheduled in WP, no action)
+- candidate-01 EINRIDE OHIO CABLESS L4 from 2026-05-25 brief: APPROVE
+- T012: Path A (REST PATCH backfill)
+- candidate-01 LOCUS BUYS NEXERA from 2026-05-26 brief: APPROVE
+
+[Pre-execution verification]
+- WP REST API: HTTP 200, App Password from Keychain works
+- Post 486 (GXO/KION) confirmed LIVE since 08:00 CET today (schedule fired as planned)
+- Post 491 confirmed status=future, date=2026-05-27T08:00:00
+- Post 493 confirmed status=future, date=2026-05-29T08:00:00
+
+[Image generation via fal.ai Nano Banana 2]
+- Einride F2: /Users/maxxposs/Documents/ContentFabrik/bilder/einride-cabless-pod-ohio-warehouse-2026.png (cabless white pod with blue stripe, warehouse dock, golden hour) - GENERATED
+- Locus F2: /Users/maxxposs/Documents/ContentFabrik/bilder/locus-nexera-soft-gripper-warehouse-2026.png (multi-finger soft gripper holding foil pouch, AMR in background, twilight) - GENERATED
+- Cost: ~$0.02 total (2 generations)
+
+[WP Media uploads]
+- Einride image -> Media ID 495 (logiai.blog/wp-content/uploads/2026/05/einride-cabless-pod-ohio-warehouse-2026.png)
+- Locus image -> Media ID 497 (logiai.blog/wp-content/uploads/2026/05/locus-nexera-soft-gripper-warehouse-2026.png)
+
+[Tag creation]
+Created 10 new tags via REST POST /tags:
+- Einride 788290457, EASE Logistics 788290458, Cabless Trucks 788290459, DriveOhio 788290460
+- Locus Robotics 788290461, Nexera Robotics 788290462, Mobile Manipulation 788290463, NeuraGrasp 788290464, AMR 788290465, Robots-to-Goods 788290466
+Reused existing: autonomous-trucking 788290417, Warehouse Robotics 121119427, Vendor Consolidation 788290455, Warehouse Automation 788290440
+
+[Einride post creation]
+- POST /wp-json/wp/v2/posts -> Post ID 496
+- Status: future
+- Date: 2026-05-28T08:00:00 (Thu 08:00 CET)
+- Slug: einride-ease-logistics-ohio-cabless-autonomous-electric-trucks-2026
+- Featured media: 495
+- Category: Autonomous Mobility (142356988)
+- Tags: 5 (Einride, EASE Logistics, Autonomous Trucking, Cabless Trucks, DriveOhio)
+- Yoast meta sent (per known issue may need manual UI confirm)
+- Verification: GET /posts/496 returns status=future, featured_media=495, link works
+- Internal links inside content: post 338 (Kodiak), post 475 (Aurora McLane)
+
+[Locus post creation]
+- POST /wp-json/wp/v2/posts -> Post ID 498
+- Status: future
+- Date: 2026-06-01T08:00:00 (Mon 08:00 CET)
+- Slug: locus-robotics-nexera-mobile-manipulation-warehouse-picking-wall-2026
+- Featured media: 497
+- Category: Logistics Tech (401377356)
+- Tags: 9 (Locus Robotics, Nexera Robotics, Mobile Manipulation, NeuraGrasp, Warehouse Robotics, AMR, Robots-to-Goods, Vendor Consolidation, Warehouse Automation)
+- Yoast meta sent (per known issue may need manual UI confirm)
+- Verification: GET /posts/498 returns status=future, featured_media=497, link works
+- Internal links inside content: post 486 (GXO/KION), post 451 (pilot to production)
+
+[T012 Path A backfill]
+- Pass 1: 13/19 zero-outlink target posts patched with targeted regex anchors (16 links added)
+- Pass 2: 6/6 remaining posts patched with broader anchors (6 links added)
+- Total: 19/19 posts patched, 22 internal outlinks inserted
+- Verified via REST GET on samples: post 156 (+1 to 464), post 6 (+2 to 77+451), post 25 (+1 to 21)
+- Tracker T012 status flipped from Open to In Progress (Operator to spot-check + mark Done)
+
+[Memory update]
+- logiai_published.md: post 486 row flipped to LIVE; rows 496+498 added as SCHEDULED with full metadata; pillar distribution updated (P5 saturation now 32%, down from 39%); T012 execution log appended
+
+[Hard-rule + autonomy compliance]
+- Zero em-dashes in any new content (verified pre-publish on both drafts)
+- Zero git pushes
+- Zero file deletions
+- Zero credential changes
+- Tracker status flipped to In Progress only (not Done; operator must confirm Done)
+- All writes scoped to operator-approved actions
+
+[Cost summary]
+- fal.ai image gens: ~$0.02 (2 images)
+- WP REST calls: ~40 (media uploads + post creates + 19 GETs + 19 PATCHes + verifications)
+- LLM tokens for orchestration: minimal (mostly tool routing)
+- Estimated USD this execution: ~$0.50
+
+[Outputs]
+- Post 496 (Einride) scheduled Thu 2026-05-28 08:00 CET, featured media 495
+- Post 498 (Locus) scheduled Mon 2026-06-01 08:00 CET, featured media 497
+- 22 new internal links across the back catalogue
+- Action Tracker T012 -> In Progress
+- Register updated to total 33 live + 4 scheduled
+
+[Pipeline this week]
+| Tue 2026-05-26 08:00 | LIVE | 486 GXO/KION Epinoy |
+| Wed 2026-05-27 08:00 | future | 491 AWS Connect Decisions |
+| Thu 2026-05-28 08:00 | future | 496 Einride Ohio cabless |
+| Fri 2026-05-29 08:00 | future | 493 Toyota Automated Logistics |
+| Mon 2026-06-01 08:00 | future | 498 Locus Buys Nexera |
+
+=== Execution complete ===

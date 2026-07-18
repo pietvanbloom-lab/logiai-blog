@@ -1,0 +1,219 @@
+# LogiAI Production Stack Run Log
+# Date: 2026-05-17 Sun
+# Time: 05:38 CET (scheduled fire, autonomous, operator absent)
+# Mode: daily
+# Trigger: scheduled-tasks → logiai-production-stack-daily
+
+## Run Configuration
+
+- Config snapshot: config.yml v1 (2026-05-11), unchanged from prior runs
+- Phase models: Haiku 4.5 (Phase 0, 1, 2, 4-QC, 6, 7), Sonnet 4.6 (Phase 1 Bug/Design, 2 Verification, 3 Drafting, 4 Compliance)
+- Daily caps: $3.00 total / 200 tool calls / 90 wall min; per-phase $0.80 / 50 calls / 30 min; per-draft $0.50 / 25 calls
+
+## Phase -1: Styleguide Drift Check
+
+Status: DRIFT DETECTED (recurring, same as 2026-05-13 through 2026-05-16 runs).
+
+Bundle vs cache diff: 0 lines across all 4 production-stack skills (drafting, quality-gate, publishing, editorial-visuals). Inline copies are in sync with each other.
+
+Bundle/cache vs master CONTENT-STYLEGUIDE.md Section 0:
+- Inline copies (drafting + quality-gate) MISSING master Hard Rule 5 (Keine doppelte Verneinung als Stil).
+- Inline copies INCLUDE extra rule 8 (Pressemitteilungs-Echos) not in master Section 0 (master locates this in Don't 6).
+- Inline Floskel-list omits "synergistisch" (in master); uses "transformativ" instead of master's "transformative".
+- Publishing skill includes "doppelte Verneinung" in newsletter-eyebrow section only.
+
+Action: NO propagation. Per skill spec, drift sync requires operator AskUserQuestion approval. Operator absent. Drift surfaced for review. Tracked as T043 (still Open). 5th consecutive run reporting this.
+
+Drift-guard Phase -1: goal='check styleguide drift', action='read master + inline blocks + diff', aligned=yes.
+
+## Phase 0: Pre-flight
+
+- config.yml: parsed
+- queue/: `2026-05-13-priority.md` present but STALE (4 days old, dated 2026-05-13). Per skill spec ("match today's date or are date-less"), pre-approval expired. NOT honored. Tracked as T038 (still Open, 4 runs old).
+- MEMORY.md: read
+- logiai_published.md: read (102 lines, 26 posts on register)
+- logiai_project.md: read via context
+- Action Tracker HTML: parsed, 43 tasks, 21 Open (1 High, 10 Medium, 10 Low) — unchanged from 2026-05-16
+- WP REST: GET /wp-json/wp/v2/posts?per_page=1 → 200 OK (0.32s)
+- Recent live posts confirmed (top 5 IDs): 460, 464, 451, 401, 192. Post 460 went live 2026-05-16 as scheduled.
+
+Drift-guard Phase 0: goal='read config, queue, memory, tracker, verify WP', action='all reads done', aligned=yes.
+
+## Phase 1: Action Tracker Sweep
+
+Open tasks: 21 (1 High, 10 Medium, 10 Low). Same composition as 2026-05-16. No new tasks added since last run, no tasks closed.
+
+HIGH:
+- T032 [Tech] Automate WordPress publish step end-to-end. Blocked by T040. No autonomous action.
+
+MEDIUM (all operator-decision or defer-cap):
+- T012, T013, T014, T022, T027, T029, T031, T040, T042, T043
+
+LOW (all carry-over, operator-only or defer):
+- T015, T016, T017, T018, T025, T028, T033, T038, T039, T041
+
+Autonomous executions this phase: 0.
+Tracker status flips this phase: 0.
+
+Drift-guard Phase 1: goal='triage + classify open tracker tasks', action='parse + classify, no writes', aligned=yes.
+
+## Phase 2: Editorial Pipeline (light re-confirmation)
+
+No fresh monitoring sweep this run. Rationale: same as 2026-05-13 through 2026-05-16 runs — operator slotting bottleneck, cap budget preservation, no new editorial direction since prior run.
+
+Carry-forward shortlist age recalculated as of 2026-05-17:
+
+| # | Candidate | Source date | Age | Conf | Pillar | Status |
+|---|---|---|---|---|---|---|
+| 1 | project44 Autopilot | 2026-05-11 | 6d | 9.0 | P4+P5 | STILL TOP PICK. Fills P4 gap. |
+| 2 | Aurora + McLane Berkshire | 2026-05-06 | 11d | 9.0 | P1 | Trending toward 14d expiry. Needs 2nd-source confirmation. |
+| 3 | Seegrid 20M autonomous miles | 2026-05-12 | 5d | 8.5 | P2 | Fills P2 gap. Stat-led format suits. |
+| 4 | Kodiak + Roehl Dallas-Houston | 2026-05-07 | 10d | 8.5 | P1 | |
+| 5 | Kodiak + West Fraser Alberta | 2026-05-07 | 10d | 8.0 | P1 | International + new vertical (logging). |
+
+All 5 still within 14-day editorial currency. Aurora candidate at 11d, 3 days from expiry window.
+
+Saturation status (unchanged from 2026-05-16):
+- P5 Agentic AI: 12 of 27 = 44%. SATURATION WARNING ACTIVE.
+- P4 SC Visibility: 1 of 27 = 4%. UNDER-SERVED.
+- P3 Demand Forecasting: 2 of 27 = 7%. UNDER-SERVED.
+- P2 Warehouse Automation: 2 of 27 = 7%. UNDER-SERVED.
+
+Drift-guard Phase 2: goal='re-confirm shortlist + saturation + age', action='re-read prior log, recompute ages', aligned=yes.
+
+## Phase 3: Drafting — SKIPPED (autonomous mode, no slotting decision)
+## Phase 4: QC + Compliance — N/A (no drafts)
+## Phase 5: Approval Gate — DEFERRED to operator-present session
+## Phase 6: Publishing — SKIPPED
+
+## Phase 7: Memory Update
+
+- logiai_published.md: NO autonomous write (per absent-operator policy). Post 460 sync_tag rotation still pending (sync-2026-05-11 → sync-2026-05-17).
+- Action Tracker HTML: no status flips.
+- MEMORY.md: no new memory files.
+- Run log: this file.
+- cap-history.csv: append row.
+
+Drift-guard Phase 7: goal='write run log + cap row only', action='write log + csv', aligned=yes.
+
+## Operator Decision Queue (cumulative, rolled forward 5 runs)
+
+A. **SLOTTING DECISION (5 candidates)** for slots 2026-05-17 Sun (TODAY), 2026-05-19 Tue, 2026-05-22 Fri:
+   1. project44 Autopilot (TOP PICK, P4 gap-fill, conf 9.0)
+   2. Aurora + McLane Berkshire (P1, 11d, awaiting 2nd source; 3d to expiry)
+   3. Seegrid 20M miles (P2 gap-fill, stat-led)
+   4. Kodiak + Roehl Dallas-Houston (P1)
+   5. Kodiak + West Fraser Alberta (P1, novel vertical)
+
+B. **T043 styleguide drift**: sync inline → master (recommended) or elevate inline → master.
+
+C. **T042 image pre-optimization**: confirm Python pre-process target (200KB JPEG, 16:9 1920×1080).
+
+D. **T038 cleanup**: delete `2026-05-13-priority.md` (premise resolved 2026-05-13).
+
+E. **T041**: decide Post 452 fate.
+
+F. **T039**: confirm priority mix gating order (P4 > P3 > P2 > P1 > others).
+
+G. **T033**: fix weekday mismatch in scheduling logic.
+
+H. **T032 → T040 chain**: WP publishing automation blocked on wp-content permission.
+
+I. **Sync logiai_published row 56**: flip sync-2026-05-11 → sync-2026-05-17 for Post 460.
+
+## Run Totals
+
+- Tool calls (approx): 16
+- Wall clock: ~12 min
+- Estimated USD: < $0.08 (read-heavy, Haiku tier)
+- Cap status: well under all daily caps (USD 2.7%, calls 8%, time 13%)
+- Models invoked (effective): Haiku 4.5 orchestration only
+- Loop aborts: 0
+- Drift mismatches: 0
+- Goal-drift checks: 6 of 6 phases aligned
+- Hard-rule violations: 0
+- Autonomous writes: 1 (this log file) + 1 (cap-history.csv row)
+
+## Operator Session Addendum (2026-05-17 ~07:55 CET)
+
+Operator became present after the 05:38 autonomous fire. Resolved 3 decision-queue items + ran full Aurora pipeline through scheduled publish.
+
+### Decisions executed via AskUserQuestion
+
+| Item | Decision | Action |
+|---|---|---|
+| Slotting | Aurora + McLane Berkshire | Full pipeline executed |
+| T043 styleguide drift | Master → Inline propagation | Edited 3 skills (drafting, quality-gate, editorial-visuals) in bundle + cache; tracker flipped to Done |
+| T038 stale queue file | Delete | Removed `2026-05-13-priority.md`; tracker flipped to Done |
+| Aurora pipeline depth | Full to Draft+QC, then ask | Verify + Draft + Visuals + QC + Compliance all completed |
+| Aurora language | English | Drafted in English |
+| Aurora publish target | Tue 2026-05-19 08:00 CET (scheduled) | Post 475 created with status=future |
+| Featured image | fal.ai Nano Banana 2 | Generated successfully (cinematic, white Volvo VNL at dawn) |
+
+### Aurora pipeline outputs
+
+- Draft: `/Users/maxxposs/Documents/Logistics LAB/logiai-draft-2026-05-17-aurora-mclane.md`
+- QC report: `/Users/maxxposs/Documents/Logistics LAB/logiai-qc-2026-05-17-aurora-mclane.md`
+- QC score: 24.5 / 25 = 9.8 / 10. Hard Rules: 0 violations. Compliance: PASS.
+- Verification: 2nd-source confirmed via FreightWaves (Thomas Wasson, 2026-05-06). Tier 1.
+- Featured image source (high-quality): `/Users/maxxposs/Documents/ContentFabrik/bilder/aurora-mclane-featured-2026-05-17.png` (1.6MB PNG)
+- Featured image optimized: `/Users/maxxposs/Documents/ContentFabrik/bilder/aurora-mclane-featured-2026-05-17.jpg` (234KB JPEG, 1920×1080, quality 82)
+- WP Post 475: scheduled, status=future, date=2026-05-19T08:00:00, featured_media=458 (PLACEHOLDER, autonomous_truck.png)
+- WP Post Link: https://logiai.blog/?p=475
+- WP Edit Link: https://logiai.blog/wp-admin/post.php?post=475&action=edit
+
+### KNOWN LIMITATION: Featured image swap required pre-publish
+
+Base64 upload of the fal.ai-generated image (87KB-234KB JPEG variants) exceeded the MCP tool-parameter context limit. Post 475 was created with featured_media=458 (the existing autonomous_truck.png) as fallback.
+
+**Operator action required BEFORE 2026-05-19 08:00 CET:**
+1. Open WP admin → Media Library
+2. Upload `~/Documents/ContentFabrik/bilder/aurora-mclane-featured-2026-05-17.jpg`
+3. Set alt text: "Volvo VNL Autonomous tractor at dawn on a Texas highway, low side angle"
+4. Open Post 475 edit screen, swap Featured Image to the new upload
+5. Save (post will go live as scheduled)
+
+This is the same blocker as T040 (wp-content permission for direct media upload) and T042 (image pre-optimization). T042 partial: optimization happened in this run (234KB JPEG ready), upload step still blocked.
+
+### Tracker updates
+
+- T038 [Tech, Low] → Done (queue file removed)
+- T043 [Tech, Medium] → Done (styleguide drift synced)
+
+### Aurora draft does NOT consume the Sun-Belt slot
+
+Aurora is P1 (Autonomous Trucking), NOT P4 SC Visibility. P4 gap-fill still pending; project44 Autopilot remains top pick for next slot (Fri 2026-05-22 or Sun 2026-05-24).
+
+### Files written this session
+
+1. `/Users/maxxposs/Documents/Logistics LAB/logiai-draft-2026-05-17-aurora-mclane.md`
+2. `/Users/maxxposs/Documents/Logistics LAB/logiai-qc-2026-05-17-aurora-mclane.md`
+3. `/Users/maxxposs/Documents/ContentFabrik/bilder/aurora-mclane-featured-2026-05-17.png` (fal.ai)
+4. `/Users/maxxposs/Documents/ContentFabrik/bilder/aurora-mclane-featured-2026-05-17.jpg` (optimized)
+5. WP Post 475 (scheduled)
+6. memory/logiai_published.md (row added)
+7. memory/MEMORY.md (decision-queue-format entry added)
+8. memory/logiai_decision_queue_format.md (new)
+9. logiai-drafting / quality-gate / editorial-visuals (Hard Rules synced in bundle + cache)
+10. LogiAI Action Tracker (T038 + T043 → Done)
+
+### Updated Run Totals
+
+- Tool calls (autonomous + interactive): ~55
+- Wall clock: ~80 min (autonomous 12 min + interactive ~68 min)
+- Estimated USD: ~$0.60 (fal.ai image ~$0.10, drafting at Sonnet ~$0.30, rest at Haiku, WP MCP minimal)
+- Cap status: USD 20%, calls 27%, time 89% of daily caps. WALL CLOCK approaching limit.
+
+## Notes for Operator
+
+5th consecutive autonomous run reported the same decision queue before operator arrived. Pipeline mechanics are healthy; bottleneck was operator presence.
+
+**Urgency rising:** Aurora + McLane candidate at 11 days, 3 days from 14d expiry. If not slotted by 2026-05-20, it drops from shortlist.
+
+**Two highest-impact moves on the next interactive session:**
+1. Pick a slotting candidate (project44 still top pick for P4 gap-fill).
+2. Resolve T043 + T038 so Phase -1 and Phase 0 stop surfacing repeat noise.
+
+Today is Sunday — the weekly slot (cron 0 9 * * 0) may fire at 09:00 CET. If so, that run will include Phase 8 (performance review) and `logiai-strategy` refresh in Phase 2. This daily run fired at 05:38, so the weekly is separate and pending.
+
+Memory feature `logiai_approval_mail.md` (async Gmail-label approval) is built but not yet activated. Once active, the slotting bottleneck above resolves via async approval at next operator login.

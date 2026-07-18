@@ -1,0 +1,54 @@
+# LogiAI Production Stack Run Log
+Date: 2026-06-10 07:39 CEST | Mode: daily | Operator: absent (scheduled run)
+Config: caps.daily total_usd=3.00 tool_calls=200 wall_min=90; per_phase 50 calls / 30 min / 0.80 USD
+
+## Phase -1: Styleguide Drift Check
+Phase -1: goal='verify inline hard rules match master styleguide', current_action='delegated 8-file comparison to Explore agent', aligned=yes
+Result: Styleguide in sync. 0 drift across 4 bundle + 4 cache files. Continue to Phase 0.
+
+## Phase 0: Pre-flight
+Phase 0: goal='load config, queue, memory, tracker, verify WP API', current_action='reads + API check', aligned=yes
+- config.yml parsed (v1, 2026-05-11)
+- queue/ folder: EMPTY (no pre-approved work packages)
+- memory read: logiai_published.md (35 live + scheduled through 2026-06-26), logiai_project.md, logiai_strategy_2026_06.md
+- Action Tracker parsed: 14 Open tasks (0 High, 6 Medium, 8 Low)
+- WP REST API check: 200 OK (User-Agent curl/8.4.0)
+- Scheduled posts upcoming: 550 (Jun 12), 566 (Jun 15), 567 (Jun 17), 576 (Jun 23), 578 (Jun 26)
+- Today Jun 10: post 549 (AI Tools for Freight Forwarders) fires 07:00 CET
+Tool calls so far: ~10 | est USD: ~0.15
+
+## Phase 1: Action Tracker Sweep
+Phase 1: goal='triage open tracker tasks', current_action='classify + verify live posts', aligned=yes
+- 14 Open tasks (0 High, 6 Medium, 8 Low). None autonomously executable (git push, browser/GSC, WP writes all need operator).
+- Verified: post 549 LIVE today 07:00 as scheduled; post 548 live. Future posts 401-unauthenticated (expected).
+- T031 GSC re-check flagged DUE (window 3-7 days after 2026-06-01 sitemap fix). Needs operator browser session.
+- Carried over: T013, T014, T015, T016, T017, T018, T022, T025, T027, T028, T029, T031, T033, T039.
+
+## Phase 2: Monitoring + Scoring + Verification
+Phase 2: goal='find verified non-duplicate candidates', current_action='delegated 11-search scan to agent, dedup vs register', aligned=yes
+- 11 searches, 6 candidates scored, 4 rejected at screening.
+- Top: (1) EU AV testbed pact 8.00 Verified [DUP-RISK vs scheduled 567 -> operator]; (2) EU AI Act HRAI guidelines 7.95 Verified; (3) Einride Nasdaq 7.85 Verified; (4) DSV CargoWise exit 7.45 Partial; (5) FreightWaves/Trimble survey 6.95 Partial; (6) C.H. Robinson Lean AI Engineer 6.90 Verified but out-of-window.
+- Agent tool uses: 21, ~89k tokens.
+
+## Phase 3: Drafting
+Phase 3: goal='draft verified candidates', current_action='2 drafts + visuals + image briefs', aligned=yes
+- Draft A: logiai-draft-2026-06-10-eu-ai-act-high-risk-guidelines-logistics.md (~790 w, 1 timeline visual, 2 internal links 490/464)
+- Draft B: logiai-draft-2026-06-10-einride-nasdaq-listing.md (~690 w, 1 stat visual, 2 internal links 496/475)
+
+## Phase 4: QC + Compliance
+Phase 4: goal='QC checklist + compliance', current_action='hard-rule sweep + fixes', aligned=yes
+- Both drafts: 0 em-dash, 0 en-dash, no emojis, floskel sweep clean after 1 fix ('leverage' -> 'power' in B), post 475 URL corrected to real slug.
+- A: QC pass, compliance PASS (regulatory explainer, no legal advice framing). B: QC pass, compliance PASS (financial news, caveat included, no investment advice).
+- Route: both READY-FOR-PUBLISH pending operator approval. No hard/soft escalations.
+
+## Phase 5: Approval Gate (operator absent, async channel)
+Phase 5: goal='no publish without approval', current_action='label scan + stage-1 selection mail', aligned=yes
+- Label scan 07:45: approve=0, skip=0, defer=0, preview-go=0. NO publish authorization. Phase 6 SKIPPED.
+- Stage 1 mail SENT via send_mail.py (SMTP, returncode 0): [LogiAI 2026-06-10] A/B/C. Decision record: logiai-approval-mail/decisions/2026-06-10-stage1.json.
+- NO WordPress writes, NO git push, NO deletions, NO tracker status flips this run.
+
+## Phase 7: Memory + Telemetry
+- logiai_published.md: no new published posts (no register change needed); 549 live-fire noted in stage1 record.
+- Loop detection: 0 aborts. Drift mismatches: 0. Cap hits: 0.
+- Totals (approx): tool calls main ~32 + agents ~25 = ~57 of 200; wall ~25 min of 90; est USD ~0.9-1.2 of 3.00.
+Run complete 2026-06-10 ~08:05 CEST.

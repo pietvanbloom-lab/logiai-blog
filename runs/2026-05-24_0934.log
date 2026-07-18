@@ -1,0 +1,272 @@
+LogiAI Production Stack — Daily Run
+Date: 2026-05-24 (Sunday)
+Start: 09:34 UTC (11:34 CET)
+Mode: daily
+Config snapshot: caps.daily total_usd=3.00, total_tool_calls=200, total_wall_min=90
+Operator presence: NONE (scheduled autonomous run; no AskUserQuestion possible)
+
+--- Phase -1: Styleguide Drift Check ---
+Phase -1: goal='Verify inline Hard Rules match master CONTENT-STYLEGUIDE.md', current_action='grep em-dash/Hard Rules in 4 production skill files (cache + bundle)', aligned=yes
+Result: in sync. Em-dash hard rule present in all 4 skills (drafting, quality-gate, publishing, editorial-visuals), both cache and bundle copies.
+
+--- Phase 0: Pre-flight ---
+Phase 0: goal='Read config, memory, tracker; verify WP REST; init run log', current_action='read EMBEDDED_TASKS, curl WP REST', aligned=yes
+- config.yml read. Models: Sonnet for reasoning, Haiku for structured. approval_email.enabled=true.
+- Queue folder: empty (no operator pre-approvals for this run).
+- WordPress REST API check: HTTP 200 (anonymous endpoint).
+- Posts sync check:
+  * Post 484 SAP Sapphire: LIVE since 2026-05-22T08:00 (confirmed).
+  * Post 475 Aurora McLane: LIVE since 2026-05-19T08:00 (confirmed).
+  * Post 490 EU AI Act Omnibus: still scheduled (fires 2026-05-25T08:00, 401 expected for future post).
+  * Post 486 GXO/KION Epinoy: still scheduled (fires 2026-05-26T08:00).
+  * Post 491 AWS Connect Decisions: still scheduled (fires 2026-05-27T08:00).
+- Memory: logiai_published.md totals 30 live + 3 scheduled (matches last sync).
+- Action Tracker: 43 total tasks; OPEN tasks: T012, T013, T014, T015, T016, T017, T018, T022, T025, T027, T028, T029, T031, T033, T039, T041 = 16 Open.
+
+--- Phase 1: Action Tracker Sweep ---
+Phase 1: goal='Triage 16 Open tasks; auto-execute safe read-only; defer all writes to operator', current_action='Classify each Open task by type + risk', aligned=yes
+
+Open task triage (16 tasks):
+- T012 (SEO/Med) Internal linking audit: DEFER - requires multi-page crawl + edits; report-only mode would consume ~30 calls. Carry over.
+- T013 (Content/Med) Prio 04+ content enhancements: DEFER - WP write actions need operator. Carry over.
+- T014 (Design/Med) Mobile responsiveness check: DEFER - requires Claude in Chrome live tests; operator-only.
+- T015 (Tech/Low) Push theme changes to GitHub: HARD-STOP REQUIRED (git push). Defer.
+- T016 (Design/Low) Editorial visuals push to GitHub: HARD-STOP REQUIRED (git push). Defer.
+- T017 (Tech/Low) Verify audio player widget: DEFER - browser test, operator-only.
+- T018 (Content/Low) Newsletter integration: scope decision required (ConvertKit/Mailchimp), operator-only.
+- T022 (Content/Med) Embed Prio 01-03 into Art 02/03/04/09: DEFER - WP REST writes, operator approval required per article.
+- T025 (Tech/Low) Remove URL-Prefix GSC property: DEFER - GSC UI action, operator-only.
+- T027 (Content/Med) Draft Weeks 2-4 articles: HANDLED IN PHASE 3 if pipeline produces candidate matching plan.
+- T028 (Content/Low) 20 daily AI Prompt posts: DEFER - scope decision, operator-only.
+- T029 (SEO/Med) Competitor SEO gap analysis: DEFER - large agent run (~30-60 min, ~$0.50+), schedule as dedicated session.
+- T031 (SEO/Med) Manual URL indexing in GSC: DEFER - GSC UI, operator-only.
+- T033 (Tech/Low) Fix weekday mismatch in scheduling: NOTED. Will compute weekday dynamically in Phase 6 if a date is involved this run.
+- T039 (Content/Low) Diversify priority mix (P5 saturation): ACTIVE INPUT TO PHASE 2 SCORING - favor P4/P2/P3 candidates per current pillar distribution.
+- T041 (Content/Low) Decide fate of Post 452 draft: ALREADY IN TRASH per T034 wrap-up. Recommend auto-close, operator approval needed for status flip.
+
+No tracker status flips proposed for autonomous execution.
+Tracker writes awaiting operator: T041 (close as Done since Post 452 is in Trash).
+Time spent on Phase 1: ~3 min, 4 tool calls.
+
+--- Phase 2: Editorial Pipeline (Monitoring/Scoring/Verification) ---
+Phase 2: goal='Surface 1 to 5 verified non-duplicate candidates across underserved pillars (P4/P2/P3)', current_action='4 WebSearch calls covering P4, P2, P1, P3 + 1 verification fetch for top candidate', aligned=yes
+
+Candidates scanned (4 pillars):
+  C1. project44 Q1 FY27 ARR +34% / Shipper ARR +52% / 2026 Preferred Carriers (3,745 carriers, 259K network) - P4 SC Visibility - SCORE 7.5/10. Block reason: would be 4th project44 article in 6 months (332, 483, 491 already in pipeline). Carry to next scoring cycle, do not draft this run.
+  C2. Aurora 200 driverless trucks by EOY 2026, 2nd-gen hardware (Q1 shareholder letter) - P1 Autonomous Trucking - SCORE 6.5/10. Block reason: Post 475 Aurora-McLane went live 2026-05-19, direct vendor overlap within 7 days. Defer.
+  C3. Toyota Automated Logistics (TAL) consolidates Bastian + Vanderlande + viastore - effective 2026-04-01 - P2 Warehouse Automation (+P7) - SCORE 8.5/10. Sources: Toyota Industries Corp Nov 2025 announcement, Vanderlande, viastore, Forkliftaction, blog.gettransport.com. Three CEOs named (Hitoshi Matsuoka Central, Thomas Hibinger EMEA/APAC, Aaron M. Jones Americas). Vanderlande retains airport/parcel; warehouse business merges into TAL. NO DUPLICATE RISK (zero "Toyota"/"Bastian"/"Vanderlande"/"viastore" in published register). Tag overlap <3 with any P2 post. CLEAR for drafting.
+  C4. Microsoft Agent 365 GA + ServiceNow/Accenture FDE - P5 Agentic AI - SCORE 5/10. Blocked by P5 saturation guard (T039) plus weak logistics specificity.
+  C5. Kodiak Permian Basin largest driverless fleet + EOY 2026 launch plan - P1 - SCORE 6/10. Dedup risk vs post 338 Kodiak Midwest. Defer.
+
+Verification (C3 deep-dive):
+  - WebSearch + Toyota Industries Corp PR + Vanderlande/viastore corporate blogs cross-checked.
+  - All key facts converge: launch date 2026-04-01, 3 brands, leadership trio, regional integration logic.
+  - Confidence Score: HIGH (Verified).
+
+Phase 2 output: 1 candidate (C3 Toyota Automated Logistics) proceeds to Phase 3.
+Carry to next run: C1 (project44 ARR), C5 (Kodiak Permian).
+
+--- Phase 3: Drafting + Editorial Visuals ---
+Phase 3: goal='Convert C3 (TAL consolidation) into publication-ready draft with visuals + image briefs', current_action='Write draft to Logistics LAB; embed 2 visual placeholders + 2 image brief options', aligned=yes
+
+Draft path: /Users/maxxposs/Documents/Logistics LAB/logiai-draft-2026-05-24-toyota-automated-logistics-consolidation.md
+- Title: "Toyota Folds Bastian, Vanderlande Warehousing, viastore Into One Brand: Warehouse Automation's Top Tier Just Got Smaller"
+- Language: EN (matches recent 491/484/483 cadence)
+- Pillar: P2 Warehouse Automation (primary) + P7 AI Vendor Eval (secondary)
+- Stilmix: 70/20/10 honored (Stratechery setup-punchline opener, Pragmatic Engineer numbered implications, Republik-flavored Schluss-Verdikt)
+- Body word count: 987 (target band 900-1000)
+- Editorial visuals: stat.html (3 to 1 callout) + cmp.html (3-vendor comparison) - matches recent post pattern (484, 491)
+- Image briefs: Option A (editorial twilight warehouse, 16:9, fal.ai-ready) + Option B (diagrammatic, 3 squares merging)
+- Internal link plan: Post 486 (GXO/KION physical AI), Post 451 (pilot-to-production), Post 47 (FedEx Network 2.0 vendor-eval)
+- 3 headline variants + Yoast SEO title + meta + focus keyphrase included
+- Suggested categories + tags listed (some need REST creation)
+- Hard-rule sweep on initial draft caught 2 em-dashes in visual placeholder blocks; both replaced with commas. Final draft: 0 em-dashes, 0 en-dashes, no banned floskeln.
+- Next free publish slot identified: Fri 2026-05-29T08:00 CET (Mon-Wed already taken by 490/486/491).
+
+--- Phase 4: QC + Compliance ---
+Phase 4: goal='Run 18-point QC + compliance on TAL draft; route auto-approve vs escalate', current_action='Manual checklist sweep of draft contents', aligned=yes
+
+QC checklist (21 items per styleguide v1.0 + sync):
+   1. Thesis in first 3 paragraphs (single-line formulable):       PASS ("three companies that used to bid against each other now share a single revenue line")
+   2. H1+H2s alone convey thesis:                                  PASS (5 H2s tell complete arc: story → niches → structure → buyer impact → KION question)
+   3. >=3 concrete facts:                                          PASS (April 1 2026, 3 brands named, 3 CEOs named with regions, GXO/KION reference)
+   4. >=1 original source linked:                                  PASS (Toyota Industries Corp Nov 2025 PR + 5 secondary sources)
+   5. Vendor claims qualified or sourced:                          PASS (no PR copy lifted; revenue framed as estimate)
+   6. Methodology for studies:                                     N/A (no study used)
+   7. Implikations-Absatz present:                                 PASS (3-item numbered "What this means for buyers")
+   8. No PR floskeln:                                              PASS
+   9. ZERO em-dashes:                                              PASS (0 in final draft; 2 caught in placeholder blocks, fixed)
+  10. No banned floskeln from Hard Rules:                          PASS (scanned: no "deep dive", "leverage", "robust", "transformative", "game-changer", "synergistisch", "in today's", "best-in-class", "next-generation")
+  11. No LinkedIn-Sätze:                                           PASS
+  12. No Substantiv-Genitiv-Ketten >3 Glieder:                     PASS
+  13. Active voice dominant:                                       PASS
+  14. One position per paragraph:                                  PASS
+  15. At least one sentence <8 words:                              PASS ("The official story is operational simplification." = 6 words; "Warehouse automation funds itself." = 4 words)
+  16. Headline <=12 words:                                         SOFT FAIL (current H1 = 16 words; mitigated by 2 alternative variants offered: V2 = 11 words, V3 = 13 words)
+  17. Lead italic, <=2 sentences:                                  PASS
+  18. H2s narrate (no generic "Hintergrund/Fazit"):                PASS
+  19. Stilmix-Zuordnung declared (Hard Rule):                      PASS (70/20/10 declared)
+  20. Lists enumerative only, <=5 bullets:                         PASS (one 3-item list)
+  21. No banned Floskel-Eröffnung:                                 PASS (opens with concrete fact + thesis, not generic intro)
+
+Quality Score: 9/10 (deduct 1 for headline length; mitigated by variant offers, will resolve at operator pick)
+
+Auto-fail override check (items 9, 19, 21): all PASS - no hard escalation.
+
+--- Compliance ---
+- EU AI Act:    PASS (editorial commentary, not deploying or selling AI; no high-risk classification implications)
+- GDPR:         PASS (only named executives are publicly disclosed in Toyota corporate PR; no other personal data)
+- Copyright:    PASS (no direct quotes; trade-press paraphrased with attribution in Sources block)
+- Taxonomy:     PASS (P2 primary + P7 secondary valid; tags align with existing register)
+- Audit trail:  PASS (draft path logged; this run log captures provenance)
+
+ROUTE: AUTO-APPROVE (QC >= 8 AND Compliance pass).
+Operator decision points at publish: (a) headline variant selection (1, 2, or 3), (b) image source (fal.ai Option A vs. fallback Media ID 457), (c) confirm schedule date 2026-05-29T08:00 CET.
+
+--- Phase 5: Approval Gate ---
+Phase 5: goal='Surface READY-FOR-PUBLISH draft + tracker proposals to operator for explicit decision', current_action='HARD STOP - operator absent (scheduled task); compile decision queue for next operator session', aligned=yes
+
+Per scheduled-task rules ("user not present; only take write actions if task file specifies them") AND per SKILL.md Phase 5 ("HARD STOP, AskUserQuestion required, no publish proceeds without explicit operator answer"):
+
+- AskUserQuestion: cannot be issued autonomously (operator absent).
+- Approval email dispatch: not invoked autonomously this run (the dedicated logiai-approval-mail flow has its own scheduled task per memory entry; this skill does not dispatch on operator's behalf).
+- Action: stop before any WP write; emit Decision Queue in run log + final chat summary so operator can resolve in next interactive session.
+
+DECISION QUEUE (3 items):
+
+[D1] CONTENT - Toyota Automated Logistics draft (P2)
+  Status:        READY-FOR-PUBLISH (QC 9/10, Compliance PASS, dedup-clear)
+  File:          /Users/maxxposs/Documents/Logistics LAB/logiai-draft-2026-05-24-toyota-automated-logistics-consolidation.md
+  Headline pick: V1 (16w) / V2 (11w, recommended) / V3 (13w)
+  Schedule:      Fri 2026-05-29T08:00 CET (recommended next free Sun-Tue-Fri slot)
+  Image:         Option A fal.ai editorial twilight warehouse (preferred) vs. Media ID 457 02_warehouse.png reuse (fallback)
+  Tags to create: Toyota Automated Logistics, Bastian Solutions, Vanderlande, viastore, Vendor Consolidation, ASRS (rest already exist)
+  Decision needed: publish / defer / skip
+
+[D2] TRACKER - T041 (Post 452 fate)
+  Status:        Post 452 already in WP Trash (per T034 wrap-up 2026-05-13). Task can be auto-closed.
+  Proposed flip: status Open -> Done
+  Decision needed: approve flip / leave Open
+
+[D3] CARRY CANDIDATES for next scoring cycle
+  - C1 project44 Q1 FY27 ARR +34% / Shipper +52% + 2026 Preferred Carriers (3,745 carriers). P4 pillar. Defer reason this run: 4th project44 article in 6 months would over-rotate. Decision needed for next run: include / hold longer / skip.
+  - C5 Kodiak Permian Basin largest driverless fleet + EOY driverless plan. P1 pillar. Defer reason this run: vendor overlap with post 338. Decision needed for next run: include / hold / skip.
+
+NO autonomous WP writes this run.
+NO autonomous git pushes this run.
+NO autonomous tracker edits this run.
+
+--- Phase 7: Memory Hygiene ---
+Phase 7: goal='Append run row to cap-history.csv; verify register sync; finalize log', current_action='cap-history append + memory verification', aligned=yes
+
+cap-history.csv: appended row 2026-05-24,0934,daily,all-no-publish,mixed,20,1200,n/a,n/a,0.15,none,0,0
+
+memory/logiai_published.md: NO UPDATE (no publish this run; no scheduled posts fired since last run's update on 2026-05-23). Next scheduled fire is post 490 on 2026-05-25T08:00 CET. Register remains: 30 live + 3 scheduled.
+
+Action Tracker: NO EDITS (operator absent, no auto-flips allowed; T041 proposal queued for D2 decision above).
+
+MEMORY.md: no new entries required.
+
+--- Run Totals ---
+Tool calls used (approx) : ~22 (4 WebSearch, 5 bash, 6 Read, 1 Write, 2 Edit, ~4 Task ops)
+Wall clock              : ~25 min
+Estimated USD           : ~$0.15 (4 WebSearch medium + Haiku orchestration + Sonnet drafting + Haiku QC)
+Caps status             : USD 5% / calls 11% / time 28% of daily caps (well within limits)
+Loop aborts             : 0
+Drift mismatches        : 0
+Hard-rule violations    : 2 em-dashes caught in placeholder blocks + fixed pre-Phase-4 (count=0 at QC time)
+Autonomous writes       : (1) run log; (2) 1 local draft markdown; (3) cap-history row append
+NO writes to            : WordPress, git, Action Tracker, memory/logiai_published.md, MEMORY.md
+
+NEXT-RUN CARRY:
+- D1 awaits operator decision: publish/defer/skip Toyota TAL draft + headline pick + image source + schedule date
+- D2 awaits operator decision: T041 status flip Open -> Done
+- D3 awaits operator decision: C1 project44 ARR + C5 Kodiak Permian rescore
+- Post 490 EU AI Act Omnibus fires Mon 2026-05-25T08:00 CET (next run should sync register)
+- Action Tracker: 16 Open tasks still untouched (T012, T013, T014, T015, T016, T017, T018, T022, T025, T027, T028, T029, T031, T033, T039 still Open + T041 pending close)
+- P4 SC Visibility remains at 1 post; C1 project44 carry is the natural next P4 candidate
+
+Run END: 2026-05-24 ~10:00 UTC
+
+============================================================
+ADDENDUM: Operator-Present Publish (post-Phase-5 approval)
+============================================================
+At ~10:00 UTC operator returned, approved all 4 decision queue items:
+  D1: publish (schedule Fri 2026-05-29T08:00 CET), headline V2, image Option A
+  D2: T041 Open -> Done
+  D3: Carry C1 project44 to next scoring cycle
+  Image Source: fal.ai Option A (twilight automated warehouse, Apple aesthetic)
+
+--- Phase 6: Publishing ---
+Phase 6: goal='Publish Toyota TAL draft to WP with scheduled date 2026-05-29T08:00 CET', current_action='Run /tmp/logiai_publish_tal_2026_05_29.py via mac_terminal MCP', aligned=yes
+
+Pipeline (single Python script, 7 steps):
+  [1/7] Tag resolution: 8 tags, 6 newly created
+        - Toyota Automated Logistics: 788290451 NEW
+        - Bastian Solutions:          788290452 NEW
+        - Vanderlande:                788290453 NEW
+        - viastore:                   788290454 NEW
+        - Vendor Consolidation:       788290455 NEW
+        - ASRS:                       788290456 NEW
+        - Warehouse Automation:       788290440 existing
+        - 3PL:                        5459676 existing
+  [2/7] Categories: 610719119 (AI & Automation) + 392657747 (Software & Tools)
+  [3/7] fal.ai image gen: Nano Banana 2, landscape_16_9, num_inference_steps=28
+        Initial endpoint /text-to-image returned 404 (path not found); fixed to base endpoint /fal-ai/nano-banana-2.
+        Queue completed in 4 polls (~12s).
+        Optimized via Pillow: 1200 thumbnail + JPEG q=85 progressive -> 201 KB.
+  [4/7] Media upload: POST /wp/v2/media (binary stream, User-Agent curl/8.4.0): Media ID 492.
+        Alt + caption + title metadata set via /media/492 POST: HTTP 200.
+  [5/7] HTML body build: 
+        - MD parsed to ordered list of paragraphs + 2 visual blocks
+        - stat.html customized (3 -> 1, April 1 2026, Brands/Effective/Region meta)
+        - cmp.html customized (Bastian / Vanderlande Warehousing / viastore: Profile / Pre-April 1 / Post-April 1 rows)
+        - 2 of 3 internal links inserted (post 486 via "Epinoy", post 451 via "integrated solutions selling"); post 47 anchor didn't match in final HTML, skipped
+        - Final em-dash sweep on HTML: 0 found
+        - Body chars: 17861, plain words ~1375 (visual HTML inflates count; prose body ~987 words)
+  [6/7] POST /wp/v2/posts with status=future, date=2026-05-29T08:00:00 (CET = UTC+2 DST)
+        Yoast meta sent in `meta` field per protocol
+        Post created: id=493, status=future, link=https://logiai.blog/?p=493
+  [7/7] Verification: authenticated GET /posts/493 returned HTTP 200
+        title preserved, featured_media=492 attached, all 8 tags attached, both categories attached
+        yoast title persisted (defaulted to H1 since custom title field didn't stick)
+        yoast metadesc: <none> (known REST issue; operator must set via WP Admin UI before 2026-05-29 08:00 if green indicators needed)
+
+--- Phase 7: Memory + Tracker Update ---
+Phase 7: goal='Append post 493 to register, flip T041 Open->Done, finalize log', current_action='4 Edit operations to memory + Action Tracker HTML', aligned=yes
+
+memory/logiai_published.md updated:
+  - last_full_sync -> 2026-05-24
+  - totals -> 30 live + 4 scheduled (added 493)
+  - row 493 -> NEW scheduled row
+  - pillar distribution -> P2 now 4 posts (was 3), P5 down to 39% of 31
+
+Action Tracker (LogiAI Action Tracker.html):
+  - T041 flipped Open -> Done (operator-approved)
+  - Updated description to reflect Trash status + 30-day restore window expiry ~2026-06-12
+
+--- Updated Run Totals ---
+Tool calls used (approx) : ~40 (publish phase added ~18 calls: 4 ToolSearch/Edit/Read setup + 1 mac_run_command for creds + 1 mac_write_file + 3 mac_run_command for endpoint fix + 1 publish run + 3 Edits to register + 1 Edit to Tracker)
+Wall clock              : ~40 min total
+Estimated USD           : ~$0.25 (added fal.ai gen ~$0.04 + Sonnet drafting + Haiku orchestration)
+Caps status             : USD 8% / calls 20% / time 44% of daily caps (well within limits)
+Autonomous writes (post operator approval):
+  (1) cap-history row (Phase 7 initial)
+  (2) draft markdown (Phase 3)
+  (3) /tmp/logiai-tal-publish/ artifacts (image + body.html + result.json)
+  (4) WP media 492 (fal.ai featured image)
+  (5) WP tags x6 created (788290451-456)
+  (6) WP post 493 SCHEDULED via REST
+  (7) memory/logiai_published.md updated (3 edits)
+  (8) Action Tracker HTML T041 flipped to Done
+
+NEXT-RUN CARRY (updated):
+- Post 490 EU AI Act Omnibus fires Mon 2026-05-25T08:00 CET
+- Post 486 GXO/KION fires Tue 2026-05-26T08:00 CET
+- Post 491 AWS Connect Decisions fires Wed 2026-05-27T08:00 CET
+- Post 493 Toyota TAL fires Fri 2026-05-29T08:00 CET (Yoast metadesc UI-set pending; metadesc target: "Toyota merged Bastian, Vanderlande Warehousing, and viastore into Toyota Automated Logistics on April 1, 2026. What it costs your next warehouse RFP.")
+- C1 project44 Q1 FY27 ARR (P4) flagged as next-cycle candidate (operator-approved carry)
+- C5 Kodiak Permian dropped per operator decision (not in carry list)
+- Action Tracker: 15 Open tasks remaining (T012, T013, T014, T015, T016, T017, T018, T022, T025, T027, T028, T029, T031, T033, T039); T041 now Done
+
+Run END: 2026-05-24 ~10:05 UTC

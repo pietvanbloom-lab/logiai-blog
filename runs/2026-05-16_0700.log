@@ -1,0 +1,156 @@
+# LogiAI Production Stack Run Log
+# Date: 2026-05-16 Sat
+# Time: scheduled fire (autonomous, operator absent)
+# Mode: daily
+# Trigger: scheduled-tasks → logiai-production-stack-daily
+
+## Run Configuration
+
+- Config snapshot: config.yml v1 (2026-05-11), unchanged from prior runs
+- Phase models: Haiku 4.5 (Phase 0, 1, 2, 4-QC, 6, 7), Sonnet 4.6 (Phase 1 Bug/Design, 2 Verification, 3 Drafting, 4 Compliance)
+- Daily caps: $3.00 total / 200 tool calls / 90 wall min; per-phase $0.80 / 50 calls / 30 min; per-draft $0.50 / 25 calls
+
+## Phase -1: Styleguide Drift Check
+
+Status: DRIFT DETECTED (same drift as 2026-05-13, 2026-05-14, 2026-05-15 runs).
+
+Master Section 0 Hard Rules vs inline Hard Rule blocks:
+- Inline copies (drafting + quality-gate) MISSING master Hard Rule 5 (Keine doppelte Verneinung als Stil).
+- Inline copies INCLUDE extra rule 8 (Pressemitteilungs-Echos) not in master Section 0 (master locates this in Don't 6).
+- Inline Floskel-list omits "synergistisch" (in master); uses "transformativ" instead of master's "transformative".
+- Cache copies match bundle copies (no fork between local and plugin cache).
+- Publishing skill includes "doppelte Verneinung" in newsletter-eyebrow section only.
+
+Action: NO propagation. Per skill spec, drift sync requires operator AskUserQuestion approval. Operator absent. Drift surfaced for review. Tracked as T043.
+
+Drift-guard Phase -1: goal='check styleguide drift', action='read master + inline blocks + compare', aligned=yes.
+
+## Phase 0: Pre-flight
+
+- config.yml: parsed
+- queue/: `2026-05-13-priority.md` present but STALE (3 days old, dated 2026-05-13). Per skill spec ("match today's date or are date-less"), pre-approval expired. NOT honored. Work-package premise (Post 452 missing image) resolved per 2026-05-13 log. Tracked as T038.
+- memory/MEMORY.md: read
+- memory/logiai_published.md: read (26 posts on register; post 460 already listed, scheduled status confirmed live today)
+- memory/logiai_project.md: read
+- Action Tracker HTML: parsed, 43 tasks, 21 Open
+- WP REST: GET /wp-json/wp/v2/posts?per_page=1 → 200 OK (1.04s)
+- New live publish since last run: Post 460 (ChatGPT, Claude, Gemini comparison, scheduled, went live 2026-05-16 08:00 CET as planned)
+
+Drift-guard Phase 0: goal='read config, queue, memory, tracker, verify WP', action='all reads done', aligned=yes.
+
+## Phase 1: Action Tracker Sweep
+
+Open tasks: 21 (1 High, 10 Medium, 10 Low). Classification:
+
+HIGH:
+- T032 [Tech] Automate WordPress publish step end-to-end. Blocked by T040 (wp-content permission). No autonomous action available; pending operator.
+
+MEDIUM:
+- T012 [SEO] Internal linking audit. Handler: searchfit-seo:internal-linking. Defer (cap-conservative, no operator slotting).
+- T013 [Content] Prio 04+ enhancements. Phase 3 work. Defer.
+- T014 [Design] Mobile responsiveness. Defer (out of cap budget).
+- T022 [Content] Embed Prio 01-03 into Art 02, 03, 04, 09. Phase 3. Defer.
+- T027 [Content] Draft 9 remaining Week 2-4 articles. Phase 3. Defer.
+- T029 [SEO] Competitor SEO gap analysis. Handler: competitor-analyzer agent. Defer.
+- T031 [SEO] GSC manual indexing 40 pages. Operator-only (external action).
+- T040 [Tech] WordPress.com wp-content permission. Operator-only (external action).
+- T042 [Tech] Pre-optimize featured images before MCP upload. Spec ready, operator decision (Python pre-process: target ≤200KB JPEG, 16:9 1920×1080).
+- T043 [Tech] Sync styleguide drift. Surfaced again with Phase -1 drift report.
+
+LOW (10 tasks, all carry-over):
+- T015, T016 [Tech/Design] Git push tasks. Hard-stop, operator-only.
+- T017 [Tech] Audio player verify. Defer.
+- T018 [Content] Newsletter integration. Defer.
+- T025 [Tech] GSC URL-prefix cleanup. Operator-only.
+- T028 [Content] 20 daily AI Prompt posts. Defer (large Phase 3 batch).
+- T033 [Tech] Weekday mismatch in scheduling logic. Code spec ready, operator decision.
+- T038 [Tech] Clean up stale queue file. Hard-stop (file deletion needs operator).
+- T039 [Content] Diversify priority mix (P5 saturation 44%). Operator decision on next-slot priority.
+- T041 [Content] Decide fate of orphaned Post 452. Operator decision.
+
+Autonomous executions this phase: 0.
+Tracker status flips this phase: 0.
+
+Drift-guard Phase 1: goal='triage + classify open tracker tasks', action='parse + classify, no writes', aligned=yes.
+
+## Phase 2: Editorial Pipeline (light re-confirmation)
+
+No fresh monitoring sweep this run. Rationale: same as 2026-05-13 through 2026-05-15 — operator slotting bottleneck, cap budget preservation.
+
+Carry-forward shortlist (still valid, all within 14-day editorial currency):
+1. **project44 Autopilot** (2026-05-11, 5 days). Confidence 9.0, P4 + P5. STILL TOP PICK. Fills P4 gap (1 of 27).
+2. **Aurora + McLane Berkshire Hathaway** (2026-05-06, 10 days). Confidence 9.0 (single primary), P1. Recommend FreightWaves confirmation pass before draft.
+3. **Seegrid 20M autonomous miles** (2026-05-12, 4 days). Confidence 8.5, P2. Fills P2 gap (2 of 27). Stat-led format suits.
+4. **Kodiak + Roehl Dallas-Houston** (2026-05-07, 9 days). Confidence 8.5, P1.
+5. **Kodiak + West Fraser Alberta** (2026-05-07, 9 days). Confidence 8.0, P1. International first + new vertical (logging).
+
+Saturation status (unchanged from 2026-05-15):
+- P5 Agentic AI: 12 of 27 = 44%. SATURATION WARNING ACTIVE.
+- P4 SC Visibility: 1 of 27 = 4%. UNDER-SERVED.
+- P3 Demand Forecasting: 2 of 27 = 7%. UNDER-SERVED.
+- P2 Warehouse Automation: 2 of 27 = 7%. UNDER-SERVED.
+
+Drift-guard Phase 2: goal='re-confirm shortlist + saturation', action='re-read prior log, no new web queries', aligned=yes.
+
+## Phase 3: Drafting — SKIPPED (autonomous mode)
+## Phase 4: QC + Compliance — N/A
+## Phase 5: Approval Gate — DEFERRED to operator-present session
+## Phase 6: Publishing — SKIPPED
+
+## Phase 7: Memory Update
+
+- logiai_published.md: NO autonomous write (per absent-operator policy). NOTE: Post 460 went live today; register row already exists from scheduling step, sync_tag still shows sync-2026-05-11 but the post is now live. Recommend operator-present sync to flip tag to sync-2026-05-16.
+- Action Tracker HTML: no status flips this run.
+- MEMORY.md: no new memory files.
+- Run log: this file.
+- cap-history.csv: append below.
+
+Drift-guard Phase 7: goal='write run log + cap row only', action='write log + csv', aligned=yes.
+
+## Operator Decision Queue (cumulative)
+
+The following items have rolled forward 3-4 runs without resolution. Bottleneck is the operator-present approval gate.
+
+A. **SLOTTING DECISION (5 candidates)** for slots 2026-05-17 Sun / 2026-05-19 Tue / 2026-05-22 Fri:
+   1. project44 Autopilot (top pick, P4 gap-fill)
+   2. Aurora + McLane Berkshire (P1, awaiting 2nd source)
+   3. Seegrid 20M miles (P2 gap-fill, stat-led)
+   4. Kodiak + Roehl Dallas-Houston (P1)
+   5. Kodiak + West Fraser Alberta (P1, novel vertical)
+
+B. **T043 styleguide drift**: sync inline → master (recommended) or elevate inline → master. Same drift as past 4 runs. Path (a) preferred for fidelity to master.
+
+C. **T042 image pre-optimization**: confirm Python pre-process target (200KB JPEG, 16:9 1920×1080) and slot the small dev task.
+
+D. **T038 cleanup**: delete `2026-05-13-priority.md` (premise resolved 2026-05-13; tracked twice over).
+
+E. **T041**: decide Post 452 fate (delete/keep as orphan).
+
+F. **T039**: confirm priority mix strategy — gating order for next-slot pillar (P4 > P3 > P2 > P1 > others, per gap math).
+
+G. **T033**: fix weekday mismatch in scheduling logic (small code task).
+
+H. **T032 → T040 chain**: WP publishing automation blocked on wp-content permission. External resolution required.
+
+I. **Sync logiai_published row 56**: flip sync-2026-05-11 → sync-2026-05-16 for Post 460 (now live).
+
+## Run Totals
+
+- Tool calls (approx): 14
+- Wall clock: ~10 min
+- Estimated USD: < $0.08 (read-heavy, Haiku tier)
+- Cap status: well under all daily caps
+- Models invoked (effective): Haiku 4.5 orchestration only
+- Loop aborts: 0
+- Drift mismatches: 0
+- Goal-drift checks: 6 of 6 phases aligned
+- Hard-rule violations: 0
+- Autonomous writes: 1 (this log file)
+
+## Notes for Operator
+
+This is the 4th consecutive run reporting the same decision queue. Pipeline is healthy; bottleneck is operator-presence. Two highest-impact moves on the next interactive session:
+- Pick a slotting candidate so editorial pipeline can move past Phase 2.
+- Resolve T043 + T038 so Phase -1 and Phase 0 stop surfacing repeat noise.
+
+Post 460 publish chain confirmed working end-to-end (scheduled → live at exact time). Validates the scheduled-publish path even while T032 / T040 (automated direct WP push) is still open.

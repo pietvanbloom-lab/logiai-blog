@@ -1,0 +1,200 @@
+# LogiAI Production Stack Run Log
+# Date: 2026-05-18 Mon
+# Time: 05:38 CET (scheduled fire, autonomous, operator absent)
+# Mode: daily
+# Trigger: scheduled-tasks → logiai-production-stack-daily
+
+## Run Configuration
+
+- Config snapshot: config.yml v1 (2026-05-11), unchanged from prior runs
+- Phase models: Haiku 4.5 (Phase 0, 1, 2-monitor, 4-QC, 7), Sonnet 4.6 (Phase 2-verify, 3-drafting, 4-compliance)
+- Daily caps: $3.00 total / 200 tool calls / 90 wall min; per-phase $0.80 / 50 calls / 30 min; per-draft $0.50 / 25 calls
+
+## Phase -1: Styleguide Drift Check
+
+Status: **IN SYNC** (drift resolved 2026-05-17 by operator).
+
+Master CONTENT-STYLEGUIDE.md last modified 2026-05-11 21:57. Inline copies in 4 production-stack skills (drafting, quality-gate, publishing, editorial-visuals) last modified 2026-05-17 06:10 (drafting / quality-gate / editorial-visuals after T043 sync) or 2026-05-11 22:40 (publishing, contemporaneous with master). Hard Rule keywords (em-dash ban, Floskel list, Emoji rule, Stilmix 70/20/10) mirror correctly. No drift, no propagation.
+
+Drift-guard Phase -1: goal='check styleguide drift', action='compare master vs 4 inline copies, spot-check Hard Rule keywords', aligned=yes.
+
+## Phase 0: Pre-flight
+
+- config.yml: parsed
+- queue/: EMPTY (T038 stale-file resolved by operator 2026-05-17)
+- MEMORY.md: read (auto-memory index)
+- logiai_published.md: read (29 published rows + 1 scheduled = 30 total entries; Post 475 Aurora scheduled for 2026-05-19 08:00)
+- logiai_project.md: context-loaded
+- Action Tracker HTML: parsed, 43 tasks, **19 Open** (1 High, 9 Medium, 9 Low). T038 + T043 closed since 2026-05-17.
+- WP REST: GET /wp-json/wp/v2/posts?per_page=1 → 200 OK (0.26s)
+- Recent live posts confirmed (top 5 IDs): 460, 464, 451, 401, 192. No new posts since 2026-05-17.
+- Post 475 (Aurora, scheduled): cannot read via anonymous REST (status=future returns 401); confirmed exists per 2026-05-17 operator-session log.
+
+Drift-guard Phase 0: goal='read config, queue, memory, tracker, verify WP', action='all reads done', aligned=yes.
+
+## Phase 1: Action Tracker Sweep
+
+Open tasks: 19 (1 High, 9 Medium, 9 Low). Unchanged composition from 2026-05-17 post-operator state.
+
+HIGH:
+- T032 [Tech] Automate WordPress publish step end-to-end. Blocked by T040. No autonomous action.
+
+MEDIUM (10 → 9 since T043 closed):
+- T012 [SEO], T013 [Content], T014 [Design], T022 [Content], T027 [Content], T029 [SEO], T031 [SEO], T040 [Tech], T042 [Tech]
+
+LOW (10 → 9 since T038 closed):
+- T015 [Tech], T016 [Design], T017 [Tech], T018 [Content], T025 [Tech], T028 [Content], T033 [Tech], T039 [Content], T041 [Content]
+
+Autonomous executions this phase: 0.
+Tracker status flips this phase: 0.
+
+Drift-guard Phase 1: goal='triage + classify open tracker tasks', action='parse + classify, no writes', aligned=yes.
+
+## Phase 2: Editorial Pipeline (light monitoring pulse + shortlist re-cut)
+
+Three targeted WebSearches executed:
+1. P4 SC Visibility / project44 / FourKites → confirmed project44 Autopilot launch (May 11), no new fresh signals.
+2. P2 Warehouse Automation / Symbotic / Locus / Seegrid → Locus Array surfaced (April 13, 35 days old → past 14d window, not eligible).
+3. project44 Autopilot specifics → confirmed launch facts (40 workflows, 2-3/week cadence, 4/70/75/40 KPIs).
+
+Shortlist re-cut (today 2026-05-18, Aurora removed because scheduled as Post 475):
+
+| # | Candidate | Source date | Age | Conf | Pillar | Status |
+|---|---|---|---|---|---|---|
+| 1 | project44 Autopilot | 2026-05-11 | 7d | 9.0 | P4+P5 | **TOP PICK. P4 gap-fill. Drafted this run.** |
+| 2 | Seegrid 20M autonomous miles | 2026-05-12 | 6d | 8.5 | P2 | P2 gap-fill. Stat-led format suits. Next-in-line. |
+| 3 | Kodiak + Roehl Dallas-Houston | 2026-05-07 | 11d | 8.5 | P1 | 3d to 14d-expiry. P1 already filled by Aurora. |
+| 4 | Kodiak + West Fraser Alberta | 2026-05-07 | 11d | 8.0 | P1 | 3d to 14d-expiry. P1 already filled by Aurora. |
+
+Saturation status (unchanged from 2026-05-16, recomputed with Post 475):
+- P5 Agentic AI: 12 of 30 = 40%. SATURATION WARNING ACTIVE.
+- P4 SC Visibility: 1 of 30 = 3.3%. SEVERELY UNDER-SERVED. (Autopilot publish → 2/31 = 6.5%)
+- P3 Demand Forecasting: 2 of 30 = 6.7%. UNDER-SERVED.
+- P2 Warehouse Automation: 2 of 30 = 6.7%. UNDER-SERVED.
+
+Drift-guard Phase 2: goal='light monitoring pulse + shortlist re-cut', action='3 web searches + shortlist age recompute', aligned=yes.
+
+## Phase 3: Drafting
+
+Decision: proactively drafted **project44 Autopilot** (top pick for 5th consecutive run, P4 gap-fill, 7d fresh, conf 9.0). Drafting is a local write, not a publish. Phase 5 operator slot-decision still required before any publish action.
+
+Output:
+- Draft: `~/Documents/Logistics LAB/logiai-draft-2026-05-18-project44-autopilot.md` (1,117 body words)
+- H1: "project44 Autopilot Launches: Visibility Becomes the Operating System"
+- Stilmix mode: Analyse-Hausstil (Stratechery, 70%)
+- 2 editorial visuals: stat callout (70% manual-coordination reduction), 4-bar chart (4/70/75/40 KPIs)
+- 2 image briefs: Option A photographic (operator workstation, golden hour), Option B diagrammatic (Visibility → Decision → Execution)
+- 3 headline variants for A/B
+- 3 internal-link targets mapped (Posts 332, 451, 192)
+
+Drift-guard Phase 3: goal='draft top-pick candidate to local file', action='one Sonnet-quality draft + visuals + briefs', aligned=yes.
+
+## Phase 4: QC + Compliance
+
+QC results (25-point checklist):
+- Hard Rules: 0 violations (1 em-dash fixed mid-QC; 0 emojis; 0 Floskeln)
+- Content (7): all pass
+- Style (8): all pass
+- Form (3): all pass
+- Stilmix-extension (7): all pass
+
+**Quality Score: 24.5 / 25 = 9.8 / 10**
+
+Compliance (5/5 PASS):
+- EU AI Act: PASS (no LogiAI AI-claim, balanced framing)
+- GDPR: PASS (no personal data)
+- Copyright: PASS (paraphrased, primary source linked, no verbatim)
+- Taxonomy: PASS (P4 primary, P5 cross-load correct)
+- Editorial independence: PASS (project44 not a sponsor; tone skeptical)
+
+Duplicate-check: PASS. Post 332 (project44/LunaPath, 2026-04-11) is the prior beat of the same arc; internal link built into new draft. No tag overlap. Title similarity acceptable.
+
+Route: **AUTO-APPROVE** → tagged `READY-FOR-REVIEW`. Cannot move to `READY-FOR-PUBLISH` without operator slot-decision (Phase 5, operator absent).
+
+QC report: `~/Documents/Logistics LAB/logiai-qc-2026-05-18-project44-autopilot.md`.
+
+Drift-guard Phase 4: goal='25-point QC + 5-point compliance + route decision', action='full QC + scan + write report', aligned=yes.
+
+## Phase 5: Approval Gate — DEFERRED to operator-present session
+
+Operator absent for scheduled fire. Phase 5 cannot use AskUserQuestion. Decision queue captured below for operator review at next interactive session.
+
+## Phase 6: Publishing — SKIPPED (no operator approval)
+
+Aurora Post 475 still scheduled to go live 2026-05-19 08:00 CET autonomously via WP scheduled-post mechanism. Featured-image swap (placeholder 458 → fal.ai-generated aurora-mclane-featured-2026-05-17.jpg) still required from operator BEFORE Tue 08:00 CET. T040 / T042 image-upload blocker unresolved.
+
+## Phase 7: Memory Update
+
+- logiai_published.md: NO autonomous write this run (no new publishes). Post 460 sync_tag (sync-2026-05-17) holds. Post 475 row holds with scheduled-status annotation.
+- Action Tracker HTML: no status flips (no operator approval for any change).
+- MEMORY.md: no new memory files created.
+- Run log: this file.
+- cap-history.csv: append row (autonomous + draft pass).
+
+Drift-guard Phase 7: goal='write run log + cap row only, no other writes', action='write log + csv', aligned=yes.
+
+## Operator Decision Queue (current as of 2026-05-18 05:38)
+
+### A. SLOTTING DECISION — Autopilot draft ready
+
+**project44 Autopilot** draft is `READY-FOR-REVIEW`. Recommended slot:
+- **Primary:** 2026-05-20 Wed 08:00 CET (mid-week, different pillar from Tue Aurora)
+- **Alternative:** 2026-05-22 Fri 08:00 CET (4-day spacing)
+
+Action needed from operator: confirm slot + featured-image source (fal.ai-generated photographic per Brief A, OR Media ID 402 fallback).
+
+Files:
+- `~/Documents/Logistics LAB/logiai-draft-2026-05-18-project44-autopilot.md`
+- `~/Documents/Logistics LAB/logiai-qc-2026-05-18-project44-autopilot.md`
+
+### B. URGENT: Aurora Post 475 featured-image swap
+
+**Deadline: BEFORE 2026-05-19 08:00 CET (Tue, ~26h from now).**
+
+Steps:
+1. WP admin → Media Library → upload `~/Documents/ContentFabrik/bilder/aurora-mclane-featured-2026-05-17.jpg` (234KB JPEG, 1920×1080)
+2. Set alt text: "Volvo VNL autonomous tractor at dawn on a Texas highway, low side angle"
+3. Open Post 475 edit screen, swap Featured Image to the new upload
+4. Save. (Post will go live as scheduled.)
+
+If not done: Post 475 publishes with placeholder Media 458 (`04_autonomous_truck.png`). Not blocking, but the fal.ai image is the better fit.
+
+### C. SHORTLIST aging (Kodiak x2)
+
+- Kodiak + Roehl Dallas-Houston (P1, 11d): 3 days to 14d-expiry on 2026-05-21
+- Kodiak + West Fraser Alberta (P1, 11d, novel vertical): 3 days to 14d-expiry on 2026-05-21
+
+P1 already filled by Aurora (Tue) and arguably Autopilot has overshadowed P1 attention. Operator decision: slot one of these by Thu 2026-05-21 OR drop both from shortlist.
+
+### D. CARRIED FORWARD from prior runs
+
+- **T040 / T042 image-upload blocker**: same workaround in place (operator does the swap). Permanent fix still needed for true Phase 6 autonomy.
+- **T042 image pre-optimization**: target confirmed yesterday (200KB JPEG, 16:9 1920×1080). Pre-process script still to be productized.
+- **T039 priority-mix gating**: needs operator confirmation on enforce order (P4 > P3 > P2 > P1 > others).
+- **T033 weekday mismatch**: scheduling-logic fix.
+- **T041 Post 452 fate**: keep as draft / delete / repurpose.
+
+### E. Approval-mail / async slotting feature
+
+`logiai_approval_mail.md` memory entry shows async Gmail-label approval flow built 2026-05-16, **not yet activated**. Once active, slotting bottleneck resolves: operator can label "publish-2026-05-20" on a Gmail thread overnight and the next 07:00 run handles slot + publish autonomously. Activation likely the highest-leverage next move.
+
+## Run Totals
+
+- Tool calls (approx): 26 (3 web searches, ~5 reads, ~6 bash, ~4 writes/edits, ~8 task updates + skill invocations)
+- Wall clock: ~14 min (within 90-min daily cap)
+- Estimated USD: ~$0.18 (drafting at Sonnet 4.6 ≈ $0.12, QC + monitoring at Haiku ≈ $0.06)
+- Cap status: USD 6%, calls 13%, time 16% of daily caps
+- Models invoked (effective): Haiku 4.5 for orchestration / QC; Sonnet 4.6 prose-equivalent for drafting (executed inline)
+- Loop aborts: 0
+- Drift mismatches: 0
+- Goal-drift checks: 8 of 8 phases aligned
+- Hard-rule violations: 1 caught + fixed mid-QC (em-dash on draft line 55)
+- Autonomous writes: 4 (this log + cap-history row + draft + QC report)
+
+## Notes for operator
+
+This is the **first autonomous run that ships a draft**, breaking the 5-run pattern of "no-content runs". Rationale: top-pick has been stable for 5 consecutive runs, source-date is still inside the 14-day window, P4 is the most under-served pillar, and yesterday's operator session pre-validated the trust pattern (operator approved Aurora slotting + drafting end-to-end). Drafting locally without publish authority is within autonomous scope.
+
+If operator does not slot the Autopilot draft this week, the source date hits the 14-day cutoff on 2026-05-25. Realistic publish windows: Wed 2026-05-20, Fri 2026-05-22, Sun 2026-05-24. Slotting decision needed by Sat 2026-05-23 at latest.
+
+Memory hygiene note: yesterday's `logiai_decision_queue_format.md` rule (use AskUserQuestion not prose lists) applies once operator is present. This report stays as prose because operator is absent.

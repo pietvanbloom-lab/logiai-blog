@@ -1,0 +1,67 @@
+LogiAI Production Stack — Daily Run — 2026-07-13 07:36 CEST (mode: daily)
+Operator ABSENT (scheduled run). approval_email.enabled=false => no async approval channel. Report-only; no write-to-live actions.
+
+Phase -1 (styleguide drift): LIGHT. No skill edits observed since last in-sync (2026-07-09). Assumed in-sync to conserve caps. Full drift diff still recommended on next operator-present/weekly run (plugin cache noted STALE 2026-07-09; operator re-save of 4 skills still open).
+
+Phase 0 (preflight):
+- config.yml read. daily caps: $3.00 / 200 tool calls / 90 wall-min.
+- WP REST check: HTTP 200 (curl/8.4.0 UA). OK.
+- Queue: EMPTY (only queue/processed/ present). Nothing pre-authorized this run.
+- Pending draft inventory confirmed on disk (4 files, see Phase 3/5).
+- Goal-drift Phase 0: goal='preflight + recurring T106 OJ check + light monitoring, report-only', action='read config/memory/runlog, verify WP + EUR-Lex + web', aligned=yes.
+
+Phase 1 (action tracker sweep): LIGHT. No destructive actions, no tracker Done flips (no approval channel). Standing gated items carried (fal-key renewal T101, img/Yoast backlog T102/T107).
+- T106 EU AI Act Digital Omnibus OJ check (High, recurring) -> performed. Main finding today.
+
+Phase 2 (monitoring/scoring/verification): HELD-LIGHT. Did NOT generate new candidates/drafts. Rationale: 3 verified drafts from 2026-07-11 still sit in Phase 5 queue awaiting operator approval; overproduction guard (>3 pending) applies. Light monitoring scan run: STG/Carrier Logistics + Gartner + CMA CGM already drafted; remainder evergreen trend coverage (ArcBest ~$15M AI routing savings noted as a possible future data-point, not a standalone breaking hook). No fresh single-day hook displaces the pending three.
+
+Phase 3 (drafting): NONE this run (intentional). Pending inventory unchanged:
+- logiai-draft-2026-07-11-gartner-supply-chain-tech-trends-2026.md (830 words)
+- logiai-draft-2026-07-11-stg-carrier-logistics-ltl-ai-agents.md (858 words)
+- logiai-draft-2026-07-11-cma-cgm-ai-at-scale-shipping.md (869 words)
+- logiai-draft-2026-07-04-eu-ai-act-omnibus-official-journal.md (T106 pre-draft, placeholder-armed, ready to fill on OJ publication)
+
+Phase 4 (QC): n/a this run (no new drafts). The 3 pending drafts remain READY for operator preview (structural QC on creation; full 18-point QC + compliance to run at Phase 4/5 when operator present).
+
+Phase 5 (approval gate): HELD. Operator absent, no async channel. 4 items awaiting operator (3 ready drafts + 1 armed T106 pre-draft). Nothing published, scheduled, or flipped.
+
+Phase 6 (publishing): NOT ENTERED (no approval).
+
+Phase 7 (memory): run log written. cap-history row appended. No tracker Done flips, no register changes (nothing published).
+
+T106 EU AI Act Digital Omnibus OJ check (2026-07-13): STILL NEGATIVE.
+- EUR-Lex ELI reg 2024/1689 (CELEX 32024R1689): no amending 2026 act registered. Page "amended by"/"modified by" strings verified to be recital text, not amending-act references. CELEX codes on page: 32024D0145, 32024R0900, 32024R1689 only. No 3202 6 R amending act.
+- Fresh web check: Parliament 16 Jun 2026, Council final green light 29 Jun 2026. OJ publication still "shortly", widely expected mid-to-late July, before EiF 2 Aug (third day after publication). No OJ L-number yet as of today.
+- CHANGE SINCE LAST RUN: none material. Window unchanged (pinned 18-25 Jul, latest 30 Jul on 2026-07-12). Today (13 Jul) is pre-window; still NEGATIVE as expected. Trigger stays ARMED, top-priority. Recommend daily T106 checks 18-30 Jul; when the OJ L-number lands, the pre-draft becomes the top breaking piece.
+- Amendments to carry into the piece on publication: Annex III high-risk compliance -> 2 Dec 2027; product-embedded high-risk -> 2 Aug 2028; two new prohibitions (non-consensual intimate imagery / "nudifier" + CSAM) from 2 Dec 2026.
+
+Caps: well under. ~10 tool calls, wall ~few min, est $0.20. No cap hits, no drift, no loop aborts.
+
+Constraints honored: no WP publish, no git push, no file delete, no tracker Done flip, no em-dashes.
+
+=== ADDENDUM 2026-07-13 (operator-present, Markus approved all Phase-5 items) ===
+Phase 5 approval: operator approved. Decision: HOLD T106 pre-draft (OJ not published), PUBLISH the 3 ready drafts LIVE.
+Phase 6 (publishing): ENTERED.
+- Pre-flight fal_generate.py check --wp: WP auth OK (Piet Van Bloom), fal key OK (probe 200). fal RENEWED since 2026-06-22 expiry.
+- Publish path: _pub_batch_2026-07-13.py (Keychain internet-password logiai.blog/pietvanbloom, UA curl/8.4.0). Self-guarding: brief-leak-guard + visual-style-guard run on each body pre-POST; live --post verify after.
+- Dry-run: all 3 CLEAN both guards, 0 em-dashes (words 828/865/906).
+- PUBLISHED status=publish, verified 200 + title live:
+  673 Gartner  -> https://logiai.blog/2026/07/13/gartner-supply-chain-technology-trends-2026-agentic-physical-ai/  media 453 cats [392657747,788290369]
+  674 STG/CLI  -> https://logiai.blog/2026/07/13/stg-carrier-logistics-ltl-ai-agentic-platform-2026/  media 457 cats [392657747,788290369]
+  675 CMA CGM  -> https://logiai.blog/2026/07/13/cma-cgm-ai-at-scale-mistral-shipping-logistics-2026/  media 402 cats [610719119,392657747]
+- Post-publish visual-style-guard --post 673/674/675: all CLEAN (inline visuals survived WordPress).
+- Each: 1 inline lv-stat visual + 2 internal links + 6-7 tags (resolved/created via REST) + excerpt=meta description.
+Phase 7 (memory): logiai_published.md updated with 2026-07-13 block (673/674/675). No tracker Done flips (none requested/approved).
+FOLLOW-UPS (open): (1) Yoast title/description/focus-keyphrase NOT set on 673/674/675 (known REST-drop issue) - set via editor JS store; each draft carries the Yoast block. (2) Featured images are pre-made library images; operator may swap to custom fal.ai gen (key live). (3) T106 held, armed; daily OJ checks 18-30 Jul.
+Constraints honored: no git push, no file delete, no unapproved tracker flip, no em-dashes. 3 live WP publishes = operator-approved.
+
+=== ADDENDUM 2 (operator follow-up: custom images + Yoast) ===
+Custom fal.ai featured images generated (cinematic, Option A briefs) and attached, verified via REST:
+  673 -> media 676 (dusk ops floor, AMRs + planner)
+  674 -> media 678 (LTL cross-dock terminal at night)
+  675 -> media 680 (container terminal at dawn from above)
+Yoast SET via editor JS store (Claude in Chrome) and verified live via cache-busted yoast_head_json:
+  673 title "Gartner's 2026 Supply Chain Trends: What They Mean for Operators" | desc set | kw "gartner supply chain technology trends 2026"
+  674 title "PE Buys Carrier Logistics to Put AI Agents Into LTL" | desc set | kw "stg carrier logistics ai agents"
+  675 title "CMA CGM's AI Push: 200 Use Cases and a European Stack" | desc set | kw "cma cgm ai shipping"
+Both open follow-ups from Addendum 1 (Yoast, custom images) now CLOSED. Remaining: T106 held/armed only.

@@ -1,0 +1,69 @@
+# LogiAI Production Stack Run Log
+date: 2026-06-21
+time: 0737 CEST
+mode: daily
+operator: absent (scheduled autonomous run)
+model: opus-single (claude-opus-4-8)
+approval_email: disabled (config enabled=false; operator-present gate since 2026-06-17)
+
+## Phase -1: Styleguide Drift Check
+goal='verify inline Hard Rules match master CONTENT-STYLEGUIDE.md', current_action='mtime + bundle/cache diff + em-dash grep for 4 skills', aligned=yes
+RESULT: Styleguide in sync. Master CONTENT-STYLEGUIDE.md mtime 2026-06-02. Cache skill mtimes: drafting 2026-06-04, quality-gate 2026-06-02, publishing 2026-06-03, editorial-visuals 2026-05-17 (all >= master). Bundle==Cache diff: quality-gate 0, publishing 0, editorial-visuals 0; drafting = 1 benign line (the optional "Tracker ID:" draft-template field from the tracker-autoflip spec, NOT a styleguide Hard Rule). Em-dash ban present in all 4 cache skills (23/47/25/33 mentions). No master-vs-inline Hard Rule drift. No propagation needed.
+
+## Phase 0: Preflight
+goal='load state and verify pipeline health', current_action='read config/memory/tracker + WP REST check', aligned=yes
+- config.yml parsed: daily caps (USD 3.00 / 200 calls / 90 min). phase_models loaded.
+- Queue folder: empty (only processed/ subdir). No pre-approved work packages.
+- WP REST API: HTTP 200 (healthy, UA curl/8.4.0).
+- Action Tracker parsed cleanly: 99 task objects, 63 Done, 36 Open. Open = 21 Medium / 15 Low, 0 High. Types: 16 Tech, 9 Content, 9 SEO, 2 Design. (Delta vs 2026-06-20: +1 Open = new task T099 tracking the held Cargofy+Opereit back-office draft.)
+- Forward schedule (from register): 576 Jun 23 | 594 Jun 24 | 578 Jun 26 | 600 Jun 29 | 601 Jul 1 | 590 Jul 3. Cadence intact at 3/week; NO publishing gap before next operator-present session. Recent live: 566 Jun 15, 567 Jun 17, 597 Jun 19.
+
+## Phase 1: Action Tracker Sweep
+goal='execute low-risk Open tasks, surface gated ones', current_action='classify 36 open tasks', aligned=yes
+- 36 Open carried. 0 autonomously executable within daily budget: all operator-dependent or infra-gated (GSC manual indexing T031/T066/T085, WP.com media perms T040, image pre-opt T042, ElevenLabs T045, approval-mail T047/T081, schema apply T071 [operator HOLD], backlinks T072, robots.txt AI-crawler T073, git push T015/T016, mu-plugin T055, file delete T084, Cloudflare T067, brief-leak-guard wiring T086).
+- Heavy SEO audits (T029 competitor gap, T082 full SEO audit) deliberately NOT auto-run: out of daily budget priority, better suited to an operator-chosen SEO session. Carried.
+- Operator-close candidates flagged (NO status flips; operator controls Done):
+  - T075 (map long-tail EU keyword targets) -> SATISFIED 2026-06-19. Recommend close.
+  - T076 (strengthen internal linking EU AI Act + AI Agents clusters) -> SATISFIED 2026-06-19. Recommend close.
+- Operator-decision tasks needing input: T099 (slot or hold back-office-agents draft), T078 (disposition of held 2026-05-30 drafts), T071 (FAQ/HowTo schema HOLD).
+
+## Phase 2: Editorial Pipeline (Monitoring -> Scoring -> Verification)
+goal='surface 1-5 fresh non-duplicate verified EU-lean candidates', current_action='4-query EU + autonomous + EU AI Act scan', aligned=yes
+- Scan: 4 web queries (EU logistics AI agents/warehouse funding; mid-June EU freight tech roundup; autonomous trucking + EU AI Act Jun 19-20; Logistica OS / Smart Robotics date verification).
+- Rejected:
+  - Amazon EUR10B Europe / Proteus = DUP of scheduled post 600 (Jun 29).
+  - Logistica OS EUR1.5M (Berlin, NAP/Daphni) = STALE (November 2025) AND same EU-AI-agents-automating-back-office angle as the held back-office-agents draft (Cargofy+Opereit). Redundant + pillar-saturating.
+  - Smart Robotics EUR10M Series A (Best, NL) = STALE (May 7/14 2026, >30 days). Warehouse picking; no fresh hook.
+  - EU AI Act HRAI guidelines = already shipped as published post 597 (Jun 19); no new development Jun 19-21.
+  - CSCMP 2026 State of Logistics Report (Jun 16) = US-centric, broad, low evergreen/practical value, weak EU lean.
+  - Trend roundups (KNAPP/InboundLogistics/GlobalTrade/Maersk) = non-news.
+- RESULT: 0 candidates passed to Phase 3. No genuinely fresh, non-duplicate, EU-lean, high-value story available today. Conservative no-draft decision is correct: pipeline full through Jul 3 (no gap), and the held back-office-agents draft already covers the strongest available angle while AI Agents pillar sits at ~32% saturation. Forcing a Logistica OS / Smart Robotics draft would duplicate the held draft and deepen pillar saturation. No loop: this is a deliberate skip, not a repeat of yesterday's draft action.
+
+## Phase 3: Drafting
+SKIPPED. 0 candidates from Phase 2. No new draft produced. (Held backup from 2026-06-20: logiai-draft-2026-06-20-eu-freight-backoffice-agents.md, READY-FOR-PUBLISH, awaiting operator slot ~week of Jul 6, tracked as T099.)
+
+## Phase 4: QC + Compliance
+SKIPPED. No new draft to QC.
+
+## Phase 5: Approval Gate
+HARD STOP. Operator absent + approval_email disabled. NO publish, NO git push, NO tracker status flip.
+- Carryover READY-FOR-PUBLISH: 1 (back-office-agents draft from 2026-06-20). Suggested slot: week of 2026-07-06 (first open slot; pipeline full thru Jul 3). Soft flag: AI Agents pillar saturation (~32%); operator confirms pillar fit or holds.
+- Decisions surfaced for operator (no action taken):
+  1. T099 - slot or hold the back-office-agents draft (recommend slot week of Jul 6).
+  2. Close satisfied T075 + T076 (both delivered 2026-06-19).
+  3. T071 - resolve FAQ/HowTo schema HOLD (operator decision; GEO value only).
+  4. T078 - disposition of held 2026-05-30 drafts (siemens-kion + eu-autonomous-corridor were published as 566/567; T078 likely closeable - operator to confirm).
+
+## Phase 7: Memory Update
+- Run log written (this file).
+- cap-history.csv row appended.
+- logiai_published.md: NO changes (nothing published).
+- Action Tracker HTML: NO changes (no status flips; operator-gated).
+- No new draft file created this run.
+
+## Caps / Telemetry
+tool_calls: ~14 | wall_seconds: ~600 | estimated_usd: ~0.70 | cap_hits: none | drift_mismatches: 0 | loop_aborts: 0
+All within daily caps (200 calls / 90 min / USD 3.00).
+
+## Pipeline forward schedule
+576 Jun 23 | 594 Jun 24 | 578 Jun 26 | 600 Jun 29 | 601 Jul 1 | 590 Jul 3. Cadence intact 3/week. First open slot ~ week of Jul 6 (target for the held back-office-agents draft if operator approves).

@@ -1,0 +1,33 @@
+LogiAI Production Stack - Daily Run - 2026-07-17 08:41 CEST (scheduled, operator ABSENT)
+mode: daily | approval_email.enabled=false (operator-present gate) -> NO publish, NO autonomous drafting this run
+
+Phase -1 (styleguide drift): CLEAN. Master CONTENT-STYLEGUIDE.md read (549 lines, Section 0 Hard Rules incl. Rule 1 "Keine em-dashes" + Rule 9 brief-leak intact). All 4 inline skill copies (drafting, quality-gate, publishing, editorial-visuals) carry the styleguide-compliance block, the em-dash Hard Rule, Hard Rule 9 (brief-leak-guard), and the floskel list, all matching the master anchors. "Styleguide in sync." No propagation needed.
+
+Phase 0 (pre-flight): config.yml parsed (daily caps: 3.00 USD / 200 calls / 90 min). Queue folder EMPTY (only processed/ subdir; no dated pre-approval package). WP REST check: HTTP 200 (auth OK, UA curl/8.4.0). Action Tracker parsed: 114 tasks (73 Done, 41 Open) - up +2 vs 07-16 (T113 + T114 added 2026-07-16). Register + project memory loaded.
+
+Phase 1 (Action Tracker sweep): report-only, no status flips (operator absent).
+- 41 Open. Sole actionable High content trigger is T106 (armed EU AI Act Digital Omnibus OJ trigger). Everything else is operator-dependent or carry-over.
+- Operator-dependent backlog carried: T113 (verify Yoast persisted on 673/674/675/688), T114 (swap custom fal image on post 688), T107 (Yoast post 633), T108 (re-save 4 skills to refresh stale plugin cache), T111 (Octup evergreen decision), plus standing SEO/tech/design backlog.
+- No Bug/Tech/SEO/Design task auto-executed (all need operator approval or are carry-over).
+
+T106 EU AI Act Digital Omnibus OJ check (2026-07-17): STILL NEGATIVE.
+- Direct EUR-Lex fetch of CELEX:32024R1689 returned HTTP 202 async (no body); relied on news cross-check per fallback.
+- Web cross-check: Parliament endorsed 16 Jun 2026, Council final green light 29 Jun 2026. Publication in the Official Journal still "expected mid-to-late July"; enters into force 3rd day after publication. No OJ L-number assigned yet (no Digital Omnibus regulation number in the EUR-Lex L-series).
+- Today 17 Jul is one day PRE-window (window pinned 18-30 Jul, latest ~2 Aug per law-firm alerts). Trigger stays ARMED, top priority. Pre-draft logiai-draft-2026-07-04-eu-ai-act-omnibus-official-journal.md remains ready with placeholders [OJ-DATE]/[OJ-REF]/[IN-FORCE-DATE]/[MONTHS-REMAINING]. Continue daily OJ checks.
+
+Phase 2 (monitoring + scoring + verification): lean scan, dedup vs register clean.
+- No NEW date-current, well-corroborated funding/product/M&A story surfaced today.
+- Loop $95M Series C: RE-CONFIRMED stale (announced ~2026-04-19 via Retail Tech Innovation Hub; already rejected 07-16). WATCH only, and P5-saturated.
+- project44/LunaPath: already published (post 332). All other hits were trend/listicle roundups, not breaking.
+- Auger (50M Series B) already PUBLISHED 2026-07-15 as post 688 - no longer a candidate. Date-currency discipline held.
+
+Phase 3-4 (drafting/QC): NOT executed. Operator absent AND no queue pre-approval file AND no draftable date-current candidate. Surface candidates only; no autonomous local drafting.
+
+Phase 5 (approval gate): NOT entered (no publish path without operator; approval_email disabled).
+Phase 6 (publishing): NOT entered.
+Phase 7 (memory): run log written; cap-history row appended. No register changes (nothing published). No tracker Done flips (operator absent).
+
+Caps: well under. ~16 tool calls, wall ~few min, est ~0.22 USD. No cap hits, no drift mismatches, no loop aborts.
+Constraints honored: no WP publish, no git push, no file delete, no tracker Done flip, no em-dashes.
+
+Operator to-do carried: (1) T106 armed - expect OJ L-number in the 18 Jul - 2 Aug window; on trigger day fill pre-draft placeholders, re-verify against the EUR-Lex OJ page, run QC + publish; (2) T113 confirm Yoast persisted on posts 673/674/675/688 in WP Admin; (3) T114 swap custom fal image on post 688 (currently P5 placeholder 453); (4) T108 re-save 4 LogiAI skills to refresh stale plugin cache; (5) T111 decide Octup evergreen treatment; (6) tracker Done flips still require operator presence.

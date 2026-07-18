@@ -1,0 +1,64 @@
+# LogiAI Production Stack - Run Log
+Date: 2026-06-07 (Sunday)  Time: 16:14 CEST  Mode: daily (autonomous, scheduled, operator not present)
+
+## Config snapshot
+- caps.daily: total_usd 3.00, total_tool_calls 200, total_wall_min 90; per_phase tc50/wall30/usd0.80
+- phase_models: preflight/monitoring/scoring/QC = haiku-4-5; verification/drafting/compliance = sonnet-4-6
+- approval_email: enabled (gmail_markus). NOTE: gmail_markus MCP exposes read/move/flag tools only, no send tool -> no Stage 1 mail can be dispatched this run; approval surfaced via report instead.
+
+## Phase -1: Styleguide Drift Check
+Phase -1: goal='verify inline Hard Rules match master CONTENT-STYLEGUIDE.md', current_action='grep 4 skill files vs master', aligned=yes
+- Master read: Section 0 Hard Rules + Sections 2,4,5,7,10.
+- Inline copies verified in cache skills (drafting, quality-gate, publishing, editorial-visuals).
+- All carry: em-dash ban (Hard Rule 1), Brief-Header-Leak / brief-leak-guard.py (Hard Rule 9 / QC Item 26), Stilmix 70/20/10, banned-Floskel list (Hard Rule 4).
+- Result: STYLEGUIDE IN SYNC. No drift. Continue.
+
+## Phase 0: Pre-flight
+Phase 0: goal='load state and verify access', current_action='read config, queue, memory, tracker, WP REST', aligned=yes
+- Queue folder empty: no operator pre-approved work packages.
+- Memory read: logiai_project, logiai_strategy_2026_06, logiai_published (register thru post 578), logiai_indexing_status.
+- Action Tracker parsed: 14 Open tasks (0 High, 6 Medium, 8 Low).
+- WP REST check: GET wp/v2/posts?per_page=1 -> HTTP 200 (auth healthy, T021 stays resolved). Latest live post 526 (Jun 3).
+
+## Phase 1: Action Tracker Sweep
+Phase 1: goal='triage open tasks, low-risk only, propose flips', current_action='classify + report', aligned=yes
+Open tasks (14): T013, T014, T015, T016, T017, T018, T022, T025, T027, T028, T029, T031, T033, T039.
+- 0 High-priority open tasks. No auto-execute work performed (all remaining items either require operator, WP write, GSC login, or git push - all hard-stop gated).
+- Proposed status flip (NEEDS OPERATOR): T012 Internal linking - executed 2026-05-26 (19/19 posts, 22 outlinks, verified), description says "operator to spot-check and mark Done". Currently already Done in array? -> array shows T012 status Done; no action. (Confirmed Done, no flip needed.)
+- Operator-only actions surfaced: T031 (GSC indexing re-check, due ~now per indexing_status memory; needs Search Console login), T029 (competitor SEO gap - deferrable read-only task, not run to preserve budget), T015 (git push theme - hard-stop), T025 (remove GSC URL-prefix property - operator).
+- Carry over all 14 open tasks to next run.
+
+## Phase 2: Editorial Pipeline (Monitoring / Scoring / Verification)
+Phase 2: goal='find fresh verified non-duplicate candidates', current_action='scan + dedup', aligned=yes
+- Monitoring: 3 targeted web scans (global logistics-AI, EU agents/TMS, deal verification).
+- Signals reviewed: mostly evergreen market-size pieces and previously-covered deals (project44/SAP, Manhattan/Locus already in register).
+- Candidate evaluated: STG acquires Carrier Logistics Inc (CLI), AI-native LTL/last-mile TMS platform. Verified (STG PR + FreightWaves + CCJ + TT). VERDICT: announced 2026-04-13 (~8 weeks old, not fresh) AND thematically dedup-adjacent to posts 483/549/576 (agentic TMS/freight-software vendor space). NOT drafted. Logged to watch list.
+- Result: 0 verified FRESH (last 24-72h) high-impact non-duplicate candidates.
+
+## Phase 3: Drafting
+- SKIPPED. No qualifying candidate. Pipeline already scheduled through 2026-06-26 (posts 548 Jun8, 549 Jun10, 550 Jun12, 566 Jun15, 567 Jun17, 576 Jun23, 578 Jun26). Strategy cadence capped at 3/week to avoid thin content. Forcing a draft would over-stock and risk dedup. Disciplined no-draft.
+
+## Phase 4: QC + Compliance
+- N/A (no drafts).
+
+## Phase 5: Approval Gate
+Phase 5: goal='present decisions to operator', current_action='produce report (no send channel)', aligned=yes
+- No publish work (0 ready-for-publish, 0 escalations). Hard rule respected: NO auto-publish.
+- No tracker status flips proposed that require approval (T012 already Done).
+- No Stage 1 approval mail dispatched: gmail_markus MCP has no send capability this run; surfaced in chat report instead. No spam risk.
+
+## Phase 6: Publishing
+- NONE.
+
+## Phase 7: Memory + Telemetry
+- logiai_published.md: no changes (nothing published).
+- Action Tracker HTML: no changes (no approved flips).
+- MEMORY.md: no new memory files.
+- Cap actuals: ~12 tool calls, ~13 wall min, est. ~$0.35. No cap hits, no drift mismatches, no loop aborts.
+- No user-file deletions. No git pushes.
+
+## Next run notes
+- T031 GSC indexing re-check still open (operator, Search Console login required; due per indexing_status memory).
+- Watch list for future slots if operator wants them despite weak/US-centric fit: STG/Carrier Logistics (Apr 13, agentic LTL TMS); Tecsys (Jun 1, carried from prior run); Descartes OpsForce AI agents (Mar 19).
+- Post 576 featured image swap (placeholder media 402) before Jun 23.
+- Pipeline full through Jun 26; next genuine content gap opens ~late June. Thin pillars remain P3 Demand Forecasting and P4 SC Visibility.

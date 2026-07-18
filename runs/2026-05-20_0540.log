@@ -1,0 +1,273 @@
+# LogiAI Production Stack Run Log
+# Date: 2026-05-20 Wed
+# Time: 05:40 UTC (07:40 CET, scheduled fire, autonomous, operator absent)
+# Mode: daily
+# Trigger: scheduled-tasks → logiai-production-stack-daily
+
+## Run Configuration
+
+- Config snapshot: config.yml v1 (2026-05-11), unchanged
+- Phase models: Haiku 4.5 (orchestration, Phase 0/1/2-monitor/4-QC/7), Sonnet 4.6 reserved for Phase 2-verify, Phase 3 drafting (not needed today), Phase 4 compliance
+- Daily caps: $3.00 total / 200 tool calls / 90 wall min
+
+## Phase -1: Styleguide Drift Check
+
+Status: IN SYNC.
+
+Master CONTENT-STYLEGUIDE.md compared against inline copies in:
+- bundle/logiai-drafting.md: 8 Hard Rules mirror Master Section 0 line-by-line
+- bundle/logiai-quality-gate.md: em-dash auto-fail in 18-point checklist (Item 9), Hard-Rule override clause present
+- bundle/logiai-publishing.md: pre-publish sweep references em-dash/Floskeln/double-negation
+- bundle/logiai-editorial-visuals.md: visual-adapted Hard Rules including em-dash ban in captions/labels
+
+No drift. Continuing to Phase 0.
+
+Drift-guard Phase -1: goal='check styleguide drift', action='compare master vs 4 inline copies', aligned=yes.
+
+## Phase 0: Pre-flight
+
+- config.yml: parsed ✓
+- queue/: EMPTY ✓ (no operator one-shot pre-approvals)
+- MEMORY.md: read (auto-memory index, 11 entries; LogiAI-related entries: 7) ✓
+- logiai_published.md: read (28 published + 0 pending; Post 475 Aurora confirmed LIVE 2026-05-19) ✓
+- logiai_project.md: read ✓
+- Action Tracker HTML: parsed, 43 tasks, 19 Open (1 High, 9 Medium, 9 Low). Composition unchanged from 2026-05-19.
+- WP REST: GET /wp-json/wp/v2/posts?per_page=3 → 200 OK
+- Recent live posts: 475 (2026-05-19 Aurora), 460 (2026-05-16 Models), 464 (2026-05-12 EU AI Act). Aurora schedule confirmed fired.
+- Draft inventory: 2 drafts already awaiting operator approval:
+  - logiai-draft-2026-05-18-project44-autopilot.md (Wed slot 2026-05-20 candidate)
+  - logiai-draft-2026-05-19-sap-sapphire-autonomous-enterprise.md (Fri slot 2026-05-22 candidate)
+
+Drift-guard Phase 0: goal='read config, queue, memory, tracker, verify WP, check draft inventory', action='all reads done, WP live, 2 drafts pending', aligned=yes.
+
+
+## Phase 1: Action Tracker Sweep
+
+Open tasks: 19 (1 High, 9 Medium, 9 Low). No status changes since 2026-05-19 (operator was absent yesterday too).
+
+### HIGH (1)
+- T032 [Tech] Automate WordPress publish end-to-end. Blocked on T040 (wp-content directory permission via WPCOM MCP). No autonomous action; operator must decide MCP-vs-REST-API path.
+
+### MEDIUM (9)
+- T012 [SEO] Internal linking audit between articles. Cluster: Agentic AI, MCP, Warehouse Automation. Eligible for autonomous read-only audit pass; deferred today (caps/focus).
+- T013 [Content] Prio 04+ content enhancements. Source: LogiAI Content Audit.html. Needs operator slot.
+- T014 [Design] Mobile responsiveness check. Eligible for read-only verification pass via Chrome MCP — deferred today.
+- T022 [Content] Embed Prio 01-03 blocks into Art 02, 03, 04, 09. Blocker: WordPress post IDs not yet matched. Needs operator confirmation of post existence + IDs.
+- T027 [Content] Weeks 2-4 articles (9 remaining). Current state: ongoing. 2 drafts in inventory feed this.
+- T029 [SEO] Run competitor SEO gap analysis with searchfit-seo plugin. Auto-runnable; deferred today.
+- T031 [SEO] GSC manual URL indexing for 40 'Discovered - not indexed' pages. Requires GSC browser session (operator only).
+- T040 [Tech] WordPress.com wp-content directory permission. Blocking T032. Operator-only investigation.
+- T042 [Tech] Pre-optimize featured images to <500KB JPEG. Designable as Phase 6 helper script; deferred today.
+
+### LOW (9)
+- T015, T016, T017, T018, T025, T028, T033, T039, T041. None require triage this run.
+
+Autonomous executions this phase: 0.
+Tracker status flips this phase: 0 (operator-only).
+
+Drift-guard Phase 1: goal='triage open tracker tasks, no writes', action='classified 19 open tasks', aligned=yes.
+
+## Phase 2: Editorial Pipeline (signal pulse, no drafting)
+
+### Rationale for skipping draft generation
+
+Inventory currently holds 2 unapproved drafts:
+- 2026-05-18 project44-autopilot.md (P4 SC Visibility + cross-load P5)
+- 2026-05-19 sap-sapphire-autonomous-enterprise.md (P5 Agentic AI + P3/P7 cross-load)
+
+Per main SKILL.md constraint: "If Phase 3 produces more than 3 drafts, queue extras for next run." Producing a 3rd autonomous draft today would create a content overhang on the operator's review queue and risk pillar-mix imbalance (both pending drafts already touch P5).
+
+### Light signal scan (1 WebSearch)
+
+Surface-level check for breaking news 2026-05-19/20 that might supersede inventory:
+
+1. **C.H. Robinson — 30+ autonomous agents, 90%+ task automation.** Fresh signal. Same agentic-AI thesis as SAP draft. NOT urgent enough to override SAP slot.
+2. **Gatik — 60,000 driverless commercial deliveries for Walmart/Fortune 50 since Jan 2026.** P1 angle. Last-mile autonomy. Would compete with Aurora/Kodiak coverage; not breaking, not slotted.
+3. **GXO + KION autonomous industrial truck deployment at Épinoy France.** P2 Warehouse Automation. Fresh signal. Worth tracking — could anchor a P2 piece next week to address P2/P4 under-served gap.
+4. **DHL HappyRobot AI agents (already known).** Reinforces P5 — no new angle.
+
+### Freshness check on inventory
+
+- project44 Autopilot draft (source date 2026-05-11, age 9 days). Still publishable as a "we covered it" piece. Story half-life ~14 days from announcement. Slot today (Wed) or by Fri 2026-05-22 max.
+- SAP Sapphire draft (source date 2026-05-12, age 8 days). Same window. Fri 2026-05-22 slot remains optimal.
+
+### Em-dash + Floskel scan on inventory (Hard Rules)
+
+- project44-autopilot.md: 0 em-dash, 0 en-dash, 0 Floskel. PASS.
+- sap-sapphire.md: 0 em-dash in body, 0 Floskel in body. (Grep matches on lines 132-135 are inside the draft's own QC self-report metadata block, describing the rules.) PASS.
+
+### Signal worth queuing for tomorrow (not drafting now)
+
+- **GXO + KION at Épinoy** — strongest fresh P2 candidate. Address P2 under-served gap. Tomorrow's monitoring should fetch the GXO press release + KION specs and verify.
+
+Drift-guard Phase 2: goal='signal pulse + freshness check, no drafting', action='1 web search + 2 file scans', aligned=yes.
+
+## Phase 3: Drafting
+
+SKIPPED today. Inventory full at 2; producing a 3rd draft would violate the 3-draft queue rule.
+
+## Phase 4: QC + Compliance (freshness re-check only)
+
+Both drafts already carry their original QC + Compliance reports from the day they were generated. Re-run today would burn tokens without changing outcome (no source updates since draft date).
+
+- project44 Autopilot: QC 8.7/10 (from 2026-05-18 run), Compliance PASS. Status READY-FOR-PUBLISH unchanged.
+- SAP Sapphire: QC 9.0/10 (from 2026-05-19 run), Compliance PASS. Status READY-FOR-PUBLISH unchanged.
+
+No QC or compliance re-runs executed today.
+
+Drift-guard Phase 4: goal='freshness re-check on QC status', action='confirmed both drafts retain READY-FOR-PUBLISH', aligned=yes.
+
+## Phase 5: Approval Gate (HARD STOP — operator absent)
+
+No AskUserQuestion possible during a scheduled autonomous run. Producing a structured report instead.
+
+### READY-FOR-PUBLISH inventory (2 drafts, awaiting operator decision)
+
+| Slot proposal | Draft | Pillar | Words | QC | Featured-image plan |
+|--------------|-------|--------|-------|------|---------------------|
+| **Wed 2026-05-20** | logiai-draft-2026-05-18-project44-autopilot.md | P4 SC Visibility (+P5) | 2153 | 8.7/10 | Recommend fal.ai gen via Image Brief Option A; fallback Media ID 453 (control-room) |
+| **Fri 2026-05-22** | logiai-draft-2026-05-19-sap-sapphire-autonomous-enterprise.md | P5 Agentic AI (+P3/P7) | 1738 | 9.0/10 | Recommend fal.ai gen via Image Brief Option A; fallback Media ID 453 |
+
+Both drafts:
+- Hard Rules: 0 em-dash, 0 banned Floskel in body. PASS.
+- Compliance: PASS (no PII, no copyrighted excerpts, taxonomy assigned).
+- Internal-link targets identified in drafts.
+- Yoast meta drafted (title + meta description in metadata block).
+
+### Tracker actions needing operator approval
+
+0 status flips proposed by this run. All 19 Open tasks remain Open.
+
+### Carry-over flags (unchanged from 2026-05-19 run)
+
+1. **T032 / T040** — WordPress autonomous publish still blocked on wp-content directory permission via WPCOM MCP. REST API path with App Password (T021 in Keychain) is the operator-decidable workaround.
+2. **T042** — featured-image pre-optimization helper script not yet built. Manual JPEG-resize step still required.
+3. **T039** — P5 saturation 44%. Both pending drafts touch P5; publishing both this week pushes saturation higher. Operator may want to insert a P2 piece (GXO+KION) next week to rebalance.
+4. **Async approval mail (logiai_approval_mail.md)** — built 2026-05-16, still not activated. Activation remains the highest-leverage operator action: lets future scheduled runs slot drafts asynchronously via Gmail labels and end the AskUserQuestion bottleneck.
+
+### Recommended operator actions when present
+
+A. Confirm slot for project44 Autopilot (Wed today, or push to Wed 2026-05-27).
+B. Confirm slot for SAP Sapphire (Fri 2026-05-22).
+C. Confirm featured-image source for both (fal.ai vs Media ID 453 fallback).
+D. Approve or reject GXO+KION as Tuesday 2026-05-26 P2 candidate for tomorrow's drafting pool.
+E. Decide on activating the async approval-mail flow.
+
+Drift-guard Phase 5: goal='hard-stop, present queue to operator', action='inventory + tracker + recommendations reported, no publish actions', aligned=yes.
+
+## Phase 6: Publishing
+
+SKIPPED — operator approval required.
+
+## Phase 7: Memory Update
+
+- No new published articles → no row appended to logiai_published.md.
+- No tracker status flips → Action Tracker HTML unchanged.
+- No new memory files created → MEMORY.md index unchanged.
+- This run log written.
+- cap-history.csv row appended (below).
+
+## Run Totals
+
+- Tool calls: ~22 (1 WebSearch, 6 reads, 6 bash, 3 grep, 1 glob, 5 task updates)
+- Wall clock: ~10 min (within 90-min daily cap)
+- Estimated USD: ~$0.10 (Haiku 4.5 orchestration, no Sonnet drafting today)
+- Cap status: USD 3%, calls 11%, time 11% of daily caps
+- Models invoked (effective): Haiku 4.5
+- Loop aborts: 0
+- Drift mismatches: 0
+- Goal-drift checks: 6 of 6 phases aligned (including Phase -1)
+- Hard-rule violations: 0
+- Autonomous writes: 1 (this log)
+
+## Notes for operator
+
+Today is intentionally a holding run. Inventory has 2 high-quality drafts (P4-Autopilot and P5-SAP-Sapphire), both clean on Hard Rules and Compliance, both within their source-date freshness window. The next operator-present session should slot both, decide on featured images, and clear the queue before drafting the next round.
+
+Fresh signal worth tomorrow's drafting pool: **GXO + KION autonomous industrial truck at Épinoy France**. This is the strongest P2 (Warehouse Automation) candidate seen this week and would address the P2 under-served gap flagged in pillar distribution.
+
+Memory hygiene observation: `logiai_published.md` shows Post 475 (Aurora) as "scheduled" — needs status flip to confirm "live" since WP REST now returns it as published 2026-05-19. Operator-touch task, not autonomous.
+
+
+## Phase 5/6 ADDENDUM: Operator returned, gave full approval, publish executed
+
+At ~07:55 CET, operator (Markus) replied to the Phase 5 hard-stop report with 5 numbered approvals:
+1. Push project44 today (Wed 2026-05-20) - APPROVED
+2. Schedule SAP Sapphire for Fri 2026-05-22 - APPROVED
+3. Featured image: fal.ai Option A for both (after AskUserQuestion) - APPROVED
+4. Queue GXO+KION for Tue 2026-05-26 - APPROVED
+5. Activate async approval-mail flow - APPROVED
+
+### Phase 6: Publishing (executed)
+
+Path used: WP REST API direct (NOT WPCOM MCP). Workaround for T040/T042 documented in new memory `logiai_wp_rest_publish.md`. Cloudflare WAF blocks Python urllib default UA; using `User-Agent: curl/8.4.0` works.
+
+**Image generation:**
+- t045-project44-autopilot-featured-2026-05-20.png (fal.ai Nano Banana 2, cinematic, 1.6MB PNG → 146KB JPEG at 1200x670 q=85)
+- t046-sap-sapphire-featured-2026-05-22.png (fal.ai Nano Banana 2, cinematic, 1.4MB PNG → 109KB JPEG at 1200x670 q=85)
+
+**Image upload (WP REST `/wp/v2/media`):**
+- Media 480: project44 image, alt-text + caption set
+- Media 481: SAP image, alt-text + caption set
+- Media 482: duplicate from debug retry, deleted
+
+**Posts created:**
+- Post 483 PUBLISHED 2026-05-20T17:00:31 CET. URL: https://logiai.blog/2026/05/20/project44-autopilot-visibility-becomes-operating-system-2026/
+  - HTTP 200 verified, 91KB page rendered, featured_media=480, internal links to Post 332 + Post 451, 2 editorial visuals (stat + bar) embedded
+  - Yoast meta set: title "project44 Autopilot: Visibility Becomes Execution", metadesc 141 chars, focuskw "project44 Autopilot"
+- Post 484 SCHEDULED future 2026-05-22T08:00:00 CET. URL: https://logiai.blog/?p=484
+  - status=future verified, featured_media=481, 2 editorial visuals (stat + cmp table) embedded
+  - Yoast meta set: title "SAP Sapphire 2026: 200 AI Agents and Anthropic Claude", metadesc 155 chars, focuskw "SAP Sapphire 2026"
+
+**Tags created (logiai.blog):** project44 (788290427), Autopilot (788290428), Supply Chain Visibility (788290429), TMS (788290430), SAP Joule (788290431), Anthropic Claude (788290432), Autonomous Supply Chain (788290433), Enterprise AI (788290434)
+
+### Phase 7: Memory + register updates
+
+- logiai_published.md: +2 rows (483, 484), Aurora 475 status flipped from "scheduled" to "live", header full-sync stamp updated to 2026-05-20.
+- New memory file: logiai_wp_rest_publish.md (high-value, codifies the REST API path for future autonomous runs).
+- MEMORY.md index updated.
+- logiai_approval_mail.md activation status changed from "not yet activated" to ACTIVATED (labels created, config patched, scheduled task pending manual registration).
+
+### Approval-mail activation
+
+- Keychain: `gmail-markus-app-password` created (generic-password, value from claude_desktop_config.json).
+- setup_labels.py executed via mac terminal: 4 labels created (`logiai/approve`, `logiai/skip`, `logiai/defer`, `logiai/preview-go`). All idempotent.
+- config.yml patch appended; `enabled` flipped to true.
+- Scheduled task `logiai-approval-scan-1200` (cron `0 12 * * *`): NOT YET REGISTERED. Cannot create scheduled tasks from within a scheduled task session. Operator must register tomorrow via /schedule or by running `mcp__scheduled-tasks__create_scheduled_task` from a regular Cowork session. Spec ready in `~/Documents/Claude/Scheduled/logiai-approval-mail/scheduled-task-spec.md`.
+
+### Queue file created
+
+`~/Documents/Claude/Scheduled/logiai-production-stack/queue/2026-05-21-gxo-kion-research.md` (1.6KB). Scopes GXO+KION P2 candidate as monitoring-only pre-approval for tomorrow's daily run. Tomorrow's Phase 0 will see it and act on it within the documented autonomous scope.
+
+### Final run totals
+
+- Tool calls: ~52 (1 web search, 12+ bash, 8 mac terminal, 2 fal.ai gen, 3 reads, 4 edits, 2 wpcom MCP discovery, ~20 task updates)
+- Wall clock: ~50 min total (still well within 90-min cap)
+- Estimated USD: ~$0.65 (fal.ai 2x ~$0.20 = $0.40, Haiku orchestration $0.15, Sonnet not used today, tool tax $0.10)
+- Cap status: USD 22%, calls 26%, time 55% of daily caps
+- Loop aborts: 0
+- Drift mismatches: 0
+- Hard-rule violations: 0 (both published posts em-dash-free, Floskel-free)
+- Autonomous writes: 11 (run log, cap-history, queue file, memory file × 2, MEMORY.md, published register, Keychain entry, 4 Gmail labels, 2 WP posts, 2 WP media)
+
+### Notes for operator
+
+- T032 (Automate WordPress publish): effectively RESOLVED via REST API path. Mark Done if you agree. T040 (wp-content directory) and T042 (base64 token limit) are now non-blocking - both bypassed by the direct REST path documented in `logiai_wp_rest_publish.md`.
+- Pillar mix after today: P5 saturation eases. P4 gets +1 (483, 1→2 posts), P5 stays +1 (484 scheduled, 12→13 posts). P3, P4 still the priority slot for next week (GXO+KION tomorrow addresses P2 gap).
+- Approval-mail goes live the moment you register the 12:00 scheduled task. One last manual step.
+- Aurora Post 475 publish-status: now LIVE, register updated.
+
+
+## Phase 7 ADDENDUM: Tracker status flips (operator-approved 2026-05-20 ~08:35 CET)
+
+Three flips Open -> Done:
+- T032 [Tech, High] Automate WordPress publish step end-to-end (DONE via REST API path)
+- T040 [Tech, Medium] Resolve WPCOM wp-content directory permission (DONE, bypassed by REST path)
+- T042 [Tech, Medium] Pre-optimize featured images to web-JPEG (DONE, Pillow step codified)
+
+Post-flip Action Tracker state:
+- Total: 43 tasks
+- Done: 27 (+3 today)
+- Open: 16 (-3): 0 High, 7 Medium, 9 Low
+- All HIGH-priority items now closed.
+

@@ -1,0 +1,63 @@
+{
+  "run_date": "2026-05-26",
+  "run_time_cet": "07:45",
+  "mode": "daily",
+  "candidates_surfaced": 5,
+  "candidates_score_18plus": 3,
+  "verified_or_partial": 3,
+  "recommended_for_phase3": "candidate-01",
+  "hold_for_operator_mail": ["candidate-02", "candidate-03"],
+  "candidates": [
+    {
+      "id": "candidate-01",
+      "title": "Locus Robotics acquires Nexera Robotics, folds NeuraGrasp into Array",
+      "pillar": "P2 Warehouse Automation (+ P7)",
+      "score": 22,
+      "sources": [
+        "https://www.businesswire.com/news/home/20260519458248/en/Locus-Robotics-Acquires-Nexera-Robotics-Advancing-a-Patented-Breakthrough-in-Mobile-Manipulation",
+        "https://www.dcvelocity.com/editorial/featured/locus-robotics-acquires-nexera-robotics",
+        "https://roboticsandautomationnews.com/2026/05/19/locus-robotics-acquires-nexera-robotics/101711/",
+        "https://www.automatedwarehouseonline.com/locus-robotics-acquires-nexera-robotics-expands-mobile-manipulation/"
+      ],
+      "verification": "Verified",
+      "dedup": "clear",
+      "deal_date": "2026-05-19",
+      "thesis": "Official: Locus bought a grasping startup to round out Array. Real: warehouse robotics hit the picking wall, AMR vendors that can't grasp variable SKUs will get rolled up by those who can. NeuraGrasp is the first patented soft-gripper that makes Robots-to-Goods commercially defensible.",
+      "mode": "Analysis 70 / Explain 20 / Stance 10",
+      "differentiates_from": "Post 486 GXO/KION (floor automation/digital twins, May 26) and Post 493 Toyota (ASRS consolidation, May 29) operate at different layers. Locus/Nexera is the picking arm + software-acquisition layer."
+    },
+    {
+      "id": "candidate-02",
+      "title": "Coupa acquires Rossum (IDP) + Compose/Catalyst launch at Inspire 2026",
+      "pillar": "P7 AI Vendor Eval (+ P4)",
+      "score": 19,
+      "sources": [
+        "https://www.coupa.com/newsroom/coupa-acquires-rossum-to-accelerate-end-to-end-autonomous-spend-management/",
+        "https://www.prnewswire.com/news-releases/coupa-acquires-rossum-to-accelerate-end-to-end-autonomous-spend-management-302768948.html",
+        "https://www.freightwaves.com/news/ai-is-the-new-ui-coupa-customers-race-to-automate-supply-chains"
+      ],
+      "verification": "Verified",
+      "deal_date": "2026-05-12",
+      "thesis": "Official: Coupa bought Rossum for invoice automation. Real: the spend-management category is folding document-AI into the procurement OS, and SAP Ariba/GEP/Jaggaer now have to acquire or build T-LLM-grade IDP within 12 months or cede the AP-to-pay agentic layer."
+    },
+    {
+      "id": "candidate-03",
+      "title": "Redwood Logistics AI in Logistics Report - only 13% of shippers get quantifiable results",
+      "pillar": "P7 AI Vendor Eval (+ P5 contrarian)",
+      "score": 18,
+      "sources": [
+        "https://www.globenewswire.com/news-release/2026/05/06/3289063/0/en/redwood-logistics-releases-ai-in-logistics-report-finding-only-13-percent-of-shippers-deploying-ai-are-generating-quantifiable-results.html"
+      ],
+      "verification": "Partial",
+      "publish_date": "2026-05-06",
+      "thesis": "Official: Redwood found 87% of shippers see no ROI from AI. Real: the gap is data plumbing, not models. Vendors selling agentic AI without a TMS-grade event spine face buyer revolt in 2026 RFPs."
+    }
+  ],
+  "dropped": [
+    "Aurora/Hirschbach 500-truck MOU (April 30, overlaps Post 475 and yesterday's Einride draft)",
+    "project44/LunaPath (April 09, overlaps Post 483)",
+    "STG/CLI (April 13, stale)",
+    "Thoma Bravo/WWEX-Auctane (March 3, stale)",
+    "Hormel/o9 (March 25, stale)"
+  ]
+}

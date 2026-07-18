@@ -1,0 +1,63 @@
+# LogiAI Production Stack Run Log
+Date: 2026-06-12 07:37 CEST | Mode: daily | Operator: absent (scheduled run)
+Config: caps.daily total_usd=3.00 tool_calls=200 wall_min=90; per_phase 50 calls / 30 min / 0.80 USD
+
+## Phase -1: Styleguide Drift Check
+Phase -1: goal='verify inline hard rules match master styleguide', current_action='diff cache vs bundle, read master Section 0', aligned=yes
+Result: Styleguide in sync. 4 cache SKILL files byte-identical to bundle (drafting, quality-gate, publishing, editorial-visuals). Master Section 0 carries all 9 hard rules incl. rule 9 (brief-leak). Inline copies carry em-dash + brief-leak refs (editorial-visuals has em-dash only, as expected for a visuals skill). No drift. Continue to Phase 0.
+
+## Phase 0: Pre-flight
+Phase 0: goal='load config, queue, memory, tracker, verify WP API', current_action='reads + API check', aligned=yes
+- config.yml parsed (v1, 2026-05-11). Caps.daily loaded. approval_email enabled (account gmail_markus).
+- queue/ folder: 1 pre-approved work package -> 2026-06-12-backup-drafts.md (operator-approved 2026-06-11 via Approval Board). Scope: Phase 3 drafting ONLY for 2 candidates (Yusen Disruption Radar 7.0; Amazon Proteus + EUR 10B 7.8 with overlap-check vs post 183). No publish, no WP writes. Delete queue file after both drafts exist.
+- memory read: logiai_published.md (register, 40 posts live+scheduled), logiai_strategy_2026_06.md (3 pillars, Europe lean, indexing-first).
+- Action Tracker parsed: 49 total, 14 Open (0 High, 6 Medium, 8 Low), 35 Done.
+- WP REST API check: HTTP 200 OK (User-Agent curl/8.4.0). No T021 auth issue.
+- Schedule integrity: post 550 (Blue Yonder/NVIDIA) fired TODAY 2026-06-12T07:00 as scheduled -> LIVE confirmed. Posts 548 (06-08) + 549 (06-10) LIVE. Future 566/576 return 401 as expected.
+
+## Phase 1: Action Tracker Sweep
+Phase 1: goal='triage open tracker tasks', current_action='classify by type, autonomy check', aligned=yes
+- 14 Open: T013/T022/T027/T039 (Content -> defer to Phase 3 cadence), T014/T016 (Design -> need operator render check), T015/T017/T025/T033 (Tech -> git push / WP UI / GSC, operator-required), T018 (Content -> newsletter integration, operator), T029 (SEO competitor gap -> read-only but token-heavy, deferred this run to protect draft budget), T031 (SEO GSC manual indexing -> needs operator browser; per logiai_indexing_status memory the "40 not indexed" figure is stale, real set ~6, GSC re-check now due >3d since Jun 1 but operator-gated).
+- None autonomously executable this run (all gated on operator browser/git/WP-UI, or are content cadence deferred to Phase 3).
+- 0 status flips. All 14 carried over.
+
+## Phase 2: Monitoring + Scoring + Verification
+Phase 2: goal='find verified non-duplicate candidates', current_action='light breaking scan + verify 2 queued candidates', aligned=yes
+- Decision: LIGHT scan (4 searches) not full 12-search fan-out. Rationale: schedule full through Jun 26, plus 2 operator-pre-approved queue drafts to produce, plus 6-item approval backlog. Budget protected for drafting.
+- Scan result: nothing breaking jumps the queue. Blue Yonder already covered (post 550 LIVE today). Amazon DeepFleet + 1M-robot milestone are the same announcement wave as the queued Proteus draft (used as corroboration). Backup-watch (next strategy cycle): Exol physical-AI RaaS (6 sites/6M sqft), Misumi Americas $1B, Loop $95M / Gather AI $40M (both stale).
+- Queue candidates verified: Amazon Proteus EUR 10B (aboutamazon + TechRepublic + MMH + Interesting Engineering, Jun 4-9) overlap vs post 183 CLEARED (post 183 = April last-mile delivery robot; this = June warehouse foundation-model robot + Europe capex). Yusen Disruption Radar (Packaging News + trans.info + Manufacturing Chemist + MHW + Love Business, Jun 3-5) Verified-Partial (single-release echo; numbers held cautiously). Both dedup-clear.
+
+## Phase 3: Drafting (queue pre-approval, drafting ONLY)
+Phase 3: goal='draft 2 operator-pre-approved candidates', current_action='2 drafts + visuals + image briefs', aligned=yes
+- Draft A: logiai-draft-2026-06-12-amazon-proteus-foundation-model-europe.md (~727 w, 3 H2, stat + cmp visuals, 2 image briefs, internal links 550/486/498).
+- Draft B: logiai-draft-2026-06-12-yusen-disruption-radar-3pl-ai.md (~736 w, 3 H2, cmp + pullquote visuals, 2 image briefs, internal links 549/483/332/525).
+- Queue file 2026-06-12-backup-drafts.md ARCHIVED (moved) to queue/processed/ with EXECUTED note (not hard-deleted: autonomous file delete disabled per config scope). Active queue now empty.
+
+## Phase 4: QC + Compliance
+Phase 4: goal='QC + compliance on 2 drafts', current_action='deterministic hard-rule sweep + brief-leak-guard + assessment', aligned=yes
+- Draft A: 0 em-dash, 0 en-dash, 0 emoji, 0 floskel, 0 brief-leak markers in body, brief-leak-guard stdin CLEAN (Exit 0), 3 H2, 727 words. QC ~96/100, Compliance PASS. Route: READY-FOR-PUBLISH.
+- Draft B: same deterministic sweep CLEAN, brief-leak-guard CLEAN (Exit 0), 3 H2, 736 words. QC ~90/100 (Partial verification handled with full attribution, no hard numbers), Compliance PASS. Route: READY-FOR-PUBLISH.
+- 0 escalations.
+
+## Phase 5: Approval Gate (operator absent, async mail)
+Phase 5: goal='no publish without approval', current_action='label scan + 24h defaults + stage-1 mail', aligned=yes
+- Label scan 07:45: logiai/approve=0, skip=0, defer=0, preview-go=0. NO publish authorization. Phase 6 SKIPPED.
+- MECHANISM FLAG: operator replied text "LogiAI/approve" on the 2026-06-10 thread; label-based scan does not register text replies. 2nd consecutive day missed. NOT auto-interpreted (ambiguous item, label-only by design, publish needs preview-go). Surfaced as the headline of today's mail + this summary.
+- 24h defaults: Jun 11 stage-1 items (Volvo A + B/C/D reminders) unlabeled >24h -> defer default, remain actionable, re-surfaced today.
+- Stage 1 mail SENT via send_mail.py on Mac (SMTP, returncode 0, SENT_OK) ~07:52 CEST. Subject "[LogiAI 2026-06-12] 2 new (A Proteus / B Yusen) + 4 carried". 6-item backlog (A Proteus, B Yusen, C Volvo, D EU AI Act [TIME-SENSITIVE consultation closes Jun 23], E Einride, F testbed decision [needs answer before post 567 fires Jun 17]). Decision record: logiai-approval-mail/decisions/2026-06-12-stage1.json.
+- NO WordPress writes, NO git push, NO deletions, NO tracker status flips this run.
+
+## Phase 7: Memory + Telemetry
+- logiai_published.md: no register change (nothing published this run). Action Tracker: no status flips. MEMORY.md: no new files; appended label-vs-reply pitfall note to logiai_approval_mail memory.
+- Loop detection: 0 aborts. Drift mismatches: 0. Cap hits: 0.
+- Totals (approx): tool calls ~60 of 200; wall ~22 min of 90; est USD ~1.10 of 3.00.
+Run complete 2026-06-12 ~07:55 CEST.
+
+## ADDENDUM: operator stepped in (interactive) ~later same day
+- Operator (Markus) present, drove Approval Board widget (primary channel per preference). Board submit: A=publish (Jun 29), B=publish (Jul 1), C=publish (Jun 29 -> moved Jul 3, collision), D=publish (early), E=no decision, F=merge into 567, backups none, follow-ups gsc/yoast/img576 operator-owned.
+- Phase 6 PUBLISH (operator-approved): D scheduled LIVE as post 597, date 2026-06-19T07:00, featured_media 454, cat 788290360, 6 tags, timeline visual rendered, 2 internal links. brief-leak-guard --post 597 CLEAN (Exit 0); 0 em-dash, 0 en-dash, 3 h2, 1 figure. Yoast to set via editor JS store (known REST issue).
+- A/B/C/F: locked into board-approved publish queue (queue/publish-approved-proteus-yusen-volvo-and-merge-567.md) for next run, slots A Jun 29 / B Jul 1 / C Jul 3, plus F merge into post 567 before Jun 17. Rationale: all future-slotted with lead time; D (only external deadline, Jun 23) executed now to remove slip risk; remaining batched to next run for full visual+image prep within budget.
+- E (Einride) stays in backlog, re-surface next board.
+- Register updated: post 597 row added. Memory: reinforced "always dialog at approval phases" + label-vs-reply pitfall.
+- Added totals (addendum): +~18 tool calls, +~$0.55 est. Cumulative ~78 calls / ~$1.65 of caps. 1 live WP write (post 597). 0 git push, 0 deletions.
+Addendum complete.

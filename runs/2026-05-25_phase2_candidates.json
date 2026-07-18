@@ -1,0 +1,47 @@
+{
+  "scan_date": "2026-05-25",
+  "scan_window": "2026-05-18 to 2026-05-25 (7 days), with 2 borderline picks at 14-18 days",
+  "candidates_total": 6,
+  "verified_within_7d": 1,
+  "primary_pick": "candidate-01",
+  "secondary_options_for_operator": ["candidate-02", "candidate-04"],
+  "skip_reason_others": "candidate-03 outside 7d (Apr 24), candidate-05 outside 7d (May 7), candidate-06 outside 7d (Apr/May)",
+  "candidates": [
+    {
+      "id": "candidate-01",
+      "title": "Einride puts cabless L4 electric trucks on Ohio public roads with EASE Logistics",
+      "pillar": "P1",
+      "core_claim": "Einride, EASE Logistics, DriveOhio and INDOT announced summer 2026 deployment of two cabless L4 autonomous electric tractors moving freight between EASE warehouses in Marysville OH, on private property and designated public roadways.",
+      "scores": {"operator_impact": 4, "vendor_significance": 4, "recency": 5, "differentiation": 4, "pillar_fit": 5, "total": 22},
+      "priority_class": "A",
+      "verification": "Verified",
+      "primary_source": "https://www.globenewswire.com/news-release/2026/05/18/3296705/0/en/einride-ease-logistics-driveohio-and-indot-announce-deployment-of-autonomous-electric-trucks.html",
+      "secondary_source": "https://www.freightwaves.com/news/autonomous-trucking-einride-ohio",
+      "duplicate_risk": "low (post 475 was Aurora/McLane Sun Belt; this is different vendor, geography, OEM model)",
+      "angle": "Einride is the only top-tier AV trucking player betting on no-cab all-electric. Ohio is the first Midwest deployment. The interesting question for carriers and 3PLs: is a state-DOT-backed corridor with a small regional 3PL a more realistic adoption path than the Aurora hub-to-hub model, and what does that imply for warehouse yard design when there is literally no cab to dock?",
+      "drafting_decision": "ADVANCE to Phase 3"
+    },
+    {
+      "id": "candidate-02",
+      "title": "FourKites wires stockout detection into freight booking, collapsing planning-to-execution",
+      "pillar": "P4",
+      "scores": {"total": 21},
+      "priority_class": "A",
+      "verification": "Verified (but news is 18 days old, outside strict 7d window)",
+      "primary_source": "https://www.fourkites.com/press/inventory-twin-supply-chain-planning-execution/",
+      "secondary_source": "https://logisticsviewpoints.com/2026/05/07/how-fourkites-connects-stockout-detection-to-freight-execution-in-minutes/",
+      "drafting_decision": "HOLD for operator (P4 fill, pairs well with post 483)"
+    },
+    {
+      "id": "candidate-04",
+      "title": "project44 names 2026 Preferred Carriers as decision-grade visibility benchmark",
+      "pillar": "P4",
+      "scores": {"total": 18},
+      "priority_class": "A",
+      "verification": "Partial",
+      "primary_source": "https://www.project44.com/",
+      "secondary_source": "https://www.viewpointanalysis.com/post/supply-chain-visibility-software-options-2026",
+      "drafting_decision": "HOLD for operator (recency=5 but partial verification; could be a follow-up to 483)"
+    }
+  ]
+}

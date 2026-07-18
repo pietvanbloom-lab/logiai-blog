@@ -1,0 +1,65 @@
+# LogiAI Production Stack Run Log
+Date: 2026-06-15 07:37 CEST | Mode: daily | Operator: absent (scheduled run)
+Config: caps.daily total_usd=3.00 tool_calls=200 wall_min=90; per_phase 50 calls / 30 min / 0.80 USD
+
+## Phase -1: Styleguide Drift Check
+Phase -1: goal='verify inline hard rules match master styleguide', current_action='hash-diff cache vs bundle hard-rule lines', aligned=yes
+Result: Styleguide IN SYNC. All 4 production skills (drafting cc09f549, quality-gate 0ee4c7fa, publishing e41a646e, editorial-visuals 16280545) match between cache and bundle. Master CONTENT-STYLEGUIDE.md present (23706 bytes, Section 0 intact). No drift. Note: tracker task T043 "Sync styleguide drift" is therefore satisfiable -> operator may close.
+
+## Phase 0: Pre-flight
+Phase 0: goal='load config, queue, memory, tracker, verify WP API', current_action='reads + API check', aligned=yes
+- config.yml parsed (v1). caps.daily loaded. approval_email enabled (gmail_markus).
+- queue/: ACTIVE queue EMPTY (only queue/processed/ holds 2 archived EXECUTED packages from Jun 12 / Jun 14). No pre-approved work package this run.
+- memory read: logiai_published.md (.auto-memory), MEMORY.md index.
+- WP REST API: HTTP 200 OK (UA curl/8.4.0). No T021 issue.
+- Today's scheduled post verified LIVE: post 566 "KION Wants to Test Your Warehouse Before It Builds It" status=publish, fired 2026-06-15T07:00.
+
+## Phase 1: Action Tracker Sweep
+Phase 1: goal='triage open tracker tasks', current_action='parse EMBEDDED_TASKS + autonomy classify', aligned=yes
+- Parsed EMBEDDED_TASKS: 98 total, 69 OPEN (16 High, 34 Medium, 19 Low). By type: Content 31, Tech 22, SEO 14, Design 2.
+  NOTE: prior run logs reported "12 Open" using a stricter/older parse; full parse this run shows 69 Open. The tracker has accumulated many stale/superseded Open rows the skill cannot auto-close (Done flips require operator).
+- Autonomy result: 0 autonomously executable. Every Open task is operator-gated (WP publish / WP-admin UI / GSC manual / git push / file or media deletion / credential change) or Content-cadence-deferred (schedule already full through Jul 3). 0 status flips performed (hard rule). All 69 carried over.
+- SUPERSEDED-by-Jun14-publish (operator may close): T089 EU AV testbed pact (merged into post 567), T091 Volvo 3B (=post 590 Jul3), T093 Amazon Proteus (=post 600 Jun29), T094 Yusen Disruption Radar (=post 601 Jul1), T092 Proteus-vs-183 overlap (cleared Jun12), T097 trash duplicate post 602 (parked draft, operator WP action).
+- SATISFIED-this-run (operator may close): T043 styleguide drift sync (verified IN SYNC today). T038 stale queue file cleanup (active queue already empty).
+- LIVE operator follow-ups still open (already mailed Jun 14, not re-mailed today): T096 Yoast meta for 597/600/601/590; T087 swap placeholder image on post 576 (Coupa) before Jun 23; T098 Einride Nasdaq draft (E) disposition; T031/T066/T085 GSC manual indexing + recheck.
+
+## Phase 2: Editorial Pipeline (light monitoring scan)
+Phase 2: goal='find verified non-duplicate candidate strong enough to jump a full-through-Jul3 schedule', current_action='2-query light scan + dedup', aligned=yes
+- Scan results: only evergreen/trend material (KNAPP 2026 warehouse-AI trends, IFR labor-shortage robots, Locus European expansion) and the already-covered EU AI Act Aug 2 deadline (posts 464/490 + testbed pact merged into 567).
+- Dedup: Locus European-growth item is dedup-adjacent to post 498 (Locus buys Nexera, Jun 1) -> backup-watch only. EU AI Act Aug-2 thread already saturated. Nothing breaks the queue.
+- Decision: NO new drafting. Phase 3 + Phase 4 skipped (schedule full). Backup-watch carried.
+
+## Phase 3/4: Drafting + QC
+- Skipped. No new candidates; pipeline full through Jul 3.
+
+## Phase 5: Approval Gate (operator absent)
+Phase 5: goal='only act within operator-approved scope', current_action='no candidates, no publish, no mail', aligned=yes
+- No READY-FOR-PUBLISH drafts, no queue, no new decisions. No stage-1 selection mail sent (nothing to select; avoids inbox noise, consistent with Jun 6-9 precedent). Live follow-ups already flagged in Jun 14 confirm mail; not re-sent.
+- 0 publishes, 0 tracker status flips, 0 git push, 0 deletions.
+
+## Phase 7: Memory + Telemetry
+- logiai_published.md: no changes (no publishes this run).
+- Action Tracker: no edits (no operator-approved flips).
+- Loop detection: 0 aborts. Drift mismatches: 0. Cap hits: 0.
+- WP writes this run: 0. Mail sends: 0. git: 0. deletes: 0. (read-only run)
+- Totals (approx): tool calls ~13 of 200; wall ~10 min of 90; est USD ~0.35 of 3.00.
+- SCHEDULE (unchanged, healthy): 566 Jun15 LIVE, 567 Jun17(+F testbed), 597 Jun19, 576 Jun23, 578 Jun26, 600 Jun29(A), 601 Jul1(B), 590 Jul3(C).
+Run complete 2026-06-15.
+
+## Phase 1 ADDENDUM: Operator-approved tracker cleanup (2026-06-15, operator present)
+Operator approval: flip to Done all tasks that are published, scheduled to publish, or fixes already applied.
+Backup written: Logistics LAB/LogiAI Action Tracker.backup-2026-06-15.html
+Flipped 20 -> Done (Open 69->49, Done 29->49):
+ Content tied to live/scheduled posts: T046(475 live), T048(483), T050(484), T052(486), T053(490), T057(496), T060(498), T077(=549), T089(merged 567), T091(=590), T093(=600), T094(=601)
+ Image/meta prep done: T051(483/484 imgs), T054(490 metadesc), T056(490 Yoast verified), T061(498 img)
+ Fixes/checks applied: T038(queue empty), T043(styleguide in sync), T079(548/549/550 re-spaced), T092(Proteus vs 183 cleared)
+Kept Open (not yet applied / needs operator): Yoast-not-persisted T065/T083/T096; GSC manual T031/T066/T085; pending image swap T087; deletions T084/T097; open decisions T041/T049/T078/T080/T088/T090/T098; unbuilt tech T015/T016/T017/T018/T025/T029/T032/T033/T040/T042/T044/T045/T047/T055/T059/T067/T068/T081/T082/T086/T095; content backlog T013/T022/T027/T028/T039; SEO build T071/T072/T073/T074/T075/T076; T014 mobile check.
+Note: operator wants a follow-up to improve the flip process + dialog (step 2, after cleanup).
+
+## Post-run: tracker-autoflip spec + step-1 implementation (operator present)
+Spec written: Logistics LAB/logiai-tracker-autoflip-spec.md (self-cleaning tracker, auto-flip on publish/fix, approval-gated).
+Step 1 (zero-risk, additive, no behavior change) APPLIED:
+ - config.yml scopes: added auto_tracker_flip_on_publish: false (placeholder, off until rollout step 3).
+ - logiai-drafting bundle: draft package header gains "Tracker ID:" line (optional link draft->task).
+ - Action Tracker: all 49 Open tasks gained "wp_post_id": null + "closes_on": "manual" (safe default = never auto-flip). 49 Done rows untouched. Object count 98 unchanged; all objects valid JSON. Backup: LogiAI Action Tracker.backup-2026-06-15-step1.html.
+Next: step 2 wires Phase 7 to set wp_post_id on publish + propose flip in approval gate (propose-only). Then step 3 enables the scope flag, step 4 backfills the 49 open rows.

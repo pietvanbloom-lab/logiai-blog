@@ -1,0 +1,44 @@
+LogiAI Production Stack Run Log
+================================
+Date: 2026-07-12  Time: 07:36 CEST (Sunday)
+Mode: daily (operator absent, scheduled). approval_email enabled=false -> no async approval channel this run. Publish/tracker-flip actions deferred, report-only.
+
+Note: Today is Sunday (weekly-cadence day) but scheduled task fired in daily mode. Ran daily phase set (0,1,2,3,4,5,7). Recommend an operator-present weekly run for Phase 8 performance review + full styleguide drift diff.
+
+Phase -1 (styleguide drift): LIGHT. No skill edits observed since last full in-sync (2026-07-09). Assumed in-sync to conserve caps. Full drift diff still recommended on next weekly/operator-present run (plugin cache noted STALE on 2026-07-09; operator re-save of 4 skills still open).
+
+Phase 0 (preflight):
+- config.yml read. daily caps: $3.00 / 200 tool calls / 90 wall-min.
+- WP REST check: HTTP 200 (curl/8.4.0 UA). OK.
+- Queue: EMPTY (yesterday's 2026-07-11 package already moved to queue/processed/). No new pre-approval package. Nothing pre-authorized this run.
+- Memory read: logiai_published.md, project + strategy context.
+- Goal-drift Phase 0: goal='preflight + recurring T106 check + light monitoring, report-only', action='read config/memory/tracker, verify WP + EUR-Lex', aligned=yes.
+
+Phase 1 (action tracker sweep): LIGHT. No destructive actions. Standing gated items carried (fal-key renewal, Yoast backlog). No tracker Done flips (no approval channel).
+- T106 EU AI Act Omnibus OJ check (High, recurring) -> performed. See below. This is the main finding today.
+
+Phase 2 (monitoring/scoring/verification): HELD-LIGHT. Deliberately did NOT generate new candidates/drafts. Rationale: 3 verified drafts from 2026-07-11 already sit in the Phase 5 queue awaiting operator approval (skill queues extras beyond 3; avoid overproduction). No fresh single-day breaking hook surfaced that would displace the pending three. Next fresh-candidate scan deferred to the run after the pending drafts clear approval.
+
+Phase 3 (drafting): NONE this run (intentional, see Phase 2). Pending inventory unchanged:
+- logiai-draft-2026-07-11-gartner-supply-chain-tech-trends-2026.md (830 words)
+- logiai-draft-2026-07-11-stg-carrier-logistics-ltl-ai-agents.md (858 words)
+- logiai-draft-2026-07-11-cma-cgm-ai-at-scale-shipping.md (869 words)
+- logiai-draft-2026-07-04-eu-ai-act-omnibus-official-journal.md (T106 pre-draft, placeholder-armed, ready to fill on OJ publication)
+
+Phase 4 (QC): n/a this run (no new drafts). The 3 pending drafts remain READY for operator preview (structural QC passed on creation; full 18-point QC + compliance to run at Phase 4/5 when operator present).
+
+Phase 5 (approval gate): HELD. Operator absent, no async channel. 4 items awaiting operator (3 ready drafts + 1 armed T106 pre-draft). Nothing published, nothing scheduled, no tracker flips.
+
+Phase 6 (publishing): NOT ENTERED (no approval).
+
+Phase 7 (memory): run log written. cap-history row appended. No tracker Done flips, no register changes (nothing published).
+
+T106 EU AI Act Digital Omnibus OJ check (2026-07-12): STILL NEGATIVE but window now PINNED.
+- EUR-Lex ELI reg/2024/1689: original act only, no amending act registered against CELEX 32024R1689.
+- Fresh multi-source web check (White & Case, Freshfields, Gibson Dunn, Dastra, Inside Privacy): Parliament endorsed 16 Jun 2026, Council final green light 29 Jun 2026. Signing expected 8 Jul 2026. OJ publication now expected BETWEEN 18 AND 25 JULY 2026, and by 30 Jul 2026 at the latest, to allow entry into force 2 Aug 2026 (third day after publication).
+- CHANGE SINCE LAST RUN: yesterday's status was "expected within 2026, no date". Today's window is concrete: publication in ~6 to 13 days. Trigger stays ARMED and top-priority; when the OJ L-number lands, the pre-draft (logiai-draft-2026-07-04-...) becomes the top breaking piece. Recommend daily T106 checks 18-30 Jul.
+- Key amendments to carry into the piece on publication: Annex III high-risk compliance moved to 2 Dec 2027; Annex I to 2 Aug 2028; two new prohibitions (non-consensual intimate imagery / "nudifier" apps + CSAM) apply from 2 Dec 2026.
+
+Caps: well under. ~12 tool calls, wall ~few min, est $0.20. No cap hits, no drift, no loop aborts.
+
+Constraints honored: no WP publish, no git push, no file delete, no tracker Done flip, no em-dashes.

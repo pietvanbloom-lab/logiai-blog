@@ -1,0 +1,58 @@
+# LogiAI Production Stack Run — 2026-06-05 07:22 CET (mode: daily, scheduled)
+
+## Phase -1: Styleguide Drift Check
+- Master CONTENT-STYLEGUIDE.md (mod Jun 2 17:54) vs 8 inline copies (skills mod Jun 3-4, post-sync).
+- Hard Rules 1-9 verbatim identical in drafting (bundle + cache). Bundle==cache byte-identical for all 4 skills (diff -q clean).
+- Stilmix 70/20/10 substantively matched. Result: STYLEGUIDE IN SYNC. No action.
+
+## Phase 0: Pre-flight
+Phase 0: goal='init state, read config/queue/memory/tracker, verify WP API', current_action='pre-flight reads', aligned=yes
+- config.yml parsed: mode daily, caps total $3.00 / 200 calls / 90 min; per-phase 50 calls / 30 min / $0.80.
+- Queue folder: EMPTY. No pre-approved work packages.
+- approval_email: ENABLED (gmail_markus). Idempotency: no 2026-06-05-stage1.json exists yet.
+- Memory read: logiai_published.md (register current through post 578), logiai_styleguide_sync.md, logiai_approval_mail.md.
+- Action Tracker parsed: 49 tasks total, 14 Open (0 High, 6 Medium, 8 Low).
+- WP REST API check: HTTP 200. OK.
+
+## Phase 0b: Approval-mail decision scan (scan_preview)
+- Jun 4 Stage 1 (item A, DHL customs AI): RESOLVED INTERACTIVELY 2026-06-04 15:10 (operator present). Post 578 scheduled Jun 26. No open Stage 1 window.
+- Label scan 07:25: logiai/preview-go = 0, logiai/approve = 0. No pending publishes, no pending drafting approvals.
+- Result: no Phase 6 publish work this run.
+
+## Pipeline status (from register)
+- Scheduled queue: 548 (Jun 8), 549 (Jun 10), 550 (Jun 12), 566 (Jun 15), 567 (Jun 17), 576 (Jun 23), 578 (Jun 26).
+- Open slots at 3/week cadence: ~Jun 19, ~Jun 28/29. Capacity for 1-2 new candidates.
+- Open follow-ups: post 576 featured image swap (placeholder 402) before Jun 23; T031 GSC re-check (operator browser needed).
+
+## Phase 1: Action Tracker Sweep
+Phase 1: goal='process Open tasks by priority', current_action='classify 14 Open tasks', aligned=yes
+- 14 Open (0 High, 6 Medium, 8 Low). None autonomously completable: git pushes (T015/T016) need approval, T031 GSC needs operator browser, content tasks (T013/T022/T027/T028/T039) defer to drafting decisions, T029 SEO gap analysis deferred (cap-conscious, better as deliberate session), T014/T017/T018/T025/T033 need operator decision or approval.
+- Action: all 14 carried over. 0 status flips proposed.
+
+## Phase 2: Monitoring + Scoring + Verification
+Phase 2: goal='scan sources, verify fresh candidates', current_action='web search sweep', aligned=yes
+- 10 searches across general, EU-lean, vendor and trade-outlet queries.
+- Candidates surfaced and REJECTED on date currency: DHL+HappyRobot (Nov 2025), DHL+Robust.AI Mexico (Dec 2025), project44 Procurement Agent (Feb 26), Gartner 60% forecast (Mar 18), STG/Carrier Logistics (Apr 13), Loop Series C (Apr 17), Loop Data Platform (May 4).
+- Result: 0 verified fresh candidates. No drafting work generated (consistent with Jun 4 precedent: do not stack unapproved drafts while pipeline full).
+- Phase 3/4: SKIPPED (no candidates, no stage-1 approvals pending).
+
+## Phase 5: Approval Gate (async, approval_email enabled)
+Phase 5: goal='present decisions to operator', current_action='send Stage 1 selection mail', aligned=yes
+- Stage 1 mail SENT 07:35 CET via send_mail.py on Mac (SMTP, exit 0): subject "[LogiAI 2026-06-05] Selection: 0 fresh, 2 evergreen proposals (A Fernride yards, B track-and-trace explainer)".
+- Items: A evergreen P1/EU Fernride yard automation; B evergreen P4 track-and-trace explainer. Both dedup-clear.
+- decisions/2026-06-05-stage1.json written (idempotency guard).
+- Operator follow-ups flagged: post 576 image swap before Jun 23, T031 GSC, 14 tracker carryovers.
+
+## Phase 6: Publishing
+- NONE. preview-go = 0, approve = 0. No publish action taken (hard rule respected).
+
+## Phase 7: Memory + Telemetry
+- logiai_published.md: no changes (nothing published).
+- Action Tracker: no changes (no approved flips).
+- Cap actuals: ~42 tool calls, ~25 wall min, est. $0.55. No cap hits, no drift mismatches, no loop aborts.
+- Cleanup: /tmp/logiai_stage1_20260605.py left on Mac /tmp (auto-purged by OS; no user-file deletion performed).
+
+## Next run notes
+- 12:00 scan: check labels on [LogiAI 2026-06-05] mail; approve label = draft A and/or B autonomously + Stage 2 preview.
+- Post 576 featured image swap before Jun 23 (operator or pre-approved queue file).
+- T031 GSC re-check still open.

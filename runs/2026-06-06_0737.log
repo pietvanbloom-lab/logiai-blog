@@ -1,0 +1,69 @@
+# LogiAI Production Stack Run - 2026-06-06 07:37 CET (mode: daily, scheduled, Saturday)
+
+## Phase -1: Styleguide Drift Check
+Phase -1: goal='verify inline Hard Rules match master styleguide', current_action='signature compare cache vs bundle vs master', aligned=yes
+- Master CONTENT-STYLEGUIDE.md read (v1.0, Section 0 Hard Rules 1-9 + sections 2/4/5/7/10).
+- Hard-rule signature counts identical across cache and bundle for all 4 skills: drafting 5, quality-gate 10, publishing 4, editorial-visuals 2. Master unchanged.
+- Result: STYLEGUIDE IN SYNC. No action.
+
+## Phase 0: Pre-flight
+Phase 0: goal='init state, read config/queue/memory/tracker, verify WP API', current_action='pre-flight reads', aligned=yes
+- config.yml parsed: mode daily, caps total $3.00 / 200 calls / 90 min; per-phase 50 calls / 30 min / $0.80.
+- Queue folder: EMPTY. No pre-approved work packages.
+- approval_email: ENABLED (gmail_markus). Idempotency: no prior 2026-06-06 decision file; written this run.
+- Memory read: logiai_published.md (register current through post 578), logiai_strategy_2026_06.md.
+- Action Tracker parsed: 49 tasks total, 14 Open (0 High, 6 Medium, 8 Low). File unchanged since 2026-06-04 13:05.
+- WP REST API check: HTTP 200. OK.
+
+## Phase 0b: Approval-mail decision scan
+- [LogiAI 2026-06-05] Stage 1 (A Fernride yards, B track-and-trace explainer) sent 2026-06-05 07:35 CET.
+- Label scan 07:37: logiai/approve = 0, logiai/skip = 0, logiai/defer = 0, logiai/preview-go = 0 (all four label folders empty).
+- A and B now ~24h unlabeled -> default "defer" per config (stage1_default after 24h). Items held as deferred/available.
+- Result: no Phase 6 publish work, no Stage 1 approval to draft.
+
+## Pipeline status (from register)
+- Scheduled queue: 548 (Jun 8), 549 (Jun 10), 550 (Jun 12), 566 (Jun 15), 567 (Jun 17), 576 (Jun 23), 578 (Jun 26).
+- Open slots at 3/week cadence: ~Jun 19, ~Jun 28/29. Capacity for 1-2 new candidates.
+- Open follow-ups: post 576 featured image swap (placeholder 402) before Jun 23; T031 GSC re-check (operator browser).
+
+## Phase 1: Action Tracker Sweep
+Phase 1: goal='process Open tasks by priority', current_action='classify 14 Open tasks', aligned=yes
+- 14 Open (0 High, 6 Medium, 8 Low). None autonomously completable:
+  - T015/T016 git pushes -> need operator approval (hard rule)
+  - T031 GSC indexing, T017 audio player, T014 mobile responsiveness, T025 GSC property -> need operator browser/decision
+  - T013/T022/T027/T028/T039 content tasks -> defer to drafting decisions / never auto-publish
+  - T029 competitor SEO gap analysis -> deferred (cap-conscious, blows Phase 1 budget; better as deliberate session, 5-run precedent)
+  - T018 newsletter integration, T033 scheduling weekday fix -> need operator decision
+- Action: all 14 carried over. 0 status flips proposed.
+
+## Phase 2: Monitoring + Scoring + Verification
+Phase 2: goal='scan sources, verify fresh candidates', current_action='web search sweep', aligned=yes
+- 6 searches across general, EU-lean, vendor and trade-outlet queries.
+- Datable signals surfaced:
+  - Tecsys / TecsysIQ agentic capabilities (2026-06-01) -> WATCH-ITEM. Canadian vendor, healthcare-distribution focus, mostly future availability (fall/late 2026). Weak EU-lean fit. Not drafted.
+  - project44 executive appointments (Jun 3-4) -> SKIP (personnel, no hook).
+  - DELIVER Europe 2026 Amsterdam (Jun 3-4) -> SKIP (trade show, no hard news hook).
+  - Loop Logistics Data Platform (May 4) -> SKIP (stale, >30 days).
+- Result: 0 verified fresh candidates meeting the draft bar. No drafting generated (consistent with Jun 4-5 precedent: do not stack unapproved drafts while pipeline full through Jun 26).
+- Phase 3/4: SKIPPED (no candidates, no stage-1 approvals pending).
+
+## Phase 5: Approval Gate (async, approval_email enabled)
+Phase 5: goal='present decisions to operator', current_action='evaluate whether to send Stage 1 mail', aligned=yes
+- No publish work (preview-go = 0, approve = 0). Hard rule respected: NO auto-publish.
+- Decision: NO new Stage 1 mail sent. No new items to decide; [LogiAI 2026-06-05] A/B thread still unanswered and held as deferred/available. Third unanswered mail avoided per rate_limit / spam-flag policy.
+- decisions/2026-06-06-stage1.json written (idempotency + audit).
+
+## Phase 6: Publishing
+- NONE. preview-go = 0, approve = 0. No publish action taken.
+
+## Phase 7: Memory + Telemetry
+- logiai_published.md: no changes (nothing published).
+- Action Tracker: no changes (no approved flips).
+- Cap actuals: ~24 tool calls, ~15 wall min, est. $0.45. No cap hits, no drift mismatches, no loop aborts.
+- No user-file deletions. No git pushes.
+
+## Next run notes
+- 12:00 scan (if scheduled): re-check labels on [LogiAI 2026-06-05] A/B thread; approve label -> draft A and/or B autonomously + Stage 2 preview.
+- Post 576 featured image swap before Jun 23 (operator or pre-approved queue file).
+- Tecsys (Jun 1) available as a candidate for the ~Jun 19 or ~Jun 28 slot if operator wants it despite weak EU fit.
+- T031 GSC re-check still open.

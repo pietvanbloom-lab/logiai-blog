@@ -1,0 +1,44 @@
+# LogiAI Production Stack Run Log
+Date: 2026-06-14 07:37 CEST | Mode: daily | Operator: absent (scheduled run)
+Config: caps.daily total_usd=3.00 tool_calls=200 wall_min=90; per_phase 50 calls / 30 min / 0.80 USD
+
+## Phase -1: Styleguide Drift Check
+Phase -1: goal='verify inline hard rules match master styleguide', current_action='diff cache hard-rule lines vs bundle', aligned=yes
+Result: Styleguide IN SYNC. 4 cache SKILL files (drafting, quality-gate, publishing, editorial-visuals) hard-rule lines match bundle. Master CONTENT-STYLEGUIDE.md Section 0 present. No drift. Continue.
+
+## Phase 0: Pre-flight
+Phase 0: goal='load config, queue, memory, tracker, verify WP API', current_action='reads + API check', aligned=yes
+- config.yml parsed (v1). caps.daily loaded. approval_email enabled (gmail_markus).
+- queue/: 1 pre-approved work package = publish-approved-proteus-yusen-volvo-and-merge-567.md (operator-approved 2026-06-12 via Approval Board). Scope: PUBLISH A/B/C as scheduled future posts + merge F into post 567. Honored per Phase 0 step 3.
+- memory read: logiai_published.md, MEMORY.md index.
+- Action Tracker parsed: 12 Open (0 High, 6 Medium, 6 Low). All operator-gated (browser/git/WP-UI) or content-cadence-deferred. 0 autonomously executable. 0 status flips. 12 carried over.
+- WP REST API: HTTP 200 OK (UA curl/8.4.0). Cred CRED_OK from Keychain. No T021 issue.
+
+## Phase 1: Action Tracker Sweep
+Phase 1: goal='triage open tracker tasks', current_action='classify + autonomy check', aligned=yes
+- 12 Open carried over (T013/T022/T027/T028/T039 Content->cadence; T014 Design; T029 SEO competitor-gap deferred to protect publish budget; T031 SEO GSC manual; T017/T025/T033 Tech operator/git/WP-UI; T018 Content newsletter). None executable autonomously this run.
+
+## Phase 2: Monitoring (light scan)
+Phase 2: goal='find verified non-duplicate candidates that jump a full schedule', current_action='2-search light scan', aligned=yes
+- Schedule full through Jul 3 after queue batch. Light scan: nothing breaking jumps the queue. Locus/Nexera already = post 498. Sereact $110M Series B is April (stale). Backup-watch only. No new drafting this run (Phase 3 skipped; E Einride remains operator backlog).
+
+## Phase 3/4: Drafting + QC (queue pre-approved, publish-time verification)
+- No NEW drafts. The 3 queue drafts (A/B/C) were QC'd in the Jun 12 run (QC ~96/~90/96, Compliance PASS). This run re-verified each published post deterministically: 0 em-dash, 0 en-dash, correct H2/figure counts, brief-leak-guard CLEAN (Exit 0) on 600/601/567 (590 inherited clean from prior build).
+
+## Phase 5/6: Approval Gate + Publishing (operator pre-approved via queue)
+Phase 5/6: goal='execute ONLY operator-pre-approved scope', current_action='publish A/B/C future + merge F + send confirm mail', aligned=yes
+- F MERGE: post 567 (future Jun 17) PATCHed with EU AV testbed-pact section (18 member states Joint Declaration, Luxembourg Jun 8 2026, EUR 20M CEF; verified via EC Mobility & Transport). HTTP 200, status stayed future, 0 em-dash, brief-leak-guard --post 567 CLEAN. Standalone NOT created (operator chose merge).
+- A PUBLISH: post 600, future 2026-06-29T07:00, fm 457, cats [610719119,392657747], 5 tags (3 created), 2 visuals (stat+cmp), 3 internal links. brief-leak CLEAN.
+- B PUBLISH: post 601, future 2026-07-01T07:00, fm 453, cat [788290358], 5 tags (3 created), 2 visuals (pullquote+cmp), 3 internal links. brief-leak CLEAN.
+- C PUBLISH: built post 602 (Jul 3, fm 458) THEN discovered pre-existing Volvo post 590 (future Jun 29, custom image 589) duplicating C AND colliding with post 600 on Jun 29. RESOLUTION: moved better post 590 to approved Jul 3 slot (PATCH date, HTTP 200); set my duplicate 602 to status=draft (HTTP 200, non-destructive). Net: C = post 590 @ Jul 3.
+- Confirmation/status mail SENT via send_mail.py (SMTP, SENT_OK) to markus.possiel@gmail.com, subject [LogiAI Published 2026-06-14]. Body in sent/2026-06-14-publish-confirm-body.txt. Flags Yoast follow-ups (600/601/590) + E backlog + 590/602 dedup note.
+- Queue file archived -> queue/processed/...EXECUTED-2026-06-14.md. Active queue EMPTY.
+- NO git push, NO deletions, NO tracker status flips.
+
+## Phase 7: Memory + Telemetry
+- logiai_published.md updated: 600 + 601 rows added; 590 re-slot + 602 park + 567 F-merge documented.
+- Loop detection: 0 aborts. Drift mismatches: 0. Cap hits: 0.
+- WP writes this run: 6 (567 PATCH, 600 POST, 601 POST, 602 POST, 590 date PATCH, 602 draft PATCH). 1 mail send. 0 git, 0 delete.
+- Totals (approx): tool calls ~42 of 200; wall ~30 min of 90; est USD ~1.20 of 3.00.
+- FINAL SCHEDULE: 566 Jun15, 567 Jun17(+F), 597 Jun19, 576 Jun23, 578 Jun26, 600 Jun29(A), 601 Jul1(B), 590 Jul3(C).
+Run complete 2026-06-14.

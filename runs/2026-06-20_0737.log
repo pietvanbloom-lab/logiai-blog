@@ -1,0 +1,71 @@
+# LogiAI Production Stack Run Log
+date: 2026-06-20
+time: 0737 CEST
+mode: daily
+operator: absent (scheduled autonomous run)
+model: opus-single (claude-opus-4-8)
+approval_email: disabled (config enabled=false; operator-present gate since 2026-06-17)
+
+## Phase -1: Styleguide Drift Check
+goal='verify inline Hard Rules match master CONTENT-STYLEGUIDE.md', current_action='mtime + bundle/cache diff + em-dash grep for 4 skills', aligned=yes
+RESULT: Styleguide in sync. Master CONTENT-STYLEGUIDE.md mtime 2026-06-02; prose skills (drafting/quality-gate/publishing) all >= that date. Bundle==Cache diff: quality-gate 0, publishing 0, editorial-visuals 0; drafting = 1 benign line (bundle carries the optional "Tracker ID:" draft-template field from the tracker-autoflip spec; NOT a styleguide Hard Rule). em-dash ban present in all 4 cache skills (3/5/3/1 mentions). No master-vs-inline Hard Rule drift. No propagation needed.
+
+## Phase 0: Preflight
+goal='load state and verify pipeline health', current_action='read config/memory/tracker + WP REST check', aligned=yes
+- config.yml parsed: daily caps (USD 3.00 / 200 calls / 90 min). phase_models loaded.
+- Queue folder: empty (only processed/ subdir). No pre-approved work packages.
+- WP REST API: HTTP 200 (healthy).
+- Action Tracker parsed cleanly: 98 task objects, 63 Done, 35 Open (matches 2026-06-19 operator addendum: 41 - 6 flips = 35). Open = 20 Medium / 15 Low, 0 High. Types: 16 Tech, 9 SEO, 8 Content, 2 Design.
+- Forward schedule (from register): 576 Jun 23 | 594 Einride Jun 24 | 578 Jun 26 | 600 Jun 29 | 601 Jul 1 | 590 Jul 3. Cadence intact at 3/week; NO publishing gap before next operator-present session.
+
+## Phase 1: Action Tracker Sweep
+goal='execute low-risk Open tasks, surface gated ones', current_action='classify 35 open tasks', aligned=yes
+- 35 Open carried. 0 autonomously executable within budget: all operator-dependent or infra-gated (GSC manual indexing T031/T066/T085, WP.com media perms T040, image pre-opt T042, ElevenLabs T045, approval-mail T047/T081, schema apply T071 [operator HOLD], backlinks T072, robots.txt AI-crawler T073, git push T015/T016, mu-plugin T055, file delete T084, Cloudflare T067).
+- Heavy-but-doable SEO audits (T029 competitor gap, T082 full SEO audit) deliberately NOT auto-run: out of daily budget priority and better suited to an operator-chosen SEO session (operator ran SEO authority work 2026-06-19). Carried.
+- Operator-close candidates flagged (NO status flips; operator controls Done):
+  - T075 (map long-tail EU keyword targets) -> SATISFIED 2026-06-19 (logiai-keyword-clusters-2026-06-19.md delivered). Recommend close.
+  - T076 (strengthen internal linking EU AI Act + AI Agents clusters) -> SATISFIED 2026-06-19 (6/6 links applied + verified live: 592 inbound 0->4, 464 inbound 3->5). Recommend close.
+  - T071 (FAQ/HowTo schema) -> deliverable built 2026-06-19 (logiai-schema-jsonld-2026-06-19.md); operator HOLD on applying (Google FAQ/HowTo rich results deprecated, GEO value only). Operator decision pending, not a close.
+
+## Phase 2: Editorial Pipeline (Monitoring -> Scoring -> Verification)
+goal='surface 1-5 fresh non-duplicate verified EU-lean candidates', current_action='6-query EU scan + 2-source verification', aligned=yes
+- Scan: 6 web queries (EU logistics AI general, autonomous trucking EU, warehouse robotics funding EU, AI-agent platform launches, freight TMS acquisition, EU logistics Series A).
+- Rejected: Amazon Proteus EUR10-12B Europe push = DUP of scheduled post 600 (Jun 29); PlusAI/IVECO Southern Europe L4 = STALE (Jan 2026); EU AI Act full-effect = SATURATED (156/464/490/592); Banyan AI Agent Marketplace + Loop LDP = May, US-centric/stale; Enterprise AI SC Assembly Jun 16-17 = event, low practical value.
+- CANDIDATE PASSED -> drafted: "Agentic freight back office" trend piece combining two fresh EU rounds:
+  - Cargofy: EUR 9.6M ($11M) Series A (EUR5.2M primary + EUR4.3M secondary), led u.ventures/Toloka/Movens Capital + Des Traynor. Source EU-Startups 2026-06-18 (web_fetch verified: investors, quotes, traction, use-of-funds).
+  - Opereit (Barcelona): $2.5M pre-seed led Seedcamp + Yellow (Glovo founders). Source Tech Funding News 2026-06-05 (web_fetch verified: investors, customers, quotes). NOTE: Opereit was backup-watch on 2026-06-18 run; the fresh Cargofy round elevates the pair to a draft. Consistent progression, not a loop.
+- Verification: Verified-Partial. Each company single reputable trade outlet, fully attributed; two independent rounds corroborate the trend thesis ("EU capital aimed at freight back office, not routing"). Traction figures flagged as company-reported.
+- Dedup: PASS. New entities (Cargofy, Opereit). Distinct angle vs published (451 pilot-to-production agents, 549 AI tools 5 jobs, 110 invoice-audit how-to). No exact title match, no >=3 same-pillar tag overlap. SOFT FLAG: AI Agents pillar is largest published cluster (~32%); pillar-saturation guard raises a soft WARNUNG for operator.
+- Score ~8.0/10 (Relevance 9, Practical 8, Search Intent 7, Newsworthiness 8, Market Impact 6 against tilted June weights). PROCEED.
+- RESULT: 1 candidate -> Phase 3.
+
+## Phase 3: Drafting
+goal='produce 1 publication-ready draft in LogiAI house style', current_action='Vorlage C trend piece, EN, no em-dash', aligned=yes
+- Draft saved: /Users/maxxposs/Documents/Logistics LAB/logiai-draft-2026-06-20-eu-freight-backoffice-agents.md
+- Format: deep blog post / Vorlage C (trend). H1 "Two June Raises Point AI Agents at Freight's Back Office" (10 words). 3 H2 sections, italic lead, implication block (operators/shippers/vendors), verdict close. ~712 body prose words + 1 cmp editorial-visual (Cargofy vs Opereit). 3 headline variants + teaser + SEO block + 2 image briefs + attribution notes + 2 sources + 3 suggested internal links.
+
+## Phase 4: QC + Compliance
+goal='route draft auto/soft/hard', current_action='automated style scan + compliance review', aligned=yes
+- QC automated: em-dash 0, en-dash 0, banned floskeln 0, H1 10 words (<=12), 3 H2s, thesis in first 3 paragraphs, 5+ concrete facts, 2 cited sources, vendor claims flagged, implications paragraph present, rhythm-break sentence present, 1 cmp visual. Brief-leak check: body region contains no Pillar:/Image Brief/Internal links: markers (those live only in the package metadata, not the article body). QC ~9.0/10.
+- Compliance: EU AI Act N/A (no high-risk claim, no legal advice); GDPR clean (only public figures: named founders/investors); copyright clean (attributed quotes + links, original analysis, factual comparison table); taxonomy assigned (Tools/Startups/Playbooks primary, Deals & Tenders alt; tags AI Agents/Freight Automation/Cargofy/Opereit/Logistics Startups); editorial independence intact. PASS.
+- Route: AUTO-APPROVE (QC >= 8 AND compliance pass) -> READY-FOR-PUBLISH -> Phase 5.
+
+## Phase 5: Approval Gate
+HARD STOP. Operator absent + approval_email disabled. NO publish, NO git push, NO tracker status flip.
+- 1 READY-FOR-PUBLISH draft held as BACKUP candidate for next operator-present session. Suggested slot: week of 2026-07-06 (no gap before then; pipeline full thru Jul 3).
+- Soft flag for operator: AI Agents pillar saturation (~32%); confirm pillar fit or hold.
+- Decisions surfaced for operator (no action taken): publish/slot the back-office-agents draft; close satisfied T075 + T076; resolve T071 schema HOLD.
+
+## Phase 7: Memory Update
+- Run log written (this file).
+- cap-history.csv row appended.
+- logiai_published.md: NO changes (nothing published).
+- Action Tracker HTML: NO changes (no status flips; operator-gated).
+- New draft file created in Logistics LAB (not yet in register; register row added only on publish).
+
+## Caps / Telemetry
+tool_calls: ~22 | wall_seconds: ~900 | estimated_usd: ~1.05 | cap_hits: none | drift_mismatches: 0 | loop_aborts: 0
+All within daily caps (200 calls / 90 min / USD 3.00).
+
+## Pipeline forward schedule
+576 Jun 23 | 594 Jun 24 | 578 Jun 26 | 600 Jun 29 | 601 Jul 1 | 590 Jul 3. Cadence intact 3/week. First open slot ~ week of Jul 6 (target for the back-office-agents draft if operator approves).

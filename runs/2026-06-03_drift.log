@@ -1,0 +1,22 @@
+# Styleguide Drift Log — 2026-06-03
+
+Detected during Phase -1 preflight of daily production stack run.
+
+## Drift 1: logiai-drafting.md
+- Copies affected: bundle + cache (2 files)
+- Missing: Hard Rule 9 (Brief-Header-Leak guard)
+- Severity: Medium (quality-gate catches it downstream, but drafting should also know)
+
+## Drift 2: logiai-publishing.md
+- Copies affected: bundle + cache (2 files)
+- Missing: Pre-Publish Hard-Rule Sweep Step 5 (brief-leak-guard.py scan)
+- Severity: Low-Medium (QC gate already runs the scan; publishing is secondary defense)
+
+## In Sync
+- logiai-quality-gate.md (bundle + cache): SYNC
+- logiai-editorial-visuals.md (bundle + cache): SYNC
+
+## Action Required
+Operator must approve or reject propagation of Hard Rule 9 to 4 affected skill files.
+On approval: Claude edits all 4 files, verifies with grep, then resumes production run.
+On rejection: Log decision, continue run without sync (operator takes manual responsibility).

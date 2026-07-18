@@ -1,0 +1,226 @@
+=== LogiAI Production Stack Run ===
+Date: 2026-05-23 05:36 (Saturday)
+Mode: daily
+Trigger: scheduled-task (logiai-production-stack-daily, cron 0 7 * * *)
+Config: ~/Documents/Claude/Scheduled/logiai-production-stack/config.yml
+Caps (daily): total_usd=3.00, total_tool_calls=200, total_wall_min=90
+Approval channel: approval_email enabled (Gmail labels on markus.possiel@gmail.com)
+Operator present: NO (scheduled-task autonomous run)
+
+--- Phase -1: Preflight Drift Check ---
+Phase -1: goal='Verify inline styleguide hard-rule blocks match master CONTENT-STYLEGUIDE.md', current_action='read master + 8 inline copies, diff sections', aligned=yes
+
+- Master read: /Users/maxxposs/Documents/Logistics LAB/CONTENT-STYLEGUIDE.md (548 lines, md5 29a760db69f824a43cfbe9cb81e9db23)
+- 8 master Hard Rules present, Section 0 unchanged from prior run
+- Cache vs Bundle: pairwise identical hashes across 4 skill pairs (drafting/quality-gate/publishing/editorial-visuals)
+- Inline coverage per design table:
+    drafting        : full 8-rule block + Stilmix + structural DNA   -> OK
+    quality-gate    : full 8-rule quick reference + 25-pt checklist  -> OK
+    publishing      : scoped (em-dash/en-dash/emoji/Floskel + SEO)   -> OK (intentional subset per logiai_styleguide_sync.md)
+    editorial-vis.  : scoped (em-/en-dash/emoji/Floskel + nbr+chart) -> OK (intentional subset)
+- DRIFT STATUS: in sync. No propagation required.
+
+--- Phase 0: Pre-flight ---
+Phase 0: goal='WP REST health check, parse Action Tracker, sort open tasks', current_action='curl /wp-json/wp/v2/posts + parse EMBEDDED_TASKS', aligned=yes
+
+- WP REST API check: HTTP 200, /posts?per_page=1 returned post 484 (live)
+- Action Tracker: 43 total (27 Done, 16 Open). No High priority open.
+- Open queue priorities: 7 Medium, 9 Low
+- Open Medium: T012 (SEO link audit), T013/T022/T027 (Content → defer to Phase 3), T014 (Design), T029 (SEO gap analysis), T031 (SEO GSC indexing)
+- Reconciliation: Post 484 (SAP) fired as scheduled 2026-05-22T08:00 → register row already marked SCHEDULED, needs status flip to LIVE in Phase 7 memory update
+- Verify scheduled posts: 486 (GXO/KION, 2026-05-26 08:00), 490 (EU AI Act Omnibus, 2026-05-25 08:00) - both presumed scheduled (status=future not queryable anon, will fire and reconcile)
+
+PHASE-0 DRIFT-GUARD: aligned=yes; proceeding to Phase 1 (sweep, content-defer) and Phase 2
+
+--- Phase 1: Action Tracker Sweep (autonomy-limited, no operator) ---
+Phase 1: goal='Process Open Medium SEO/Design tasks read-only since operator absent', current_action='produce diagnostics, defer write actions', aligned=yes
+
+T012 (Internal linking audit, SEO):
+  Action: Report-only this run. Full internal-linking skill would consume ~15-25 tool calls (crawl + analysis) and would also need REST write to apply. DEFER to next operator-present run or content-only weekly.
+  Note: Already partial follow-link references between posts 451→464, 460→451, 484→464. Spot-check OK; full audit deferred.
+
+T029 (Competitor SEO gap analysis):
+  Action: Skip this run. Heavy WebSearch budget. Schedule for weekly run (Phase 1 SEO sweep).
+  Carry over: yes.
+
+T031 (GSC manual indexing for 40 "Discovered – not indexed" pages):
+  Action: Cannot execute. Requires Google Search Console login (operator-only).
+  Status: Permanently blocked until operator action. Flag in Phase 7 summary.
+
+T014 (Mobile responsiveness):
+  Action: Skip. Hard-stop before any main.css edit. Visual QA requires operator eyes.
+
+T013, T022, T027 (Content tasks):
+  Action: Per Phase 1 rules, defer to Phase 3 drafting.
+
+Carry-over: T012, T013, T014, T022, T027, T029, T031 + all 9 Low tasks → next operator-present run.
+Phase 1 status: NO autonomous writes performed (consistent with absent-operator policy).
+
+--- Phase 2: Editorial Pipeline (Monitoring → Scoring → Verification) ---
+Phase 2: goal='Surface 1-3 verified, non-duplicate, pillar-balanced story candidates for Saturday 2026-05-23', current_action='2 WebSearches (Tier-1 + Tier-2 logistics/AI feeds), apply scoring + dedup + saturation guard', aligned=yes
+
+Sources scanned: SupplyChainDive, Robotics&AutomationNews, SourcingJournal, MS Industry Blog, SAP Blog, SDCExec, InvisibleTech, Logistics Mgmt
+Story candidates retrieved: 5 (AWS Connect Decisions, Parallel Systems, UPS Pickle Robot, Einride EASE, Microsoft Agent 365 GA)
+
+--- Phase 2 Scoring (5-criteria model) ---
+[C1] AWS Amazon Connect Decisions
+   Date: 2026-05-21/22 (SC Dive)
+   Pillars: P3 Demand Forecasting (primary) + P4 SC Visibility + P5 Agentic AI
+   Score: 4.5/5  -- Direct logistics impact, named enterprise product, named adopters in trail, fits demand-sensing pillar
+   Confidence: HIGH (SC Dive Tier-1, AWS launch confirmed)
+   Pillar-saturation: P3 under-served (2 posts), P5 saturated -> pitch as P3 not P5
+   Dedupe: no exact title match in register, no >=3 tag overlap (none of: aws, connect, demand-sensing in published tags). CLEAR.
+   Image brief: editorial photographic (warehouse + dashboard overlay) OR diagrammatic (25-tool fan-in to "teammates")
+   Recommended angle: "Amazon's New Supply Chain AI Is Aimed at Demand Sensing, Not Conversation"
+
+[C2] Parallel Systems $100M Series C (autonomous freight trains)
+   Date: 2026-05-20 (R&A News)
+   Pillars: P1 Autonomous Trucking (rail-adjacent)
+   Score: 4.0/5 -- High novelty (rail freight angle, distinct from Aurora/Kodiak road), funding milestone, US Port Savannah-Cordele track
+   Confidence: HIGH
+   Pillar-saturation: P1 healthy (3 posts), fresh angle
+   Dedupe: CLEAR
+   Recommended angle: "While Aurora Owns the Highway, Parallel Systems Just Raised $100M to Take Freight Back to the Rails"
+
+[C3] UPS Pickle Robot $120M warehouse automation rollout
+   Date: recent (Sourcing Journal)
+   Pillars: P2 Warehouse Automation + P7 AI Vendor Eval
+   Score: 3.5/5 -- $9B UPS automation strategy context, Pickle as named vendor pick
+   Confidence: MEDIUM (date unclear, may be syndicated)
+   Pillar-saturation: P2 acceptable, GXO/KION already scheduled Tue 2026-05-26 (post 486)
+   Dedupe: low risk but P2 will publish in 3 days, sequence consideration
+   Recommended angle: only if operator wants P2 doubled or if 486 is bumped
+
+[C4] Einride EASE Logistics Ohio L4 autonomous deployment
+   Date: 2026-05-18 (5 days old)
+   Pillars: P1
+   Score: 3.0/5 -- Already 5 days behind, post 475 Aurora-McLane (2026-05-19) covered nearby angle
+   Confidence: HIGH
+   Pillar-saturation: P1 fresh enough, but Aurora was very recent
+   Dedupe: WARNUNG -- 1-tag overlap (autonomous trucking) with post 475, similar US-Midwest setting
+
+[C5] Microsoft Agent 365 GA
+   Date: May 2026
+   Pillars: P5 (saturated)
+   Score: 2.5/5 -- Broad tech, not logistics-specific
+   Confidence: MEDIUM
+   Dedupe: P5 saturation guard active; would push P5 to 13/29 ~ 45%
+
+--- Phase 2 Shortlist (verified, non-duplicate) ---
+TOP PICK:  C1 AWS Amazon Connect Decisions (P3 primary)
+RUNNER-UP: C2 Parallel Systems (P1)
+HOLD:      C3 UPS Pickle Robot (operator decides if doubles P2 makes sense)
+REJECT:    C4 Einride EASE (5 days stale + Aurora post 475 too close), C5 MS Agent 365 (P5 saturation)
+
+--- Phase 4 (Pre-QC compliance scan, prelim) ---
+C1: EU AI Act -- AWS Connect Decisions as recommended-AI-system likely NOT high-risk under Annex III, low compliance load to mention
+C1: GDPR -- agentic SC tooling implies data processing, mention as horizontal concern
+C1: Copyright -- editorial paraphrase of SC Dive coverage + AWS PR, standard quotation
+
+Phase 2 status: candidate report ready. No drafting executed (scheduled-task autonomous mode, operator absent; defer drafting to operator-present review).
+
+--- Phase 3+4: Drafting + QC ---
+Phase 3/4: goal='Draft C1 (AWS Connect Decisions) per operator approval, run hard-rule sweep', current_action='WP primary-source fetch + 984-word draft + 2 editorial visuals + 2 image briefs + dedupe verification', aligned=yes
+
+Operator decision: C1 AWS Connect Decisions (selected via AskUserQuestion at ~05:50)
+
+Verification correction: AWS launch date was 2026-04-28 (25 days old), not last week as initial scoring suggested. Editorial frame shifted to "three weeks in" analysis. Still passes confidence threshold (HIGH, SC Dive primary, 2 named beta customers, 2 named AWS spokespeople).
+
+Draft saved: /Users/maxxposs/Documents/Logistics LAB/logiai-draft-2026-05-23-aws-connect-decisions-demand-sensing.md
+- 984 article words
+- Title: "Three Weeks In: Amazon's New AI Supply Chain Tool Is Aimed at Demand Sensing, Not Conversation"
+- Pillar: P3 Demand Forecasting (primary) + P4 + P5
+- 2 editorial visuals: stat.html (25 tools callout) + cmp.html (3-product comparison)
+- 2 image briefs: Option A (editorial photographic, planner workstation) + Option B (diagrammatic, 25 tools to hub)
+- Recommended featured image: NEW fal.ai generation (Option B preferred for diagrammatic clarity)
+- Internal links: Posts 451, 483, 484 — forms 3-part platform-AI arc
+
+Hard-rule sweep results:
+- em-dashes: 0 (initial draft had 10 in metadata, all replaced with comma/colon)
+- en-dashes: 0
+- emojis: 0
+- Floskel scan: clear (no Game-Changer / revolutionär / transformative / leverage / etc.)
+- LinkedIn-Sätze: none
+- doppelte Verneinung: none
+- Substantivierungsorgie: none
+
+QC self-assessment: ~8.5/10 (full 25-point check pending operator command)
+Dedupe verdict: CLEAR (no title match, P3 under-served, no tag overlap risk)
+Compliance prelim: low EU AI Act exposure (AWS Connect not Annex III); GDPR mention as horizontal note; copyright standard quotation only
+
+Phase 4 routing: AUTO-APPROVE eligible pending operator hand-off
+
+--- Phase 5: Approval Gate ---
+Phase 5: goal='Operator publish/skip/defer decision via AskUserQuestion (operator now present mid-session)', current_action='surface draft summary + recommend publish slot Wed 2026-05-27', aligned=yes
+
+Operator decision (mid-session, recovered from socket-drop): Schedule Wed 2026-05-27 08:00 CET
+
+--- Phase 6: Publishing ---
+Phase 6: goal='Authenticated WP REST POST for scheduled future-status', current_action='Keychain pwd retrieval + 6 tag resolves + 1 POST + 1 verify GET', aligned=yes
+
+WP App Password retrieved via Mac Terminal MCP (security find-internet-password -s logiai.blog -a pietvanbloom -w)
+Tag resolution (6 tags):
+  - AWS                       -> 788290446 (CREATED)
+  - Amazon Connect Decisions  -> 788290447 (CREATED)
+  - Demand Sensing            -> 788290448 (CREATED)
+  - Agentic AI                -> 762117663 (existing)
+  - SCOT                      -> 788290449 (CREATED)
+  - Supply Chain Planning     -> 788290450 (CREATED)
+
+POST /wp/v2/posts: HTTP 201
+  Post ID         : 491
+  Status          : future
+  Date            : 2026-05-27T08:00:00 / GMT 2026-05-27T06:00:00
+  Slug            : aws-connect-decisions-demand-sensing-three-weeks-in
+  Title           : Three Weeks In: Amazon's New AI Supply Chain Tool Is Aimed at Demand Sensing, Not Conversation
+  Excerpt         : 168 chars (under 200 limit)
+  Categories      : 610719119 (AI & Automation), 392657747 (Software & Tools)
+  Tags            : 6 attached (all resolved IDs)
+  Featured Media  : 402 (01_hero.png reuse, generic - operator may swap)
+  Eventual URL    : https://logiai.blog/2026/05/27/aws-connect-decisions-demand-sensing-three-weeks-in/
+
+Verification GET /wp/v2/posts/491 (auth): HTTP 200, all fields match.
+
+Body composition:
+  - 13328 chars HTML
+  - 984 article words (Lead + 5 H2 sections)
+  - 2 inline editorial visuals: stat (25 tools) + cmp (3-vendor comparison)
+  - 3 internal links: post 451 (in lead), post 484 (SAP Joule), post 483 (project44 Autopilot)
+  - 0 em-dashes, 0 en-dashes outside number ranges, 0 emojis, 0 Floskeln (clean sweep)
+
+Yoast meta NOT persisted (known issue, same as posts 484/486/490).
+Operator action item: set Yoast SEO via WP Admin UI before 2026-05-27 08:00 if green indicators needed.
+Draft kept at /Users/maxxposs/Documents/Logistics LAB/logiai-draft-2026-05-23-aws-connect-decisions-demand-sensing.md
+
+--- Phase 7: Memory Hygiene ---
+Phase 7: goal='Append post 491 to register, update pillar distribution + sync stamp, close run log', current_action='4 Edits to logiai_published.md memory file', aligned=yes
+
+memory/logiai_published.md updated:
+  - last_full_sync -> 2026-05-23
+  - totals -> 29 live + 3 scheduled (added 491)
+  - row 484 -> LIVE (was SCHEDULED)
+  - row 491 -> NEW scheduled row
+  - pillar distribution -> P3 now 3 posts (was 2), P5 down from 46% to 40%
+
+Action Tracker: no status flips this run (operator absent during Phase 1; operator-present mid-session focused on publish path, not tracker triage).
+
+--- Run Totals ---
+Tool calls used (approx) : ~50 (incl. 2 WebSearch, 1 web_fetch, 8 bash, 8 mac_terminal, 6 Read, 2 Write, 8 Edit, several Task ops)
+Wall clock              : ~55 min (with socket-drop interruption mid-flight)
+Estimated USD           : ~$0.40 (Sonnet drafting + Haiku orchestration + 2 medium WebSearch + 1 long web_fetch)
+Caps status             : USD 13% / calls 25% / time 61% of daily caps (within limits)
+Loop aborts             : 0
+Drift mismatches        : 0
+Hard-rule violations    : 10 em-dashes in initial draft metadata caught + fixed pre-publish
+Autonomous writes       : (1) run log; (2) 1 local draft md; (3) WP tags x5 created; (4) WP post 491 SCHEDULED via REST; (5) memory/logiai_published.md updated
+Non-writes              : no git pushes, no tracker edits, no file deletions, no fal.ai image gen, no approval-mail send
+
+NEXT-RUN CARRY:
+- Post 490 EU AI Act Omnibus fires Mon 2026-05-25 08:00 (will live after that)
+- Post 486 GXO/KION fires Tue 2026-05-26 08:00
+- Post 491 AWS Connect Decisions fires Wed 2026-05-27 08:00 (Yoast UI fix pending)
+- Action Tracker: 16 Open tasks still untouched (T012, T013, T014, T022, T027, T029, T031 Medium + 9 Low). Operator review next.
+- P4 SC Visibility remains 1 post - next drafting priority
+- Socket-drop recovered mid-Phase 5 (root cause: most likely Anthropic inference SSE channel, not WP/Anthropic API outage)
+
+Run END: 2026-05-23 ~06:30 CET

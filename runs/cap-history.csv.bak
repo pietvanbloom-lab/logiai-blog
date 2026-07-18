@@ -1,0 +1,12 @@
+date,time,mode,phase,model_used,tool_calls,wall_seconds,input_tokens,output_tokens,estimated_usd,cap_hits,drift_mismatches,loop_aborts
+2026-05-11,daily,all,28,35,0.45,2,2,none
+2026-05-12,0700,daily,all,mixed,30,360,n/a,n/a,0.20,none,1,0
+2026-05-13,0700,daily,all,haiku-4-5,22,660,n/a,n/a,0.10,none,1,0
+2026-05-14,0700,daily,all,haiku-4-5,20,600,n/a,n/a,0.10,none,1,0
+2026-05-15,0700,daily,all,haiku-4-5,18,720,n/a,n/a,0.10,none,1,0
+2026-05-16,0700,daily,all,haiku-4-5,14,600,n/a,n/a,0.08,none,1,0
+2026-05-17,0538,daily,all,haiku-4-5,16,720,n/a,n/a,0.08,none,1,0
+2026-05-17,0755,daily,interactive-addendum,mixed,55,4800,n/a,n/a,0.60,wall_min_approaching,0,0
+2026-05-18,0538,daily,all,mixed,26,840,n/a,n/a,0.18,none,0,0
+2026-05-19,0738,daily,all,mixed,30,720,n/a,n/a,0.20,none,0,0
+2026-05-20,0540,daily,all,haiku-4-5,22,600,n/a,n/a,0.10,none,1,0

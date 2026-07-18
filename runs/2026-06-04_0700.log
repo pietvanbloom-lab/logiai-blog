@@ -1,0 +1,112 @@
+# LogiAI Production Stack Run — 2026-06-04 07:00 CET (mode: daily, scheduled, operator absent)
+
+## Config snapshot
+- caps.daily: total_usd 3.00, total_tool_calls 200, total_wall_min 90; per_phase 50 calls / 30 min / 0.80 usd; per_draft 25 calls / 0.50 usd
+- phase_models per config.yml v1 (2026-05-11)
+- approval_email: ENABLED (gmail_markus, stage1 default defer after 24h, stage2 default skip)
+
+## Phase -1: Styleguide Drift Check — DRIFT DETECTED
+- Master: Logistics LAB/CONTENT-STYLEGUIDE.md Section 0 has Hard Rules 1-9 (incl. Rule 9 Brief-Header, added 2026-05-29)
+- DRIFT 1: cache/logiai-drafting/SKILL.md inline Hard Rules end at 8, MISSING Hard Rule 9. (Bundle copy has it.)
+- DRIFT 2: bundle/logiai-quality-gate.md MISSING Hard Rule 9, brief-leak-guard scan block, Item 26, updated auto-fail override. (Cache copy has all of it.)
+- publishing + editorial-visuals: bundle == cache, in sync; publishing contains brief-leak scan.
+- Operator absent (scheduled run): NO files edited. Continuing per rejection-path with master Hard Rules (incl. Rule 9) enforced directly in all phases. Drift report surfaced in run summary + approval mail for operator decision.
+
+## Phase 0: Pre-flight
+- Phase 0: goal='read config, queue, memory, tracker, verify WP API', current_action='pre-flight reads + WP check', aligned=yes
+- queue/: EMPTY (no pre-approved work packages)
+- WP REST API: 200 OK
+- Action Tracker: 49 tasks total, 16 Open (1 High, 7 Medium, 8 Low)
+- Published register: read; pipeline scheduled through Jun 23 (548/549/550/566/567/576). Next open slots Jun 26 + Jun 28.
+
+## Phase 1: Action Tracker Sweep (model: haiku-class structured checks)
+- Phase 1: goal='process open tracker tasks read-only, no status flips', current_action='REST checks on T063/T064 + scheduled posts', aligned=yes
+- T063 (High, SEO, Post 496 Einride Yoast): RESOLVED in fact. yoast title + metadesc live via yoast_head_json. Propose flip to Done (operator approval required).
+- T064 (Medium, SEO, Post 498 Locus Yoast): RESOLVED in fact. yoast title + metadesc live. Propose flip to Done (operator approval required).
+- Posts 525 (Jun 2) + 526 (Jun 3): LIVE as scheduled, Yoast set. Register rows confirmed.
+- T017 (Low, Tech, audio player): read-only check found audio-player markup present on post 519 page (2 matches). Full playback test needs browser; carry over with positive signal.
+- T031 (GSC indexing): GSC re-check window open (day 3 of 3-7) but requires browser auth; operator absent; carried over.
+- T029 (competitor SEO gap): heavy task, carried over (time budget).
+- Remaining Medium/Low tasks: carried over (require operator, writes, or are Content type deferred to Phase 3).
+- No tracker writes performed.
+
+## Phase 2: Monitoring + Scoring + Verification
+- Phase 2: goal='scan sources, score, verify, dedup', current_action='web monitoring sweep + primary-source verification', aligned=yes
+- Candidates scanned: 6 (DHL item-ID, STG/Carrier Logistics, WWEX/Auctane, Smart Robotics, Loop, MACHINA Summit)
+- STG/Carrier Logistics rejected: dated 2026-04-13, too old for deal piece
+- Scoring (weights Rel.30/Prac.30/Search.15/News.15/Impact.10): DHL 7.6, Smart Robotics 6.2, WWEX/Auctane 5.85
+- Winner verified: DHL Express AI item identification. Primary: DHL Group PR Bonn 2026-05-07 + CEP-Research + Post&Parcel + STAT Times. Status: VERIFIED.
+- Dedup: CLEAR (no DHL Express/computer vision/customs posts in register, no 3-tag overlap, pillar not saturated)
+
+## Phase 3: Drafting
+- Phase 3: goal='draft verified candidate per styleguide', current_action='write draft + visuals + image briefs', aligned=yes
+- Draft: Logistics LAB/logiai-draft-2026-06-04-dhl-express-ai-item-identification.md (~900 words, EN)
+- 2 editorial visuals specced (flow 5-step photo-to-clearance, stat 8 markets), image briefs A+B included
+- Internal links: post 490 (EU AI Act), post 484 (SAP agents)
+- Proposed slot: Fri 2026-06-26 07:00 CET
+
+## Phase 4: QC + Compliance
+- Hard-rule sweep on body: em-dash 0, en-dash 0, emoji 0, floskel hits 0, brief-leak markers in body 0 (planning block separated below DO-NOT-PUBLISH marker)
+- QC route: AUTO-APPROVE (passes hard rules + checklist; ~9/10). Compliance: PASS (quotes short+attributed, EU AI Act framing factual, taxonomy assigned)
+- Draft marked READY-FOR-PUBLISH pending operator approval
+
+## Phase 5: Approval Gate (operator absent -> approval_email channel per config)
+- NO AskUserQuestion possible (scheduled run). Used configured async channel (approval_email.enabled=true since 2026-05-20).
+- Stage 1 mail SENT to markus.possiel@gmail.com, subject "[LogiAI 2026-06-04] A DHL customs AI (1 item, slot Jun 26)"
+- Decisions files written: decisions/2026-06-04-0700-stage1-brief.md + 2026-06-04-stage1.json
+- Default if unlabeled after 24h: defer
+- NO publish performed. NO tracker flips performed (T063/T064 proposed only).
+
+## Phase 6: Publishing — SKIPPED (no approval yet, hard stop honored)
+
+## Phase 7: Memory
+- logiai_published.md: no new rows (nothing published)
+- Action Tracker: no edits (flips await operator)
+- Run log finalized
+
+## Final Cap Accounting (estimates)
+- Total tool_calls: ~42 (cap 200) OK
+- Total wall_min: ~15 (cap 90) OK
+- Total estimated_usd: ~$0.60 (cap 3.00) OK
+- Drift mismatches: 0 | Loop aborts: 0 | Cap hits: 0
+
+## Next run notes
+- Scan [LogiAI 2026-06-04] thread labels for item A decision (stage 2 preview on approve)
+- Styleguide drift sync pending operator approval (2 files)
+- Post 576: fal.ai featured image + Yoast before Jun 23
+- T031 GSC re-check window open, needs operator browser session
+
+# ── MIDDAY RE-TRIGGER — 2026-06-04 14:28 CET (same-day incremental run) ──
+- Phase -1 drift check re-run: UNCHANGED (same 2 files drifted: cache/drafting missing HR9, bundle/quality-gate missing HR9+Item26). No edits, operator decision still pending.
+- Phase 0: queue empty, WP REST 200.
+- Approval label scan on [LogiAI 2026-06-04]: approve 0, skip 0, defer 0, preview-go 0 -> item A PENDING (24h default window runs until ~2026-06-05 07:45 CET). No stage 2, no publish.
+- Phase 1: skipped re-checks (morning results current, no operator actions since).
+- Phase 2-4: SKIPPED by design. Rationale: 1 drafted candidate already pending decision; publish pipeline full through Jun 23 with only 2 open slots (Jun 26/28). Stacking a second unapproved draft would waste caps.
+- Phase 6: none. Phase 7: this log entry + cap-history row.
+- Caps midday run: ~12 tool calls, ~4 wall_min, ~$0.10. No drift, no loops.
+
+# ── OPERATOR SESSION — 2026-06-04 ~15:10 CET (Markus present, AskUserQuestion batch) ──
+## Decisions (all via clickable dialog, new standing rule reinforced + memory updated)
+- Draft A (DHL): APPROVED for Jun 26 slot
+- T063 + T064: APPROVED -> flipped to Done in Action Tracker HTML (with completion notes)
+- Styleguide drift: APPROVED sync -> drafting bundle->cache copied, quality-gate cache->bundle copied, both pairs diff=0, HR9 verified present everywhere
+
+## Phase 6: Publishing (operator-approved)
+- fal.ai featured image generated (Nano Banana 2, Option A brief) -> converted JPEG 215KB -> WP media 577, alt text set
+- 6 tags created (788290487-788290492)
+- POST 578 created: status future, 2026-06-26T07:00 CET, slug dhl-express-ai-item-identification-customs-2026, cats [610719119, 392657747], featured_media 577
+- brief-leak-guard --post 578: CLEAN (Exit 0)
+- Body verified via context=edit: 4 h2, 2 figures, 0 em-dash, 2 internal links
+- Yoast NOT persisted via REST (known issue), needs WP Admin UI / JS store before Jun 26
+
+## Phase 7 (operator session)
+- logiai_published.md: post 578 row appended
+- Action Tracker: T063/T064 Done
+- Decision-queue memory updated (always clickable dialogs)
+
+## Cap accounting operator session: ~20 tool calls, ~$0.45. Day total within caps.
+
+## Yoast follow-up (operator-approved, executed 2026-06-04 ~15:25 CET)
+- Post 578: Yoast SET via editor JS store (Chrome), verified yoast_head_json: title "DHL's Customs AI: Computer Vision for Item Descriptions - LogiAI", kw "dhl ai customs item identification", metadesc set
+- Post 576: Yoast SET via editor JS store, verified: title "Coupa Buys Rossum: What It Means for Logistics AI in 2026", kw "freight invoice automation AI", metadesc set
+- Remaining open for 576: fal.ai featured image swap (placeholder media 402) before Jun 23

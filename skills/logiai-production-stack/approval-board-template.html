@@ -1,0 +1,91 @@
+<!-- LogiAI Approval Board template (Phase 5, operator-present runs)
+Render via the visualize/show_widget tool. Replace the four data arrays
+(drafts, dOpts, backups, fups) with the current run's items, keep all
+wiring code identical. Submit fires sendPrompt with a structured one-line
+"Approval decisions YYYY-MM-DD: ..." message the stack parses next turn.
+Spec:
+- Pile 1 "Ready for publish": one card per READY-FOR-PUBLISH draft.
+  Fields: id (letter), title, meta (QC, pillar, words, suggested slot),
+  rec ("publish"|"skip"|"defer"), badge (string or null for amber alert).
+  Each card gets a Publish / Skip / Defer segmented control; rec option
+  is marked with a trailing " R" marker.
+- Pile 2 "Open decision": one block per non-draft decision with custom
+  segmented options (dOpts pattern: v=value, l=label, rec=true on one).
+  Repeat the block for multiple decisions, ids decisionD, decisionE...
+- Pile 3 "Backup candidates": checkboxes; checked means draft next run.
+- Pile 4 "Operator follow-ups": checkboxes; checked means handled or
+  schedule it.
+- Footer: "Select all recommended" preselects every rec option;
+  "Submit decisions" composes the structured sendPrompt message.
+Rules: CSS variables only (dark-mode safe), no emojis, no em-dashes,
+sentence case, Tabler outline icons. Parse the reply by splitting on
+"Drafts:", "Decision", "backups next run:", "Follow-ups".
+Fallback when widget tooling is unavailable: AskUserQuestion batch per
+memory/logiai_decision_queue_format.md. Mail-label flow remains the
+operator-absent channel.
+-->
+<h2 class="sr-only" style="position:absolute;left:-9999px">LogiAI approval board</h2>
+<div style="padding:0.5rem 0">
+<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1rem">
+  <span style="font-size:15px;font-weight:500">LogiAI approval board</span>
+  <span style="font-size:12px;color:var(--color-text-tertiary)">Run {{DATE}} {{MODE}}</span>
+</div>
+
+<div style="font-size:13px;font-weight:500;color:var(--color-text-secondary);margin:0 0 8px"><i class="ti ti-send" style="font-size:15px;vertical-align:-2px" aria-hidden="true"></i> Ready for publish</div>
+<div id="drafts" style="display:flex;flex-direction:column;gap:10px;margin-bottom:1.5rem"></div>
+
+<div style="font-size:13px;font-weight:500;color:var(--color-text-secondary);margin:0 0 8px"><i class="ti ti-help-circle" style="font-size:15px;vertical-align:-2px" aria-hidden="true"></i> Open decision</div>
+<div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:0.9rem 1.1rem;margin-bottom:1.5rem">
+  <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap">
+    <span style="font-size:14px;font-weight:500">{{DECISION_TITLE}}</span>
+    <span style="font-size:11px;padding:2px 8px;border-radius:var(--border-radius-md);background:var(--color-background-warning);color:var(--color-text-warning)">{{DECISION_DEADLINE}}</span>
+  </div>
+  <div style="font-size:12px;color:var(--color-text-secondary);margin:4px 0 10px">{{DECISION_CONTEXT}}</div>
+  <div id="decisionD" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+</div>
+
+<div style="font-size:13px;font-weight:500;color:var(--color-text-secondary);margin:0 0 8px"><i class="ti ti-stack-2" style="font-size:15px;vertical-align:-2px" aria-hidden="true"></i> Backup candidates · check to draft next run</div>
+<div id="backups" style="display:flex;flex-direction:column;gap:6px;margin-bottom:1.5rem"></div>
+
+<div style="font-size:13px;font-weight:500;color:var(--color-text-secondary);margin:0 0 8px"><i class="ti ti-checklist" style="font-size:15px;vertical-align:-2px" aria-hidden="true"></i> Operator follow-ups · check what you have done or want scheduled</div>
+<div id="followups" style="display:flex;flex-direction:column;gap:6px;margin-bottom:1.5rem"></div>
+
+<div style="display:flex;gap:10px;align-items:center;border-top:0.5px solid var(--color-border-tertiary);padding-top:1rem">
+  <button id="recBtn" type="button">Select all recommended</button>
+  <button id="submitBtn" type="button" style="border-color:var(--color-border-info);color:var(--color-text-info)">Submit decisions ↗</button>
+  <span id="counter" style="font-size:12px;color:var(--color-text-tertiary)"></span>
+</div>
+</div>
+
+<script>
+const drafts=[
+ {id:"A",title:"{{TITLE}}",meta:"{{QC}} · {{PILLAR}} · {{WORDS}} · slot {{SLOT}}",rec:"publish",badge:null}
+];
+const dOpts=[{v:"option1",l:"{{OPT1}}",rec:true},{v:"option2",l:"{{OPT2}}"},{v:"skip",l:"Skip"}];
+const backups=[
+ {id:"{{BID}}",l:"{{BACKUP_LABEL}}"}
+];
+const fups=[
+ {id:"{{FID}}",l:"{{FOLLOWUP_LABEL}}"}
+];
+const slots={A:"{{SLOT_A}}"};
+const state={drafts:{},D:null,backups:new Set(),fups:new Set()};
+const seg=(opts,cur,cb)=>{const w=document.createElement("div");w.style.cssText="display:flex;gap:6px;flex-wrap:wrap";opts.forEach(o=>{const b=document.createElement("button");b.type="button";b.textContent=o.l;b.style.fontSize="12px";b.style.padding="5px 12px";if(o.rec){b.title="Recommended";b.textContent=o.l+" ·R";}b.onclick=()=>{cb(o.v);[...w.children].forEach(c=>c.style.background="transparent");b.style.background="var(--color-background-info)";update();};w.appendChild(b);b.dataset.v=o.v;});return w;};
+const dWrap=document.getElementById("drafts");
+drafts.forEach(d=>{const c=document.createElement("div");c.style.cssText="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:0.9rem 1.1rem";
+ let badge=d.badge?'<span style="font-size:11px;padding:2px 8px;border-radius:var(--border-radius-md);background:var(--color-background-warning);color:var(--color-text-warning)">'+d.badge+'</span>':"";
+ c.innerHTML='<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><span style="font-size:14px;font-weight:500">'+d.id+' · '+d.title+'</span>'+badge+'</div><div style="font-size:12px;color:var(--color-text-secondary);margin:4px 0 10px">'+d.meta+'</div>';
+ c.appendChild(seg([{v:"publish",l:"Publish",rec:d.rec==="publish"},{v:"skip",l:"Skip"},{v:"defer",l:"Defer"}],null,v=>{state.drafts[d.id]=v;}));
+ dWrap.appendChild(c);});
+document.getElementById("decisionD").appendChild(seg(dOpts,null,v=>{state.D=v;}));
+const mkCheck=(item,set,wrap)=>{const l=document.createElement("label");l.style.cssText="display:flex;gap:10px;align-items:flex-start;font-size:13px;cursor:pointer;padding:6px 4px";const cb=document.createElement("input");cb.type="checkbox";cb.style.cssText="width:16px;height:16px;margin-top:1px;accent-color:var(--color-text-info)";cb.onchange=()=>{cb.checked?set.add(item.id):set.delete(item.id);update();};const sp=document.createElement("span");sp.textContent=item.l;l.appendChild(cb);l.appendChild(sp);wrap.appendChild(l);return cb;};
+const bWrap=document.getElementById("backups"),fWrap=document.getElementById("followups");
+backups.forEach(b=>mkCheck(b,state.backups,bWrap));
+fups.forEach(f=>mkCheck(f,state.fups,fWrap));
+function update(){const n=Object.keys(state.drafts).length+(state.D?1:0)+state.backups.size+state.fups.size;document.getElementById("counter").textContent=n?n+" decision"+(n>1?"s":"")+" selected":"";}
+document.getElementById("recBtn").onclick=()=>{drafts.forEach(d=>{state.drafts[d.id]=d.rec;});state.D=dOpts.find(o=>o.rec)?.v||null;document.querySelectorAll("#drafts > div").forEach((c,i)=>{[...c.lastChild.children].forEach(b=>{b.style.background=b.dataset.v===drafts[i].rec?"var(--color-background-info)":"transparent";});});[...document.getElementById("decisionD").children].forEach(b=>{b.style.background=(dOpts.find(o=>o.rec)&&b.dataset.v===dOpts.find(o=>o.rec).v)?"var(--color-background-info)":"transparent";});update();};
+document.getElementById("submitBtn").onclick=()=>{
+ const dr=drafts.map(d=>{const v=state.drafts[d.id]||"no decision";return d.id+"="+v+(v==="publish"&&slots[d.id]?" (slot "+slots[d.id]+")":"");}).join("; ");
+ const msg="Approval decisions {{DATE}}: Drafts: "+dr+". Decision D: "+(state.D||"no decision")+". Draft as backups next run: "+(state.backups.size?[...state.backups].join(", "):"none")+". Follow-ups handled or to schedule: "+(state.fups.size?[...state.fups].join(", "):"none")+". Execute per scoped approvals: publish=stage-2 preview then WP publish, defer=keep in queue, skip=drop.";
+ sendPrompt(msg);};
+</script>
