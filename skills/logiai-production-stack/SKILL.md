@@ -13,6 +13,7 @@ End-to-end orchestrator for logiai.blog. Runs Action Tracker, editorial pipeline
 | Input | Path / Source | Purpose |
 |-------|---------------|---------|
 | **Runtime Config** | `skills/logiai-production-stack/config.yml` | **Required.** Model assignments per phase, hard caps, drift guard, loop detection. Read FIRST. |
+| **Unattended Runbook** | `.editorial-engine/ROUTINE-RUNBOOK.md` | **Required for scheduled (cron/Routine) runs.** Artifacts-first run branch + draft PR, no interactive prompts, park approvals. Overrides operator-present behavior. |
 | Action Tracker | `tracker/LogiAI Action Tracker.html` | Open tasks, parsed from `EMBEDDED_TASKS` array |
 | Content Register | `memory/logiai_published.md` | Duplicate-check, content history |
 | LogiAI Project Memory | `memory/logiai_project.md` | Editorial strategy context |
