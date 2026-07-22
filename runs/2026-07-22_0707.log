@@ -1,0 +1,41 @@
+LogiAI Production Stack - Daily Run - 2026-07-22 07:07 CEST (scheduled, operator ABSENT)
+mode: daily | phases 0,1,2,3,4,5,7 | approval_email.enabled=false (operator-present gate) -> NO publish, NO autonomous drafting this run
+
+=== RUN SKELETON (artifacts-first, per .editorial-engine/ROUTINE-RUNBOOK.md section 1) ===
+Config snapshot (skills/logiai-production-stack/config.yml):
+- Mode: daily. Caps: 3.00 USD / 200 tool calls / 90 wall-min total; per-phase 50 calls / 30 min / 0.80 USD; per-draft 25 calls / 0.50 USD.
+- Goal-drift guard: enabled (on_mismatch=stop_and_escalate). Loop detection: enabled (same_tool_threshold=4).
+- Model assignment per phase per config.yml phase_models block.
+Start time: 2026-07-22 07:07 CEST (05:07 UTC).
+Run branch: claude/logiai-run-20260722. Draft PR: "run: LogiAI daily 2026-07-22".
+
+Hard rules in force (runbook 4 + portal.yaml + SKILL.md): never publish to WordPress; never push to main; never delete files; never flip tracker statuses; no em-dashes in generated content. Approval-gated items are PARKED, not executed.
+
+Phase results are appended below at the end of each phase (commit + push each time).
+
+=== PHASE 0: PRE-FLIGHT ===
+(pending - populated below)
+
+=== PHASE 1: ACTION TRACKER SWEEP ===
+(pending)
+
+=== PHASE 2: EDITORIAL PIPELINE UPSTREAM (monitoring / scoring / verification) ===
+(pending)
+
+=== PHASE 3: DRAFTING ===
+(pending)
+
+=== PHASE 4: QC + COMPLIANCE ===
+(pending)
+
+=== PHASE 5: APPROVAL GATE ===
+(pending)
+
+=== PHASE 7: MEMORY UPDATE ===
+(pending)
+
+## Parked for operator approval
+(pending)
+
+=== RUN SUMMARY ===
+(pending - final commit adds cap-history row + structured summary)
