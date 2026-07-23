@@ -21,3 +21,45 @@ Phase 0 (pre-flight): DONE.
 - Memory loaded: memory/logiai_project.md + memory/logiai_published.md (register). No MEMORY.md index in repo (Mac-local artifact; not blocking).
 - Action Tracker parsed: 114 tasks (73 Done, 41 Open). Open breakdown: 1 High (T106), 22 Medium, 18 Low. NO delta vs 07-21. Types among Open: 18 Tech, 10 Content, 10 SEO, 3 Design.
 - Drift-guard Phase 0: goal='preflight + load state', action='read config/memory/tracker, probe channels', aligned=YES.
+
+Phase 1 (Action Tracker sweep): report-only, NO status flips (operator absent, hard rule).
+- 41 Open. Sole High = T106 (Content, armed EU AI Act Digital Omnibus OJ trigger, gated on OJ publication). All 40 others Medium/Low, operator- or infra-gated; 0 autonomously executable.
+- Standing gated backlog carried unchanged (no delta vs 07-21): T113 (verify Yoast persisted on posts 673/674/675/688), T114 (swap custom fal image on post 688), T108 (re-save 4 LogiAI skills to refresh stale plugin cache), T111 (Octup evergreen decision), T107 (Yoast on post 633).
+- No Bug/Tech/SEO/Design task auto-executed (none autonomously actionable; all touch WP UI, credentials, git push, or Done-flips = hard-stop items).
+- Drift-guard Phase 1: goal='triage open tasks, auto-run only low-risk local', action='report-only sweep, park operator items', aligned=YES.
+
+Phase 2 (monitoring + scoring + verification): via harness WebSearch (direct external curl blocked by cloud net policy; WP REST curl returned HTTP 000).
+- T106 EU AI Act Digital Omnibus OJ: NEGATIVE (not yet in Official Journal). Multi-source read (Consilium 29 Jun final green light; law-firm trackers Freshfields/Gibson Dunn/White & Case/DLA Piper): final act SIGNED 8 Jul 2026, now "awaiting OJ publication", enters into force 3 days after OJ. Substance confirmed for pre-draft: Annex III stand-alone high-risk deferred to 2 Dec 2027; new Art.5 prohibition (AI-generated NCII). Day 6 of the pinned 18 Jul - 2 Aug window. Trigger stays ARMED, top priority. Pre-draft placeholders [OJ-DATE]/[OJ-REF]/[IN-FORCE-DATE]/[MONTHS-REMAINING] to be re-verified against live EUR-Lex OJ on trigger day (direct EUR-Lex fetch blocked this environment; use WebSearch + browser-class channel on trigger day).
+- CANDIDATE-01 Walden Robotics (carried from 07-18/07-21, re-confirmed best available): 300M USD seed, 1.1B USD valuation, out of stealth 2026-07-15; co-led Deviation Capital + Toyota; Nvidia/Boeing/Samsung Ventures/CoreWeave; Cambridge MA, spun out of Toyota robotics lab, general-purpose robots deployed in a Toyota North America plant, targets manufacturing AND logistics facilities. Pillar P2 Warehouse Automation / Physical AI. Dedup CLEAN (0 Walden rows in register, re-verified this run). Best fit for the still-open week-of-Jul-20 slot. STILL awaiting operator approval to draft (parked).
+- Fresh scan (2 EU-lean + 1 dated queries) 2026-07-23: 0 NEW strong candidate beyond Walden.
+  - Tutor Intelligence 34M USD Series A (warehouse robot-worker fleet): US-based, off-core EU-logistics-ops focus + dedup-adjacent to physical-AI angle; dedup CLEAN (0 rows) but weak EU fit. REJECT (backup-watch).
+  - General EU supply-chain roundups (Oliver Wyman, mean.ceo July editions): aggregations, no single date-current fundable hook clearing direct-impact + EU-relevance filters. REJECT.
+  - No other item cleared the direct-impact + date-currency + EU-relevance + dedup filters.
+- Dedup (Phase 2 CRITICAL): Walden clears (no register overlap >=3 tags on same pillar/company). No block.
+- Drift-guard Phase 2: goal='surface verified non-dup candidates + check T106 trigger', action='WebSearch monitoring, score, dedup', aligned=YES.
+
+Phase 3-4 (drafting / QC + compliance): NOT executed.
+- Operator absent AND queue empty (no pre-approval package). Per 07-17/07-18/07-21 precedent, candidates are surfaced only; no autonomous local drafting without an operator pre-approval file. The Walden draft and the T106 placeholder-fill are PARKED (see PR body). No QC/compliance run (no new draft produced). No em-dash risk introduced (nothing generated).
+
+Phase 5 (approval gate): NOT entered. No publish path without operator; approval_email disabled.
+Phase 6 (publishing): NOT entered (daily mode excludes it and operator-absent gate blocks publish).
+
+Phase 7 (memory): run log written + committed each phase; cap-history row appended. NO register changes (nothing published). NO tracker Done flips (operator absent, hard rule).
+
+=== STRUCTURED RUN SUMMARY ===
+mode: daily (operator ABSENT) | result: NO-PUBLISH, NO-DRAFT (deliberate, precedent-consistent)
+tool_calls: ~14 | wall: ~8 min | est_usd: ~0.28 | cap_hits: 0 | drift_mismatches: 0 | loop_aborts: 0
+open_tasks: 41 (1 High=T106 armed, 22 Med, 18 Low; no delta vs 07-21)
+T106: OJ NEGATIVE, signed 8 Jul, day 6 of 18 Jul-2 Aug window, ARMED top-priority
+candidates: 1 carried (Walden Robotics, verified, dedup-clean, parked for drafting approval); 0 new this run
+writes: 0 WordPress, 0 git-main, 0 file-deletes, 0 tracker-flips
+env note: direct WP REST (HTTP 000) + EUR-Lex checks blocked by cloud net policy (parked/degraded); WebSearch fallback used
+
+== Parked for operator approval ==
+1. DRAFT Walden Robotics (P2 Physical AI) for the open week-of-Jul-20 slot. Verified, dedup-clean, best available angle (general-purpose vs task-specific robotics economics; what a 6-month-old Toyota spinout at 1.1B valuation says about the physical-AI capital cycle). To authorize autonomous drafting: drop a queue/ pre-approval file, or approve in-session.
+2. T106 EU AI Act Digital Omnibus: on OJ publication (imminent; signed 8 Jul, window 18 Jul-2 Aug), fill pre-draft placeholders, re-verify against live EUR-Lex OJ, run QC, publish. Direct EUR-Lex fetch is blocked in this cloud environment; use a browser-class channel or the WordPress/operator machine on trigger day.
+3. Standing operator/infra items (unchanged): T113 Yoast verify (673/674/675/688), T114 fal image swap on 688, T108 re-save 4 LogiAI skills (stale plugin cache), T111 Octup evergreen decision, T107 Yoast on 633.
+4. Tracker hygiene (optional): strip trailing comma in EMBEDDED_TASKS so strict JSON parsers stop failing.
+
+Constraints honored: no WP publish, no git push to main, no file delete, no tracker Done flip, no em-dashes.
+=== END OF RUN ===
