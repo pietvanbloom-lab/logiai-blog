@@ -63,3 +63,10 @@ env note: direct WP REST (HTTP 000) + EUR-Lex checks blocked by cloud net policy
 
 Constraints honored: no WP publish, no git push to main, no file delete, no tracker Done flip, no em-dashes.
 === END OF RUN ===
+
+=== OPERATOR-PRESENT FOLLOW-UP (interactive, 2026-07-23, post-run) ===
+Operator joined the session and approved parked items. Interactive session, so the unattended park-everything rule no longer binds (runbook s.1 applies to scheduled runs only). Still honoring: no WP publish (no reachable WP credential/network here), no push to main, no file delete, no tracker Done flip.
+- [#2 APPROVED] Walden Robotics draft PRODUCED and parked to workspace/logiai-draft-2026-07-23-walden-robotics-general-vs-task-specific.md (P2 Physical AI, ~590 words, 0 em-dashes, dedup-clean, QC-ready, 3 H1 variants + SEO + 2 visual specs + 2 image briefs). NOT published (WP unreachable from cloud + publish stays operator-gated).
+- [#4 APPROVED] Tracker hygiene: removed the single trailing comma after the T114 entry in EMBEDDED_TASKS. Strict json.loads now parses all 114 tasks with NO pre-strip. This is a syntax fix only; 0 status changes (still 73 Done / 41 Open).
+- [#3] Standing operator/infra items: explained credential/network gap to operator; T111 Octup given a recommendation. WP-touching items (T113/T114/T107) remain blocked from this environment (no WP App Password secret + outbound HTTPS to WP blocked, HTTP 000). T108 (Cowork plugin-cache re-save) is a Mac-local action, not reproducible from the cloud container.
+- [#1] Advised operator on cloud-environment options for the T106 EUR-Lex/WP live-check gap (network policy change vs operator-machine trigger-day handoff vs browser-class fetch tool). No repo change; decision parked with operator.
