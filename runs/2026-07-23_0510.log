@@ -1,0 +1,23 @@
+LogiAI Production Stack - Daily Run - 2026-07-23 05:10 UTC (scheduled cloud Routine, operator ABSENT)
+mode: daily (phases 0,1,2,3,4,5,7) | source of truth: repo pietvanbloom-lab/logiai-blog
+binding: .editorial-engine/ROUTINE-RUNBOOK.md (unattended cloud run)
+approval_email.enabled=false -> operator-present gate -> NO publish, NO WordPress writes, drafts PARKED to workspace/ only
+
+=== RUN SKELETON (artifacts-first, pre-phase) ===
+Branch: claude/logiai-run-20260723 (from origin/main @ dcf7940)
+PR: draft "run: LogiAI daily 2026-07-23" (opened after this skeleton push)
+Caps (daily mode from config.yml): 3.00 USD | 200 tool calls | 90 wall min; per-phase 50 calls / 30 min / 0.80 USD
+Guards active: goal-drift-guard (stop_and_escalate), loop_detection (4 same-tool threshold), cap enforcement order per config.
+Hard rules enforced this run: never publish to WordPress, never push to main, never delete files, never flip tracker statuses, no em-dashes in generated content.
+
+Phases will be appended below as they complete. Even a failed/capped/aborted run leaves this branch + PR behind.
+
+--- Phase log ---
+
+Phase 0 (pre-flight): DONE.
+- config.yml parsed (daily caps: 3.00 USD / 200 tool calls / 90 wall min; per-phase 50 / 30 / 0.80). Guards armed.
+- Queue folder EMPTY (only README.md; no dated pre-approval package). => no autonomous-drafting pre-approval this run.
+- Workspace EMPTY (only .gitkeep). No carried drafts on the run branch.
+- Memory loaded: memory/logiai_project.md + memory/logiai_published.md (register). No MEMORY.md index in repo (Mac-local artifact; not blocking).
+- Action Tracker parsed: 114 tasks (73 Done, 41 Open). Open breakdown: 1 High (T106), 22 Medium, 18 Low. NO delta vs 07-21. Types among Open: 18 Tech, 10 Content, 10 SEO, 3 Design.
+- Drift-guard Phase 0: goal='preflight + load state', action='read config/memory/tracker, probe channels', aligned=YES.
