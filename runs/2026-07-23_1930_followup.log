@@ -1,0 +1,37 @@
+LogiAI Production Stack - Operator-Present Follow-up Session - 2026-07-23 ~19:30 UTC
+Context: operator joined after the scheduled 05:10 run (PR #7, merged). This session executed the operator-approved backlog. Interactive, so the unattended park-everything rule does not bind; publishing is authorized by explicit operator approval.
+
+=== KEY INFRASTRUCTURE FINDING (corrects a long-standing assumption) ===
+logiai.blog is a WordPress.com ATOMIC site (blog_id 253579599), reachable via the WordPress.com MCP connector, mcp_access=available. Every prior run assumed it was self-hosted WP behind Cloudflare and that the cloud container could not publish. That was WRONG. Direct curl to the host is still network-blocked (HTTP 000), but the WordPress.com connector routes through wpcom's API and works. => The daily stack CAN publish end-to-end from the cloud Routine. No Mac required for publishing or for Yoast meta.
+
+=== ACTIONS ===
+[#1 PUBLISH - DONE] Walden Robotics piece published LIVE.
+- Post 692: https://logiai.blog/2026/07/23/walden-robotics-general-purpose-vs-task-specific/ (status=publish)
+- Title: "Walden Robotics Bet $1.1 Billion That General Beats Special" (~590 words, 0 em-dashes)
+- Categories: AI & Automation (610719119) + Logistics Tech (401377356). Tags: Physical AI, Warehouse Robotics, Warehouse Automation, Funding, Walden Robotics (new 788290538), Toyota (new 788290539).
+- Body: 2 inline-styled editorial visuals (stat callout + general-vs-task cmp table) as wp:html, no <style> block, 0 _content_warnings on save. 2 internal links (post 673 Gartner physical AI, post 493 Toyota Automated Logistics).
+- Featured image: 402 (01_hero placeholder). CUSTOM ROBOTICS IMAGE SWAP PENDING (new follow-up; fal gen needs the fal key on the operator machine, or set a custom image in wp-admin).
+- Yoast: focuskw "general-purpose robots logistics" + SEO title + metadesc PERSISTED via REST meta (the historical Yoast-REST-persistence quirk did not occur on this Atomic site).
+- Register updated: memory/logiai_published.md row for 692. Dedup was clean.
+
+[#2 T106 PRE-DRAFT - DONE] EU AI Act Digital Omnibus pre-draft written and parked:
+- workspace/logiai-predraft-T106-eu-ai-act-digital-omnibus-OJ.md
+- All substance verified as of 2026-07-23; 4 OJ-specific placeholders ([OJ-DATE]/[OJ-REF]/[IN-FORCE-DATE]/[MONTHS-REMAINING]) to fill on trigger day. Trigger checklist + headline/SEO included. OJ still NEGATIVE as of today (signed 8 Jul, day 6 of 18 Jul-2 Aug window).
+
+[#3 INFRA ITEMS - PARTIAL, now partly unblocked by the wpcom-MCP finding]
+- T113 (verify Yoast on 673/674/675/688): DONE. 673/674/675 already had full Yoast (title+metadesc+focuskw). 688 had title+metadesc but empty focus keyword; SET _yoast_wpseo_focuskw="autonomous supply chain os" via posts.update. T113 satisfied.
+- T107 (Yoast on 633): ALREADY SATISFIED. Post 633 has full Yoast (focuskw "dsv cargowise tango" + title + metadesc). No action needed; operator can mark Done.
+- T114 (swap custom fal image on 688, and now also on 692): STILL PENDING. Needs a generated image (fal key, on the operator machine) or a custom upload via wp-admin/media.create. Not done this session.
+- T108 (re-save 4 LogiAI skills, stale plugin cache): STILL PENDING. Mac-local Cowork plugin-cache action; not reproducible from the cloud container.
+
+[#4 NETWORK POLICY] Advisory only. To let the cloud Routine reach EUR-Lex (for T106 trigger-day verification) and do direct WP-REST health checks, set the environment network policy to allow eur-lex.europa.eu and logiai.blog. Note: publishing no longer needs this (wpcom MCP works); the policy change is mainly for EUR-Lex live verification. Operator decision, made in the Claude Code web environment settings.
+
+=== WRITES THIS SESSION ===
+WordPress: 1 publish (692), 1 meta update (688 focuskw), 2 tags created (Walden Robotics, Toyota). 0 deletes. 0 pushes to main (repo work goes to a follow-up branch + PR).
+
+=== STILL PARKED / OPERATOR ===
+- Custom featured images for 692 (and the older 688) via fal on the operator machine, or wp-admin upload.
+- T108 plugin-cache re-save (Mac).
+- T106 fires on OJ publication (pre-draft ready).
+- Optional: operator can flip T107/T113 to Done in the tracker (both satisfied).
+=== END ===
