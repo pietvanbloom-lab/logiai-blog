@@ -40,3 +40,31 @@ Phase 2 (monitoring + scoring + verification): via harness WebSearch (direct ext
 - Dedup (Phase 2 CRITICAL): Humanoid + Walden both clear (no register overlap >=3 tags on same pillar/company). No block, no exact-title match.
 - Drift-guard Phase 2: goal='surface verified non-dup candidates + check T106 trigger', action='WebSearch monitoring, score, verify, dedup', aligned=YES.
 
+Phase 3-4 (drafting / QC + compliance): NOT executed.
+- Operator absent AND queue empty (no pre-approval package). Per 07-17/07-18/07-21/07-23 precedent, candidates are surfaced only; no autonomous local drafting without an operator pre-approval file. The new Humanoid candidate, the T106 placeholder-fill, and the already-parked Walden draft are all PARKED (see PR body). No QC/compliance run (no new draft produced). No em-dash risk introduced (nothing generated).
+- Drift-guard Phase 3-4: goal='draft + QC verified candidates IF authorized', action='hold, park pending operator approval', aligned=YES (no authorization present).
+
+Phase 5 (approval gate): NOT entered. approval_email.enabled=false -> operator-present gate; no operator in a scheduled session -> no publish path. All approval items parked.
+Phase 6 (publishing): NOT entered (daily mode excludes it and operator-absent gate blocks publish; WP unreachable HTTP 000 regardless).
+
+Phase 7 (memory): run log written + committed each phase; cap-history row appended on final commit. NO register changes (nothing published). NO tracker Done flips (operator absent, hard rule). No MEMORY.md index in repo (Mac-local).
+- Drift-guard Phase 7: goal='persist run state + memory hygiene', action='append log + cap-history, 0 register/tracker writes', aligned=YES.
+
+=== STRUCTURED RUN SUMMARY ===
+mode: daily (operator ABSENT) | result: NO-PUBLISH, NO-DRAFT (deliberate, precedent-consistent) | 1 NEW verified candidate surfaced
+tool_calls: ~16 | wall: ~10 min | est_usd: ~0.26 | cap_hits: 0 | drift_mismatches: 0 | loop_aborts: 0
+open_tasks: 41 (1 High=T106 armed, 22 Med, 18 Low; no delta vs 07-21..07-23)
+T106: OJ NEGATIVE, signed 8 Jul, day 7 of 18 Jul-2 Aug window, ARMED top-priority
+candidates: 2 verified, dedup-clean, PARKED -> [NEW] Humanoid (P2 physical AI, UK unicorn, strong EU fit) + [carried, draft ready] Walden Robotics (P2, US); 0 published
+writes: 0 WordPress, 0 git-main, 0 file-deletes, 0 tracker-flips
+env note: direct WP REST (HTTP 000) + EUR-Lex direct fetch blocked by cloud net policy (parked/degraded); WebSearch fallback used
+
+== Parked for operator approval ==
+1. [NEW] DRAFT Humanoid (P2 Physical AI) - fresh Verified unicorn, arguably the strongest EU-fit candidate to date for the open week-of-Jul-20 slot. $152M / EUR 133M Series A at $1.35B / EUR 1.1B post-money; London SKL Robotics Ltd; Bosch + Schaeffler + Aglae/LVMH in the round; wheeled HMND 01 + KinetIQ, EU-certification-first bet; 34,000 pre-orders; beta in logistics/manufacturing/retail Q4 2026. Angle option: pair with Walden as a "two ~$1.1B physical-AI unicorns in one week" capital-cycle piece, or run Humanoid solo as the EU-centric physical-AI story. To authorize autonomous drafting: drop a queue/ pre-approval file, or approve in-session.
+2. DRAFT Walden Robotics (P2 Physical AI): draft already produced 07-23, sits at workspace/logiai-draft-2026-07-23-walden-robotics-general-vs-task-specific.md (~590 words, 0 em-dashes, QC-ready, 3 H1 variants + SEO + 2 visual specs + 2 image briefs). Awaiting publish approval. NOTE: with Humanoid now live, consider whether to publish Walden solo, publish Humanoid solo, or merge into one comparison piece to avoid two near-identical physical-AI stories in the same window.
+3. T106 EU AI Act Digital Omnibus: on OJ publication (imminent; signed 8 Jul, window 18 Jul-2 Aug), fill pre-draft placeholders, re-verify against live EUR-Lex OJ, run QC, publish. Direct EUR-Lex fetch is blocked in this cloud environment; use a browser-class channel or the operator machine on trigger day.
+4. Standing operator/infra items (unchanged): T113 Yoast verify (673/674/675/688), T114 fal image swap on 688, T108 re-save 4 LogiAI skills (stale plugin cache), T111 Octup evergreen decision, T107 Yoast on 633. All WP-touching items remain blocked from this cloud container (no WP App Password secret + outbound HTTPS to WP blocked, HTTP 000).
+
+Constraints honored: no WP publish, no git push to main, no file delete, no tracker Done flip, no em-dashes.
+=== END OF RUN ===
+
