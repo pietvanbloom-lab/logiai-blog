@@ -1,0 +1,28 @@
+LogiAI Production Stack - Daily Run - 2026-07-25 07:09 CEST (05:09 UTC) (scheduled cloud Routine, operator ABSENT)
+mode: daily (phases 0,1,2,3,4,5,7) | source of truth: repo pietvanbloom-lab/logiai-blog
+binding: .editorial-engine/ROUTINE-RUNBOOK.md (unattended cloud run)
+approval_email.enabled=false -> operator-present gate -> NO publish, NO WordPress writes, drafts PARKED only
+
+=== RUN SKELETON (artifacts-first, pre-phase) ===
+Branch: claude/logiai-run-20260725 (from origin/main @ e6b3fa9)
+PR: draft "run: LogiAI daily 2026-07-25" (opened right after this skeleton push)
+Caps (daily mode from config.yml): 3.00 USD | 200 tool calls | 90 wall min; per-phase 50 calls / 30 min / 0.80 USD; per-draft 25 calls / 0.50 USD
+Guards active: goal-drift-guard (stop_and_escalate), loop_detection (4 same-tool threshold, arg_hash), cap enforcement order per config.
+Hard rules enforced this run: never publish to WordPress, never push to main, never delete files, never flip tracker statuses, no em-dashes in generated content.
+
+Phases are appended below as they complete. Even a failed/capped/aborted run leaves this branch + PR behind.
+
+--- Phase log ---
+
+Phase 0 (pre-flight): DONE.
+- config.yml parsed (daily caps: 3.00 USD / 200 tool calls / 90 wall min; per-phase 50 / 30 / 0.80). Guards armed.
+- ROUTINE-RUNBOOK.md read and binding: artifacts-first, no interactive prompts, park all approvals.
+- portal.yaml read: hard rules loaded (no em-dashes, en-dash only in numeric ranges, no emoji in body, brief-leak-guard + visual-style-guard before publish, never auto-publish to WP).
+- Queue folder EMPTY (only README.md; no dated pre-approval package). => no autonomous-drafting pre-approval this run.
+- Workspace carries 2 parked items from prior runs: logiai-draft-2026-07-23-walden-robotics-general-vs-task-specific.md (draft, QC-ready) and logiai-predraft-T106-eu-ai-act-digital-omnibus-OJ.md (T106 placeholder pre-draft). No new draft required unless a fresh candidate clears filters.
+- Memory loaded: memory/logiai_project.md + memory/logiai_published.md (register). No MEMORY.md index in repo (Mac-local artifact; not blocking).
+- Action Tracker parsed clean (strict json.loads): 114 tasks (73 Done, 41 Open). Open breakdown: 1 High (T106), 22 Medium, 18 Low. NO delta vs 07-21..07-24. Types among Open: 18 Tech, 10 Content, 10 SEO, 3 Design.
+- WP REST check: curl https://logiai.blog/wp-json/wp/v2/posts?per_page=1 -> HTTP 000 (outbound HTTPS to WP blocked by cloud net policy; NOT a 401 => NOT the T021 credential fault). Authenticated WP steps PARKED per runbook s.5. WebSearch fallback available for monitoring.
+- Drift-guard Phase 0: goal='preflight + load state', action='read config/runbook/portal/memory/tracker, probe WP channel', aligned=YES.
+
+[Phases 1-7 appended below as they complete.]
