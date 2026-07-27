@@ -27,3 +27,10 @@ Phase 0 (pre-flight): DONE.
 - Drift-guard Phase 0: goal='preflight + load state', action='read config/runbook/portal/memory/tracker, probe WP+EUR-Lex channel', aligned=YES.
 
 (Phases 1,2,3-4,5,7 appended below as they complete.)
+
+Phase 1 (Action Tracker sweep): report-only, NO status flips (operator absent, hard rule).
+- 41 Open (1 High=T106, 22 Med, 18 Low). NO delta vs 07-21..07-26. Types among Open: 18 Tech, 10 Content, 10 SEO, 3 Design.
+- Sole High = T106 (Content, "Draft EU AI Act Digital Omnibus piece when Official Journal publication lands"). Trigger FIRED 07-24..07-26 (OJ published 24 Jul, Reg (EU) 2026/1744). Completed draft parked from 07-26 run. T106 stays Open (no autonomous Done-flip); publish + flip are operator actions. TODAY 27 Jul is the in-force date, so the news hook is at peak.
+- Standing gated backlog carried unchanged: T113 (verify Yoast persisted on posts 673/674/675/688), T114 (swap custom fal image on post 688), T108 (re-save 4 LogiAI skills to refresh stale plugin cache), T111 (Octup evergreen decision), T107 (Yoast on post 633). All WP-UI / credential / git-push / Done-flip items = hard-stop, none autonomously actionable from the cloud container (no WP App Password secret + outbound HTTPS to WP blocked).
+- 0 Bug/Tech/SEO/Design task auto-executed (none autonomously actionable in this environment: all require WP-UI, live-site crawl, or git-main writes that are blocked/parked).
+- Drift-guard Phase 1: goal='triage open tasks, auto-run only low-risk local', action='report-only sweep, park operator items, note T106 in-force TODAY', aligned=YES.
