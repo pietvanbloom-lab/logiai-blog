@@ -26,4 +26,18 @@ Phase 0 (pre-flight): DONE.
 - Drift-guard Phase 0: goal='preflight + load state', action='read config/runbook/portal/memory/tracker, probe WP channel', aligned=YES.
 
 (Phases 1,2,3-4,5,7 appended below as they complete.)
+
+Phase 1 (Action Tracker sweep): report-only, NO status flips (operator absent, hard rule).
+- 41 Open (1 High=T106, 22 Med, 18 Low). NO delta vs 07-24..07-26. Types among Open: 18 Tech, 10 Content, 10 SEO, 3 Design.
+- Sole High = T106 (Content, "Draft EU AI Act Digital Omnibus piece when Official Journal publication lands"). Its trigger FIRED on 07-26 (OJ published 24 Jul as Reg (EU) 2026/1744). As of TODAY (28 Jul) the regulation is IN FORCE (since 27 Jul). The completed draft is already parked (see Phase 2/3-4). T106 stays Open (no autonomous Done-flip); publish + flip are operator actions.
+- Standing gated backlog carried unchanged: T113 (verify Yoast persisted on posts 673/674/675/688), T114 (swap custom fal image on post 688), T108 (re-save 4 LogiAI skills to refresh stale plugin cache), T111 (Octup evergreen decision), T107 (Yoast on post 633). All WP-UI / credential / git-push / Done-flip items = hard-stop, none autonomously actionable from the cloud container (no WP App Password secret + outbound HTTPS to WP blocked).
+- 0 Bug/Tech/SEO/Design task auto-executed (none autonomously actionable this environment).
+- Drift-guard Phase 1: goal='triage open tasks, auto-run only low-risk local', action='report-only sweep, park operator items, note T106 in-force', aligned=YES.
+
+Phase 2 (monitoring + scoring + verification): via harness WebSearch (direct external curl blocked, HTTP 000, cloud net policy GitHub-egress-only).
+- Monitoring scan surfaced Auger ($50M Series B led by Eclipse + Oak HC/FT, Dave Clark ex-Amazon, customers Meta/Fanatics/Kimberly-Clark, announced ~12-13 Jul 2026). DEDUP HIT (CRITICAL guard worked): Auger is ALREADY PUBLISHED as post 688 (2026-07-15, "Auger Raises 50 Million Dollars to Build an Autonomous Supply Chain OS", P5 Agentic AI). Blocked as duplicate, not re-drafted.
+- EU logistics/robotics scan (autonomous trucking, warehouse robotics, 27-28 Jul window): only evergreen/May-dated roundups (Locus Robotics EU HQ move + Locus Array, general EU AI Act staged-obligations explainers). NO fresh dated single-day fundable candidate. Notable: general web still cites "2 Aug 2026" high-risk applicability, which the Digital Omnibus (Reg (EU) 2026/1744) just DEFERRED to 2 Dec 2027 - this confirms and strengthens the T106 news hook (in force 27 Jul).
+- Candidates carried (unchanged, still parked): T106 EU AI Act OJ draft (completed 07-26, now in force = maximally timely); Humanoid (SKL Robotics, UK, $152M/EUR133M Series A at $1.35B/EUR1.1B, P2, strong EU fit, dedup-clean, surfaced 07-24); Walden Robotics (US, $300M seed, $1.1B val, P2, draft ready 07-23).
+- Dedup summary: Auger BLOCKED (exact prior post 688). T106 distinct from prior EU AI Act posts (leads on OJ event + deferral math; operator to confirm no same-week AI Act post; note 07-25 flagged a duplicate-risk vs post 490 on the earlier variant draft). Humanoid + Walden remain dedup-clean.
+- Drift-guard Phase 2: goal='scan sources, score, verify, dedup non-dup candidates', action='WebSearch scan, dedup Auger->post 688 block, confirm no fresh candidate, re-verify T106 hook', aligned=YES.
 === END OF SKELETON ===
