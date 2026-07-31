@@ -28,3 +28,26 @@ Phase 0 (pre-flight): DONE.
 - Drift-guard Phase 0: goal='preflight + load state', action='read config/runbook/portal/memory/tracker, probe WP channel', aligned=YES.
 
 (Phases 1,2,3-4,5,7 appended below as they complete.)
+
+Phase 1 (Action Tracker sweep): report-only, NO status flips (operator absent, hard rule).
+- 41 Open (1 High=T106, 22 Med, 18 Low). NO delta vs 07-28. Types among Open: 18 Tech, 10 Content, 10 SEO, 3 Design.
+- Sole High = T106 (Content, "Draft EU AI Act Digital Omnibus piece when Official Journal publication lands"). Trigger FIRED 07-26 (Reg (EU) 2026/1744, OJ 24 Jul); IN FORCE since 27 Jul. Completed draft already parked (workspace/logiai-draft-2026-07-26-T106-...). T106 stays Open (no autonomous Done-flip); publish + flip are operator actions. TIMING: high-risk applicability date widely cited as 2 Aug 2026 is now 2 days away -> this draft is maximally time-sensitive (see Phase 2).
+- Standing gated backlog carried unchanged: T113 (verify Yoast persisted on posts 673/674/675/688), T114 (swap custom fal image on 688), T108 (re-save 4 LogiAI skills to refresh stale plugin cache), T111 (Octup evergreen decision), T107 (Yoast on post 633). All WP-UI / credential / git-push / Done-flip items = hard-stop, none autonomously actionable from the cloud container (no WP App Password secret + outbound HTTPS to WP blocked, HTTP 000, + WordPress-com MCP unauthorized).
+- 0 Bug/Tech/SEO/Design task auto-executed (none autonomously actionable this environment).
+- Drift-guard Phase 1: goal='triage open tasks, auto-run only low-risk local', action='report-only sweep, park operator items, flag T106 timing', aligned=YES.
+
+Phase 2 (monitoring + scoring + verification): via harness WebSearch (direct external curl blocked, HTTP 000, cloud net policy GitHub-egress-only).
+- Monitoring scan (funding + robotics + EU logistics, 28-31 Jul window): NO fresh dated single-day fundable candidate.
+  * Loop (AI logistics decision platform, $95M Series C, Valor + 8VC/Founders Fund/Index/JPM) = APRIL 2026 dated, not fresh; not a this-week hook.
+  * ID Logistics $83M Henrico VA distribution center = infrastructure capex, not an AI/story candidate.
+  * Ambi Robotics + Pickle Robot commercial integration (physical AI, truck-unload -> palletize inbound automation) = notable P2 product news but NO funding/single-day dated hook; roundup-sourced; would need first-source verification. Surfaced to operator as a monitoring lead, not drafted.
+- KEY SIGNAL (strengthens T106): general web STILL cites 2 Aug 2026 as the EU AI Act high-risk applicability date. The Digital Omnibus (Reg (EU) 2026/1744) DEFERRED that to 2 Dec 2027. With 2 Aug now 2 days out, the parked T106 piece (which corrects exactly this) is maximally timely; recommend operator prioritize its publish window this week.
+- Candidates carried (unchanged, still parked): T106 EU AI Act OJ draft (P6, ready, now peak-timely); Humanoid (SKL Robotics, UK, $152M/EUR133M Series A at $1.35B/EUR1.1B, P2, EU-fit, dedup-clean, surfaced 07-24); Walden Robotics (US, $300M seed, $1.1B val, P2, draft ready 07-23).
+- Dedup: no new candidate reached drafting, so no new dedup block this run. Ambi/Pickle not previously published (fresh lead, parked). T106 + Humanoid + Walden dedup status unchanged from 07-28 (Auger remained a prior post-688 duplicate in earlier runs; not re-surfaced today).
+- Drift-guard Phase 2: goal='scan sources, score, verify, dedup non-dup candidates', action='WebSearch scan, no fresh fundable single-day candidate, re-confirm T106 timing hook, log Ambi/Pickle lead', aligned=YES.
+
+Phase 3-4 (drafting / QC + compliance): no new drafting required.
+- No fresh non-duplicate candidate cleared filters this run. Queue empty + operator absent => no drafting-from-scratch authorization.
+- Carried drafts self-QC (light, em-dash hard rule): all parked drafts remain CLEAN (0 em-dashes). Two EU AI Act OJ variants still sit in workspace/ (07-25 + 07-26); operator should pick ONE before publish (the 07-26 draft is the re-verified, placeholders-filled canonical version; the 07-25 variant was flagged duplicate-risk vs post 490).
+- FULL logiai-quality-gate 25-point + logiai-compliance run is PARKED for the operator ahead of publish (auto-approve route requires QC>=threshold AND compliance pass, an operator-confirmed step in an operator-absent run).
+- Drift-guard Phase 3-4: goal='draft + QC verified candidates IF authorized', action='no new candidate to draft, self-QC parked drafts (em-dash clean), park full QC', aligned=YES.
