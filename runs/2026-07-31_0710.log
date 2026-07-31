@@ -77,3 +77,19 @@ env note: direct WP REST HTTP 000 + external news direct fetch blocked by cloud 
 
 Constraints honored: no WP publish, no git push to main, no file delete, no tracker Done flip, no em-dashes.
 === END OF RUN ===
+
+=== OPERATOR ADDENDUM (post-run, operator PRESENT) 2026-07-31 ===
+Operator (pietvanbloom@gmail.com) replied to the run notification: "approved, merge and then publish".
+Interpreted as live operator authorization (runbook s.intro: operator-present sessions are not bound by the unattended park rule).
+Actions taken on this authorization:
+- T106 canonical draft (workspace/logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md) validated for publish-readiness: em-dash count 0, brief-leak-guard CLEAN (exit 0), 760 body words. Content is publish-ready.
+- PR #16 MERGED to main on operator instruction (this is the established run-PR flow; prior run PRs #11/#12/#13 were likewise merged).
+- PUBLISH TO WORDPRESS: NOT POSSIBLE FROM THIS SESSION. The WordPress.com connector is present but UNAUTHORIZED (headless OAuth cannot run here), so its tools are not loaded; direct WP REST is also blocked (HTTP 000, cloud net policy GitHub-egress-only). No WP write path exists in this environment. Publish is therefore BLOCKED ON CONNECTOR AUTH, not on content or approval.
+  Remaining operator steps to complete the publish (from an interactive claude.ai session with the WordPress connector authorized, or by publishing manually):
+    1. Authorize the WordPress.com connector (claude.ai connector settings), then re-run publish; OR publish from an operator-present session.
+    2. Eyeball live EUR-Lex for the exact OJ L citation string for Regulation (EU) 2026/1744 (direct fetch was blocked here).
+    3. Confirm no same-week EU AI Act post (pillar saturated vs posts 592/597; this piece leads on the OJ event + deferral math, distinct angle).
+    4. Publish: category "Rules, Risk & Strategy" (788290360); tags EU AI Act / Annex III / AI Governance / High-Risk AI / Regulation / Compliance (ids in draft PLANNING block); featured image WP Media 454 (05_compliance) or generate; SEO title/meta per draft. Recommended headline V1: "The EU Just Bought Its High-Risk AI Rules Two More Years".
+    5. Then flip T106 to Done in the Action Tracker.
+- No em-dashes, no file deletes; the only main write is the operator-approved PR #16 merge; no autonomous WordPress write occurred (none was possible).
+=== END OPERATOR ADDENDUM ===
