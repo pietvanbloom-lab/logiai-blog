@@ -99,3 +99,31 @@ candidate -> HOLD new drafting this run (per prior-run guard).
 
 Phase 2 output: 0 new candidates to draft. Shortlist carried = parked set (unchanged).
 Status: Phase 2 complete. tool_calls this phase: 3 WebSearch + 1 dedup scan.
+
+## Phase 3 — Drafting  [ALIGNED=yes]
+Drift-guard: Phase 3 goal='draft verified Phase-2 candidates', current_action='none new to draft (0 candidates + overproduction guard)', aligned=yes
+Model: sonnet-4-6 (would-be drafting).
+- 0 new drafts generated (no fresh non-duplicate candidate; 3+ drafts already parked).
+- Carried parked drafts (workspace/, run branch only, NOT published):
+  1. logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md  (EU AI Act Omnibus, P6, ~762 body words)
+  2. logiai-draft-2026-07-23-walden-robotics-general-vs-task-specific.md  (P2 Physical AI spotlight)
+  3. logiai-draft-2026-07-25-eu-ai-act-digital-omnibus-official-journal-logistics.md (superseded by the 07-26 T106 draft)
+  + logiai-predraft-T106-... (pre-draft, superseded)
+  + Freehand $75M: candidate only, no draft (dup-risk, operator to decide).
+Status: Phase 3 complete. tool_calls: 0.
+
+## Phase 4 — QC + Compliance  [ALIGNED=yes]
+Drift-guard: Phase 4 goal='QC 18-point + compliance on drafts', current_action='re-QC parked drafts (no new drafts)', aligned=yes
+Model: haiku-4-5 QC, sonnet-4-6 compliance.
+- Dash compliance scan (hard rule): all workspace drafts em-dash=0, en-dash=0. PASS.
+- T106 draft: QC-clean per prior runs (0 em/en-dash, structured, sourced to Reg (EU) 2026/1744).
+  Compliance: EU AI Act reporting on public regulation, no GDPR/copyright issue. PASS.
+  Route: would be READY-FOR-PUBLISH, BUT dedup-risk vs post 490 -> SOFT ESCALATION -> operator decision.
+- Walden / Freehand: unchanged from prior runs (parked, operator decision).
+Status: Phase 4 complete. tool_calls: 0 (scan done in Phase 2 step).
+
+## Phase 5 — Approval Gate  [ALIGNED=yes]  *** HARD STOP -> PARK ALL ***
+Drift-guard: Phase 5 goal='route drafts through approval', current_action='operator absent + approval_email disabled -> PARK, no writes', aligned=yes
+- Operator ABSENT (scheduled run). approval_email.enabled=false in config -> async mail flow OFF.
+- No AskUserQuestion (runbook sec 2). No publish, no scheduling, no tracker flip. All items PARKED below.
+Status: Phase 5 complete. Nothing published (hard rule + WP blocked + operator-gated).
