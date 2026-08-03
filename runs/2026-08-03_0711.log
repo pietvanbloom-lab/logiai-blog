@@ -127,3 +127,53 @@ Drift-guard: Phase 5 goal='route drafts through approval', current_action='opera
 - Operator ABSENT (scheduled run). approval_email.enabled=false in config -> async mail flow OFF.
 - No AskUserQuestion (runbook sec 2). No publish, no scheduling, no tracker flip. All items PARKED below.
 Status: Phase 5 complete. Nothing published (hard rule + WP blocked + operator-gated).
+
+## Phase 7 — Memory Update  [ALIGNED=yes]
+Drift-guard: Phase 7 goal='persist published rows + tracker flips + run summary', current_action='nothing published -> only run-log summary; no memory/tracker writes', aligned=yes
+Model: haiku-4-5.
+- memory/logiai_published.md: NO new rows (0 posts published).
+- Action Tracker: NO status flips (hard rule; 0 tasks completed autonomously).
+- MEMORY.md: no new memory files created -> no index change.
+- Run summary written to this log (below). cap-history row appended.
+Status: Phase 7 complete.
+
+=====================================================================
+# STRUCTURED RUN SUMMARY — LogiAI daily 2026-08-03 (mode: daily)
+=====================================================================
+Result: COMPLETED (no abort). Operator-absent, report-only + park.
+Published: 0 (hard rule: never auto-publish; WP also blocked).
+New drafts: 0. Tracker flips: 0. Git-to-main: 0. File deletes: 0. Em-dashes in output: 0.
+Caps: 0 hits. Drift mismatches: 0. Loop aborts: 0.
+Actuals: ~20 tool calls, ~12 wall min, ~0.25 USD (est).
+
+Phase 1 (Action Tracker): 41 open (1 High T106, 22 Med, 18 Low). 0 auto-executed
+  (all require WP creds / GSC / git-push-main / file-delete / tracker-flip / operator -> parked).
+Phase 2-4 (Editorial): 3 WebSearch sweeps. 0 new verified non-duplicate candidate.
+  Auger/Augment stale-or-dup, Freehand parked (dup-risk 623+576). T106 at PEAK timeliness
+  (2 Aug high-risk date passed yesterday; Digital Omnibus Reg (EU) 2026/1744 defers Annex III to
+  2 Dec 2027). T106 draft QC-clean but SOFT-ESCALATION (dedup-risk vs post 490).
+Phase 5 (Approval): operator absent + approval_email disabled -> all parked, nothing published.
+Phase 7 (Memory): 0 writes (nothing to persist).
+
+## Parked for operator approval
+1. T106 EU AI Act Digital Omnibus draft (workspace/logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md)
+   - Status: QC-clean, ~762 body words, sourced to Reg (EU) 2026/1744 (OJ 24 Jul, in force 27 Jul).
+   - Maximally timely: the 2 Aug 2026 high-risk applicability date passed yesterday; the Omnibus
+     defers Annex III high-risk to 2 Dec 2027, Annex I to 2 Aug 2028.
+   - DECISION NEEDED: publish as dated update vs fold into post 490 (2026-05-25, same topic, dedup-risk).
+   - Blocked regardless on: WP connector auth (WordPress-com MCP unauthorized headless) + WP REST HTTP 000.
+   - Operator approved publish 07-31 (PR #16 merged) but publish could not execute (WP auth). Still pending.
+2. Walden Robotics spotlight draft (workspace/logiai-draft-2026-07-23-...md) - parked, operator publish decision.
+3. Freehand $75M Series B - candidate only, no draft. Dup-risk vs posts 623+576, US-centric. Draft-or-drop = operator.
+4. WP connector authorization (T021-adjacent): WordPress-com MCP needs OAuth in an interactive session;
+   WP REST is also network-blocked (HTTP 000, GitHub-egress-only) from this cloud environment.
+   Until resolved, NO scheduled run can publish. Operator action required.
+5. Tracker: 41 open tasks carried. Strategic levers needing operator: T073 (AI-crawler robots.txt policy),
+   T072 (backlinks/domain authority), T113/T066/T031 (Yoast + GSC indexing, need WP Admin/GSC).
+
+## Environment limits (stated honestly)
+- WP REST HTTP 000 and WordPress-com MCP unauthorized -> all authenticated WP steps parked.
+- Direct external fetch (site, EUR-Lex, news) blocked by GitHub-egress-only policy -> WebSearch fallback.
+- Gmail connector present but approval_email disabled in config -> no async mail approval this run.
+- fal image generation not exercised (no publish).
+=====================================================================
