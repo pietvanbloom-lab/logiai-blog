@@ -1,0 +1,40 @@
+# LogiAI Production Stack — Run Log
+# Date: 2026-08-03  Start: 07:11 CEST (05:11 UTC)  Mode: daily
+# Unattended scheduled (cloud Routine). Binding: .editorial-engine/ROUTINE-RUNBOOK.md
+
+## Config snapshot
+- Mode: daily -> phases 0, 1, 2, 3, 4, 5, 7 (skip 6 publish autonomous, skip 8 performance)
+- Caps (daily): total_usd 3.00 | total_tool_calls 200 | total_wall_min 90
+  per_phase: tool_calls 50, wall_min 30, usd 0.80 | per_draft: tool_calls 25, usd 0.50
+- Goal-drift-guard: enabled (stop_and_escalate on mismatch)
+- Loop detection: enabled (same_tool_threshold 4 per phase)
+- Models: haiku-4-5 structured / sonnet-4-6 reasoning-writing / opus-4-6 escalation only
+- Hard rules: NO WP publish, NO push to main, NO file delete, NO tracker flip, NO em-dashes.
+  All approval-gated items PARKED (runbook sec 2). Drafts to workspace/ on run branch only.
+
+## Environment preflight
+- Branch: claude/logiai-run-20260803 (from origin/main)
+- WP REST (https://logiai.blog/wp-json/wp/v2/posts): HTTP 000 -> network-blocked
+  (GitHub-egress-only cloud policy; NOT a 401/T021 auth failure). Authenticated WP steps PARKED.
+- WordPress-com MCP connector: requires OAuth, UNAUTHORIZED in headless session. WP publish PARKED.
+- Gmail connector: present/connecting; approval_email disabled in config (enabled: false). Async mail flow OFF.
+- fal image generation: not exercised (no publish this run).
+
+## Run state (counters)
+- tool_calls: initialized 0 | estimated_usd: 0 | wall: started 05:11 UTC
+
+---
+# PHASE LOG (appended at end of each phase)
+---
+
+## Phase 0 — Preflight  [ALIGNED=yes]
+Drift-guard: Phase 0 goal='read config + memory + tracker + WP check, init run state', current_action='read config.yml, portal.yaml, runbook, SKILL.md, memory, tracker; WP check', aligned=yes
+- Read (in order): ROUTINE-RUNBOOK.md, portal.yaml, config.yml, SKILL.md — OK
+- Read memory/logiai_project.md, memory/logiai_published.md — OK
+- queue/*.md: empty (only README) -> no pre-approved work packages
+- Action Tracker parsed: 114 tasks total, 41 Open (1 High/Content T106, 22 Medium, 18 Low)
+- WP REST: HTTP 000 (blocked). Tracker HTML: parsed clean.
+- Carried context from prior runs (cap-history): 3 drafts PARKED (T106 EU AI Act Digital
+  Omnibus, Humanoid robotics spotlight, Walden Robotics) + Freehand candidate (08-01).
+  T106 operator-approved to publish 07-31 (PR #16 merged) but BLOCKED on WP connector auth.
+Status: Phase 0 complete.
