@@ -38,3 +38,32 @@ Drift-guard: Phase 0 goal='read config + memory + tracker + WP check, init run s
   Omnibus, Humanoid robotics spotlight, Walden Robotics) + Freehand candidate (08-01).
   T106 operator-approved to publish 07-31 (PR #16 merged) but BLOCKED on WP connector auth.
 Status: Phase 0 complete.
+
+## Phase 1 — Action Tracker Sweep  [ALIGNED=yes]
+Drift-guard: Phase 1 goal='triage 41 open tasks, auto-execute only low-risk repo-local work, park all hard-stops', current_action='classify each open task by type + autonomy rule', aligned=yes
+Model: haiku-4-5 (structured triage).
+
+Open tasks: 41 (1 High, 22 Medium, 18 Low). Classification vs autonomy rules:
+
+HIGH
+- T106 [Content] EU AI Act Digital Omnibus piece: story trigger FIRED 24-27 Jul (Reg (EU)
+  2026/1744, OJ 24 Jul, in force 27 Jul). Draft already complete + parked
+  (workspace/logiai-draft-2026-07-26-T106-...OJ.md). Publish + Done-flip = OPERATOR. Handled in Phase 2/5.
+
+MEDIUM/LOW buckets (all require a hard-stop in this session -> PARKED, 0 auto-executed):
+- Need WP REST credential / WP Admin (blocked HTTP 000 + connector unauth):
+  T040, T042, T045, T055, T113, T066(partial), T031, T085 -> PARKED
+- Need Google Search Console (operator-only): T031, T066, T085 -> PARKED
+- Need git push to main / repo write to main / file delete (hard rule): T015, T016, T104 -> PARKED
+- Content tasks (deferred to Phase 2/3 or need publish): T013, T022, T027, T028, T039, T074,
+  T078, T111, T018 -> deferred/PARKED (no autonomous publish)
+- SEO analysis tasks (would be low-risk read-only, but external fetch blocked GitHub-egress-only):
+  T029, T072, T075, T076, T082, T071 -> PARKED (cannot crawl logiai.blog from this network)
+- Tech/infra needing operator or credential change: T033, T047, T081, T086, T108, T044, T059,
+  T067, T017, T025, T073, T103, T114, T014 -> PARKED
+
+Auto-executed this phase: 0 (consistent with every prior unattended run; matches hard rules).
+Carried over: all 41 open tasks. 0 tracker status flips (hard rule).
+Notable: T073 (AI-crawler robots.txt policy) and T072 (backlinks) remain the strategic levers
+per project memory (gate is ranking/authority, not indexing) but both need operator decision.
+Status: Phase 1 complete. tool_calls this phase: ~1 (analysis on already-parsed data).
