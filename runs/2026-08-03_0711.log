@@ -67,3 +67,35 @@ Carried over: all 41 open tasks. 0 tracker status flips (hard rule).
 Notable: T073 (AI-crawler robots.txt policy) and T072 (backlinks) remain the strategic levers
 per project memory (gate is ranking/authority, not indexing) but both need operator decision.
 Status: Phase 1 complete. tool_calls this phase: ~1 (analysis on already-parsed data).
+
+## Phase 2 — Editorial Pipeline: Monitoring / Scoring / Verification  [ALIGNED=yes]
+Drift-guard: Phase 2 goal='surface fresh dated non-duplicate logistics-AI candidates, verify, dedup', current_action='3 WebSearch sweeps (direct fetch blocked), score+verify+dedup vs published log', aligned=yes
+Model: haiku-4-5 monitoring/scoring, sonnet-4-6 verification.
+ENV: direct site/EUR-Lex fetch blocked (GitHub-egress-only, HTTP 000); WebSearch fallback used (3 sweeps).
+
+Monitoring sweeps (funding / AV+EU / EU-AI-Act):
+- Auger $50M Series B (Dave Clark): DEDUP BLOCK -> already post 688 (2026-07-15) + dedup-blocked 07-28.
+- Freehand $75M Series B (agentic AI, Fortune-500 SC spend/invoice agents): carried PARKED from 08-01;
+  Verified-Partial, DUPLICATE-RISK vs posts 623 + 576 (freight-invoice automation), US-centric. No change.
+- Augment $85M Series B (AI across logistics networks): STALE, already rejected 07-22. Skip.
+- IVECO + PlusAI Level-4 autonomous trucks Southern Europe: launch/evergreen framing, no fresh single-day
+  dated hook -> not a hard-news slot candidate today. Backup-watch.
+
+Dominant signal (regulation): 2 Aug 2026 -- the widely-cited EU AI Act high-risk applicability date --
+fell YESTERDAY. Digital Omnibus (Reg (EU) 2026/1744, OJ 24 Jul, in force 27 Jul) defers Annex III
+high-risk to 2 Dec 2027 and Annex I to 2 Aug 2028. This puts the parked T106 draft at PEAK timeliness.
+
+Verification: T106 multi-source confirmed (Reg (EU) 2026/1744). No NEW Verified fundable candidate.
+
+Duplicate-check vs memory/logiai_published.md (CRITICAL):
+- T106 draft carries genuine DEDUP-RISK vs post 490 (2026-05-25 "EU AI Act August Cliff Moved",
+  Digital Omnibus / Annex III / Dec-2027) and adjacency to post 597. NEW angle = Omnibus now officially
+  in OJ as Reg (EU) 2026/1744 + 2 Aug date passed (post 490 was May speculation). -> OPERATOR call
+  whether to publish as a dated update or fold into post 490. PARKED (already flagged 07-25/07-26/07-27).
+- 0 new non-duplicate story cleared for drafting.
+
+Overproduction guard: 3+ drafts already parked awaiting operator (T106 + Humanoid + Walden) + Freehand
+candidate -> HOLD new drafting this run (per prior-run guard). 
+
+Phase 2 output: 0 new candidates to draft. Shortlist carried = parked set (unchanged).
+Status: Phase 2 complete. tool_calls this phase: 3 WebSearch + 1 dedup scan.
