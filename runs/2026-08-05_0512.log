@@ -1,0 +1,19 @@
+LogiAI Production Stack - Daily Run - 2026-08-05 07:12 CEST (05:12 UTC) (scheduled cloud Routine, operator ABSENT)
+mode: daily (phases 0,1,2,3,4,5,7) | source of truth: repo pietvanbloom-lab/logiai-blog
+binding: .editorial-engine/ROUTINE-RUNBOOK.md (unattended cloud run)
+approval_email.enabled=false -> operator-present gate -> NO publish, NO WordPress writes, drafts PARKED only
+
+=== RUN SKELETON (artifacts-first, pre-phase) ===
+Branch: claude/logiai-run-20260805 (from origin/main @ 1d562b2, merge of PR #17 run-20260801)
+PR: draft "run: LogiAI daily 2026-08-05" (opened right after this skeleton push)
+Caps (daily mode from config.yml): 3.00 USD | 200 tool calls | 90 wall min; per-phase 50 calls / 30 min / 0.80 USD; per-draft 25 calls / 0.50 USD
+Guards active: goal-drift-guard (stop_and_escalate), loop_detection (4 same-tool threshold, arg_hash), cap enforcement order per config.
+Hard rules enforced this run: never publish to WordPress, never push to main, never delete files, never flip tracker statuses, no em-dashes in generated content.
+
+Connectors this session: WordPress-com MCP present but NOT authorized (OAuth cannot run in a headless scheduled session) -> authenticated WP steps PARKED. Gmail MCP present. github MCP present.
+
+Phases are appended below as they complete. Even a failed/capped/aborted run leaves this branch + PR behind.
+
+--- Phase log ---
+
+(Phases 0,1,2,3-4,5,7 appended below as they complete.)
