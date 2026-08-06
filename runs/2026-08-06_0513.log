@@ -74,3 +74,20 @@ HIGH PRIORITY: T106 (EU AI Act Digital Omnibus) -> draft already completed + PAR
 Auto-completed this run: NONE (no read-only task completable without live-site/credential access; tracker flips are a hard-rule park).
 Tracker status flips: 0 (hard rule).
 ## Phase 1: COMPLETE 05:15 UTC — 0 auto-completed, 0 flips, 41 carried/parked (28 env-blocked, 3 hard-stop, 5 local-code-proposal, 9 content-deferred; T106 -> Phase 5).
+
+## Phase 2: Editorial Pipeline (monitoring/scoring/verification) — STARTED 05:16 UTC
+drift-guard: Phase 2: goal='scan Tier1/2 sources, score+verify, dedup vs published log, output 1-5 verified non-dup candidates', current_action='4 WebSearch sweeps (funding, robotics, EU freight, EU AI Act), scored+verified, dedup vs memory/logiai_published.md', aligned=yes
+
+Monitoring: 4 WebSearch sweeps (WebSearch OK; direct site/EUR-Lex fetch still blocked by net policy).
+Candidates file: runs/2026-08-06_phase2_candidates.json
+
+Key note: post 692 (Walden Robotics) confirmed LIVE-published 2026-07-23 via WordPress.com MCP connector (wpcom Atomic site blog_id 253579599). The Walden draft that was previously parked is therefore DONE, not carried.
+
+VERIFIED / NON-DUPLICATE shortlist:
+- cand-01 5U AI $3.2M pre-seed (28 Jul 2026): Munich agentic-AI digital workforce for EU freight forwarding, backed by DHL/GEODIS/DSV/Maersk/Ceva execs. Verified (5+ sources). Dedup CLEAN. P2 standard (~68). P5(+P7). -> DRAFT in Phase 3.
+- cand-02 T106 EU AI Act Digital Omnibus (Reg (EU) 2026/1744, in force 27 Jul; 2 Aug Art 50 transparency applied): Verified. DUPLICATE-RISK vs post 490. Existing parked draft. -> PARK for operator.
+
+REJECTED (dedup/stale/off-hook): Auger $50M (already post 688), Augment/Augie (stale 2025 seed), KUKA trailer unload (evergreen), UPS/Pickle robots (past-freshness), Locus Array (stale+covered), Freehand $75M (carried park, dup-risk vs 623+576).
+
+Dedup method: exact-title + pillar/tag overlap vs memory/logiai_published.md (76 rows). No exact matches; cand-01 <3 tag overlap on a distinct funding event.
+## Phase 2: COMPLETE 05:17 UTC — 1 new verified non-dup candidate (5U AI) -> Phase 3; T106 + Freehand + Humanoid carried PARKED.
