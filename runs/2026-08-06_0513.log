@@ -1,0 +1,39 @@
+# LogiAI Production Stack — Run Log
+# ==================================================
+run_date:   2026-08-06
+run_time:   05:13 UTC
+mode:       daily            # phases 0,1,2,3,4,5,7
+trigger:    scheduled (cron/Routine), operator ABSENT
+runbook:    .editorial-engine/ROUTINE-RUNBOOK.md (binding)
+branch:     claude/logiai-run-20260806
+pr_title:   run: LogiAI daily 2026-08-06
+
+## Config snapshot (skills/logiai-production-stack/config.yml)
+caps.daily:
+  total_usd:        3.00
+  total_tool_calls: 200
+  total_wall_min:   90
+  per_phase:  tool_calls=50  wall_min=30  usd=0.80
+  per_draft:  tool_calls=25  usd=0.50
+goal_drift_guard: enabled (stop_and_escalate on mismatch)
+loop_detection:   enabled (same_tool_threshold=4, abort_phase_and_log)
+approval_email.enabled: false  # operator-present approval reverted 2026-06-17
+
+## Hard rules for this run (runbook s4)
+- Never publish to WordPress (park instead)
+- Never push to main (all output to run branch + PR)
+- Never delete files, never flip tracker statuses
+- No em-dashes in any generated content
+- Every approval-gated item PARKED with full context in PR body + this log
+
+## Known environment limits (to be confirmed in Phase 0)
+- WordPress-com MCP: requires OAuth (unauthorized in headless session)
+- WP REST direct fetch: prior runs HTTP 000/403 (GitHub-egress-only net policy, NOT a 401/T021)
+- Gmail MCP: connecting
+- Drafts carried PARKED from prior runs: T106 (EU AI Act Omnibus), Humanoid, Walden Robotics, Freehand candidate
+
+# ==================================================
+# PHASE LOG (appended at end of each phase)
+# ==================================================
+
+## Phase 0: Pre-flight — STARTED 05:13 UTC
