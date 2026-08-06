@@ -37,3 +37,16 @@ approval_email.enabled: false  # operator-present approval reverted 2026-06-17
 # ==================================================
 
 ## Phase 0: Pre-flight — STARTED 05:13 UTC
+drift-guard: Phase 0: goal='preflight: read config/memory/tracker, check access, init counters', current_action='read config.yml + portal.yaml + runbook + SKILL.md, parsed tracker, tested WP', aligned=yes
+
+Findings:
+- queue/: only README.md -> NO operator pre-approved work packages this run.
+- MEMORY.md index: not present (skipped, non-fatal).
+- memory/logiai_published.md + memory/logiai_project.md: read OK. 7 pillars P1-P7. P5 saturation flagged. Site IS indexed; gate is ranking/authority, not indexing.
+- Action Tracker: parsed 114 task objects, 41 OPEN. High-priority open: T106 (EU AI Act Digital Omnibus draft) -> already drafted + parked from prior runs.
+- WP REST public read: HTTP 000 (curl exit 56) = blocked by cloud network policy (GitHub-egress-only). NOT a 401 -> this is an environment limit, not an unresolved T021 auth failure. Publish steps PARKED.
+- WordPress-com MCP: requires OAuth, unauthorized in headless session -> publish PARKED.
+- Gmail MCP: connecting; approval_email.enabled=false anyway (operator-present approval mode).
+
+Cap state after Phase 0: ~11 tool calls, well within daily caps (200 total / 50 per phase).
+## Phase 0: COMPLETE 05:14 UTC — no blockers that abort; env limits logged, publish/credentialed steps will be parked.
