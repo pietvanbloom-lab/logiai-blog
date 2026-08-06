@@ -91,3 +91,69 @@ REJECTED (dedup/stale/off-hook): Auger $50M (already post 688), Augment/Augie (s
 
 Dedup method: exact-title + pillar/tag overlap vs memory/logiai_published.md (76 rows). No exact matches; cand-01 <3 tag overlap on a distinct funding event.
 ## Phase 2: COMPLETE 05:17 UTC — 1 new verified non-dup candidate (5U AI) -> Phase 3; T106 + Freehand + Humanoid carried PARKED.
+
+## Phase 3: Drafting — STARTED 05:18 UTC
+drift-guard: Phase 3: goal='draft verified candidate in LogiAI tone, save to workspace/, no publish', current_action='drafted 5U AI piece per CONTENT-STYLEGUIDE.md house style, saved to workspace/', aligned=yes
+Draft: workspace/logiai-draft-2026-08-06-5u-ai-freight-forwarding-agents.md
+- Pillar P5 Agentic AI (+P7). Format Analyse-Hausstil (Stratechery mode). ~660 words.
+- Includes 3 headline variants, SEO (focus kw "freight forwarding AI agents"), 2 internal-link targets (549, 688), 2 featured-image brief options, 2 editorial-visual specs (stat + cmp), QC pre-notes.
+## Phase 3: COMPLETE 05:18 UTC — 1 draft written to workspace/ (parked, NOT published).
+
+## Phase 4: QC + Compliance — STARTED 05:19 UTC
+drift-guard: Phase 4: goal='run QC checklist + compliance on draft, route', current_action='hard-rule sweep + compliance review on 5U AI body', aligned=yes
+QC hard-rule sweep (automated on ARTICLE BODY, 4459 chars / 672 words):
+  em-dash=0, en-dash=0, emoji=0, brief-header-leak=NONE, banned-floskeln=NONE, H2=3. -> PASS.
+QC assessment: thesis-first, sourced to 5+ outlets, house-style clean, accurate hedging (no unproven production customer claimed). Est QC ~9/10.
+Compliance: no legal-advice / no GDPR-PII / no unverified financials beyond the reported $3.2M round / sources attributed. -> PASS.
+Route: AUTO-APPROVE quality, but publish PARKED (unattended run; hard rule = never publish to WP without operator approval).
+## Phase 4: COMPLETE 05:19 UTC — 5U AI draft READY-FOR-PUBLISH (QC pass, compliance pass) but PARKED.
+
+## Phase 5: Approval Gate — STARTED 05:20 UTC (HARD STOP, operator absent)
+drift-guard: Phase 5: goal='no publish/flip without operator; park everything approval-gated', current_action='route all publish/flip decisions to Parked-for-operator section, take no write action', aligned=yes
+approval_email.enabled=false and WP connector unauthorized + WP REST network-blocked -> no async channel available this run.
+ALL publish/flip items PARKED (see PR body + section below). 0 WP POST, 0 tracker flip, 0 git-to-main, 0 delete.
+## Phase 5: COMPLETE 05:20 UTC — all approval-gated items parked, no write actions taken.
+
+## Phase 7: Memory Update — STARTED 05:21 UTC
+drift-guard: Phase 7: goal='append published rows (none), write run summary, no tracker flip', current_action='no publish this run -> 0 published-log rows; run log + cap-history are the memory artifacts', aligned=yes
+- memory/logiai_published.md: 0 new rows (nothing published).
+- Action Tracker: 0 status flips (hard rule).
+- Correction noted for operator (NOT auto-applied): post 692 Walden Robotics is LIVE since 2026-07-23 via WordPress.com MCP connector; the workspace Walden draft is superseded/DONE. T-item for the Walden custom-image swap remains open.
+## Phase 7: COMPLETE 05:21 UTC.
+
+# ==================================================
+# Parked for operator approval
+# ==================================================
+1. PUBLISH — 5U AI draft (NEW this run, READY-FOR-PUBLISH, QC pass / compliance pass).
+   File: workspace/logiai-draft-2026-08-06-5u-ai-freight-forwarding-agents.md
+   Pillar P5 Agentic AI (+P7). ~660 words. Dedup CLEAN. Suggested next open slot.
+   Action needed: operator approve publish (+ pick headline variant, confirm featured image A/B, verify internal-link slugs 549/688). Publish route: WordPress.com MCP connector (as used for post 692) once authorized; direct WP REST remains network-blocked in cloud.
+
+2. PUBLISH + TRACKER FLIP — T106 EU AI Act Digital Omnibus (HIGH).
+   File: workspace/logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md (762 words, 0 em/en-dash).
+   Now maximally timely: Reg (EU) 2026/1744 in force 27 Jul; 2 Aug 2026 Art 50 transparency obligations applied on schedule; Annex III high-risk deferred to 2 Dec 2027, Annex I to 2 Aug 2028.
+   DUPLICATE-RISK vs post 490 (Digital Omnibus follow-up, LIVE 2026-05-25): operator must acknowledge before publish. Action needed: operator decide publish vs fold-into-490, and T106 Done-flip.
+
+3. CARRIED CANDIDATES (parked, operator drafting decision):
+   - Humanoid (UK, SKL Robotics) $152M Series A at $1.35B, wheeled HMND01 + KinetIQ, beta logistics Q4-2026 (strong EU fit, dedup-clean).
+   - Freehand $75M Series B (29 Jul 2026, agentic AI Fortune-500 supply-chain spend/invoice agents): DUPLICATE-RISK vs posts 623+576, US-centric.
+
+4. TRACKER — 41 open tasks carried (0 flips this run, hard rule). Blocked-by-env: all live-site/GSC/WP/Gmail/credential SEO+Tech tasks (net policy is GitHub-egress-only, WP connector unauthorized headless, Gmail connecting). Hard-stop/NEVER: T015 (git push main), T104 (file delete), T073 (robots.txt policy). Local-code-proposal candidates awaiting operator greenlight: T033, T055, T059, T086, T103.
+
+5. CORRECTION FOR OPERATOR — content register: consider closing/annotating the Walden Robotics item now that post 692 is LIVE (2026-07-23); superseded workspace draft can be archived by operator (not auto-deleted, hard rule).
+
+# ==================================================
+# STRUCTURED RUN SUMMARY
+# ==================================================
+run: LogiAI daily 2026-08-06 (mode: daily) | operator ABSENT | branch claude/logiai-run-20260806 | PR #22
+Phase 0: preflight OK. queue empty. WP REST HTTP 000 (net policy, not 401). WP MCP unauthorized. Gmail connecting.
+Phase 1: 41 open tracker tasks triaged; 0 auto-completed; 0 flips; all carried/parked.
+Phase 2: 4 WebSearch sweeps; 1 NEW verified non-dup candidate (5U AI $3.2M pre-seed, 28 Jul); 6 rejected (dedup/stale); T106 re-confirmed timely.
+Phase 3: 1 draft written (5U AI) -> workspace/ (parked).
+Phase 4: 5U AI QC hard-rule sweep clean (0 em/en-dash, 0 emoji, no leak), compliance PASS; READY-FOR-PUBLISH but PARKED.
+Phase 5: all publish/flip PARKED; no async approval channel available.
+Phase 7: 0 published rows, 0 tracker flips.
+HARD-RULE COUNTERS: 0 WP publish | 0 git-to-main | 0 file delete | 0 tracker flip | 0 em-dash in generated content.
+CAPS: no cap hit. ~30 tool calls (limit 200 daily / 50 per phase). No loop aborts. No drift mismatches.
+OUTCOME: report-only + 1 new parked publishable draft (5U AI). T106 remains the highest-value parked publish, blocked only on operator approval + WP connector auth.
+## RUN COMPLETE 05:22 UTC.
