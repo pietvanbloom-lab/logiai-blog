@@ -1,0 +1,47 @@
+{
+  "run_date": "2026-08-06",
+  "mode": "daily",
+  "monitoring_window": "approx 2026-07-28 to 2026-08-06",
+  "sources_scanned": ["Tech.eu", "Air Cargo News", "Splash247", "Smart Maritime Network", "Cargo Newswire", "TechTimes", "WWD/Sourcing Journal", "TT News", "RoboticsTomorrow", "Hunton", "Gibson Dunn", "Cyberlawwatch"],
+  "candidates": [
+    {
+      "id": "cand-01",
+      "name": "5U AI pre-seed",
+      "headline": "5U AI raises $3.2M pre-seed for European freight-forwarding agentic AI",
+      "date": "2026-07-28",
+      "pillar": "P5 Agentic AI (+P7 AI Vendor Eval)",
+      "summary": "Munich (TU Munich) startup 5U AI raised $3.2M pre-seed led by Emerge Capital to scale a multi-agent 'digital workforce' platform automating quoting, bookings, shipment tracking and data entry across air, sea and road freight for European freight forwarders. Backed by senior execs from DHL, GEODIS, DSV, Maersk and Ceva.",
+      "sources": [
+        "https://tech.eu/2026/07/28/5u-ai-lands-32m-pre-seed-for-ai-freight-workforce-platform/",
+        "https://www.aircargonews.net/technology/2026/07/5u-ai-raises-3-2m-to-scale-up-its-offering/",
+        "https://splash247.com/freight-automation-startup-5u-ai-lands-3-2m/",
+        "https://smartmaritimenetwork.com/2026/07/29/5u-ai-raises-3-2m-for-ai-freight-forwarding-platform/",
+        "https://cargonewswire.com/5u-ai-raises-3-2-million-to-expand-agentic-ai-platform-for-freight-forwarding-operations/"
+      ],
+      "verification": "Verified. 5+ independent trade/tech outlets (Tech.eu, Air Cargo News, Splash247, Smart Maritime Network, Cargo Newswire) plus company blog, consistent date 28 Jul 2026 and figure $3.2M pre-seed. Founders and backer roster consistent across sources.",
+      "score_5criteria": {"relevance": "high (EU freight forwarding, on-core)", "novelty": "medium (distinct named co + event, small round)", "authority": "high (Tech.eu + trade press + heavyweight logistics-exec backers)", "timeliness": "high (~9 days, within window)", "actionability": "medium"},
+      "priority_class": "P2 standard (est ~68)",
+      "dedup": "CLEAN. No prior 5U AI coverage. Adjacent posts (549 freight-forwarder AI tools, 451/484/519/688 agentic AI) are different companies/angles; <3 tag overlap on a distinct funding event. Not a duplicate.",
+      "disposition": "DRAFT in Phase 3 -> park in workspace/ (no publish, operator approval gated)."
+    },
+    {
+      "id": "cand-02",
+      "name": "T106 EU AI Act Digital Omnibus",
+      "headline": "EU AI Act Digital Omnibus (Reg (EU) 2026/1744) in force; 2 Aug transparency obligations applied",
+      "date": "in force 2026-07-27; 2026-08-02 transparency milestone",
+      "pillar": "P6 EU AI Act",
+      "summary": "Reg (EU) 2026/1744 entered into force 27 Jul 2026 (OJ 24 Jul). 2 Aug 2026 = Art 50 transparency obligations applied on schedule; Annex III high-risk deferred to 2 Dec 2027, Annex I embedded to 2 Aug 2028. Confirmed multi-source (Hunton, Gibson Dunn, Cyberlawwatch, Modulos).",
+      "verification": "Verified (legal-firm + regulatory trackers).",
+      "dedup": "DUPLICATE-RISK vs post 490 (Digital Omnibus follow-up, LIVE 2026-05-25) and post 464. Existing parked draft workspace/logiai-draft-2026-07-26-T106-...OJ.md already written.",
+      "disposition": "PARKED for operator (publish + T106 Done-flip = operator decision; dedup-risk vs 490 must be operator-acknowledged)."
+    }
+  ],
+  "rejected": [
+    "Auger $50M Series B (Dave Clark/Eclipse) -> DEDUP BLOCK, already post 688 LIVE 2026-07-15.",
+    "Augment / Augie $25M seed 8VC -> STALE (prior-run rejection, seed dates to 2025).",
+    "KUKA automated trailer unloading (2026-08-04) -> evergreen product/safety, no dated fundable/regulatory hook.",
+    "UPS 400 robots / Pickle Robots H2-2026 -> Pickle flagged past-freshness in prior runs; procurement push, not fresh dated event.",
+    "Locus Array launch -> stale (2026-04-10) and Locus already covered (post 498).",
+    "Freehand $75M Series B (29 Jul) -> carried PARKED from 2026-08-01, DUPLICATE-RISK vs posts 623+576, US-centric."
+  ]
+}
