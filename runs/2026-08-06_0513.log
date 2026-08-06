@@ -50,3 +50,27 @@ Findings:
 
 Cap state after Phase 0: ~11 tool calls, well within daily caps (200 total / 50 per phase).
 ## Phase 0: COMPLETE 05:14 UTC — no blockers that abort; env limits logged, publish/credentialed steps will be parked.
+
+## Phase 1: Action Tracker Sweep — STARTED 05:14 UTC
+drift-guard: Phase 1: goal='triage 41 open tracker tasks, auto-execute only low-risk read-only/local, park approval-gated + credentialed', current_action='classify tasks by handler + blocker, take no tracker flip (hard rule), no git-main, no delete', aligned=yes
+
+Triage of 41 OPEN tasks (env: GitHub-egress-only network, no WP auth, no Gmail auth, operator absent):
+
+BLOCKED-BY-ENV (need live site / GSC / WP REST / credentials -> PARKED):
+- SEO: T029 competitor gap, T031 GSC manual index, T066 GSC submit posts, T071 FAQ/HowTo schema (needs live post edit), T072 backlinks, T075 long-tail keyword map (needs live crawl+GSC), T076 internal linking (needs live slugs), T082 full SEO audit (needs crawl), T085 GSC recheck, T113 Yoast persistence check (WP Admin)
+- Tech (credential/live): T040 WP media dir perms, T042 pre-optimize featured images (WP upload), T044/T045 TTS/ElevenLabs subscription, T047 approval-mail (Gmail), T081 Stage1 selection mail (Gmail), T108 skill cache re-save (Settings UI), T067 Cloudflare vs WP traffic, T025 GSC property removal, T031 GSC
+- Design (live): T014 mobile responsiveness (needs rendered site), T114 swap fal image post 688 (WP + fal), T016 editorial visuals push to Pages (git push = hard stop)
+
+HARD-STOP / NEVER (per hard rules -> PARKED, no action):
+- T015 Push theme changes to GitHub (git push to main = forbidden)
+- T104 Delete three stale temp files (file deletion = NEVER)
+- T073 robots.txt AI-crawler policy (irreversible site policy, operator decision)
+
+LOCAL-CODE-POSSIBLE but non-trivial (proposal-only; carried, not executed this run to protect caps + avoid goal drift on a content-focused daily run): T033 weekday mismatch, T055 mu-plugin, T059 internal-link matcher, T086 wire brief-leak-guard, T103 content-register reconcile. These are viable future run-branch PRs; flagged for operator to greenlight scope.
+
+CONTENT -> DEFERRED to Phase 3 (per SKILL Phase 1 rule): T013, T022, T027, T028, T074, T078, T111, T039, T018.
+HIGH PRIORITY: T106 (EU AI Act Digital Omnibus) -> draft already completed + PARKED from prior runs (workspace/logiai-draft-2026-07-26-T106-...OJ.md). Carried to Phase 5.
+
+Auto-completed this run: NONE (no read-only task completable without live-site/credential access; tracker flips are a hard-rule park).
+Tracker status flips: 0 (hard rule).
+## Phase 1: COMPLETE 05:15 UTC — 0 auto-completed, 0 flips, 41 carried/parked (28 env-blocked, 3 hard-stop, 5 local-code-proposal, 9 content-deferred; T106 -> Phase 5).
