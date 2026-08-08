@@ -41,4 +41,50 @@ Phase 0: goal='read config + state, set up run artifacts, verify environment', c
 Status: Phase 0 complete. Proceeding to artifacts-first (branch + skeleton + draft PR), then Phase 1.
 
 ---
+
+## Phase 1: Action Tracker Sweep (daily)
+Drift-guard: Phase 1: goal='triage Open tracker tasks, auto-execute low-risk, park approval-gated', current_action='classify 41 Open tasks by type/risk and route', aligned=yes
+
+Open tasks: 41 (1 High, 22 Medium, 18 Low). Sorted priority then date_added.
+
+Routing under unattended posture (operator absent) + environment limits
+(GitHub-egress-only network, WP connector unauthorized, no GSC/Admin access):
+
+CONTENT (defer to Phase 3 or park):
+- T106 High: EU AI Act Digital Omnibus piece. Draft already parked from prior runs
+  (workspace/logiai-draft-2026-07-26-T106-...OJ.md). Trigger fired 24 Jul (Reg (EU)
+  2026/1744). Carried to Phase 3/5 review. See timeliness note in Phase 2.
+- T013, T022, T027, T028, T039, T074, T078, T111, T018: content/strategy backlog.
+  None are single-run auto-executable without external data or operator direction.
+  T074 (reframe strategy brief section 0) is a local doc edit but a strategy-judgment
+  change -> parked, not made unattended. Rest carried.
+
+SEO (all require WP REST creds, GSC/Admin, or external crawl -> unavailable/parked):
+- T029, T031, T066, T071, T072, T075, T076, T082, T085, T113. All PARKED (blocked by
+  network policy + no operator credentials in headless session).
+
+TECH (hard-stop actions: git push, file delete, credential/WP config, or blocked):
+- T040, T042, T045, T047, T081, T086, T108, T015, T017, T025, T033, T044, T055,
+  T059, T067, T073, T103, T104. All PARKED.
+  - T104 (delete 3 stale temp files) -> HARD RULE never delete: PARKED, no action.
+  - T015, T016 (git push theme/visuals) -> hard-stop git: PARKED.
+  - T103 (reconcile register 592/597) -> local edit but needs WP verification of IDs
+    (blocked) to do safely: PARKED.
+
+DESIGN:
+- T014 (mobile responsiveness check) -> needs live site fetch (blocked): PARKED.
+- T016 (push visuals to Pages) -> git push hard-stop: PARKED.
+- T114 (swap post 688 featured image) -> WP media (blocked): PARKED.
+
+Phase 1 result: 0 tasks auto-executed, 0 tracker status flips (hard rule + no operator),
+0 git-to-main, 0 deletes. All actionable items are gated on operator approval or on
+resources unavailable in this headless/network-restricted session. Content tasks carried
+to Phase 3. No loops, no drift. Phase 1 within caps (tool calls well under 50).
+
+---
+
+## Phase 2: Editorial Pipeline Upstream (daily)
+(pending)
+
+---
 (phase results appended below as the run proceeds)
