@@ -171,7 +171,78 @@ Phase 3: 1 new draft. Within per-draft caps. No loops, no drift.
 ---
 
 ## Phase 4: QC + Compliance (daily)
-(pending)
+Drift-guard: Phase 4: goal='QC + compliance on drafts, route auto-approve/soft/hard', current_action='evaluate HappyRobot draft, dry-run pre-publish guards', aligned=yes
+
+Draft: HappyRobot (workspace/logiai-draft-2026-08-08-happyrobot-...freight.md)
+
+Quality gate (threshold 85):
+- Hard rules: 0 em-dash, 0 en-dash, 0 emoji, no non-ASCII. PASS.
+- Structure: 1 H1, 4 H2, italic standfirst, 5 named sources. ~760 body words (in range).
+- Sourcing: every factual claim ($150M, $1.2B, 4 Aug, co-leads Prysm+Eurazeo, 150+
+  customers incl DHL/K+N) multi-source verified. Confidence: Verified.
+- Thesis-first, EU-anchored, actionable close, internal-link hook to post 688 (Auger).
+- Estimated QC ~90/100 -> PASS.
+Pre-publish guards (dry-run on extracted clean body, not a publish):
+- brief-leak-guard.py -> exit 0 (CLEAN).
+- tools/visual-style-guard.py -> exit 0 (CLEAN; no inlined visuals yet, no style blocks).
+
+Compliance:
+- EU AI Act: journalistic commentary, no legal advice. PASS.
+- GDPR: only public-figure / public-company info. PASS.
+- Copyright: original prose, sources linked, no copied text. PASS.
+- Taxonomy: P5 pillar + P7, tags mapped. PASS.
+
+Routing:
+- On quality + compliance alone: AUTO-APPROVE route.
+- BUT duplicate-check mandates operator surface: DUPLICATE-RISK (pillar P5 + 3-tag overlap
+  with post 688 Auger / post 519 Stord) and P5 pillar-saturation. This is an editorial
+  operator call, not a hard QC fail. -> classified SOFT-ESCALATION (operator decides
+  publish vs skip vs hold-for-P5-balance).
+- Hard rule: scheduled run never publishes -> PARKED regardless.
+
+Net Phase 4 outcome: 1 draft = QUALITY-READY + COMPLIANCE-PASS, PARKED for operator
+(publish decision + dedup acknowledgement). 0 hard escalations. No loops, no drift.
 
 ---
-(phase results appended below as the run proceeds)
+
+## Phase 5: Approval Gate (HARD STOP -> PARK, operator absent)
+Drift-guard: Phase 5: goal='operator approval gate; unattended -> park all, no writes', current_action='enumerate parked items, take no publish/flip action', aligned=yes
+
+approval_email.enabled=false and operator absent -> no interactive prompt, no mail flow.
+ALL approval-gated items PARKED (see "Parked for operator approval" in PR body). 0 publishes,
+0 tracker flips, 0 irreversible actions.
+
+---
+
+## Phase 7: Memory Update (daily)
+Drift-guard: Phase 7: goal='update memory/run log for state changes', current_action='record run; no published posts and no tracker flips so no register/tracker writes', aligned=yes
+
+- memory/logiai_published.md: NO change (0 posts published this run; register append only on publish).
+- Action Tracker HTML: NO change (0 status flips; hard rule + operator absent).
+- MEMORY.md: NO new memory files created.
+- Continuity note for next run: post 692 (Walden) is LIVE since 2026-07-23; drop the stale
+  "Walden parked draft" carry that appeared in 07-25..08-01 logs. Active parked items now:
+  HappyRobot (new, this run), T106 (decayed), Humanoid (decayed), Freehand (dup-risk).
+- Run log = this file (the run's system of record).
+
+---
+
+## RUN SUMMARY
+Mode: daily | Operator: absent | Result: NO-PUBLISH (report-only), 1 new parked draft.
+
+Phase 1 (Action Tracker): 41 Open tasks triaged; 0 auto-executed, 0 tracker flips; all
+  actionable items gated on operator approval or blocked resources (network/WP/GSC).
+Phase 2 (Monitoring/Scoring/Verify/Dedup): 1 verified draft candidate (HappyRobot $150M
+  Series C, 2026-08-04); FedEx+Dexterity parked backup; T106 timeliness decayed; dedup
+  BLOCKS on Auger (post 688), Augment (stale), Walden (post 692).
+Phase 3 (Drafting): 1 draft parked to workspace/ (HappyRobot, ~760w, 0 em-dashes).
+Phase 4 (QC+Compliance): draft QUALITY-READY + COMPLIANCE-PASS; guards exit 0; SOFT-ESCALATION
+  on duplicate-risk + P5 saturation -> PARKED for operator.
+Phase 5: all approvals parked (operator absent). 0 publishes.
+Phase 7: no memory/tracker writes (nothing published, hard rules).
+
+HARD-RULE COMPLIANCE: 0 WP publishes | 0 pushes to main | 0 file deletes | 0 tracker flips |
+  0 em-dashes in generated content. All output on branch claude/logiai-run-20260808 + PR #24.
+
+END OF RUN.
+
