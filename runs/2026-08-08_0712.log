@@ -1,0 +1,44 @@
+# LogiAI Production Stack — Run Log
+Date: 2026-08-08
+Start: 07:12 CEST (05:12 UTC)
+Mode: daily (phases 0, 1, 2, 3, 4, 5, 7)
+Session: unattended scheduled cloud run (operator absent)
+Branch: claude/logiai-run-20260808
+Runbook: .editorial-engine/ROUTINE-RUNBOOK.md (BINDING for this run)
+
+## Config snapshot (skills/logiai-production-stack/config.yml v1, last_updated 2026-05-11)
+- Caps (daily): total_usd 3.00 | total_tool_calls 200 | total_wall_min 90
+  per_phase: tool_calls 50, wall_min 30, usd 0.80 | per_draft: tool_calls 25, usd 0.50
+- Goal-drift-guard: enabled, on_mismatch=stop_and_escalate
+- Loop detection: enabled, same_tool_threshold 4, on_loop=abort_phase_and_log
+- approval_email.enabled: false (operator-present approval reverted 2026-06-17) -> all approvals PARKED
+- Model assignment per phase per config (haiku structured, sonnet reasoning/writing, opus escalation only)
+
+## Hard rules in force (runbook + config)
+- NEVER publish to WordPress from a scheduled run (park)
+- NEVER push to main (all output -> run branch + draft PR)
+- NEVER delete files, NEVER flip tracker statuses
+- NO em-dashes in any generated content
+- Every approval-gated item PARKED with full context; drafts to workspace/ only
+
+## Environment preflight
+- WordPress-com MCP connector: UNAUTHORIZED in headless session (OAuth flow unavailable) -> WP publish path unavailable
+- WP REST direct (https://logiai.blog/wp-json): BLOCKED at network policy (CONNECT 403 / HTTP 000, GitHub-egress-only). NOT a 401/T021 auth failure. Public read endpoints also unreachable. Per runbook 5: noted, WP-authenticated + WP-read steps PARKED.
+- Monitoring fallback: WebSearch (repo network policy is GitHub-egress-only for curl)
+- Git remote: reachable (GitHub egress allowed)
+
+## Phase 0: Pre-flight — drift-guard
+Phase 0: goal='read config + state, set up run artifacts, verify environment', current_action='read config.yml/runbook/portal.yaml/SKILL.md, parse tracker, check WP, create run branch+log+PR', aligned=yes
+
+### Phase 0 findings
+- config.yml, ROUTINE-RUNBOOK.md, portal.yaml, SKILL.md read in order. OK.
+- queue/*.md: empty (only README) -> no operator pre-approved work packages this run.
+- Action Tracker parsed: 114 tasks total, 41 Open (1 High, 22 Medium, 18 Low). Parse CLEAN (json.loads OK).
+- Content register memory/logiai_published.md read for dedup. MEMORY.md index empty.
+- CONTINUITY CORRECTION: register shows post 692 "Walden Robotics Bet $1.1 Billion" LIVE 2026-07-23 (published via WordPress.com connector). Prior run logs (07-25..08-01) still listed a parked "Walden draft" — that is STALE; Walden is PUBLISHED and is now a dedup BLOCK, removed from the parked-drafts carry list.
+- Standing parked drafts/candidates carried from prior runs: T106 EU AI Act Digital Omnibus draft; Humanoid (UK) candidate; Freehand candidate (08-01).
+
+Status: Phase 0 complete. Proceeding to artifacts-first (branch + skeleton + draft PR), then Phase 1.
+
+---
+(phase results appended below as the run proceeds)
