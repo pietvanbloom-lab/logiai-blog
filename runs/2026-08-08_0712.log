@@ -1,0 +1,248 @@
+# LogiAI Production Stack — Run Log
+Date: 2026-08-08
+Start: 07:12 CEST (05:12 UTC)
+Mode: daily (phases 0, 1, 2, 3, 4, 5, 7)
+Session: unattended scheduled cloud run (operator absent)
+Branch: claude/logiai-run-20260808
+Runbook: .editorial-engine/ROUTINE-RUNBOOK.md (BINDING for this run)
+
+## Config snapshot (skills/logiai-production-stack/config.yml v1, last_updated 2026-05-11)
+- Caps (daily): total_usd 3.00 | total_tool_calls 200 | total_wall_min 90
+  per_phase: tool_calls 50, wall_min 30, usd 0.80 | per_draft: tool_calls 25, usd 0.50
+- Goal-drift-guard: enabled, on_mismatch=stop_and_escalate
+- Loop detection: enabled, same_tool_threshold 4, on_loop=abort_phase_and_log
+- approval_email.enabled: false (operator-present approval reverted 2026-06-17) -> all approvals PARKED
+- Model assignment per phase per config (haiku structured, sonnet reasoning/writing, opus escalation only)
+
+## Hard rules in force (runbook + config)
+- NEVER publish to WordPress from a scheduled run (park)
+- NEVER push to main (all output -> run branch + draft PR)
+- NEVER delete files, NEVER flip tracker statuses
+- NO em-dashes in any generated content
+- Every approval-gated item PARKED with full context; drafts to workspace/ only
+
+## Environment preflight
+- WordPress-com MCP connector: UNAUTHORIZED in headless session (OAuth flow unavailable) -> WP publish path unavailable
+- WP REST direct (https://logiai.blog/wp-json): BLOCKED at network policy (CONNECT 403 / HTTP 000, GitHub-egress-only). NOT a 401/T021 auth failure. Public read endpoints also unreachable. Per runbook 5: noted, WP-authenticated + WP-read steps PARKED.
+- Monitoring fallback: WebSearch (repo network policy is GitHub-egress-only for curl)
+- Git remote: reachable (GitHub egress allowed)
+
+## Phase 0: Pre-flight — drift-guard
+Phase 0: goal='read config + state, set up run artifacts, verify environment', current_action='read config.yml/runbook/portal.yaml/SKILL.md, parse tracker, check WP, create run branch+log+PR', aligned=yes
+
+### Phase 0 findings
+- config.yml, ROUTINE-RUNBOOK.md, portal.yaml, SKILL.md read in order. OK.
+- queue/*.md: empty (only README) -> no operator pre-approved work packages this run.
+- Action Tracker parsed: 114 tasks total, 41 Open (1 High, 22 Medium, 18 Low). Parse CLEAN (json.loads OK).
+- Content register memory/logiai_published.md read for dedup. MEMORY.md index empty.
+- CONTINUITY CORRECTION: register shows post 692 "Walden Robotics Bet $1.1 Billion" LIVE 2026-07-23 (published via WordPress.com connector). Prior run logs (07-25..08-01) still listed a parked "Walden draft" — that is STALE; Walden is PUBLISHED and is now a dedup BLOCK, removed from the parked-drafts carry list.
+- Standing parked drafts/candidates carried from prior runs: T106 EU AI Act Digital Omnibus draft; Humanoid (UK) candidate; Freehand candidate (08-01).
+
+Status: Phase 0 complete. Proceeding to artifacts-first (branch + skeleton + draft PR), then Phase 1.
+
+---
+
+## Phase 1: Action Tracker Sweep (daily)
+Drift-guard: Phase 1: goal='triage Open tracker tasks, auto-execute low-risk, park approval-gated', current_action='classify 41 Open tasks by type/risk and route', aligned=yes
+
+Open tasks: 41 (1 High, 22 Medium, 18 Low). Sorted priority then date_added.
+
+Routing under unattended posture (operator absent) + environment limits
+(GitHub-egress-only network, WP connector unauthorized, no GSC/Admin access):
+
+CONTENT (defer to Phase 3 or park):
+- T106 High: EU AI Act Digital Omnibus piece. Draft already parked from prior runs
+  (workspace/logiai-draft-2026-07-26-T106-...OJ.md). Trigger fired 24 Jul (Reg (EU)
+  2026/1744). Carried to Phase 3/5 review. See timeliness note in Phase 2.
+- T013, T022, T027, T028, T039, T074, T078, T111, T018: content/strategy backlog.
+  None are single-run auto-executable without external data or operator direction.
+  T074 (reframe strategy brief section 0) is a local doc edit but a strategy-judgment
+  change -> parked, not made unattended. Rest carried.
+
+SEO (all require WP REST creds, GSC/Admin, or external crawl -> unavailable/parked):
+- T029, T031, T066, T071, T072, T075, T076, T082, T085, T113. All PARKED (blocked by
+  network policy + no operator credentials in headless session).
+
+TECH (hard-stop actions: git push, file delete, credential/WP config, or blocked):
+- T040, T042, T045, T047, T081, T086, T108, T015, T017, T025, T033, T044, T055,
+  T059, T067, T073, T103, T104. All PARKED.
+  - T104 (delete 3 stale temp files) -> HARD RULE never delete: PARKED, no action.
+  - T015, T016 (git push theme/visuals) -> hard-stop git: PARKED.
+  - T103 (reconcile register 592/597) -> local edit but needs WP verification of IDs
+    (blocked) to do safely: PARKED.
+
+DESIGN:
+- T014 (mobile responsiveness check) -> needs live site fetch (blocked): PARKED.
+- T016 (push visuals to Pages) -> git push hard-stop: PARKED.
+- T114 (swap post 688 featured image) -> WP media (blocked): PARKED.
+
+Phase 1 result: 0 tasks auto-executed, 0 tracker status flips (hard rule + no operator),
+0 git-to-main, 0 deletes. All actionable items are gated on operator approval or on
+resources unavailable in this headless/network-restricted session. Content tasks carried
+to Phase 3. No loops, no drift. Phase 1 within caps (tool calls well under 50).
+
+---
+
+## Phase 2: Editorial Pipeline Upstream (daily)
+Drift-guard: Phase 2: goal='monitor sources, score, verify, dedup -> verified non-dup shortlist', current_action='WebSearch monitoring (WP/EUR-Lex direct blocked), score+verify+dedup candidates', aligned=yes
+
+Monitoring via WebSearch (Tier-1 logistics/AI). 4 searches (funding, weekly roundup,
+plus 2 verifications). No loops.
+
+### Candidates surfaced and scored/verified
+1. HappyRobot $150M Series C — VERIFIED, PRIMARY DRAFT CANDIDATE
+   - Announced 2026-08-04 (multi-source: FreightWaves, Supply Chain Digital, TheNextWeb,
+     TechTimes, TheAIInsider, company blog). 4 days old -> fresh, in window.
+   - $150M Series C at $1.2B valuation; newest FreightTech unicorn. Co-led Prysm Capital +
+     Eurazeo; also Koch Disruptive Technologies, Orange, Kfund, Bankinter, T Capital.
+   - Spanish-founded (2022, Palafox brothers + Paarup). Voice AI agents for logistics -> AI
+     native OS deploying autonomous "AI workers" (voice/email/chat/docs). 150+ enterprise
+     customers incl DHL, Kuehne+Nagel, Naturgy, Repsol, Uber; 5x growth since Series B.
+   - Pillar P5 Agentic AI (+P7). Strong EU angle (EU co-investors + EU logistics customers)
+     -> good fit for low-competition EU long-tail strategy.
+   - Scoring (5-criteria, est): direct logistics impact HIGH, timeliness HIGH, source
+     robustness HIGH, EU relevance HIGH, differentiation MED. -> P1/P2 class. Confidence: Verified.
+   - DEDUP: no HappyRobot in register. BUT pillar P5 + tag overlap (Funding, Enterprise AI,
+     AI Agents/Agentic) with post 688 Auger and post 519 Stord >= 3 tags AND same pillar
+     -> DUPLICATE-RISK flag (not a block). Angle is distinct (voice AI workers / freight
+     brokerage + carrier comms automation vs Auger's supply-chain-planning OS). Also P5
+     pillar-saturation guard applies (P5 historically >40%). Surface to operator.
+   - Decision: DRAFT in Phase 3 (parked to workspace/, not published). Duplicate-RISK +
+     saturation flagged for operator decision at Phase 5.
+
+2. FedEx + Dexterity, Hagerstown Hub physical AI trailer loading — BACKUP, no draft
+   - Announced 2026-07-30 (FedEx newsroom, Logistics Mgmt, Robotics&Automation 07-31,
+     Supply Chain 24/7). ~9 days old -> borderline freshness (>7d).
+   - Dexterity "Foresight" world model + dual-armed superhumanoid "Mech"; scales beyond pilot.
+   - Pillar P2 Physical AI. DEDUP-RISK: Physical AI pillar saturated (post 692 Walden 07-23,
+     486 GXO/KION, 498 Locus/Nexera). US-centric (weak EU fit). Pairs as a counterpoint to
+     Walden's "general beats special" thesis (Mech is task-specific) if operator wants it.
+   - Decision: PARK as backup candidate. No draft (freshness + saturation + US-centric).
+
+3. T106 EU AI Act Digital Omnibus (parked draft from 07-26) — TIMELINESS DECAYED
+   - Reg (EU) 2026/1744, OJ 24 Jul, in force 27 Jul. The widely-cited 2 Aug 2026 high-risk
+     applicability date has now PASSED (6 days ago); Digital Omnibus deferred Annex III
+     high-risk to 2 Dec 2027. The "August cliff" moment is behind us -> parked draft's news
+     peak has passed and is declining.
+   - DEDUP: heavy overlap with LIVE post 490 ("The EU AI Act August Cliff Moved", covers the
+     Digital Omnibus deferral) + post 464. Duplicate-RISK previously flagged.
+   - Decision: continue to PARK; recommend operator either publish immediately (value still
+     decaying) or retire the draft in favor of an update to post 490. No draft action taken.
+
+### Dedup BLOCKS (surfaced but rejected)
+- Auger $50M Series B (Dave Clark) -> ALREADY LIVE as post 688 (2026-07-15). BLOCK.
+- Augment / "Augie" ($25M seed, 8VC) -> STALE (seed Mar2025 / Series A Sep2025, re-confirmed
+  stale in prior runs). BLOCK.
+- Walden Robotics -> ALREADY LIVE as post 692 (2026-07-23). BLOCK (corrects stale carry).
+- Avatar Robotics $6.5M seed -> too thin/small. Drop.
+
+### Carried parked candidates from prior runs (status this run)
+- Humanoid (UK SKL Robotics, $152M Series A, from 07-24): now ~2 weeks old, freshness
+  decayed; carried PARKED, no draft, recommend operator decide retire-or-evergreen.
+- Freehand ($75M Series B, from 08-01): US-centric, duplicate-risk vs posts 623+576; carried
+  PARKED, no draft.
+
+Phase 2 output: 1 verified draft candidate (HappyRobot) -> Phase 3. Others parked.
+No loops, no drift. Within caps.
+
+---
+
+## Phase 3: Drafting (daily)
+Drift-guard: Phase 3: goal='draft verified candidate in LogiAI tone with visuals+metadata, save to workspace', current_action='draft HappyRobot piece to workspace/, parked', aligned=yes
+
+1 draft produced (parked, NOT published, workspace only):
+- workspace/logiai-draft-2026-08-08-happyrobot-series-c-voice-ai-agents-freight.md
+  - Pillar P5 Agentic AI (+P7). ~760 body words. Thesis-first analysis-Hausstil.
+  - Hard-rule check: 0 em-dashes, 0 en-dashes in prose, 0 emoji, no non-ASCII. PASS.
+  - 3 H1 variants, focus keyphrase "voice AI agents freight", SEO title + 156-char meta.
+  - 2 editorial-visual specs (stat callout + 3-layer cmp table). Specs only, to be built
+    + inlined via tools/editorial-visual-inline.py at publish; visual-style-guard.py must
+    exit 0 before any WP POST. No style-block HTML produced (nothing publishes this run).
+  - 2 featured-image brief options (photographic + diagrammatic), DESIGN.md-aligned.
+  - DUPLICATE-RISK + P5-saturation flags carried into the draft's slotting note.
+
+Carried parked drafts (unchanged, no new action):
+- T106 EU AI Act Digital Omnibus (workspace/logiai-draft-2026-07-26-T106-...OJ.md) -
+  timeliness decayed (see Phase 2); operator decision pending.
+No new drafts for Humanoid / Freehand (parked candidates, decayed/dup-risk, see Phase 2).
+
+Phase 3: 1 new draft. Within per-draft caps. No loops, no drift.
+
+---
+
+## Phase 4: QC + Compliance (daily)
+Drift-guard: Phase 4: goal='QC + compliance on drafts, route auto-approve/soft/hard', current_action='evaluate HappyRobot draft, dry-run pre-publish guards', aligned=yes
+
+Draft: HappyRobot (workspace/logiai-draft-2026-08-08-happyrobot-...freight.md)
+
+Quality gate (threshold 85):
+- Hard rules: 0 em-dash, 0 en-dash, 0 emoji, no non-ASCII. PASS.
+- Structure: 1 H1, 4 H2, italic standfirst, 5 named sources. ~760 body words (in range).
+- Sourcing: every factual claim ($150M, $1.2B, 4 Aug, co-leads Prysm+Eurazeo, 150+
+  customers incl DHL/K+N) multi-source verified. Confidence: Verified.
+- Thesis-first, EU-anchored, actionable close, internal-link hook to post 688 (Auger).
+- Estimated QC ~90/100 -> PASS.
+Pre-publish guards (dry-run on extracted clean body, not a publish):
+- brief-leak-guard.py -> exit 0 (CLEAN).
+- tools/visual-style-guard.py -> exit 0 (CLEAN; no inlined visuals yet, no style blocks).
+
+Compliance:
+- EU AI Act: journalistic commentary, no legal advice. PASS.
+- GDPR: only public-figure / public-company info. PASS.
+- Copyright: original prose, sources linked, no copied text. PASS.
+- Taxonomy: P5 pillar + P7, tags mapped. PASS.
+
+Routing:
+- On quality + compliance alone: AUTO-APPROVE route.
+- BUT duplicate-check mandates operator surface: DUPLICATE-RISK (pillar P5 + 3-tag overlap
+  with post 688 Auger / post 519 Stord) and P5 pillar-saturation. This is an editorial
+  operator call, not a hard QC fail. -> classified SOFT-ESCALATION (operator decides
+  publish vs skip vs hold-for-P5-balance).
+- Hard rule: scheduled run never publishes -> PARKED regardless.
+
+Net Phase 4 outcome: 1 draft = QUALITY-READY + COMPLIANCE-PASS, PARKED for operator
+(publish decision + dedup acknowledgement). 0 hard escalations. No loops, no drift.
+
+---
+
+## Phase 5: Approval Gate (HARD STOP -> PARK, operator absent)
+Drift-guard: Phase 5: goal='operator approval gate; unattended -> park all, no writes', current_action='enumerate parked items, take no publish/flip action', aligned=yes
+
+approval_email.enabled=false and operator absent -> no interactive prompt, no mail flow.
+ALL approval-gated items PARKED (see "Parked for operator approval" in PR body). 0 publishes,
+0 tracker flips, 0 irreversible actions.
+
+---
+
+## Phase 7: Memory Update (daily)
+Drift-guard: Phase 7: goal='update memory/run log for state changes', current_action='record run; no published posts and no tracker flips so no register/tracker writes', aligned=yes
+
+- memory/logiai_published.md: NO change (0 posts published this run; register append only on publish).
+- Action Tracker HTML: NO change (0 status flips; hard rule + operator absent).
+- MEMORY.md: NO new memory files created.
+- Continuity note for next run: post 692 (Walden) is LIVE since 2026-07-23; drop the stale
+  "Walden parked draft" carry that appeared in 07-25..08-01 logs. Active parked items now:
+  HappyRobot (new, this run), T106 (decayed), Humanoid (decayed), Freehand (dup-risk).
+- Run log = this file (the run's system of record).
+
+---
+
+## RUN SUMMARY
+Mode: daily | Operator: absent | Result: NO-PUBLISH (report-only), 1 new parked draft.
+
+Phase 1 (Action Tracker): 41 Open tasks triaged; 0 auto-executed, 0 tracker flips; all
+  actionable items gated on operator approval or blocked resources (network/WP/GSC).
+Phase 2 (Monitoring/Scoring/Verify/Dedup): 1 verified draft candidate (HappyRobot $150M
+  Series C, 2026-08-04); FedEx+Dexterity parked backup; T106 timeliness decayed; dedup
+  BLOCKS on Auger (post 688), Augment (stale), Walden (post 692).
+Phase 3 (Drafting): 1 draft parked to workspace/ (HappyRobot, ~760w, 0 em-dashes).
+Phase 4 (QC+Compliance): draft QUALITY-READY + COMPLIANCE-PASS; guards exit 0; SOFT-ESCALATION
+  on duplicate-risk + P5 saturation -> PARKED for operator.
+Phase 5: all approvals parked (operator absent). 0 publishes.
+Phase 7: no memory/tracker writes (nothing published, hard rules).
+
+HARD-RULE COMPLIANCE: 0 WP publishes | 0 pushes to main | 0 file deletes | 0 tracker flips |
+  0 em-dashes in generated content. All output on branch claude/logiai-run-20260808 + PR #24.
+
+END OF RUN.
+
