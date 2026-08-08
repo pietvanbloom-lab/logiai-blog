@@ -84,6 +84,70 @@ to Phase 3. No loops, no drift. Phase 1 within caps (tool calls well under 50).
 ---
 
 ## Phase 2: Editorial Pipeline Upstream (daily)
+Drift-guard: Phase 2: goal='monitor sources, score, verify, dedup -> verified non-dup shortlist', current_action='WebSearch monitoring (WP/EUR-Lex direct blocked), score+verify+dedup candidates', aligned=yes
+
+Monitoring via WebSearch (Tier-1 logistics/AI). 4 searches (funding, weekly roundup,
+plus 2 verifications). No loops.
+
+### Candidates surfaced and scored/verified
+1. HappyRobot $150M Series C — VERIFIED, PRIMARY DRAFT CANDIDATE
+   - Announced 2026-08-04 (multi-source: FreightWaves, Supply Chain Digital, TheNextWeb,
+     TechTimes, TheAIInsider, company blog). 4 days old -> fresh, in window.
+   - $150M Series C at $1.2B valuation; newest FreightTech unicorn. Co-led Prysm Capital +
+     Eurazeo; also Koch Disruptive Technologies, Orange, Kfund, Bankinter, T Capital.
+   - Spanish-founded (2022, Palafox brothers + Paarup). Voice AI agents for logistics -> AI
+     native OS deploying autonomous "AI workers" (voice/email/chat/docs). 150+ enterprise
+     customers incl DHL, Kuehne+Nagel, Naturgy, Repsol, Uber; 5x growth since Series B.
+   - Pillar P5 Agentic AI (+P7). Strong EU angle (EU co-investors + EU logistics customers)
+     -> good fit for low-competition EU long-tail strategy.
+   - Scoring (5-criteria, est): direct logistics impact HIGH, timeliness HIGH, source
+     robustness HIGH, EU relevance HIGH, differentiation MED. -> P1/P2 class. Confidence: Verified.
+   - DEDUP: no HappyRobot in register. BUT pillar P5 + tag overlap (Funding, Enterprise AI,
+     AI Agents/Agentic) with post 688 Auger and post 519 Stord >= 3 tags AND same pillar
+     -> DUPLICATE-RISK flag (not a block). Angle is distinct (voice AI workers / freight
+     brokerage + carrier comms automation vs Auger's supply-chain-planning OS). Also P5
+     pillar-saturation guard applies (P5 historically >40%). Surface to operator.
+   - Decision: DRAFT in Phase 3 (parked to workspace/, not published). Duplicate-RISK +
+     saturation flagged for operator decision at Phase 5.
+
+2. FedEx + Dexterity, Hagerstown Hub physical AI trailer loading — BACKUP, no draft
+   - Announced 2026-07-30 (FedEx newsroom, Logistics Mgmt, Robotics&Automation 07-31,
+     Supply Chain 24/7). ~9 days old -> borderline freshness (>7d).
+   - Dexterity "Foresight" world model + dual-armed superhumanoid "Mech"; scales beyond pilot.
+   - Pillar P2 Physical AI. DEDUP-RISK: Physical AI pillar saturated (post 692 Walden 07-23,
+     486 GXO/KION, 498 Locus/Nexera). US-centric (weak EU fit). Pairs as a counterpoint to
+     Walden's "general beats special" thesis (Mech is task-specific) if operator wants it.
+   - Decision: PARK as backup candidate. No draft (freshness + saturation + US-centric).
+
+3. T106 EU AI Act Digital Omnibus (parked draft from 07-26) — TIMELINESS DECAYED
+   - Reg (EU) 2026/1744, OJ 24 Jul, in force 27 Jul. The widely-cited 2 Aug 2026 high-risk
+     applicability date has now PASSED (6 days ago); Digital Omnibus deferred Annex III
+     high-risk to 2 Dec 2027. The "August cliff" moment is behind us -> parked draft's news
+     peak has passed and is declining.
+   - DEDUP: heavy overlap with LIVE post 490 ("The EU AI Act August Cliff Moved", covers the
+     Digital Omnibus deferral) + post 464. Duplicate-RISK previously flagged.
+   - Decision: continue to PARK; recommend operator either publish immediately (value still
+     decaying) or retire the draft in favor of an update to post 490. No draft action taken.
+
+### Dedup BLOCKS (surfaced but rejected)
+- Auger $50M Series B (Dave Clark) -> ALREADY LIVE as post 688 (2026-07-15). BLOCK.
+- Augment / "Augie" ($25M seed, 8VC) -> STALE (seed Mar2025 / Series A Sep2025, re-confirmed
+  stale in prior runs). BLOCK.
+- Walden Robotics -> ALREADY LIVE as post 692 (2026-07-23). BLOCK (corrects stale carry).
+- Avatar Robotics $6.5M seed -> too thin/small. Drop.
+
+### Carried parked candidates from prior runs (status this run)
+- Humanoid (UK SKL Robotics, $152M Series A, from 07-24): now ~2 weeks old, freshness
+  decayed; carried PARKED, no draft, recommend operator decide retire-or-evergreen.
+- Freehand ($75M Series B, from 08-01): US-centric, duplicate-risk vs posts 623+576; carried
+  PARKED, no draft.
+
+Phase 2 output: 1 verified draft candidate (HappyRobot) -> Phase 3. Others parked.
+No loops, no drift. Within caps.
+
+---
+
+## Phase 3: Drafting (daily)
 (pending)
 
 ---
