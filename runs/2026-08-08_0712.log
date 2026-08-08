@@ -148,6 +148,29 @@ No loops, no drift. Within caps.
 ---
 
 ## Phase 3: Drafting (daily)
+Drift-guard: Phase 3: goal='draft verified candidate in LogiAI tone with visuals+metadata, save to workspace', current_action='draft HappyRobot piece to workspace/, parked', aligned=yes
+
+1 draft produced (parked, NOT published, workspace only):
+- workspace/logiai-draft-2026-08-08-happyrobot-series-c-voice-ai-agents-freight.md
+  - Pillar P5 Agentic AI (+P7). ~760 body words. Thesis-first analysis-Hausstil.
+  - Hard-rule check: 0 em-dashes, 0 en-dashes in prose, 0 emoji, no non-ASCII. PASS.
+  - 3 H1 variants, focus keyphrase "voice AI agents freight", SEO title + 156-char meta.
+  - 2 editorial-visual specs (stat callout + 3-layer cmp table). Specs only, to be built
+    + inlined via tools/editorial-visual-inline.py at publish; visual-style-guard.py must
+    exit 0 before any WP POST. No style-block HTML produced (nothing publishes this run).
+  - 2 featured-image brief options (photographic + diagrammatic), DESIGN.md-aligned.
+  - DUPLICATE-RISK + P5-saturation flags carried into the draft's slotting note.
+
+Carried parked drafts (unchanged, no new action):
+- T106 EU AI Act Digital Omnibus (workspace/logiai-draft-2026-07-26-T106-...OJ.md) -
+  timeliness decayed (see Phase 2); operator decision pending.
+No new drafts for Humanoid / Freehand (parked candidates, decayed/dup-risk, see Phase 2).
+
+Phase 3: 1 new draft. Within per-draft caps. No loops, no drift.
+
+---
+
+## Phase 4: QC + Compliance (daily)
 (pending)
 
 ---
