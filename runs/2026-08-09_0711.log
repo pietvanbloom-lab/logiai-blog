@@ -39,7 +39,21 @@
 - Parsed Action Tracker EMBEDDED_TASKS: 114 total, 41 Open.
 - Drift-guard Phase 0: goal='establish run state, artifacts-first branch + log + PR', current_action='wrote skeleton log, creating branch + draft PR', aligned=yes.
 
-## Phase 1: Action Tracker Sweep — (pending)
+## Phase 1: Action Tracker Sweep — DONE (report-only)
+
+Drift-guard: goal='triage Open tracker tasks, auto-execute only low-risk read-only/local work', current_action='classify 41 Open tasks by blocker, park credential/push/flip-gated items', aligned=yes.
+
+41 Open tasks triaged, sorted High > Medium > Low. In an unattended cloud run every write path these tasks need is either blocked (WP REST HTTP 000, no GSC, external fetch egress-blocked) or forbidden by hard rules (no git push to main, no file deletion, no tracker flip). Net: 0 auto-completed, 0 tracker flips, all carried / parked. Breakdown:
+
+- High/Content T106: EU AI Act Digital Omnibus. Deferred to Phase 3; authoritative draft already parked from prior runs (workspace/logiai-draft-2026-07-26-T106-...OJ.md). Publish + Done-flip = operator.
+- SEO (T029, T031, T066, T071, T072, T075, T076, T082, T085, T113): all need GSC access, live crawl, or WP REST auth. Blocked by network policy + missing credentials. Parked.
+- Tech (T040, T042, T045, T047, T081, T086, T108, T033, T055, T059, T067, T103): need WP admin, ElevenLabs/fal keys, plugin-cache refresh in Settings, or git push to main. Parked.
+- Tech T104 ("delete three stale temp files"): HARD RULE never delete. Parked (operator only).
+- T015, T016 (push theme/visuals to GitHub): HARD RULE never push to main. Parked.
+- Design (T014, T114): mobile check + fal image swap need live WP / operator. Parked.
+- Content (T013, T022, T027, T078, T028, T039, T074, T111, T018): embed-into-live-post / disposition / newsletter decisions need WP or operator. Parked / carried.
+
+Loop detection: n/a (no repeated tool calls). Per-phase caps: well under (analysis only).
 
 ## Phase 2: Editorial Pipeline (Monitoring, Scoring, Verification) — (pending)
 
