@@ -1,0 +1,60 @@
+# LogiAI Production Stack — Run Log
+
+- Date: 2026-08-09
+- Start (CET): 2026-08-09 07:11 CEST
+- Mode: daily (phases 0, 1, 2, 3, 4, 5, 7)
+- Runbook: .editorial-engine/ROUTINE-RUNBOOK.md (binding, unattended cloud run)
+- Run branch: claude/logiai-run-20260809
+- Operator: absent (scheduled, unattended). No interactive prompts. Approvals PARKED.
+
+## Config snapshot (daily caps)
+
+- total_usd: 3.00 | total_tool_calls: 200 | total_wall_min: 90
+- per_phase: tool_calls 50 | wall_min 30 | usd 0.80
+- per_draft: tool_calls 25 | usd 0.50
+- goal_drift_guard: enabled (on_mismatch: stop_and_escalate)
+- loop_detection: enabled (same_tool_threshold 4)
+- escalation_model: opus-4-6 (max 2 calls/run)
+
+## Hard rules in force (this run)
+
+- Never publish to WordPress (park instead).
+- Never push to main (all output on run branch + draft PR).
+- Never delete files. Never flip tracker statuses.
+- No em-dashes in any generated content.
+- Drafts stay in workspace/ on the run branch, never to WordPress.
+
+## Environment preflight
+
+- WordPress-com MCP connector: UNAUTHORIZED in headless session (OAuth not runnable here). Authenticated WP steps PARKED.
+- Direct WP REST check: `GET https://logiai.blog/wp-json/wp/v2/posts?per_page=1` -> HTTP 000 (blocked by GitHub-egress-only cloud network policy). This is NOT a 401/T021 auth failure; it is the known network limit. Do not abort on it.
+- External direct fetch (news / EUR-Lex): expected blocked by same policy; WebSearch is the fallback.
+- Gmail MCP: connecting/unavailable headless; approval-mail channel also disabled in config (approval_email.enabled=false). Approvals PARKED to PR body.
+- Queue folder: empty (only README). No operator pre-approved work packages.
+
+## Phase 0: Pre-flight — DONE
+
+- Pulled latest main (up to date).
+- Read runbook, portal.yaml, config.yml, SKILL.md.
+- Parsed Action Tracker EMBEDDED_TASKS: 114 total, 41 Open.
+- Drift-guard Phase 0: goal='establish run state, artifacts-first branch + log + PR', current_action='wrote skeleton log, creating branch + draft PR', aligned=yes.
+
+## Phase 1: Action Tracker Sweep — (pending)
+
+## Phase 2: Editorial Pipeline (Monitoring, Scoring, Verification) — (pending)
+
+## Phase 3: Drafting — (pending)
+
+## Phase 4: QC + Compliance — (pending)
+
+## Phase 5: Approval Gate — (pending)
+
+## Phase 7: Memory Update — (pending)
+
+## Parked for operator approval
+
+(to be populated per phase)
+
+## Run summary
+
+(to be populated at end)
