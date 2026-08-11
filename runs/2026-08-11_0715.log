@@ -1,0 +1,44 @@
+# LogiAI Production Stack — Run Log
+
+- Date: 2026-08-11
+- Start (CET): 07:15
+- Start (UTC): 05:15
+- Mode: daily (phases 0, 1, 2, 3, 4, 5, 7)
+- Run branch: claude/logiai-run-20260811
+- Runbook: .editorial-engine/ROUTINE-RUNBOOK.md (binding, unattended cloud run)
+- Operator present: NO (scheduled, unattended)
+
+## Config snapshot (skills/logiai-production-stack/config.yml)
+
+- Caps (daily): total_usd 3.00, total_tool_calls 200, total_wall_min 90
+- Per-phase: tool_calls 50, wall_min 30, usd 0.80
+- Per-draft: tool_calls 25, usd 0.50
+- Goal-drift guard: enabled (on_mismatch: stop_and_escalate)
+- Loop detection: enabled (same_tool_threshold 4, on_loop: abort_phase_and_log)
+- approval_email.enabled: false (operator-present approval; away-mode async mail flow OFF)
+
+## Hard rules for this run (non-negotiable)
+
+- Never publish to WordPress (park instead)
+- Never push to main (all output to run branch + PR)
+- Never delete files, never flip tracker statuses
+- No em-dashes in any generated content
+- Every approval-gated item is PARKED (described, no write action)
+- Drafts go to workspace/ on the run branch, never to WordPress
+
+## Environment preflight
+
+- WP REST (public read) https://logiai.blog/wp-json/wp/v2/posts: HTTP 000 (blocked, cloud net policy GitHub-egress-only; NOT a 401/T021 credential failure)
+- WordPress-com MCP connector: requires OAuth authorization, unavailable in headless scheduled session -> all authenticated WP steps PARKED
+- WP App Password: not reachable (no authenticated WP path in this session) -> authenticated WP REST steps PARKED
+- Queue folder queue/*.md: empty (README only), no operator pre-approved work packages
+- GitHub MCP: available (used for run artifacts)
+
+---
+
+## Phase log (appended at end of each phase)
+
+### Phase 0: Pre-flight
+- Status: IN PROGRESS
+- Drift-guard: Phase 0: goal='read config, init run state, preflight env + tracker + memory', current_action='reading config/runbook/tracker/memory, testing connectivity, writing run artifacts', aligned=yes
+
