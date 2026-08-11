@@ -39,6 +39,21 @@
 ## Phase log (appended at end of each phase)
 
 ### Phase 0: Pre-flight
-- Status: IN PROGRESS
+- Status: DONE
 - Drift-guard: Phase 0: goal='read config, init run state, preflight env + tracker + memory', current_action='reading config/runbook/tracker/memory, testing connectivity, writing run artifacts', aligned=yes
+- Tracker parsed: 114 tasks (73 Done, 41 Open). Open = 1 High (T106), 22 Medium, 18 Low.
+- Published register read (tail). Most recent posts: 688 Auger (2026-07-15), 692 Walden Robotics (2026-07-23, published via WordPress.com MCP connector). NOTE: register may lag; direct WP fetch blocked so cannot reconcile this run.
+- Carried parked items from prior runs: T106 EU AI Act Digital Omnibus draft (workspace/logiai-draft-2026-07-26-T106-...OJ.md); Humanoid / SKL Robotics candidate; Freehand $75M candidate (dup-risk vs 623+576). Walden is now PUBLISHED (post 692), removed from parked carry.
+- Tool calls used through Phase 0: ~16. No caps approached.
+
+### Phase 1: Action Tracker Sweep
+- Status: DONE (report-only; no auto-executable tasks in unattended cloud mode)
+- Drift-guard: Phase 1: goal='triage Open tracker tasks, auto-execute only low-risk read-only/local work, park the rest', current_action='classify 41 Open tasks against unattended autonomy rules', aligned=yes
+- 41 Open tasks classified. In this session: WP REST = HTTP 000 (blocked), WordPress-com connector unauthorized, GSC not reachable, git-push-to-main forbidden by hard rules, file-delete forbidden, tracker-flip forbidden, no Mac-local MCP. Therefore NO task is auto-executable this run.
+  - Content (T106 High + T013/T022/T027/T078/T018/T028/T039/T074/T111): T106 handled in Phase 3 (draft already parked); rest are backlog/operator-decision, deferred.
+  - SEO (T029/T031/T066/T071/T072/T075/T076/T082/T085/T113): all need live site fetch, WP REST, or GSC access (blocked). Parked.
+  - Tech (T040/T042/T045/T047/T081/T086/T108/T015/T017/T025/T033/T044/T055/T059/T067/T103/T104): need WP admin, git-push-to-main, credential writes, or Mac-local. Parked/forbidden.
+  - Design (T014/T016/T114): need live site fetch / WP / push. Parked.
+- Auto-completed: none. Awaiting operator: all 41 (unchanged). Carried over: all 41.
+- No tracker HTML edits made (hard rule: never flip tracker status unattended).
 
