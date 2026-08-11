@@ -81,3 +81,49 @@
 - Compliance: US-regulation topic; no personal data (GDPR n/a), original analysis (no copyright issue), factual accuracy multi-source-verified, audit trail = this run log. No AI Act flag.
 - Route in unattended mode: PARKED for operator approval (Phase 5). No auto-publish.
 
+### Phase 5: Approval Gate
+- Status: DONE (all items PARKED; operator absent, approval_email.enabled=false)
+- Drift-guard: Phase 5: goal='gate every publish/flip on operator; unattended = park all', current_action='parked all approval-gated items, no write actions', aligned=yes
+- No AskUserQuestion, no async mail flow (disabled in config). Nothing published, no tracker flip. See "Parked for operator approval" below.
+
+### Phase 7: Memory Update
+- Status: DONE
+- Drift-guard: Phase 7: goal='update memory/register for anything published + write run summary', current_action='nothing published -> no register row; wrote run log + cap-history row', aligned=yes
+- memory/logiai_published.md: NO new row (nothing published this run).
+- Action Tracker: NO status flips (hard rule).
+- runs/cap-history.csv: 1 row appended (below).
+
+---
+
+## Parked for operator approval
+
+1. **NEW parked draft (this run): California / Teamsters autonomous-truck lawsuit.**
+   - File: workspace/logiai-draft-2026-08-11-california-teamsters-autonomous-truck-lawsuit.md
+   - Pillar P1 Autonomous Trucking + Regulation. ~610 words, QC-clean (0 em/en-dash), dedup-clean, 4 dated sources.
+   - Decision needed: publish (operator-present, then WP connector), hold as backup, or discard as too US-centric. Caveat: off EU-core lane, drafted with EU-signal frame.
+
+2. **T106 EU AI Act Digital Omnibus draft (carried).**
+   - File: workspace/logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md (762 words, QC-clean).
+   - Most on-lane and most time-critical parked asset. Reg (EU) 2026/1744, OJ 24 Jul, in force 27 Jul; Aug-2 applicability milestone now passed. DUPLICATE-RISK vs post 490 flagged. Publish + T106 Done-flip = operator. WP publish blocked headless (connector unauthorized + WP REST HTTP 000).
+
+3. **Humanoid / SKL Robotics candidate (carried).** Verified 2026-07-24 (UK, ~$152M Series A, wheeled HMND01, beta logistics Q4-2026, strong EU fit). Parked for operator drafting decision; not drafted.
+
+4. **Freehand $75M candidate (carried, 2026-08-01).** Verified-Partial, US-centric, DUPLICATE-RISK vs posts 623+576. Parked for operator drafting decision.
+
+5. **All 41 open tracker tasks.** None auto-executable unattended (WP/GSC access, push-to-main, credential writes, or Mac-local all blocked/forbidden). Notable operator items: T106 (publish+Done-flip), T113 (Yoast verify 673/674/675/688), T114 (swap fal image post 688), T047/T081 (approval-mail workflow), T073 (AI-crawler robots.txt policy).
+
+---
+
+## RUN SUMMARY (structured)
+
+- Mode: daily. Result: operator-absent, report-only, NO-PUBLISH.
+- Phase 1: 41 open tasks triaged, 0 auto-executable (blocked env), 0 flips, all carried.
+- Phase 2: 5 WebSearch calls; 1 Verified fresh candidate (Teamsters/CA AV lawsuit, filed 2026-08-05); EU AI Act Aug-2 milestone maps to existing T106 draft; funding pool stale.
+- Phase 3-4: 1 new QC-clean draft produced + parked. QC pass, compliance pass.
+- Phase 5: all approval-gated items parked, nothing published.
+- Phase 7: no register change (nothing published); cap-history row added.
+- Caps: none hit. Drift mismatches: 0. Loop aborts: 0.
+- Hard-rule ledger: 0 WP publish, 0 push-to-main, 0 file deletes, 0 tracker flips, 0 em-dashes in generated content.
+- ENV: WP REST HTTP 000 (net policy GitHub-egress-only, NOT 401/T021); WordPress-com MCP unauthorized headless; WebSearch is the working monitoring channel.
+- End (CET): ~07:2x.
+
