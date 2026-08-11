@@ -57,3 +57,27 @@
 - Auto-completed: none. Awaiting operator: all 41 (unchanged). Carried over: all 41.
 - No tracker HTML edits made (hard rule: never flip tracker status unattended).
 
+### Phase 2: Editorial Pipeline (Monitoring -> Scoring -> Verification)
+- Status: DONE
+- Drift-guard: Phase 2: goal='scan sources, score, verify, dedup; output non-dup verified candidates', current_action='WebSearch sweep (WP/EUR-Lex direct fetch blocked, WebSearch is the working channel), score + verify + dedup', aligned=yes
+- Monitoring (5 WebSearch calls; strategy skip = weekly-only): logistics/supply-chain AI funding, robotics funding, autonomous trucking week-of-Aug-10, EU AI Act enforcement, plus verification search.
+- Candidates surfaced and dispositions:
+  1. Teamsters California v. California DMV, autonomous-truck rules lawsuit. Filed 2026-08-05, Alameda Superior Court. Challenges April 2026 DMV rule allowing fully autonomous trucks over 10,000 lbs; process-based repeal claim. VERIFIED (multi-source: teamster.org official, PR Newswire, The Auto Channel dated 08-05, Engadget, LegalTech Digest). Pillar P1 Autonomous Trucking + Regulation. Dedup CLEAN. -> proceeded to Phase 3 draft (parked). Caveat: US, off EU-core lane; drafted with explicit EU-signal frame.
+  2. EU AI Act Aug-2 applicability milestone (Art 50 transparency, GPAI penalties, national market-surveillance powers live 2 Aug 2026; Digital Omnibus in force 27 Jul, high-risk deferred to 2 Dec 2027 / 2 Aug 2028). NOT a new candidate: already covered by the parked T106 draft. Reinforces T106 timeliness (applicability date now passed).
+  3. Rejected as stale/dup/off-core: Auger $50M (already post 688), Augment/Augie (rejected prior runs, stale seed), August Robotics $30M (May 2026 article), Avatar Robotics $6.5M (undated, sub-scale). No fresh EU-fundable single-day candidate this sweep.
+- Verification gate: only the Teamsters story cleared Verified with a firm date and independent corroboration.
+
+### Phase 3: Drafting
+- Status: DONE (1 draft produced, PARKED)
+- Drift-guard: Phase 3: goal='draft verified non-dup candidate in LogiAI house style, save to workspace, do not publish', current_action='wrote parked draft package for the Teamsters/California AV story', aligned=yes
+- Draft: workspace/logiai-draft-2026-08-11-california-teamsters-autonomous-truck-lawsuit.md (~610 words, LogiAI analytical house style, EU-relevance frame, 2 editorial-visual specs, 2 featured-image options, SEO fields, 3 headline variants).
+- No editorial-visuals inlined (inlining happens at publish; unattended = no publish).
+
+### Phase 4: QC + Compliance (self-assessed)
+- Status: DONE
+- Drift-guard: Phase 4: goal='QC + compliance the draft, route by outcome', current_action='self-QC checklist + dash/emoji guard + compliance scan', aligned=yes
+- Dash guard: em-dashes 0, en-dashes 0 (metadata em-dash caught and removed). Body emoji: 0.
+- QC self-assessment: thesis-first H1 (<12 words), ~610 words, 3 H2 + intro, 4 independent dated sources, dedup-clean, visuals + image briefs present, SEO complete. Estimated QC >= 8/10 -> would route READY-FOR-PUBLISH in operator-present mode.
+- Compliance: US-regulation topic; no personal data (GDPR n/a), original analysis (no copyright issue), factual accuracy multi-source-verified, audit trail = this run log. No AI Act flag.
+- Route in unattended mode: PARKED for operator approval (Phase 5). No auto-publish.
+
