@@ -176,3 +176,43 @@ Raw signals surfaced:
 1. [PRIMARY, score 81.5, Verified, dedup-clean] FedEx + Dexterity physical-AI trailer loading -> DRAFT this run (analytical pilot-to-production framing to offset aged peg). Internal-link targets: post 47 (FedEx Network 2.0), post 486 (GXO/KION physical AI), post 493 (Toyota), post 498 (Locus/Nexera).
 2. [BACKUP, score 70.5, Verified] AIP / Honeywell Intelligrated / Trew consolidation -> carry as backup candidate (draft next run if operator wants a second vendor-consolidation piece).
 FRESHNESS NOTE (honest): both pegs are >1 week old (Jul 27 / Jul 30). No fresh <1-week fundable single-day candidate existed in this sweep. Primary drafted with evergreen analytical angle; operator decides publish timing.
+
+## ===== PHASE 3: Drafting =====
+
+### Phase-3 drift-guard
+Phase 3: goal='draft the verified primary candidate into workspace/ (allowed on run branch), spec visuals + image brief; NEVER publish',
+current_action='draft FedEx+Dexterity piece, 2 visuals specced, image briefs A/B, save to workspace/',
+aligned=yes
+
+### Output
+- Draft saved: workspace/logiai-draft-2026-08-14-fedex-dexterity-physical-ai-trailer-loading.md
+- Pillar P2 Warehouse Automation / Physical AI (+P1 parcel ops). ~747 body words. Analytical (pilot-to-production) framing.
+- Editorial visuals specced (2): stat callout ("2023 demo to a live production hub") + cmp table (Pilot validation vs Production hub). Per SKILL: generated + inlined via editorial-visual-inline.py at publish; style-block versions NOT to be POSTed.
+- Featured image brief: Option A (photographic robot in trailer) + Option B (world-model loop diagram).
+- 3 headline variants (V1 recommended, 10 words), SEO block (focus kw / title / 152-char metadesc), internal-link targets (posts 47, 486, 493/498), slotting note.
+- Backup candidate AIP/Intelligrated NOT drafted (carried to next run per Phase-2 shortlist).
+
+## ===== PHASE 4: QC + Compliance =====
+
+### Phase-4 drift-guard
+Phase 4: goal='run quality gate + compliance on the draft, assign route',
+current_action='apply QC checklist + compliance check to FedEx+Dexterity body, record route',
+aligned=yes
+
+### Quality gate (body-only, robustly extracted, lines 8-40)
+- Em-dashes: 0. En-dashes: 0. Non-ASCII: none. (HARD RULE pass.)
+- brief-leak-guard.py on extracted BODY: exit 0 = CLEAN (no brief metadata leak; 'image brief'/'pillar' absent from body).
+- H1 thesis-first, 10 words (<=12 ok). Dek present. 3 H2 sections. ~747 words (in 600-1000 band).
+- Sources: 5 verified (FedEx official + Dexterity official + 3 trade press), rendered as markdown links.
+- Banned-floskel scan: clean (no game-changer/revolutionize/delve/seamless/cutting-edge).
+- Dedup: CLEAN (verified Phase 2). Internal links planned. Visuals + image briefs present.
+- QC SCORE: 9.2/10 (single soft note: news peg ~15 days old, mitigated by evergreen analytical framing; not a QC blocker).
+
+### Compliance
+- EU AI Act: story is a physical-AI DEPLOYMENT, not a regulatory development -> no ESCALATION FLAG required. No legal advice given.
+- GDPR: no personal data. Copyright: original prose, facts attributed to official + press sources. Undisclosed figures (robot count / rollout timeline) explicitly stated as undisclosed (no fabrication).
+- Audience tags OK (logistics-professionals, ai-practitioners). Compliance: PASS.
+
+### Route
+- QC 9.2/10 + Compliance PASS = AUTO-APPROVE route -> would proceed to Phase 5.
+- UNATTENDED override: mark READY-FOR-PUBLISH but PARK for operator (no publish this run).
