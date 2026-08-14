@@ -140,3 +140,39 @@ LOW - Tech/Design/Content
 - Deferred to Phase 3 drafting: T106 (re-verify), T027/T028 (draftable on demand).
 - Carried over: all 41 remain Open (no tracker flips in unattended run).
 - Awaiting operator (see Parked section in PR): T103 (register fix ready to describe), T086/T059 (code edits ready to propose), plus all WP/GSC/push-gated tasks.
+
+## ===== PHASE 2: Editorial Pipeline Upstream (Monitoring / Scoring / Verification / Dedup) =====
+
+### Phase-2 drift-guard
+Phase 2: goal='scan Tier1/2 sources, score, verify, dedup; output 1-5 verified non-dup candidates',
+current_action='WebSearch sweep (egress fallback), score 5-criteria, verify multi-source, dedup vs register',
+aligned=yes
+
+### Monitoring (WebSearch fallback; direct RSS/site fetch blocked by net policy)
+Sources probed via search: logistics AI funding, autonomous trucking/warehouse robotics, EU AI Act status.
+Raw signals surfaced:
+- FedEx + Dexterity: expanded Physical AI autonomous trailer loading at Hagerstown Hub, MD. Announced 2026-07-30 (FedEx newsroom). Aug-5 "demo to acceptance test" milestone (CXTMS). Foresight world model + Mech dual-arm robot.
+- American Industrial Partners completed acquisition of Honeywell Intelligrated + Transnorm (2026-07-27), merging with Trew into one warehouse-automation platform (~3,300 employees, terms undisclosed).
+- Freehand $75M Series B (late Jul) -> ALREADY logged 2026-08-01 as duplicate-risk vs posts 623+576, US-centric -> stays PARKED, not re-surfaced.
+- Didero $30M Series A (2026-02-12) + Lio $30M (2026-03-05) -> STALE (months old) -> rejected.
+- LG CNS Mobile Shuttle cold-storage intralogistics; MBody AI cleaning robots -> weak logistics-AI fit / off-core -> dropped.
+- EU AI Act: Reg (EU) 2026/1744 (Digital Omnibus) OJ 24 Jul, in force 27 Jul; high-risk Annex III deferred to 2 Dec 2027, Annex I to 2 Aug 2028; the 2 Aug 2026 "cliff" passed with only Art.50 transparency + GPAI + Art.5 prohibitions live. Confirms T106 parked draft facts; news peg now ~3wk old.
+
+### Scoring (five-criteria: Relevance .30 / Practical .25 / Newsworthiness .20 / Market .15 / ReaderFit .10)
+- FedEx+Dexterity: 95/80/60/80/90 -> FINAL 81.5 -> LEAD STORY (80+). Newsworthiness is the soft point (aged peg).
+- AIP/Intelligrated: 75/70/55/80/75 -> FINAL 70.5 -> STANDARD (backup candidate).
+
+### Verification
+- FedEx+Dexterity: VERIFIED. Official FedEx newsroom + Dexterity blog + Supply Chain 24/7 + Logistics Management + Robotics & Automation News (2026-07-31), consistent facts. Confidence: Verified.
+- AIP/Intelligrated: VERIFIED. PRNewswire (official) + Morningstar + The Robot Report + StockTitan, completion 2026-07-27. Confidence: Verified.
+- EU AI Act status: VERIFIED multi-source (EC digital-strategy + Gibson Dunn + White & Case + ComplianceHub). Matches T106 draft.
+
+### Duplicate-check vs memory/logiai_published.md
+- "dexterity": 0 hits. "intelligrated": 0 hits. FedEx only in post 10 (AI workforce, P5) + post 47 (Network 2.0, P7) -> neither covers physical-AI loading. FedEx+Dexterity DEDUP-CLEAN.
+- AIP/Intelligrated: entity-clean, but thematically adjacent to post 493 (Toyota vendor consolidation) + post 498 (Locus/Nexera). Framing must differentiate. DEDUP-CLEAN on entities.
+- T106 EU AI Act draft: dedup-RISK vs post 490 (already flagged prior runs) -> unchanged, stays PARKED.
+
+### Phase-2 output: candidate shortlist
+1. [PRIMARY, score 81.5, Verified, dedup-clean] FedEx + Dexterity physical-AI trailer loading -> DRAFT this run (analytical pilot-to-production framing to offset aged peg). Internal-link targets: post 47 (FedEx Network 2.0), post 486 (GXO/KION physical AI), post 493 (Toyota), post 498 (Locus/Nexera).
+2. [BACKUP, score 70.5, Verified] AIP / Honeywell Intelligrated / Trew consolidation -> carry as backup candidate (draft next run if operator wants a second vendor-consolidation piece).
+FRESHNESS NOTE (honest): both pegs are >1 week old (Jul 27 / Jul 30). No fresh <1-week fundable single-day candidate existed in this sweep. Primary drafted with evergreen analytical angle; operator decides publish timing.
