@@ -67,3 +67,76 @@ aligned=yes
 
 ---
 (phases appended below as they complete)
+
+## ===== PHASE 1: Action Tracker Sweep =====
+
+### Phase-1 drift-guard
+Phase 1: goal='triage 41 open tracker tasks, auto-execute only low-risk local work, park everything approval-gated or blocked',
+current_action='classify each open task by type+handler, record disposition (parked/deferred/carried) with reason',
+aligned=yes
+
+### Environment gating for Phase 1
+- No direct egress (HTTP 000): all SEO tasks needing live crawl / GSC / backlink checks / competitor fetch = BLOCKED -> park.
+- No WP auth (connector unauthorized headless): media upload, Yoast persistence, WP admin, indexing submits = BLOCKED -> park.
+- Hard rules: no push-to-main -> theme/visual/repo pushes park; no file delete -> T104 park; no tracker flip -> no status changes this run.
+- Net effect: this is a report-only Phase 1 (consistent with every run since 2026-07-14). Nothing is auto-completed; nothing is falsely marked done.
+
+### Triage (41 Open, priority order)
+
+HIGH (1)
+- T106 [Content] EU AI Act Digital Omnibus piece. DEFER -> Phase 3. Draft already exists+operator-approved 07-31 (workspace/logiai-draft-2026-07-26-T106-...OJ.md), publish blocked on WP auth. Re-verify currency in Phase 2, keep PARKED for publish.
+
+MEDIUM - Content (defer to Phase 3 / operator decision)
+- T013 Prio 04+ content enhancements from Content Audit -> needs WP post edits (auth) -> PARK.
+- T022 Embed Prio 01-03 blocks into Art 02/03/04/09 -> WP post edits (auth) -> PARK.
+- T027 Draft+publish Weeks 2-4 (9 articles remaining) -> drafting possible (Phase 3), publish PARK.
+- T078 Disposition of held 2026-05-30 drafts -> operator decision -> PARK.
+
+MEDIUM - SEO (all need egress/GSC/WP -> PARK)
+- T029 competitor SEO gap analysis (searchfit-seo) -> live fetch blocked -> PARK.
+- T031 GSC manual URL indexing (40 pages) -> GSC access = operator -> PARK.
+- T066 Submit posts 519/483/484/486/490/491 to GSC -> GSC = operator -> PARK.
+- T071 FAQ/HowTo schema -> generatable but persistence needs WP auth -> PARK (can pre-generate on request).
+- T072 Earn external backlinks -> off-platform, operator -> PARK.
+- T075 Map long-tail EU keyword targets -> needs keyword-difficulty data (egress) -> PARK.
+- T076 Strengthen internal linking EU-AI-Act/AI-Agents clusters -> WP edits (auth) -> PARK.
+- T082 Full SEO audit -> live crawl (egress) -> PARK.
+- T085 Re-check GSC indexing count -> GSC = operator -> PARK.
+- T113 Confirm Yoast meta on 673/674/675/688 -> WP Admin (auth) -> PARK.
+
+MEDIUM - Tech (need push-main / WP / creds / external -> PARK)
+- T040 WP.com wp-content permission for media upload -> WP admin/support -> PARK.
+- T042 Pre-optimize featured images to web-JPEG -> tied to WP media upload (auth) -> PARK.
+- T045 Extend ElevenLabs subscription -> billing/operator -> PARK.
+- T047 Activate approval-mail 2-step Gmail workflow -> config approval_email=disabled by operator -> PARK (no-op by design).
+- T081 Fix Stage-1 selection mail not firing -> tied to disabled approval-mail -> PARK.
+- T086 Wire brief-leak-guard into pre-publish pipeline -> code change to publish path; guard exists (brief-leak-guard.py). Local edit possible but touches publish tooling -> PARK for operator review (no push-to-main).
+- T108 Re-save 4 LogiAI skills to refresh plugin cache -> Claude Settings UI (operator) -> PARK.
+
+LOW - Tech/Design/Content
+- T014 [Design] Mobile responsiveness check article pages -> needs live site render (egress) -> PARK.
+- T015 [Tech] Push theme changes to GitHub -> push-to-main forbidden -> PARK.
+- T016 [Design] Editorial visuals push to GitHub/Pages -> push-to-main forbidden -> PARK.
+- T017 [Tech] Verify audio player -> live site (egress) -> PARK.
+- T018 [Content] Newsletter/mailing list integration -> external service/operator -> PARK.
+- T025 [Tech] Remove URL-Prefix GSC property -> GSC (operator) -> PARK.
+- T028 [Content] 20 daily AI Prompt posts -> publish (auth) -> PARK; drafting deferrable.
+- T033 [Tech] Fix weekday mismatch in publish scheduling -> scheduler/operator -> PARK.
+- T039 [Content] Diversify priority mix (P5 saturation) -> strategy note; weekly-mode concern -> PARK.
+- T044 [Tech] Reduce TTS latency -> tooling/operator -> PARK.
+- T055 [Tech] mu-plugin to expose Yoast meta via REST -> WP plugin deploy (auth) -> PARK.
+- T059 [Tech] Fix internal-link anchor matcher -> code change; touches publish path -> PARK for operator review.
+- T067 [Tech] Cloudflare vs WP traffic discrepancy -> analytics access (operator) -> PARK.
+- T074 [Content] Reframe strategy brief section 0 -> strategy-doc edit (Logistics LAB, not in repo) -> PARK.
+- T085 (listed above).
+- T103 [Tech] Reconcile content register 592/597 label + missing row -> LOCAL edit to memory/logiai_published.md POSSIBLE, but is a state-file correction that alters the published register; per runbook conservative posture (no tracker/state flips unattended) -> PARK with note (surface exact fix to operator).
+- T104 [Tech] Delete three stale temp publish files -> DELETE forbidden hard-rule -> PARK.
+- T111 [Content] Octup evergreen treatment (funding hook stale) -> editorial decision -> PARK.
+- T114 [Design] Swap fal featured image on post 688 -> fal key Mac-local + WP media (auth) -> PARK.
+
+### Phase-1 outcome
+- Processed: 41 Open (1 High, 22 Medium, 18 Low).
+- Auto-completed: 0 (correct: every actionable path is blocked by egress, WP auth, push-to-main, or delete hard-rules).
+- Deferred to Phase 3 drafting: T106 (re-verify), T027/T028 (draftable on demand).
+- Carried over: all 41 remain Open (no tracker flips in unattended run).
+- Awaiting operator (see Parked section in PR): T103 (register fix ready to describe), T086/T059 (code edits ready to propose), plus all WP/GSC/push-gated tasks.
