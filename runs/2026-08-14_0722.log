@@ -1,0 +1,69 @@
+# LogiAI Production Stack - Run Log
+
+Run ID:        2026-08-14_0722
+Date:          2026-08-14
+Start (UTC):   2026-08-14 05:22
+Start (CET):   2026-08-14 07:22 CEST
+Mode:          daily  (phases 0, 1, 2, 3, 4, 5, 7)
+Branch:        claude/logiai-run-20260814
+Trigger:       scheduled (cron 0 7 * * *), UNATTENDED
+Operator:      ABSENT (no interactive prompts; approval items PARKED per runbook)
+Runbook:       .editorial-engine/ROUTINE-RUNBOOK.md (binding)
+
+## Config snapshot (skills/logiai-production-stack/config.yml v1, updated 2026-05-11)
+
+Caps (daily mode):
+  total_usd:        3.00
+  total_tool_calls: 200
+  total_wall_min:   90
+  per_phase:  tool_calls 50 | wall_min 30 | usd 0.80
+  per_draft:  tool_calls 25 | usd 0.50
+Goal-drift-guard:  enabled, on_mismatch=stop_and_escalate
+Loop-detection:    enabled, same_tool_threshold=4, on_loop=abort_phase_and_log
+Escalation model:  opus-4-6, max 2 calls/run
+approval_email:    DISABLED (config: reverted to operator-present 2026-06-17)
+
+## Hard rules in force (runbook s4 + task)
+
+- Never publish to WordPress (park instead)
+- Never push to main (run output -> run branch + PR only)
+- Never delete files
+- Never flip tracker statuses
+- No em-dashes in any generated content
+- No interactive prompts (AskUserQuestion forbidden); approvals PARKED
+
+## Environment preflight
+
+- Direct network egress: BLOCKED (HTTP 000, GitHub-egress-only cloud net policy).
+  This is NOT a 401/T021 WP-auth failure. Same posture as runs since 2026-07-21.
+- WP REST direct fetch: HTTP 000 (blocked by net policy, not auth). Public read parked.
+- WordPress-com MCP connector: UNAUTHORIZED in headless session (OAuth cannot run). Authenticated WP steps PARKED.
+- Gmail MCP: connected (tools present). approval_email disabled in config, so unused this run.
+- WebSearch tool: available via agent proxy (used as fetch fallback where needed).
+- fal image key: not reachable in cloud (Keychain is Mac-local). Custom image gen PARKED.
+
+## Run state counters (init)
+
+tool_calls: 0 | est_usd: 0.00 | wall_min: 0 | cap_hits: 0 | drift_mismatches: 0 | loop_aborts: 0
+
+## Phase-0 drift-guard
+
+Phase 0: goal='preflight: read config, memory, tracker, verify env, lay down run artifacts',
+current_action='read config.yml + portal.yaml + runbook + tracker EMBEDDED_TASKS, test WP/egress, create run branch + log skeleton',
+aligned=yes
+
+## Phase-0 result
+
+- config.yml, portal.yaml, ROUTINE-RUNBOOK.md, SKILL.md read in order. OK.
+- queue/*.md: empty (only README). No operator pre-approved work packages this run.
+- memory/logiai_project.md + memory/logiai_published.md read. OK. No root MEMORY.md (index absent, non-fatal).
+- Action Tracker parsed: 114 total tasks, 41 Open (1 High=T106 Content deferred to Phase 3; 40 Medium/Low).
+- Carried parked drafts from prior runs present in workspace/:
+    - logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md (762w, operator-approved 07-31, blocked on WP auth)
+    - logiai-draft-2026-07-23-walden-robotics-general-vs-task-specific.md
+    - logiai-draft-2026-07-25-eu-ai-act-digital-omnibus-official-journal-logistics.md (superseded by 07-26 T106 draft)
+    - logiai-predraft-T106-eu-ai-act-digital-omnibus-OJ.md
+- STATUS: preflight clean, proceeding to artifacts-first commit then Phase 1.
+
+---
+(phases appended below as they complete)
