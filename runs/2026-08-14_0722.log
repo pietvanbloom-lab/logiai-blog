@@ -216,3 +216,57 @@ aligned=yes
 ### Route
 - QC 9.2/10 + Compliance PASS = AUTO-APPROVE route -> would proceed to Phase 5.
 - UNATTENDED override: mark READY-FOR-PUBLISH but PARK for operator (no publish this run).
+
+## ===== PHASE 5: Approval Gate (HARD STOP) =====
+
+### Phase-5 drift-guard
+Phase 5: goal='approval gate; unattended => no interactive prompt, park all approval items',
+current_action='park FedEx+Dexterity publish + all gated tracker items; take no write action on gated items',
+aligned=yes
+
+- Operator ABSENT + approval_email DISABLED in config -> no async mail flow, no AskUserQuestion (runbook s2).
+- All approval-gated items PARKED (see Parked section). No publish, no status flip, no irreversible action taken.
+
+## ===== PHASE 7: Memory Update =====
+
+### Phase-7 drift-guard
+Phase 7: goal='update memory/logs for what actually changed this run',
+current_action='0 posts published so no register row; 0 tracker flips (forbidden unattended); write run summary',
+aligned=yes
+
+- memory/logiai_published.md: NO new row (nothing published this run). Unchanged.
+- Action Tracker: NO status flips (hard rule, unattended). All 41 Open tasks unchanged.
+- New artifact this run: workspace/logiai-draft-2026-08-14-fedex-dexterity-... (parked draft, committed to run branch).
+- MEMORY.md index: absent in repo; nothing to update.
+
+## ===== PARKED FOR OPERATOR APPROVAL =====
+
+1. PUBLISH: FedEx + Dexterity draft (workspace/logiai-draft-2026-08-14-fedex-dexterity-physical-ai-trailer-loading.md).
+   READY-FOR-PUBLISH, QC 9.2/10, Compliance PASS, dedup-clean, 0 em/en-dash, brief-leak-guard CLEAN on body.
+   Decision needed: publish now (analytical angle; peg ~2wk old) / hold for a fresher milestone (second site or acceptance-test result) / drop.
+   Publish itself is also HARD-BLOCKED this run: WordPress-com MCP connector unauthorized headless; direct WP REST HTTP 000 (net policy). Needs an operator-present or authorized-connector session.
+
+2. PUBLISH (carried): T106 EU AI Act Digital Omnibus draft (workspace/logiai-draft-2026-07-26-T106-...OJ.md).
+   Operator-approved 07-31 (PR #16 merged) but never published (WP auth). RE-VERIFIED 2026-08-14: facts still correct (Reg (EU) 2026/1744, OJ 24 Jul, in force 27 Jul, high-risk deferred Dec 2027). BUT the 2 Aug 2026 "cliff" has now passed; timeliness is past peak. Decision needed: publish as-is (still accurate, now retrospective) / light refresh to post-2-Aug framing / drop. Dedup-RISK vs post 490 stands. Requires authorized WP session.
+
+3. BACKUP CANDIDATE (not drafted): AIP / Honeywell Intelligrated + Transnorm / Trew warehouse-automation consolidation (completed 27 Jul, Verified, score 70.5). Draft next run if operator wants a second vendor-consolidation piece (adjacent to post 493 Toyota / post 498 Locus).
+
+4. CARRIED candidate: Humanoid (UK, $152M Series A) from 2026-07-24 monitoring -> still parked, no fresh trigger. Freehand $75M Series B -> stays parked (dup-risk vs 623+576, US-centric).
+
+5. TRACKER items needing operator/authorized session (all 41 Open unchanged): WP-auth (T013/T022/T040/T042/T055/T113/T076), GSC (T031/T066/T085/T025), push-to-main (T015/T016), file delete (T104, hard-blocked), plus code-edit proposals ready on request (T086 brief-leak-guard wiring, T059 anchor matcher, T103 register 592/597 fix).
+
+## ===== STRUCTURED RUN SUMMARY =====
+
+Run:        2026-08-14_0722 | mode daily | UNATTENDED | branch claude/logiai-run-20260814 | PR #30
+Result:     COMPLETED (not aborted). Report-only + 1 new parked draft. 0 published (correct: hard rule + WP auth blocked).
+
+Phase 1 (Tracker):   41 Open triaged; 0 auto-completed; 0 flips; all parked/deferred with reasons.
+Phase 2 (Pipeline):  ~6 raw signals; 1 LEAD (FedEx+Dexterity 81.5, Verified, dedup-clean) + 1 BACKUP (AIP/Intelligrated 70.5). EU AI Act status re-verified. Stale/dup signals rejected honestly.
+Phase 3 (Drafting):  1 draft produced (FedEx+Dexterity, ~747w, 2 visuals specced, image briefs A/B).
+Phase 4 (QC+Comp):   QC 9.2/10, Compliance PASS, AUTO-APPROVE route -> PARKED (unattended).
+Phase 5 (Approval):  no prompt; all gated items parked.
+Phase 7 (Memory):    0 register rows, 0 tracker flips; 1 parked draft committed to run branch.
+
+Hard-rule ledger: 0 WordPress publishes | 0 pushes to main | 0 file deletes | 0 tracker flips | 0 em-dashes in generated content | 0 interactive prompts.
+Caps: cap_hits 0 | drift_mismatches 0 | loop_aborts 0. Well within daily caps (usd/tool-calls/wall all under per-phase and total limits).
+Environment: GitHub-egress-only (HTTP 000, not 401/T021); WordPress-com connector unauthorized headless; fal key Mac-local. WebSearch used as fetch fallback.
