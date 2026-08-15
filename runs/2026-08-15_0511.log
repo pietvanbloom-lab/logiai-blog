@@ -79,3 +79,27 @@ Goal-drift Phase 3-4: goal='draft + QC verified candidates IF authorized', actio
 - Full 25-point logiai-quality-gate + logiai-compliance PARKED for operator ahead of any publish (auto-approve route needs operator-confirmed QC+compliance in an operator-absent run).
 
 Phase 2 + 3-4 caps: 4 WebSearch + light file checks, well under per_phase (50 tool calls). No loop, no drift mismatch.
+
+## PHASE 5 — Approval Gate (HARD STOP)
+Goal-drift Phase 5: goal='operator approval before any publish/flip', action='operator absent + approval_email.enabled=false -> no async channel -> PARK all approval items, no writes', aligned=YES.
+- approval_email.enabled=false (operator-present gate) AND operator absent in a scheduled session -> no publish path exists this run.
+- 0 publishes, 0 tracker Done flips, 0 irreversible actions. All approval-gated items PARKED (see PR body "Parked for operator approval").
+
+## PHASE 7 — Memory Update (always) + final artifacts
+Goal-drift Phase 7: goal='persist run state + memory hygiene', action='append log + cap-history row, update PR body; 0 register/tracker/WP writes', aligned=YES.
+- Run log written + committed + pushed per phase (artifacts-first honored).
+- cap-history.csv: appended this run's row.
+- memory/logiai_published.md: NO changes (nothing published).
+- Action Tracker: NO Done flips (operator absent, hard rule). 41 Open carried.
+- PR #31 body updated with structured summary + Parked section.
+
+=== STRUCTURED RUN SUMMARY ===
+mode: daily (operator ABSENT) | result: NO-PUBLISH; 0 new drafts; 0 auto tracker actions; run artifacts left on branch claude/logiai-run-20260815 + draft PR #31
+tool_calls: ~18 | wall: ~16 min | est_usd: ~0.25 | cap_hits: none | drift_mismatches: 0 | loop_aborts: 0
+open_tasks: 41 (1 High=T106, 22 Med, 18 Low; no delta vs 08-01)
+monitoring: 0 fresh dedup-clean EU-fit candidates. Augment $85M = STALE (Series A, 2025-09-04, mislabeled). Freehand $75M (29 Jul) unchanged PARKED (dup-risk vs 623/576, US-centric). Loop $95M = April stale.
+T106: 2 Aug 2026 EU AI Act applicability date now PASSED (today 15 Aug) -> draft timeliness decayed peak->recent-historical; still evergreen-correct; publish still BLOCKED ON WP CONNECTOR AUTH.
+candidates parked: T106 EU AI Act OJ draft (P6, ready; timeliness decayed) + Freehand (P2, dup-risk). Walden = ALREADY PUBLISHED post 692 (parked "publish Walden" from 08-01 is OBSOLETE). Humanoid (P2 UK unicorn, 07-24) still awaiting drafting authorization.
+writes: 0 WordPress, 0 git-main, 0 file-deletes, 0 tracker-flips
+env note: WP REST HTTP 000 (GitHub-egress-only net policy; NOT 401, T021 not implicated); WordPress-com MCP present but UNAUTHORIZED (headless OAuth impossible); Gmail + GitHub MCP available.
+=== END OF RUN ===
