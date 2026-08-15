@@ -31,3 +31,25 @@
 
 ---
 # PHASE RESULTS (appended per phase)
+
+## PHASE 1 — Action Tracker Sweep (daily)
+Goal-drift Phase 1: goal='triage 41 Open tasks, auto-execute only low-risk (read-only audits, local writes), hard-stop/park the rest', action='classify by blocker, park all WP/git-main/delete/credential/operator items', aligned=YES.
+
+Open tasks: 41 (1 High=T106, 22 Medium, 18 Low). No delta vs 07-31/08-01.
+
+Triage outcome: 0 auto-completed, 0 tracker Done flips, 41 carried over. Rationale by blocker class
+(every open item hits at least one hard-stop in an operator-absent, WP-unreachable cloud run):
+
+- WP / GSC / live-site dependent (WP REST HTTP 000 + WordPress-com MCP unauthorized -> cannot read or write):
+  T014 (mobile check needs live pages), T029 (competitor SEO gap), T031/T066/T085 (GSC indexing),
+  T040/T042 (WP media upload/permission), T071 (schema on live posts), T072 (backlinks),
+  T082 (full SEO audit), T113 (Yoast verify 673/674/675/688), and T106 publish path.
+- git push to main (HARD RULE - never push main): T015 (theme -> repo), T016 (visuals -> Pages), T086 (wire brief-leak-guard into pipeline).
+- File deletion (HARD RULE - never delete): T104 (delete 3 stale temp publish files).
+- External credential / infra not in this container: T045 (ElevenLabs sub), T047/T081 (Gmail approval-mail; approval_email.enabled=false),
+  T044 (TTS latency), T108 (Mac Settings plugin-cache re-save), T017 (audio player on live site).
+- Operator decision / Content defers to Phase 3 drafting: T013, T022, T027, T028, T039, T074, T078, T111 (Octup evergreen).
+- Local analysis conceivable but SEO/strategy scope w/ no from-scratch authorization + no live-site read (parked to avoid goal-drift):
+  T073 (robots.txt AI-crawler policy = operator), T075/T076 (keyword map / internal linking), T025/T033/T055/T059/T067/T103/T114/T018.
+
+Phase 1 caps: ~3 tool calls, well under per_phase (50). No loop, no drift mismatch.
