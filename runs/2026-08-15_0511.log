@@ -1,0 +1,33 @@
+# LogiAI Production Stack — Run Log
+# 2026-08-15 05:11 UTC (~07:11 CET) | mode: daily (SCHEDULED, operator ABSENT)
+# Branch: claude/logiai-run-20260815 | binding: .editorial-engine/ROUTINE-RUNBOOK.md
+
+## Config snapshot
+- config version: 1 (last_updated 2026-05-11)
+- mode: daily -> phases 0, 1, 2, 3, 4, 5, 7 (skip 6 publish, 8 performance)
+- caps.daily: total_usd 3.00 | total_tool_calls 200 | total_wall_min 90 |
+  per_phase {tool_calls 50, wall_min 30, usd 0.80} | per_draft {tool_calls 25, usd 0.50}
+- goal_drift_guard: enabled (on_mismatch stop_and_escalate)
+- loop_detection: enabled (same_tool_threshold 4, on_loop abort_phase_and_log)
+- hard rules: no WP publish | no push to main | no file delete | no tracker Done flip | no em-dashes
+- start counters: tool_calls 0, wall_seconds 0, estimated_usd 0.00
+
+## Environment preflight (Phase 0)
+- Pulled latest main: up to date. Last run log on main: 2026-08-01_0710.log.
+- Read (in order): ROUTINE-RUNBOOK.md, portal.yaml, skills/logiai-production-stack/config.yml, SKILL.md. OK.
+- queue/: empty (README only) -> NO operator pre-approved work packages -> NO from-scratch drafting authorization this run.
+- memory/logiai_project.md + logiai_published.md: read. Strategy = EU long-tail, rank-not-index.
+- Action Tracker parsed: 41 Open, 73 Done (no delta vs 07-31/08-01).
+- WP REST check: curl https://logiai.blog/wp-json/wp/v2/posts?per_page=1 -> HTTP 000
+  (cloud net policy is GitHub-egress-only; NOT a 401, so T021 credential fault NOT implicated).
+- Connectors: WordPress-com MCP present but UNAUTHORIZED (headless OAuth not possible) ->
+  all authenticated WP steps PARKED. Gmail MCP present. GitHub MCP present (used for artifacts).
+- Drift-guard Phase 0: goal='preflight config+state, establish run artifacts', action='read binding docs, parse tracker, check WP/connectors, create run branch+log+PR', aligned=YES.
+
+## Artifacts-first (per runbook section 1)
+- Created branch claude/logiai-run-20260815 from main.
+- Wrote this log skeleton, committing + pushing, opening draft PR "run: LogiAI daily 2026-08-15".
+- Log will be appended + committed + pushed at the END of every phase.
+
+---
+# PHASE RESULTS (appended per phase)
