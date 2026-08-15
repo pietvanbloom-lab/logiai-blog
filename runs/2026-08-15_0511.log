@@ -53,3 +53,29 @@ Triage outcome: 0 auto-completed, 0 tracker Done flips, 41 carried over. Rationa
   T073 (robots.txt AI-crawler policy = operator), T075/T076 (keyword map / internal linking), T025/T033/T055/T059/T067/T103/T114/T018.
 
 Phase 1 caps: ~3 tool calls, well under per_phase (50). No loop, no drift mismatch.
+
+## PHASE 2 — Editorial Pipeline: Monitoring -> Scoring -> Verification -> Dedup (daily)
+Goal-drift Phase 2: goal='scan sources, score, verify, dedup -> shortlist non-duplicate verified candidates', action='WebSearch monitoring (direct source fetch blocked by cloud net policy), score/verify/dedup fresh signals', aligned=YES.
+
+Monitoring (WebSearch fallback; direct Tier-1/2 fetch blocked, HTTP 000 egress policy). Candidates assessed:
+- Augment $85M "Series B" (8VC) -> REJECT. Verification: it is a Series A announced 2025-09-04 (Redpoint-led; total $110M), ~11 months STALE and MISLABELED "Series B" by secondary aggregators. Fails timeliness.
+- Freehand $75M (Pando, Fortune-500 supply-chain spend agents, 29 Jul 2026) -> already surfaced + PARKED on 08-01. Dedup: DUPLICATE-RISK vs post 623 (freight back-office agents) + 576 (Coupa/Rossum spend). US-centric (weak EU fit). No change; remains parked for operator drafting decision.
+- Loop $95M (AI SC decision platform) -> April 2026 dated, STALE.
+- EU AI Act status: the widely-cited 2 Aug 2026 applicability date has now PASSED (today 15 Aug). GPAI/transparency obligations applied from 2 Aug; high-risk deferred to 2 Dec 2027 (Digital Omnibus, Reg (EU) 2026/1744). SIGNAL: T106's timeliness has DECAYED from "peak/breaking" (08-01 framing) to "recent-historical" - still evergreen-correct, no longer a breaking hook. Flag for operator (headline/framing may want a retrospective tilt).
+
+Scoring (5-criteria, est): no new signal reaches P1/P2 with fresh + dedup-clean + EU-fit simultaneously. Freehand ~P2 but dup-risk + US-centric.
+Verification: Augment rejected (stale/mislabeled); Freehand Verified-Partial (round-label) unchanged; no new Verified non-dup candidate.
+Dedup vs memory/logiai_published.md: register current through post 692 (Walden, LIVE 07-23). No fresh dedup-clean candidate.
+
+Phase 2 output: 0 NEW verified non-duplicate candidates ready for drafting. Freehand carried as the sole fresh-ish candidate, PARKED (dup-risk).
+
+## PHASE 3-4 — Drafting / QC + Compliance (daily)
+Goal-drift Phase 3-4: goal='draft + QC verified candidates IF authorized', action='no new candidate + queue empty (no from-scratch authorization) -> no new drafting; self-QC carried drafts', aligned=YES.
+
+- No new drafting. Zero verified non-dup candidates from Phase 2; queue/ empty -> NO operator from-scratch drafting authorization (per SKILL Phase 0.3 + runbook). Consistent with 07-24..08-01 precedent: monitoring candidates are surfaced/parked, never drafted from scratch autonomously.
+- Carried-draft self-QC (em-dash hard rule): all 4 workspace drafts = 0 em-dashes (CLEAN):
+  logiai-draft-2026-07-23-walden-robotics (residual, see note), 2026-07-25-eu-ai-act-...-official-journal, 2026-07-26-T106-...-OJ (canonical), logiai-predraft-T106-...-OJ.
+- CORRECTION for operator: the Walden Robotics piece is ALREADY PUBLISHED as post 692 (LIVE 2026-07-23, per register). The workspace 07-23 Walden draft is a published residual; parked item "publish Walden" carried on 08-01 is now OBSOLETE. (No file deleted - hard rule; flagged for operator cleanup.)
+- Full 25-point logiai-quality-gate + logiai-compliance PARKED for operator ahead of any publish (auto-approve route needs operator-confirmed QC+compliance in an operator-absent run).
+
+Phase 2 + 3-4 caps: 4 WebSearch + light file checks, well under per_phase (50 tool calls). No loop, no drift mismatch.
