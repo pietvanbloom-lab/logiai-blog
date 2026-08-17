@@ -1,0 +1,25 @@
+=== LogiAI Production Stack Run Log ===
+date: 2026-08-17
+start: 2026-08-17 07:15 CEST (05:15 UTC)
+mode: daily (phases 0,1,2,3,4,5,7)  |  trigger: scheduled cloud Routine (operator ABSENT)
+runbook: .editorial-engine/ROUTINE-RUNBOOK.md (binding for this run)
+branch: claude/logiai-run-20260817  |  base: origin/main @ 1d562b2 (PR #17 merged, last run 2026-08-01)
+
+CONFIG SNAPSHOT (skills/logiai-production-stack/config.yml)
+- mode caps (daily): total_usd=3.00, total_tool_calls=200, total_wall_min=90; per_phase tool_calls=50/wall_min=30/usd=0.80; per_draft tool_calls=25/usd=0.50
+- goal_drift_guard: enabled, on_mismatch=stop_and_escalate
+- loop_detection: enabled, same_tool_threshold=4, on_loop=abort_phase_and_log
+- approval_email.enabled: FALSE (2026-06-17 reverted to operator-present approval) => no async publish path in a scheduled run
+- hard rules: no WP publish, no push to main, no file delete, no tracker Done-flip, no em-dashes
+
+=============================================================
+Phase 0 (preflight): COMPLETE
+- Read in order: ROUTINE-RUNBOOK.md, .editorial-engine/portal.yaml, config.yml, SKILL.md. All present, parsed clean.
+- Queue folder EMPTY (only README.md; no dated pre-approval package) => NO autonomous-drafting pre-approval this run.
+- Memory loaded: memory/logiai_project.md + memory/logiai_published.md (register). No MEMORY.md index in repo (Mac-local artifact, not blocking).
+- Action Tracker parsed clean (strict json.loads): 114 tasks (73 Done, 41 Open). Open breakdown: 1 High (T106), 22 Medium, 18 Low. Types among Open: 18 Tech, 10 Content, 10 SEO, 3 Design. NO delta vs 2026-08-01.
+- WP REST check: outbound HTTPS to logiai.blog => HTTP 000 (curl exit 56, proxy CONNECT rejected 403; cloud net policy is GitHub-egress-only). Same as 07-21..08-01. This is NOT a 401 => NOT the T021 credential fault. Authenticated WP steps PARKED per runbook s.5.
+- Connectors: Gmail connected + enabled-in-chat. WordPress.com MCP present but installState=unknown / NOT authorized in this headless session (interactive OAuth not possible here) => all WP writes PARKED. WebSearch available as monitoring fallback.
+- Drift-guard Phase 0: goal='preflight + load state', action='read config/runbook/portal/memory/tracker, probe WP channel + connectors', aligned=YES.
+
+(Phases 1,2,3-4,5,7 appended below as they complete.)
