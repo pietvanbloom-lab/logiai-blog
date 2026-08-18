@@ -31,3 +31,12 @@ Phase 0 (pre-flight): DONE.
 
 (Phases 1,2,3-4,5,7 appended below as they complete.)
 === END OF SKELETON ===
+
+Phase 1 (Action Tracker sweep): report-only, NO status flips (operator absent, hard rule).
+- 41 Open (1 High=T106, 22 Med, 18 Low). NO delta vs 08-01. Types among Open: 18 Tech, 10 Content, 10 SEO, 3 Design.
+- Sole High = T106 (Content, "Draft EU AI Act Digital Omnibus piece when Official Journal publication lands"). OJ trigger already FIRED 07-26 (Reg (EU) 2026/1744, OJ 24 Jul 2026); IN FORCE since 27 Jul 2026. Completed canonical draft already parked (workspace/logiai-draft-2026-07-26-T106-...OJ.md). Content tasks defer to Phase 3. T106 stays Open (no autonomous Done-flip); publish + flip are operator actions. Operator approved publish on 07-31 ("approved, merge and then publish"; PR #16 merged) but publish remains BLOCKED ON WP CONNECTOR AUTH (WordPress-com MCP unauthorized headless + direct WP REST HTTP 000).
+- Autonomous-actionability scan of all 41 Open tasks: 0 tasks executable from this cloud container. Tech items (T040/T042/T045/T047/T081/T086/T108/T015/T017/T025/T033/T044/T055/T059/T067/T103/T104 etc.) all require WP Admin UI, git push to main, credential/subscription changes, or file deletion -> all hard-stop. SEO items (T029/T031/T066/T071/T072/T075/T076/T082/T085/T113) require GSC/WP REST credentials or live-site crawl (WP HTTP 000, blocked) -> parked. Design items (T014/T016/T114) require WP-UI or git-push -> parked. Content items defer to Phase 3.
+  * Noted candidate T103 (Low, reconcile content register 592/597 ID label): the register edit itself is a local memory write, but the correct labels cannot be verified without live WP (HTTP 000) and completing it normally warrants a Done-flip (hard-stop). Parked for operator per precedent.
+- Standing gated backlog carried unchanged: T113 (verify Yoast on 673/674/675/688), T114 (swap custom fal image on 688), T108 (re-save 4 LogiAI skills, stale plugin cache), T111 (Octup evergreen decision), T107 (Yoast on 633). All WP-UI / credential / git-push / Done-flip = hard-stop, none autonomously actionable from this container.
+- 0 Bug/Tech/SEO/Design task auto-executed (none autonomously actionable this environment).
+- Drift-guard Phase 1: goal='triage open tasks, auto-run only low-risk local', action='report-only sweep, park operator items, defer Content to Phase 3', aligned=YES.
