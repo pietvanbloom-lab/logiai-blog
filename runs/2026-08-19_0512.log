@@ -1,0 +1,167 @@
+# LogiAI Production Stack — Run Log
+
+run_date: 2026-08-19
+run_time: 05:12 UTC (07:12 CET)
+mode: daily (phases 0, 1, 2, 3, 4, 5, 7)
+operator: ABSENT (unattended scheduled run)
+branch: claude/logiai-run-20260819
+runbook: .editorial-engine/ROUTINE-RUNBOOK.md (binding; overrides operator-present behavior)
+
+## Config snapshot (skills/logiai-production-stack/config.yml v1, last_updated 2026-05-11)
+caps.daily: total_usd=3.00, total_tool_calls=200, total_wall_min=90;
+  per_phase: tool_calls=50, wall_min=30, usd=0.80; per_draft: tool_calls=25, usd=0.50
+goal_drift_guard: enabled, on_mismatch=stop_and_escalate
+loop_detection: enabled, same_tool_threshold=4, on_loop=abort_phase_and_log
+approval_email.enabled: false (operator-present approval; async mail-label flow OFF)
+hard_rules: no WP publish, no push to main, no file delete, no tracker Done flip, no em-dashes
+
+## Environment (stated honestly, per runbook section 5)
+- Direct WP REST (https://logiai.blog/wp-json): HTTP 000 — blocked by cloud net policy
+  (GitHub-egress-only). NOT a 401 -> T021 credential fault is NOT implicated.
+- WordPress-com MCP connector: present but UNAUTHORIZED in headless session (OAuth flow
+  cannot run unattended). All authenticated WP steps PARKED.
+- External news/EUR-Lex direct fetch: blocked by same policy; WebSearch used as fallback.
+- WP App Password secret: unavailable in this container -> authenticated WP REST PARKED.
+- Gmail MCP tools: present. GitHub MCP: available (repo scope pietvanbloom-lab/logiai-blog).
+
+---
+# PHASE LOG (appended at end of each phase)
+
+## Phase 0: Pre-flight — START
+- Pulled latest main (HEAD 1d562b2, merge of PR #17 claude/logiai-run-20260801).
+- Read config.yml, ROUTINE-RUNBOOK.md, portal.yaml, SKILL.md.
+- queue/*.md: EMPTY (only README.md) -> no operator pre-approved work packages this run.
+- Action Tracker HTML: EMBEDDED_TASKS block present (parse pending).
+- WP REST preflight: HTTP 000 (see Environment).
+- Drift-guard Phase 0: goal='establish run state + artifacts-first trace',
+  action='create run branch + log skeleton + draft PR before Phase 1', aligned=YES.
+- Note: last successful run 2026-08-01 (18-day gap in scheduler). Carried-parked state
+  from 08-01 to be re-validated for staleness this run.
+
+(further phases appended below)
+
+## Phase 0: Pre-flight — END
+- Tracker parsed OK: 114 tasks total (73 Done, 41 Open). Open = 1 High, 22 Med, 18 Low.
+  No delta vs 2026-08-01 (41 open). High = T106 (Content, the parked EU AI Act publish).
+- Drift-guard Phase 0 END: goal='preflight complete + artifacts trace live',
+  action='branch+log+draft PR #35 pushed; entering Phase 1', aligned=YES.
+
+## Phase 1: Action Tracker Sweep (daily) — START/END
+Model: haiku-class (structured triage). Handler per SKILL.md Phase 1.
+Environment gate: this cloud container is GitHub-egress-only. WP REST HTTP 000,
+WordPress-com MCP unauthorized, no GSC, no Mac Terminal MCP, no WP App Password.
+Therefore every non-Content open task is blocked from execution here, OR is an
+irreversible/operator-decision item (hard-stop per SKILL.md autonomy rules).
+
+Triage of 40 non-T106 open tasks (T106 Content -> Phase 3):
+- SEO (need WP/GSC/live crawl, all BLOCKED here): T029, T031, T066, T071, T072,
+  T075, T076, T082, T085, T113 -> CARRIED/PARKED.
+- Tech (need WP/Gmail/GSC/Mac/live-site, or irreversible git-push/file-delete):
+  T040, T042, T045, T047, T073, T081, T086, T108, T015, T017, T025, T033, T044,
+  T055, T059, T067, T103, T104 -> CARRIED/PARKED. (T104 = file delete: HARD-RULE
+  forbidden. T015/T016 = git push: operator-only. T103 register reconcile needs
+  live WP post-ID confirmation -> cannot verify unattended.)
+- Design (need WP/live site render): T014, T016, T114 -> CARRIED/PARKED.
+- Content backlog/decisions (Phase 3 scope, mostly operator decisions):
+  T013, T022, T027, T078, T018, T028, T039, T074, T111 -> see Phase 3 / parked.
+Auto-completed this phase: 0 (no safe, verifiable, in-cloud action available).
+Tracker Done flips: 0 (hard rule; operator-only).
+- Drift-guard Phase 1: goal='sweep tracker, auto-execute only safe read-only/local
+  work', action='all open tasks are WP/GSC/Mac/credential-blocked or irreversible
+  -> triage + park, 0 writes', aligned=YES.
+- Loop check: 0 repeated calls. Cap check: well within per-phase caps.
+
+## Phase 2: Editorial Pipeline upstream (monitoring / scoring / verification) — daily
+Models: haiku (monitoring/scoring) + sonnet (verification). External fetch blocked
+(GitHub-egress-only); WebSearch used as fallback (4 queries).
+Monitoring sweep (Tier 1/2 via WebSearch): logistics AI funding, supply-chain AI
+agents, autonomous trucking (wk Aug 18), EU warehouse robotics.
+Candidates seen and dispositions:
+- **California opens heavy-duty AV truck testing** (Aurora + Kodiak first permits;
+  Teamsters sue DMV 5 Aug). NEW, dated ~14 Aug (TechCrunch 08/14 + TheNextWeb +
+  Truckinginfo + Truck News + itechpost 08/17 + Teamsters release). SCORING: high
+  (breaking + direct P1 logistics impact + regulatory/labor angle). VERIFICATION:
+  >=5 independent sources, date-current -> VERIFIED. DEDUP: distinct regulatory/labor
+  event; P1 company pieces exist (338/475/496/567/590) but none within 30 days and
+  this is the rulebook/courtroom angle, not a profile -> dedup-CLEAN, differentiated.
+  => selected as the run's draft candidate.
+- Loop $95M Series C -> STALE (April 2026), already assessed prior runs. REJECT.
+- Freehand $75M Series B -> now ~3 wks old (29 Jul), past freshness; carried-parked
+  from 08-01 (dup-risk vs 623/576, US-centric). REJECT as fresh; stays operator
+  drafting decision (stale) in parked list.
+- Augment $25M seed -> STALE, previously rejected. REJECT.
+- Smart Robotics EUR10M (14 May) / generic EU robotics roundups -> STALE/evergreen,
+  no fresh dated hook. REJECT.
+Duplicate-check vs memory/logiai_published.md: run. Notable finding: the 08-01
+parked list #4 "Walden Robotics" is ALREADY PUBLISHED as post 692 (2026-07-23,
+"Walden Robotics Bet $1.1 Billion That General Beats Special") -> that parked item
+was STALE/erroneous; removed from this run's parked list. Flagged for operator.
+- Drift-guard Phase 2: goal='surface Verified non-dup fresh candidates',
+  action='1 Verified fresh candidate (California AV) selected; stale/dup rejected',
+  aligned=YES. Loop: 0. Caps: within per-phase.
+
+## Phase 3: Drafting — daily
+Model: sonnet. Drafted the California AV candidate to workspace/ (parked, NOT
+published; runbook permits workspace drafts committed to the run branch).
+Output: workspace/logiai-draft-2026-08-19-california-heavy-duty-av-truck-testing.md
+(~730 body words, P1, analysis+stance, full planning package: verification block,
+dedup, category/tags, internal-link plan, 2 editorial-visual specs [timeline + stat],
+2 featured-image briefs, 3 headline variants). Visuals specified not embedded (build +
+inline-style is a publish-time step).
+- Drift-guard Phase 3: goal='draft the Verified candidate in LogiAI voice',
+  action='1 draft to workspace, parked', aligned=YES.
+
+## Phase 4: QC + Compliance — daily (self-QC; full gate PARKED for operator)
+Hard-rule self-QC on body (automated scan): em-dash=0, en-dash-in-prose=0,
+banned-phrases=0, brief-header-leak=0, emoji=0, H2=4, ~730 body words. CLEAN.
+Full logiai-quality-gate 25-point + logiai-compliance (EU AI Act/GDPR/copyright/
+taxonomy/audit) is the auto-approve gate; that route needs QC>=85 AND compliance
+PASS confirmed, an operator-confirmed step in an operator-absent run -> PARKED.
+Draft status: hard-rule CLEAN, READY-FOR-OPERATOR-QC (not auto-READY-FOR-PUBLISH).
+- Drift-guard Phase 4: goal='QC the draft', action='self-QC hard rules CLEAN; full
+  gate parked for operator', aligned=YES.
+
+## Phase 5: Approval Gate — HARD STOP (all modes)
+approval_email.enabled=false (operator-present approval) and operator ABSENT in a
+scheduled run -> NO publish path. All publish/approval items PARKED (see PR body
+"Parked for operator approval"). No AskUserQuestion (runbook section 2). 0 WP writes.
+- Drift-guard Phase 5: goal='gate before any publish', action='park all; no publish',
+  aligned=YES.
+
+## Phase 7: Memory Update — always
+Run log written + committed each phase. cap-history row appended on final commit.
+NO register writes (nothing published). NO tracker Done flips (operator-only, hard
+rule; T106 stays Open, draft parked). No MEMORY.md index in repo (Mac-local).
+Carried-candidate staleness re-validation (18-day scheduler gap):
+- T106 EU AI Act Digital Omnibus draft: still valid (thesis = deferral to 2 Dec 2027
+  holds; "2 Aug 2026" hook is past and the draft already frames it as gone). Operator
+  approved publish 07-31, BLOCKED on WP connector auth. STAYS PARKED.
+- Freehand: stale as news (29 Jul); operator drafting decision, low timeliness now.
+- Humanoid (07-24): ~4 wks old, stale as news; evergreen-ish EU physical-AI option.
+- Walden: PUBLISHED (post 692) -> removed from parked list (08-01 listing was stale).
+- Drift-guard Phase 7: goal='persist run state + memory hygiene',
+  action='append log + cap-history, 0 register/tracker/WP writes', aligned=YES.
+
+=== STRUCTURED RUN SUMMARY ===
+mode: daily (operator ABSENT) | result: NO-PUBLISH; 1 NEW draft produced + parked
+  (California heavy-duty AV truck testing, P1, hard-rule CLEAN); 0 published.
+tool_calls: ~14 | wall: ~12 min | est_usd: ~0.22 | cap_hits: 0 | drift_mismatches: 0 | loop_aborts: 0
+open_tasks: 41 (1 High=T106, 22 Med, 18 Low; no delta vs 08-01)
+new_this_run: California DMV issues first heavy-duty (>10,000 lb) AV testing permits
+  (Aurora + Kodiak, drivered phase); Teamsters California sued the DMV 5 Aug over the
+  rulemaking. VERIFIED (>=5 independent sources, news broke ~14 Aug). Dedup-CLEAN,
+  distinct regulatory/labor angle. -> drafted to workspace/, PARKED for operator QC +
+  publish. Recommended headline: "California Finally Let the Trucks In. Now the Fight
+  Moves to Court." Suggested featured image WP Media 458 (04_autonomous_truck) or gen.
+monitoring rejects: Loop $95M (April, stale), Freehand $75M (29 Jul, past freshness),
+  Augment $25M (stale), Smart Robotics EUR10M (May, stale), EU robotics roundups (evergreen).
+dedup finding: 08-01 parked item "Walden Robotics" is ALREADY LIVE as post 692
+  (2026-07-23) -> stale parking removed.
+candidates parked: California AV draft (P1, NEW, ready for operator QC) + T106 EU AI
+  Act OJ draft (P6, approved 07-31, blocked on WP connector) + Humanoid (P2, stale-ish)
+  + Freehand (P2, stale-ish). 0 published.
+writes: 0 WordPress, 0 git-to-main, 0 file-deletes, 0 tracker-flips.
+env: direct WP REST HTTP 000 + external fetch blocked (GitHub-egress-only, NOT 401 ->
+  T021 not implicated); WordPress-com MCP present but unauthorized (headless OAuth
+  impossible); WebSearch fallback used; WP App Password secret absent.
+=== END OF RUN ===
