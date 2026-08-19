@@ -1,0 +1,41 @@
+# LogiAI Production Stack — Run Log
+
+run_date: 2026-08-19
+run_time: 05:12 UTC (07:12 CET)
+mode: daily (phases 0, 1, 2, 3, 4, 5, 7)
+operator: ABSENT (unattended scheduled run)
+branch: claude/logiai-run-20260819
+runbook: .editorial-engine/ROUTINE-RUNBOOK.md (binding; overrides operator-present behavior)
+
+## Config snapshot (skills/logiai-production-stack/config.yml v1, last_updated 2026-05-11)
+caps.daily: total_usd=3.00, total_tool_calls=200, total_wall_min=90;
+  per_phase: tool_calls=50, wall_min=30, usd=0.80; per_draft: tool_calls=25, usd=0.50
+goal_drift_guard: enabled, on_mismatch=stop_and_escalate
+loop_detection: enabled, same_tool_threshold=4, on_loop=abort_phase_and_log
+approval_email.enabled: false (operator-present approval; async mail-label flow OFF)
+hard_rules: no WP publish, no push to main, no file delete, no tracker Done flip, no em-dashes
+
+## Environment (stated honestly, per runbook section 5)
+- Direct WP REST (https://logiai.blog/wp-json): HTTP 000 — blocked by cloud net policy
+  (GitHub-egress-only). NOT a 401 -> T021 credential fault is NOT implicated.
+- WordPress-com MCP connector: present but UNAUTHORIZED in headless session (OAuth flow
+  cannot run unattended). All authenticated WP steps PARKED.
+- External news/EUR-Lex direct fetch: blocked by same policy; WebSearch used as fallback.
+- WP App Password secret: unavailable in this container -> authenticated WP REST PARKED.
+- Gmail MCP tools: present. GitHub MCP: available (repo scope pietvanbloom-lab/logiai-blog).
+
+---
+# PHASE LOG (appended at end of each phase)
+
+## Phase 0: Pre-flight — START
+- Pulled latest main (HEAD 1d562b2, merge of PR #17 claude/logiai-run-20260801).
+- Read config.yml, ROUTINE-RUNBOOK.md, portal.yaml, SKILL.md.
+- queue/*.md: EMPTY (only README.md) -> no operator pre-approved work packages this run.
+- Action Tracker HTML: EMBEDDED_TASKS block present (parse pending).
+- WP REST preflight: HTTP 000 (see Environment).
+- Drift-guard Phase 0: goal='establish run state + artifacts-first trace',
+  action='create run branch + log skeleton + draft PR before Phase 1', aligned=YES.
+- Note: last successful run 2026-08-01 (18-day gap in scheduler). Carried-parked state
+  from 08-01 to be re-validated for staleness this run.
+
+(further phases appended below)
