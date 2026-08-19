@@ -39,3 +39,34 @@ hard_rules: no WP publish, no push to main, no file delete, no tracker Done flip
   from 08-01 to be re-validated for staleness this run.
 
 (further phases appended below)
+
+## Phase 0: Pre-flight — END
+- Tracker parsed OK: 114 tasks total (73 Done, 41 Open). Open = 1 High, 22 Med, 18 Low.
+  No delta vs 2026-08-01 (41 open). High = T106 (Content, the parked EU AI Act publish).
+- Drift-guard Phase 0 END: goal='preflight complete + artifacts trace live',
+  action='branch+log+draft PR #35 pushed; entering Phase 1', aligned=YES.
+
+## Phase 1: Action Tracker Sweep (daily) — START/END
+Model: haiku-class (structured triage). Handler per SKILL.md Phase 1.
+Environment gate: this cloud container is GitHub-egress-only. WP REST HTTP 000,
+WordPress-com MCP unauthorized, no GSC, no Mac Terminal MCP, no WP App Password.
+Therefore every non-Content open task is blocked from execution here, OR is an
+irreversible/operator-decision item (hard-stop per SKILL.md autonomy rules).
+
+Triage of 40 non-T106 open tasks (T106 Content -> Phase 3):
+- SEO (need WP/GSC/live crawl, all BLOCKED here): T029, T031, T066, T071, T072,
+  T075, T076, T082, T085, T113 -> CARRIED/PARKED.
+- Tech (need WP/Gmail/GSC/Mac/live-site, or irreversible git-push/file-delete):
+  T040, T042, T045, T047, T073, T081, T086, T108, T015, T017, T025, T033, T044,
+  T055, T059, T067, T103, T104 -> CARRIED/PARKED. (T104 = file delete: HARD-RULE
+  forbidden. T015/T016 = git push: operator-only. T103 register reconcile needs
+  live WP post-ID confirmation -> cannot verify unattended.)
+- Design (need WP/live site render): T014, T016, T114 -> CARRIED/PARKED.
+- Content backlog/decisions (Phase 3 scope, mostly operator decisions):
+  T013, T022, T027, T078, T018, T028, T039, T074, T111 -> see Phase 3 / parked.
+Auto-completed this phase: 0 (no safe, verifiable, in-cloud action available).
+Tracker Done flips: 0 (hard rule; operator-only).
+- Drift-guard Phase 1: goal='sweep tracker, auto-execute only safe read-only/local
+  work', action='all open tasks are WP/GSC/Mac/credential-blocked or irreversible
+  -> triage + park, 0 writes', aligned=YES.
+- Loop check: 0 repeated calls. Cap check: well within per-phase caps.
