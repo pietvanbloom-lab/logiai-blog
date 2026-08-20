@@ -1,0 +1,46 @@
+# LogiAI Production Stack — Run Log
+
+- **Date:** 2026-08-20
+- **Start (CET):** 07:10
+- **Mode:** daily (phases 0, 1, 2, 3, 4, 5, 7)
+- **Trigger:** scheduled Routine (unattended, operator absent)
+- **Run branch:** claude/logiai-run-20260820
+- **Runbook:** .editorial-engine/ROUTINE-RUNBOOK.md (binding)
+- **Operator:** pietvanbloom@gmail.com
+
+## Config snapshot (skills/logiai-production-stack/config.yml v1, last_updated 2026-05-11)
+
+- Caps (daily): total_usd 3.00, total_tool_calls 200, total_wall_min 90;
+  per_phase tool_calls 50 / wall_min 30 / usd 0.80; per_draft tool_calls 25 / usd 0.50
+- Goal-drift-guard: enabled, on_mismatch=stop_and_escalate
+- Loop detection: enabled, same_tool_threshold 4, on_loop=abort_phase_and_log
+- Escalation model: opus-4-6, max 2 calls/run
+- approval_email.enabled: false (operator-present approval; away-mode async mail paused)
+
+## Environment preflight
+
+- Network: GitHub-egress-only. Direct WP REST `GET https://logiai.blog/wp-json/wp/v2/posts?per_page=1` => HTTP 000 (external fetch blocked, NOT a 401). Consistent with runs since 2026-07-23.
+- WordPress-com MCP connector: unauthorized in headless session (requires interactive OAuth). WP publish path unavailable.
+- WP App Password: not present as environment secret. Authenticated WP REST steps parked.
+- fal image key: not available headless. Custom image generation parked.
+- Gmail approval-mail: approval_email.enabled=false in config; operator-present approval only. No async mail flow this run.
+- External source fetch (news sites, GSC): blocked by egress policy. WebSearch fallback only where available.
+
+## HARD RULES active this run (unattended)
+
+- NO publish to WordPress (park). NO push to main. NO file deletion.
+- NO tracker status flips. NO em-dashes in generated content.
+- Every approval-gated item PARKED in the "Parked for operator approval" section. Drafts saved to workspace/ on this branch only.
+
+---
+
+## Phase 0: Pre-flight — COMPLETE
+
+- Pulled latest main (up to date). Read config.yml, ROUTINE-RUNBOOK.md, portal.yaml, SKILL.md.
+- Queue `queue/*.md`: empty (README only). No operator pre-approved work packages.
+- Read memory/logiai_published.md (55 rows; dedup context loaded).
+- Parsed tracker EMBEDDED_TASKS: 114 tasks total, 41 Open.
+- WP REST check: HTTP 000 (env-blocked, not 401). Per prior-run precedent, treat as environment limit, continue with WP steps parked (do NOT abort).
+- Drift-guard (Phase 0): goal='establish run state + artifacts', current_action='preflight reads + branch/log/PR creation', aligned=yes.
+
+(Subsequent phases appended at end of each phase.)
