@@ -1,0 +1,168 @@
+# LogiAI Production Stack — Run Log
+
+- **Date:** 2026-08-20
+- **Start (CET):** 07:10
+- **Mode:** daily (phases 0, 1, 2, 3, 4, 5, 7)
+- **Trigger:** scheduled Routine (unattended, operator absent)
+- **Run branch:** claude/logiai-run-20260820
+- **Runbook:** .editorial-engine/ROUTINE-RUNBOOK.md (binding)
+- **Operator:** pietvanbloom@gmail.com
+
+## Config snapshot (skills/logiai-production-stack/config.yml v1, last_updated 2026-05-11)
+
+- Caps (daily): total_usd 3.00, total_tool_calls 200, total_wall_min 90;
+  per_phase tool_calls 50 / wall_min 30 / usd 0.80; per_draft tool_calls 25 / usd 0.50
+- Goal-drift-guard: enabled, on_mismatch=stop_and_escalate
+- Loop detection: enabled, same_tool_threshold 4, on_loop=abort_phase_and_log
+- Escalation model: opus-4-6, max 2 calls/run
+- approval_email.enabled: false (operator-present approval; away-mode async mail paused)
+
+## Environment preflight
+
+- Network: GitHub-egress-only. Direct WP REST `GET https://logiai.blog/wp-json/wp/v2/posts?per_page=1` => HTTP 000 (external fetch blocked, NOT a 401). Consistent with runs since 2026-07-23.
+- WordPress-com MCP connector: unauthorized in headless session (requires interactive OAuth). WP publish path unavailable.
+- WP App Password: not present as environment secret. Authenticated WP REST steps parked.
+- fal image key: not available headless. Custom image generation parked.
+- Gmail approval-mail: approval_email.enabled=false in config; operator-present approval only. No async mail flow this run.
+- External source fetch (news sites, GSC): blocked by egress policy. WebSearch fallback only where available.
+
+## HARD RULES active this run (unattended)
+
+- NO publish to WordPress (park). NO push to main. NO file deletion.
+- NO tracker status flips. NO em-dashes in generated content.
+- Every approval-gated item PARKED in the "Parked for operator approval" section. Drafts saved to workspace/ on this branch only.
+
+---
+
+## Phase 0: Pre-flight — COMPLETE
+
+- Pulled latest main (up to date). Read config.yml, ROUTINE-RUNBOOK.md, portal.yaml, SKILL.md.
+- Queue `queue/*.md`: empty (README only). No operator pre-approved work packages.
+- Read memory/logiai_published.md (55 rows; dedup context loaded).
+- Parsed tracker EMBEDDED_TASKS: 114 tasks total, 41 Open.
+- WP REST check: HTTP 000 (env-blocked, not 401). Per prior-run precedent, treat as environment limit, continue with WP steps parked (do NOT abort).
+- Drift-guard (Phase 0): goal='establish run state + artifacts', current_action='preflight reads + branch/log/PR creation', aligned=yes.
+
+(Subsequent phases appended at end of each phase.)
+
+---
+
+## Phase 1: Action Tracker Sweep — COMPLETE (0 writes, unattended)
+
+Drift-guard: goal='triage Open tracker tasks, auto-execute only low-risk repo-local read-only work', current_action='classify 41 Open tasks, park all approval/env-gated items', aligned=yes.
+
+41 Open tasks triaged. In this GitHub-egress-only, operator-absent session, NO task is autonomously actionable: every candidate is gated by (a) external/WP/GSC access the env blocks, (b) an operator-approval hard rule (git push, tracker flip, file delete, publish), or (c) deferral to Phase 3 drafting. No tracker status flipped. No file written or deleted. No git push to main.
+
+Triage by category:
+- Blocked by environment (need live WP / GSC / external crawl): T031, T066, T113, T071, T075, T076, T029, T082, T085, T067, T072, T040, T042, T025. => PARKED (env).
+- Git push to repo/Pages required (never autonomous): T015, T016. => PARKED (operator).
+- External services / credentials unavailable headless: T045 (ElevenLabs), T044, T047, T081, T108, T114 (fal), T017. => PARKED (env/operator).
+- Content tasks deferred to Phase 3 or operator decision: T106 (High, already drafted + parked; see below), T013, T022, T027, T078, T028, T039, T074, T111, T018. => DEFERRED / PARKED.
+- Tech changes needing operator review or main push: T086, T073, T033, T055, T059, T103, T104. => PARKED (operator). Note: T104 asks to DELETE files -> hard rule forbids, never autonomous.
+- Design: T014 (mobile responsiveness, needs live pages), T016. => PARKED (env/operator).
+
+High-priority note: T106 (EU AI Act Digital Omnibus) is the only High task. It was already drafted in prior runs (workspace/logiai-draft-2026-07-26-T106-...md), operator approved publish 2026-07-31 (PR #16 merged), but publish remains BLOCKED on WP connector auth + WP REST HTTP 000. No new action possible; re-parked for operator WP publish.
+
+Phase 1 caps: ~2 tool calls, well under per_phase 50. No loop, no drift mismatch.
+
+---
+
+## Phase 2: Editorial Pipeline (Monitoring / Scoring / Verification) — COMPLETE
+
+Drift-guard: goal='surface fresh, verified, non-duplicate logistics-AI story candidates', current_action='WebSearch monitoring + dedup vs register + verification', aligned=yes.
+
+Monitoring (WebSearch fallback; external RSS/site fetch blocked by egress policy):
+
+Candidates scanned:
+1. FedEx + Dexterity autonomous trailer loading, Hagerstown MD hub. Announced 2026-07-30; Aug 5 2026 follow-up (demo -> acceptance test). Dexterity "Mech" dual-arm superhumanoid + "Foresight" world model; scaling beyond pilot. Hook: only ~4% of SC operators have taken robotics past a single pilot. Sources: FedEx newsroom (primary), Dexterity blog (primary), Logistics Management, Supply Chain 24/7, Robotics & Automation News (2026-07-31), CXTMS (2026-08-05). => VERIFIED (multiple independent tier-1 trade + primary).
+2. Aurora + McLane driverless Dallas-Houston. => DEDUP BLOCK. Post 475 (2026-05-19) "Aurora goes driverless with McLane: what 280,000 pilot miles actually proved" already covers it; Aug coverage re-reports the same May launch + same 280k-mile figure. Dropped.
+3. Augment $25M seed (8VC, "Augie" AI teammate for logistics ops). Undated in results, thin, high overlap with post 688 (Auger autonomous SC OS) + agentic-ops cluster. => DUPLICATE-RISK + thin, dropped.
+4. Freehand $75M Series B (Fortune-500 SC spend agents). Already surfaced + PARKED in 2026-08-01 run (duplicate-risk vs posts 623+576, US-centric). => Unchanged, remains parked, not re-drafted.
+5. Avatar Robotics $6.5M seed / LEAP India $260M IPO. => too thin / not AI-led, dropped.
+
+Scoring (5-criteria, qualitative under egress limits): FedEx+Dexterity = P2-standard-to-P1 range. Named incumbent operator, specific new workflow (autonomous trailer LOADING, distinct from AMR/picking already covered), strong quantified hook, pilot->production scaling narrative. Direct logistics impact = high.
+
+Verification: FedEx+Dexterity VERIFIED. Freshness caveat: event is 2026-07-30 (~3 weeks old as of 08-20), so treated as analysis/feature not breaking news; the 2026-08-05 acceptance-test step keeps it current.
+
+Dedup verdict on lead candidate: NON-DUPLICATE but DUPLICATE-RISK (physical-AI pillar adjacency). Distinct from post 486 (GXO/KION warehouse AMR), post 692 (Walden general-vs-task humanoids, 2026-07-23), post 519 (Stord physical intelligence layer): different company pair (FedEx/Dexterity), different workflow (trailer loading), different angle (incumbent pilot-to-production at scale). FedEx posts 10/47 are unrelated (workforce strategy / Network 2.0). Flagged for operator per dedup rule; drafted, not blocked.
+
+Phase 2 output: 1 verified non-duplicate candidate -> Phase 3 drafting (FedEx + Dexterity). All drafts PARKED (unattended; no publish).
+
+Phase 2 caps: ~4 WebSearch + dedup grep, under per_phase 50. No loop, no drift mismatch.
+
+---
+
+## Phase 3: Drafting — COMPLETE (1 draft, PARKED, saved to workspace/ only)
+
+Drift-guard: goal='draft the verified candidate in LogiAI voice, save to workspace, do NOT publish', current_action='write FedEx+Dexterity analysis draft + image briefs + visual specs', aligned=yes.
+
+Draft: workspace/logiai-draft-2026-08-20-fedex-dexterity-trailer-loading-pilot-to-production.md
+- Title: "The Robot Is Not the Story. FedEx Paying to Keep It Is."
+- Pillar P2 Warehouse Automation / Physical AI (adjacent P7). Analysis house style.
+- Body ~704 words. Thesis: the news is not the robot but FedEx crossing the pilot-to-production wall on the hardest manual node (trailer loading); the only real signal is a second/third site on FedEx's own budget.
+- Included: 2 featured-image brief options (A photographic, B diagrammatic), 2 editorial-visual specs (stat 4% + cmp pilot-vs-production), 3 internal-link candidates (posts 692/486/451), SEO block (operator to set via WP Admin, REST meta does not persist).
+- Guard checks: em-dashes 0, en-dashes 0, emoji 0, AI-cliche scan clean (body). brief-header block clearly marked planning-only.
+
+Phase 3 caps: ~3 tool calls (read styleguide+sample, write, guard). Under per_draft 25 and per_phase 50. No loop, no drift mismatch.
+
+---
+
+## Phase 4: QC + Compliance — COMPLETE
+
+Drift-guard: goal='QC + compliance the Phase 3 draft, route by outcome', current_action='run checklist qualitatively, no publish', aligned=yes.
+
+QC (quality-gate, qualitative under unattended limits):
+- Thesis present and early (H1 + dek + first section): yes.
+- House style (analysis 70%): yes. Sharp, opinionated, concrete.
+- Hard rules: 0 em-dashes, 0 en-dashes in prose, 0 emoji, 0 banned AI-cliches in body, no brief-header in body block.
+- Structure: H1, italic dek, 4 H2 sections, clear close with a falsifiable signal (second/third site on FedEx budget).
+- Sources: verified multi-source, primary + tier-1 trade. Figures attributed; 4% flagged as estimate.
+- Word count ~704 (within 590-1000 band used by register).
+Estimated QC: ~8.5/10 => would be AUTO-APPROVE route if operator present.
+
+Compliance (EU AI Act / GDPR / copyright / taxonomy):
+- No personal data. No high-risk AI legal claim asserted. No source text reproduced (facts only). Taxonomy fits P2/Physical AI. => PASS.
+
+Route: QC >= 8 AND compliance PASS => normally READY-FOR-PUBLISH. BUT unattended scheduled run => Phase 5 HARD STOP, PARKED for operator. No publish-prepare beyond the parked draft.
+
+Phase 4 caps: 0 external calls (assessed on existing draft). No loop, no drift mismatch.
+
+---
+
+## Phase 5: Approval Gate — HARD STOP (operator absent) => ALL PARKED
+
+Drift-guard: goal='gate all publish/decision items behind operator', current_action='park every gated item, take no write action', aligned=yes.
+
+approval_email.enabled=false in config (operator-present approval only; away-mode async mail paused 2026-06-17). No async mail flow. No AskUserQuestion (unattended). No widget (headless). => Everything requiring approval is PARKED in the section below. No WordPress POST. No tracker flip. No git push to main.
+
+---
+
+## Phase 7: Memory Update — COMPLETE (no state change)
+
+Drift-guard: goal='update memory only for published/completed items', current_action='0 published, 0 completed => append run summary only', aligned=yes.
+
+- memory/logiai_published.md: NO new rows (0 posts published this run).
+- Action Tracker: NO status flips (unattended hard rule; 0 tasks completed).
+- MEMORY.md: unchanged (no new memory files).
+- Run summary appended to this log; cap-history row added in final commit.
+
+---
+
+## Parked for operator approval
+
+1. PUBLISH: FedEx + Dexterity draft (workspace/logiai-draft-2026-08-20-fedex-dexterity-trailer-loading-pilot-to-production.md). QC ~8.5/10, compliance PASS, dedup NON-duplicate with duplicate-RISK flag (physical-AI pillar adjacency to posts 692/486/519). Operator decision: publish to WordPress (draft/scheduled), set slot, confirm no same-week physical-AI post, set Yoast via WP Admin. Freshness: event 2026-07-30, re-verify acceptance-test outcome if held past end of August.
+2. PUBLISH (carried, still blocked): T106 EU AI Act Digital Omnibus draft (workspace/logiai-draft-2026-07-26-...). Operator approved publish 2026-07-31 (PR #16 merged) but blocked on WP connector auth + WP REST HTTP 000. Needs WordPress-com connector authorized (interactive OAuth) or WP App Password provisioned. Also carried parked: Humanoid + Walden follow-ups, Freehand $75M Series B candidate (from 2026-08-01 run).
+3. WORDPRESS CONNECTOR: WordPress-com MCP unauthorized in headless sessions; direct WP REST HTTP 000 (egress-blocked). Every WP publish and Yoast/media step is blocked until the operator authorizes the connector or provisions a WP App Password as an environment secret. This is the single biggest blocker across recent runs.
+4. TRACKER: 41 Open tasks, none autonomously actionable in this environment (see Phase 1). Notable operator items: T106 (publish, above), T113 (confirm Yoast on 673/674/675/688 in WP Admin), T114 (swap fal image on post 688), T066/T031 (GSC indexing submissions), T015/T016 (push theme + editorial visuals to GitHub/Pages). None flipped.
+5. INFRA: fal image key + ElevenLabs (T045) + Gmail approval-mail (T047) unavailable headless. Parked.
+
+## Run summary (structured)
+
+- Mode: daily. Phases run: 0,1,2,3,4,5,7. Outcome: NO-PUBLISH (unattended + WP blocked).
+- Tracker: 41 Open triaged, 0 flipped, 0 writes.
+- Editorial: 1 verified non-duplicate candidate (FedEx+Dexterity) => 1 draft PARKED. 1 dedup BLOCK (Aurora/McLane vs post 475). 2 dropped thin (Augment/Avatar/LEAP). Freehand carried parked.
+- QC: 1 draft ~8.5/10 auto-approve-equivalent, compliance PASS, PARKED at Phase 5.
+- Published: 0. Tracker flips: 0. WP POST: 0. git-main push: 0. file delete: 0.
+- Caps: ~24 tool calls (of 200 daily), well under total_usd/wall/tool caps. No cap hit. Drift mismatches: 0. Loop aborts: 0.
+- Env: GitHub-egress-only; WP REST HTTP 000 (NOT 401); WordPress-com MCP unauthorized; fal/Gmail unavailable. WebSearch worked.
+- Artifacts: branch claude/logiai-run-20260820, draft PR #36, run log committed every phase.
