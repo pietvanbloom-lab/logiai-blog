@@ -64,3 +64,28 @@ Triage by category:
 High-priority note: T106 (EU AI Act Digital Omnibus) is the only High task. It was already drafted in prior runs (workspace/logiai-draft-2026-07-26-T106-...md), operator approved publish 2026-07-31 (PR #16 merged), but publish remains BLOCKED on WP connector auth + WP REST HTTP 000. No new action possible; re-parked for operator WP publish.
 
 Phase 1 caps: ~2 tool calls, well under per_phase 50. No loop, no drift mismatch.
+
+---
+
+## Phase 2: Editorial Pipeline (Monitoring / Scoring / Verification) — COMPLETE
+
+Drift-guard: goal='surface fresh, verified, non-duplicate logistics-AI story candidates', current_action='WebSearch monitoring + dedup vs register + verification', aligned=yes.
+
+Monitoring (WebSearch fallback; external RSS/site fetch blocked by egress policy):
+
+Candidates scanned:
+1. FedEx + Dexterity autonomous trailer loading, Hagerstown MD hub. Announced 2026-07-30; Aug 5 2026 follow-up (demo -> acceptance test). Dexterity "Mech" dual-arm superhumanoid + "Foresight" world model; scaling beyond pilot. Hook: only ~4% of SC operators have taken robotics past a single pilot. Sources: FedEx newsroom (primary), Dexterity blog (primary), Logistics Management, Supply Chain 24/7, Robotics & Automation News (2026-07-31), CXTMS (2026-08-05). => VERIFIED (multiple independent tier-1 trade + primary).
+2. Aurora + McLane driverless Dallas-Houston. => DEDUP BLOCK. Post 475 (2026-05-19) "Aurora goes driverless with McLane: what 280,000 pilot miles actually proved" already covers it; Aug coverage re-reports the same May launch + same 280k-mile figure. Dropped.
+3. Augment $25M seed (8VC, "Augie" AI teammate for logistics ops). Undated in results, thin, high overlap with post 688 (Auger autonomous SC OS) + agentic-ops cluster. => DUPLICATE-RISK + thin, dropped.
+4. Freehand $75M Series B (Fortune-500 SC spend agents). Already surfaced + PARKED in 2026-08-01 run (duplicate-risk vs posts 623+576, US-centric). => Unchanged, remains parked, not re-drafted.
+5. Avatar Robotics $6.5M seed / LEAP India $260M IPO. => too thin / not AI-led, dropped.
+
+Scoring (5-criteria, qualitative under egress limits): FedEx+Dexterity = P2-standard-to-P1 range. Named incumbent operator, specific new workflow (autonomous trailer LOADING, distinct from AMR/picking already covered), strong quantified hook, pilot->production scaling narrative. Direct logistics impact = high.
+
+Verification: FedEx+Dexterity VERIFIED. Freshness caveat: event is 2026-07-30 (~3 weeks old as of 08-20), so treated as analysis/feature not breaking news; the 2026-08-05 acceptance-test step keeps it current.
+
+Dedup verdict on lead candidate: NON-DUPLICATE but DUPLICATE-RISK (physical-AI pillar adjacency). Distinct from post 486 (GXO/KION warehouse AMR), post 692 (Walden general-vs-task humanoids, 2026-07-23), post 519 (Stord physical intelligence layer): different company pair (FedEx/Dexterity), different workflow (trailer loading), different angle (incumbent pilot-to-production at scale). FedEx posts 10/47 are unrelated (workforce strategy / Network 2.0). Flagged for operator per dedup rule; drafted, not blocked.
+
+Phase 2 output: 1 verified non-duplicate candidate -> Phase 3 drafting (FedEx + Dexterity). All drafts PARKED (unattended; no publish).
+
+Phase 2 caps: ~4 WebSearch + dedup grep, under per_phase 50. No loop, no drift mismatch.
