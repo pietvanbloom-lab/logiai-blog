@@ -89,3 +89,18 @@ Dedup verdict on lead candidate: NON-DUPLICATE but DUPLICATE-RISK (physical-AI p
 Phase 2 output: 1 verified non-duplicate candidate -> Phase 3 drafting (FedEx + Dexterity). All drafts PARKED (unattended; no publish).
 
 Phase 2 caps: ~4 WebSearch + dedup grep, under per_phase 50. No loop, no drift mismatch.
+
+---
+
+## Phase 3: Drafting — COMPLETE (1 draft, PARKED, saved to workspace/ only)
+
+Drift-guard: goal='draft the verified candidate in LogiAI voice, save to workspace, do NOT publish', current_action='write FedEx+Dexterity analysis draft + image briefs + visual specs', aligned=yes.
+
+Draft: workspace/logiai-draft-2026-08-20-fedex-dexterity-trailer-loading-pilot-to-production.md
+- Title: "The Robot Is Not the Story. FedEx Paying to Keep It Is."
+- Pillar P2 Warehouse Automation / Physical AI (adjacent P7). Analysis house style.
+- Body ~704 words. Thesis: the news is not the robot but FedEx crossing the pilot-to-production wall on the hardest manual node (trailer loading); the only real signal is a second/third site on FedEx's own budget.
+- Included: 2 featured-image brief options (A photographic, B diagrammatic), 2 editorial-visual specs (stat 4% + cmp pilot-vs-production), 3 internal-link candidates (posts 692/486/451), SEO block (operator to set via WP Admin, REST meta does not persist).
+- Guard checks: em-dashes 0, en-dashes 0, emoji 0, AI-cliche scan clean (body). brief-header block clearly marked planning-only.
+
+Phase 3 caps: ~3 tool calls (read styleguide+sample, write, guard). Under per_draft 25 and per_phase 50. No loop, no drift mismatch.
