@@ -73,3 +73,29 @@ Triage by gate:
 High-priority note: T106 (EU AI Act Digital Omnibus) is the sole High. Drafted in prior runs (workspace/logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md), operator approved publish 2026-07-31 (PR #16 merged), publish still BLOCKED on WP connector auth + WP REST HTTP 000. No new action possible this environment; re-parked for operator WP publish + Done-flip.
 
 Phase 1 caps: ~2 tool calls (of per_phase 50). No loop, no drift mismatch, no cap hit.
+
+---
+
+## Phase 2: Editorial Pipeline (Monitoring / Scoring / Verification) — COMPLETE
+
+Drift-guard (Phase 2): goal='surface fresh, verified, non-duplicate logistics-AI story candidates', current_action='WebSearch monitoring (external RSS/site fetch blocked by egress policy) + dedup vs register (57 rows) + verification', aligned=YES.
+
+Monitoring via harness WebSearch (direct external curl blocked, HTTP 000, GitHub-egress-only). Candidates scanned:
+
+1. **Penske Logistics x Augment** (agentic AI deployment; PRNewswire company release). Top-5 US 3PL implementing Augment's agentic-AI platform after a ~6-month pilot; agent initiates carrier outreach (call/email/text) when shipment status is missing, complementing existing freight-visibility tools. Angle: agentic AI crossing pilot-to-production at a named incumbent operator. => NEW this run, but pillar P5 Agentic AI is the register's LARGEST/most-saturated cluster (13 posts) and Augment already flagged DUPLICATE-RISK + thin on 08-20. Single primary source (company PR), date not independently confirmed, US-centric. => Verified-Partial, DUPLICATE-RISK => PARKED for operator drafting decision (not drafted; see Phase 3-4).
+2. **Smart Robotics EUR10M Series A** (Dutch, AI robotic picking, Rotterdamse Havendraken-led, 120+ systems / 15 countries / 1B+ picks). Verified date = **2026-04-21** (Tech.eu, finsmes, theaiinsider) => STALE (~4 months), not this-week. Also P2 Warehouse-picking pillar saturated (posts 486 GXO/KION, 498 Locus/Nexera picking wall, 692 Walden). => REJECTED (stale + dup-risk).
+3. **Auger $50M Series B** (Dave Clark). => DEDUP BLOCK: already post 688 (2026-07-15, LIVE). Dropped.
+4. **Freehand $75M Series B** (Fortune-500 SC spend agents). => Carried parked from 2026-08-01 run (Verified-Partial seed-vs-B label, DUPLICATE-RISK vs posts 623+576, US-centric). Unchanged, not re-drafted.
+5. **CleanTechnica "Autonomous Electric Freight Trucks Scaling Up In Europe"** (dated 2026-08-17). => Market ROUNDUP/analysis, not a single dated event; P1 Autonomous Trucking pillar already saturated (posts 338/475/496/567/590). => REJECTED (no single event + dup-risk).
+
+Scoring (5-criteria, qualitative under egress limits): strongest fresh item = Penske x Augment, ~P2-standard but discounted by saturated pillar + Augment dup-risk + single-source. No candidate reaches a clean auto-draft bar.
+
+Verification: Penske x Augment = Verified-Partial (single company PR, unconfirmed exact date, needs tier-1 corroboration). No candidate = clean "Verified + non-duplicate + fresh single-event".
+
+Dedup (CRITICAL, vs memory/logiai_published.md 57 rows): Penske x Augment DUPLICATE-RISK (P5 agentic freight-visibility adjacency to posts 673/674/688 + Augment already flagged 08-20). Smart Robotics dup-risk (P2 picking cluster). Auger exact DEDUP BLOCK (post 688). Freehand dup-risk (623/576). CleanTechnica dup-risk (P1 cluster).
+
+Phase 2 verdict: **NO fresh, dated, clearly non-duplicate single-event candidate clears filters this run.** Consistent with recent NO-PUBLISH runs (07-24..08-01). One NEW item surfaced + PARKED (Penske x Augment) for operator drafting decision. No from-scratch autonomous drafting (queue empty + operator absent + strongest candidate carries dup-risk; contrast 08-20 which drafted FedEx+Dexterity because that was verified NON-duplicate).
+
+Carried candidates still parked (unchanged): T106 EU AI Act OJ draft (P6, ready); FedEx+Dexterity draft (08-20 branch, P2, verified non-dup); Freehand (P2, 08-01); Humanoid (P2 EU unicorn, 07-24); Walden (P2, draft on main).
+
+Phase 2 caps: ~4 WebSearch + 1 dedup grep (of per_phase 50). No loop, no drift mismatch, no cap hit.
