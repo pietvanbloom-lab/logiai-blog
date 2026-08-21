@@ -51,3 +51,25 @@
 - Drift-guard (Phase 0): goal='establish run state + load config/runbook/portal/memory/tracker, probe WP channel', current_action='preflight reads + branch/log/PR creation', aligned=YES.
 
 (Subsequent phases appended at the end of each phase; log committed + pushed every phase.)
+
+---
+
+## Phase 1: Action Tracker Sweep — COMPLETE (report-only, 0 writes)
+
+Drift-guard (Phase 1): goal='triage Open tracker tasks, auto-execute only low-risk repo-local read-only work', current_action='classify 41 Open tasks, park all approval/env-gated items, flip nothing', aligned=YES.
+
+Queue folder `queue/*.md`: README-only, no dated operator pre-approval package => no autonomous-drafting or extended-autonomy authorization this run.
+
+41 Open tasks triaged (1 High=T106, 22 Medium, 18 Low; 18 Tech, 10 SEO, 10 Content, 3 Design). NO delta vs 08-20. In this GitHub-egress-only, operator-absent session, NO task is autonomously actionable: each is gated by (a) external/WP/GSC/crawl access the env blocks, (b) an operator-approval hard rule (git push, tracker flip, file delete, publish), or (c) deferral to Phase 3 drafting. 0 status flips, 0 files written/deleted, 0 push to main.
+
+Triage by gate:
+- Blocked by environment (need live WP Admin / GSC / external crawl): T031, T066, T085, T029, T082, T075, T076, T071, T072, T113, T040, T042, T067, T025, T014 (needs live pages). => PARKED (env).
+- Credentials / external services unavailable headless: T045 + T044 (ElevenLabs), T047 + T081 (Gmail approval-mail; also config-disabled), T108 (Settings plugin-cache re-save), T114 (fal image), T017 (audio player verify). => PARKED (env/operator).
+- Git push to repo / Pages required (never autonomous): T015, T016, T086 (code wire-in), T055 (mu-plugin), T059 (matcher fix), T033 (scheduler fix), T073 (robots.txt policy). => PARKED (operator/main-push).
+- File DELETE requested: T104 (delete 3 stale temp files). => HARD RULE forbids autonomous delete => PARKED (operator).
+- Content tasks deferred to Phase 3 / operator editorial decision: T106 (High; already drafted + parked, see below), T013, T022, T027, T028, T078, T039, T111, T018. => DEFERRED / PARKED.
+- Register / strategy edits (operator-owned): T103 (register reconciliation: fix 592/597 label + add missing post row), T074 (reframe strategy brief section 0). => PARKED. T103 is the single closest-to-repo-local candidate but needs the correct live post IDs to reconcile (592/597 label + the truncated missing-row post) which the env cannot verify, and register reconciliation feeds dedup correctness => left for operator to avoid a partial/incorrect fix. NOT touched.
+
+High-priority note: T106 (EU AI Act Digital Omnibus) is the sole High. Drafted in prior runs (workspace/logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md), operator approved publish 2026-07-31 (PR #16 merged), publish still BLOCKED on WP connector auth + WP REST HTTP 000. No new action possible this environment; re-parked for operator WP publish + Done-flip.
+
+Phase 1 caps: ~2 tool calls (of per_phase 50). No loop, no drift mismatch, no cap hit.
