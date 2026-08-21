@@ -99,3 +99,72 @@ Phase 2 verdict: **NO fresh, dated, clearly non-duplicate single-event candidate
 Carried candidates still parked (unchanged): T106 EU AI Act OJ draft (P6, ready); FedEx+Dexterity draft (08-20 branch, P2, verified non-dup); Freehand (P2, 08-01); Humanoid (P2 EU unicorn, 07-24); Walden (P2, draft on main).
 
 Phase 2 caps: ~4 WebSearch + 1 dedup grep (of per_phase 50). No loop, no drift mismatch, no cap hit.
+
+---
+
+## Phase 3: Drafting — COMPLETE (0 new drafts)
+
+Drift-guard (Phase 3): goal='draft any Phase-2 candidate that cleared filters, save to workspace, do NOT publish', current_action='no candidate cleared filters (strongest = Penske x Augment, dup-risk + single-source); park, no from-scratch draft', aligned=YES.
+
+No new drafting this run. Phase 2 produced no fresh, dated, clearly non-duplicate single-event candidate. The one NEW item (Penske x Augment) carries DUPLICATE-RISK (saturated P5 cluster + Augment prior flag) and is single-sourced/undated => surfaced + PARKED for operator drafting decision, not drafted from scratch (queue empty + operator absent + established precedent: draft only verified NON-duplicates autonomously).
+
+## Phase 4: QC + Compliance — COMPLETE (self-QC on carried drafts only)
+
+Drift-guard (Phase 4): goal='QC/compliance any Phase-3 draft; else light self-QC on carried parked drafts', current_action='0 new drafts => em-dash/en-dash self-check on 4 carried workspace drafts', aligned=YES.
+
+- No new draft to gate. Full logiai-quality-gate (25-point) + logiai-compliance run is PARKED for the operator ahead of any publish (auto-approve route requires QC>=threshold AND compliance PASS, an operator-confirmed step in an operator-absent run).
+- Self-QC (hard-rule scan) on carried parked drafts in workspace/ (main): all CLEAN.
+  * logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md: em-dash 0, en-dash 0.
+  * logiai-draft-2026-07-25-eu-ai-act-digital-omnibus-official-journal-logistics.md: em-dash 0, en-dash 0 (still flagged duplicate-risk vs post 490; operator to pick ONE EU AI Act variant, 07-26 is canonical).
+  * logiai-draft-2026-07-23-walden-robotics-general-vs-task-specific.md: em-dash 0, en-dash 0.
+  * logiai-predraft-T106-...OJ.md (template): em-dash 0, en-dash 0.
+  * FedEx+Dexterity draft (08-20 branch, not on main): QC ~8.5/10 + compliance PASS per 08-20 run, remains PARKED.
+
+Phase 3-4 caps: ~1 tool call (em-dash scan). No loop, no drift mismatch, no cap hit.
+
+---
+
+## Phase 5: Approval Gate — HARD STOP (operator absent) => ALL PARKED
+
+Drift-guard (Phase 5): goal='gate all publish/decision items behind operator', current_action='park every gated item, take no write action', aligned=YES.
+
+approval_email.enabled=false in config (operator-present approval only; away-mode async mail paused 2026-06-17). No async mail flow. No AskUserQuestion (unattended, runbook s.2). No widget (headless). => Everything requiring approval is PARKED below. No WordPress POST. No tracker flip. No git push to main. No file delete.
+
+Phase 6 (publishing): NOT entered (daily mode excludes it; operator-absent gate blocks publish; WP unreachable regardless, HTTP 000; WordPress-com MCP unauthorized). 0 WordPress writes.
+
+---
+
+## Phase 7: Memory Update — COMPLETE (no state change)
+
+Drift-guard (Phase 7): goal='update memory only for published/completed items', current_action='0 published, 0 completed => append run summary + cap-history only', aligned=YES.
+
+- memory/logiai_published.md: NO new rows (0 posts published this run).
+- Action Tracker: NO status flips (unattended hard rule; 0 tasks completed). T106 stays Open with draft parked.
+- MEMORY.md: unchanged (no new memory files; MEMORY.md index is a Mac-local artifact, not in repo, not blocking).
+- Run summary appended below; cap-history row added in final commit.
+
+---
+
+## Run summary (structured)
+
+- Mode: daily (operator ABSENT). Phases run: 0,1,2,3,4,5,7. Outcome: **NO-PUBLISH** (unattended + WP blocked); 0 new drafts.
+- Tracker: 41 Open triaged (1 High=T106, 22 Med, 18 Low; NO delta vs 08-20), 0 flipped, 0 writes. None autonomously actionable in this environment.
+- Editorial: 0 clean candidates. 1 NEW item PARKED (Penske x Augment, P5 agentic freight-visibility, dup-risk + single-source). Rejected: Smart Robotics EUR10M (Apr-21 stale), Auger $50M (DEDUP BLOCK post 688), CleanTechnica EU-freight roundup (no single event). Freehand carried parked (08-01).
+- QC: 0 new drafts. 4 carried parked drafts self-QC CLEAN (0 em/en-dash). Full QC+compliance PARKED for operator.
+- Published: 0. Tracker flips: 0. WP POST: 0. git-main push: 0. file delete: 0.
+- Caps: ~20 tool calls (of 200 daily), ~20 wall min (of 90), est ~$0.28 (of $3.00). No cap hit. Drift mismatches: 0. Loop aborts: 0.
+- Env: GitHub-egress-only; WP REST HTTP 000 (proxy 403, NOT 401 => not T021 credential fault); WordPress-com MCP unauthorized (headless OAuth impossible); fal/ElevenLabs/Gmail-approval unavailable. WebSearch worked as monitoring fallback.
+- Artifacts: branch claude/logiai-run-20260821, draft PR #37, run log committed + pushed every phase.
+
+## Parked for operator approval
+
+1. [TOP PRIORITY, APPROVED, BLOCKED ON CONNECTOR AUTH] PUBLISH T106 EU AI Act Digital Omnibus piece (workspace/logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md; Reg (EU) 2026/1744, OJ 24 Jul 2026, in force 27 Jul). Operator approved publish 2026-07-31 (PR #16 merged). Only remaining blocker = WordPress connector authorization: authorize the WordPress.com connector from an interactive claude.ai session (or provision a WP App Password env secret), then run logiai-quality-gate + logiai-compliance, publish, and flip T106 to Done. A second variant (07-25) exists, flagged duplicate-risk vs post 490 => pick ONE (07-26 is canonical). Note: the widely-cited high-risk applicability window has passed; the piece leads on the OJ event + Annex III deferral to 2 Dec 2027 (still a distinct, publishable angle).
+2. [08-20 CARRIED] PUBLISH FedEx + Dexterity draft (on branch claude/logiai-run-20260820 / PR #36: workspace/logiai-draft-2026-08-20-fedex-dexterity-trailer-loading-pilot-to-production.md). QC ~8.5/10, compliance PASS, dedup NON-duplicate (duplicate-RISK physical-AI adjacency). Operator decision: publish, set slot + Yoast via WP Admin. Re-verify the acceptance-test outcome if held past end of August.
+3. [NEW THIS RUN] DRAFT DECISION, Penske Logistics x Augment agentic-AI deployment (PRNewswire). Top-5 US 3PL taking Augment's agentic-AI freight-visibility platform pilot-to-production after ~6 months; agent auto-initiates carrier outreach on missing status. Fresh named-operator angle, BUT parked not drafted because: (a) P5 Agentic AI is the register's most-saturated cluster (13 posts); (b) Augment already flagged duplicate-risk 08-20; (c) single primary source (company PR), exact date + tier-1 corroboration not confirmed; (d) US-centric (weak EU fit). Operator decision: draft (as an "agentic AI clears the pilot-to-production wall at an incumbent 3PL" angle, distinct from the funding-round framing) or skip.
+4. [CARRIED] Draft/publish decisions on: Freehand $75M Series B (08-01, dup-risk vs 623/576, seed-vs-B label to verify); Humanoid (P2 EU unicorn, SKL Robotics, 07-24); Walden Robotics (workspace draft on main, QC-ready). Consider pairing Humanoid + Walden into one physical-AI capital-cycle piece.
+5. [BLOCKER, RECURRING] WORDPRESS CONNECTOR: WordPress-com MCP unauthorized in headless scheduled sessions; direct WP REST HTTP 000 (egress-blocked). This is the single biggest recurring blocker: every WP publish, Yoast, and media step is blocked until the operator authorizes the WordPress.com connector (interactive OAuth) or provisions a WP App Password as an environment secret.
+6. [TRACKER] 41 Open tasks, none autonomously actionable this environment. Notable operator items: T106 (publish, above), T113 (confirm Yoast on 673/674/675/688 in WP Admin), T114 (swap fal image on post 688), T031/T066/T085 (GSC indexing submissions), T015/T016 (push theme + editorial visuals to GitHub/Pages), T104 (delete 3 stale temp files, operator-only). T103 (register reconciliation) is the closest-to-repo-local item but needs correct live post IDs to fix safely. None flipped.
+7. [INFRA] fal image key + ElevenLabs (T045/T044) + Gmail approval-mail (T047/T081; also config-disabled) unavailable headless. Parked.
+
+Constraints honored: no WP publish, no git push to main, no file delete, no tracker Done flip, no em-dashes.
+=== END OF RUN ===
