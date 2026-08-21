@@ -1,0 +1,53 @@
+# LogiAI Production Stack — Run Log
+
+- **Date:** 2026-08-21
+- **Start (CET):** 07:11 (05:11 UTC)
+- **Mode:** daily (phases 0, 1, 2, 3, 4, 5, 7)
+- **Trigger:** scheduled Routine (unattended, operator ABSENT)
+- **Run branch:** claude/logiai-run-20260821
+- **Runbook:** .editorial-engine/ROUTINE-RUNBOOK.md (binding for this run)
+- **Operator:** pietvanbloom@gmail.com
+- **Source of truth:** repo pietvanbloom-lab/logiai-blog
+
+## Config snapshot (skills/logiai-production-stack/config.yml v1, last_updated 2026-05-11)
+
+- Caps (daily): total_usd 3.00, total_tool_calls 200, total_wall_min 90;
+  per_phase tool_calls 50 / wall_min 30 / usd 0.80; per_draft tool_calls 25 / usd 0.50
+- Goal-drift-guard: enabled, on_mismatch=stop_and_escalate
+- Loop detection: enabled, same_tool_threshold 4, similarity=arg_hash, on_loop=abort_phase_and_log
+- Escalation model: opus-4-6, max 2 calls/run
+- approval_email.enabled: false (operator-present approval; away-mode async mail paused 2026-06-17)
+
+## HARD RULES active this run (unattended)
+
+- NO publish to WordPress (park). NO push to main. NO file deletion.
+- NO tracker status flips. NO em-dashes in any generated content.
+- Every approval-gated item PARKED in the "Parked for operator approval" section. Drafts saved to workspace/ on this branch only.
+- No blocking interactive prompt (AskUserQuestion) at any point.
+
+## Environment preflight (Phase 0)
+
+- Network: GitHub-egress-only. Direct WP REST `GET https://logiai.blog/wp-json/wp/v2/posts?per_page=1` => HTTP 000 (proxy CONNECT 403 policy denial, external fetch blocked, NOT a 401). Confirmed via agent-proxy status (recentRelayFailures: connect_rejected host logiai.blog:443). Consistent with runs since 2026-07-23.
+- WordPress-com MCP connector: unauthorized in headless session (interactive OAuth cannot run here). WP publish path unavailable => PARKED.
+- WP App Password: not present as environment secret. Authenticated WP REST steps PARKED.
+- fal image key / ElevenLabs: not available headless. Custom image generation PARKED.
+- Gmail approval-mail: approval_email.enabled=false in config; operator-present approval only. No async mail flow this run.
+- External source fetch (news sites, EUR-Lex, GSC): blocked by egress policy. WebSearch fallback only where available.
+
+## Caps ledger (updated each phase)
+
+- Guards armed: goal-drift-guard (stop_and_escalate), loop_detection (4 same-tool threshold, arg_hash), cap enforcement order per config.
+
+---
+
+## Phase 0: Pre-flight — COMPLETE
+
+- Pulled latest main (up to date @ origin/main). Read, in order: .editorial-engine/ROUTINE-RUNBOOK.md, .editorial-engine/portal.yaml, skills/logiai-production-stack/config.yml, skills/logiai-production-stack/SKILL.md.
+- Queue `queue/*.md`: to be confirmed (expected README-only; no dated operator pre-approval package). Documented in Phase 1.
+- Memory loaded: memory/logiai_published.md (57 register rows) for dedup context; memory/logiai_project.md strategy context.
+- Parsed tracker EMBEDDED_TASKS (strict json.loads): 114 tasks total (73 Done, 41 Open). Open breakdown: 1 High (T106), 22 Medium, 18 Low. Types among Open: 18 Tech, 10 Content, 10 SEO, 3 Design. NO delta vs 08-20.
+- WP REST check: HTTP 000 (env-blocked, proxy 403 policy denial, NOT 401). Per runbook s.5 + prior-run precedent, treat as environment limit, continue with WP steps parked (do NOT abort as T021 credential fault).
+- Continuity: prior run branch 08-20 (draft PR #36) branched fresh from main; carried parked drafts on main = T106 EU AI Act OJ (canonical) + 07-25 EU AI Act variant + Walden Robotics + T106 pre-draft template. 08-20 added FedEx+Dexterity draft (on its own branch, not merged to main).
+- Drift-guard (Phase 0): goal='establish run state + load config/runbook/portal/memory/tracker, probe WP channel', current_action='preflight reads + branch/log/PR creation', aligned=YES.
+
+(Subsequent phases appended at the end of each phase; log committed + pushed every phase.)
