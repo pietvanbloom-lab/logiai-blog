@@ -88,3 +88,32 @@ open tasks can be auto-executed within scope. All carried, grouped by blocker:
 
 No tracker status flipped (hard rule). Tracker HTML untouched.
 Phase 1 tool calls: ~3 (read-only triage). No loops, no drift mismatch.
+
+---
+
+## Phase 2: Editorial Pipeline Upstream (Monitoring/Scoring/Verification)  (07:22 CEST)
+Drift-guard: Phase 2: goal='scan sources, score, verify, dedup for a fresh dated
+non-duplicate candidate', current_action='WebSearch monitoring (direct fetch
+blocked), dedup vs published register', aligned=yes
+
+Env: direct source fetch + WP REST blocked (GitHub-egress-only). Monitoring ran
+via WebSearch fallback (US-only). No RSS/crawl available.
+
+Candidates surfaced and dispositions:
+- Freehand $75M Series B (SC spend agents): DUPLICATE-RISK vs posts 623+576,
+  US-centric; already parked 2026-08-01. BLOCK for new draft.
+- Auger $50M Series B (Dave Clark): already post 688 (2026-07-15). DEDUP BLOCK.
+- "$30M Series A autonomous SC agents": dated March 2026, stale. Reject.
+- PepsiCo/Gatik, Aurora+Continental+Nvidia (CES=Jan), Einride/EASE, International
+  L4 pilots: no fresh last-72h date; earlier-2026 / evergreen roundups. Reject.
+- Agility Robotics $400M / 1X $126M (humanoid): not fresh-dated; humanoid
+  candidate already carried parked. Reject as new.
+- EU angle: only evergreen governance/CSRD/last-mile roundups; no dated news.
+
+Verdict: 0 new fresh, dated, non-duplicate, verifiable single-day candidates
+ready for NEW drafting this run. Consistent with 07-28 / 08-01 pattern.
+Strongest verified topic remains T106 EU AI Act Digital Omnibus (Reg (EU)
+2026/1744, OJ 24 Jul 2026, in force 27 Jul) whose authoritative draft is already
+complete and PARKED (dedup-risk vs posts 490/464 flagged) -> operator publish
+decision, not a re-draft.
+Phase 2 tool calls: 4 WebSearch. No loops, no drift mismatch.
