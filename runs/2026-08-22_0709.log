@@ -1,0 +1,55 @@
+# LogiAI Production Stack — Run Log
+
+Run date:      2026-08-22
+Start time:    07:09 CEST (05:09 UTC)
+Mode:          daily  (phases 0, 1, 2, 3, 4, 5, 7)
+Trigger:       scheduled cloud Routine (unattended, operator absent)
+Runbook:       .editorial-engine/ROUTINE-RUNBOOK.md (binding for this run)
+Run branch:    claude/logiai-run-20260822
+Config:        skills/logiai-production-stack/config.yml (version 1, 2026-05-11)
+
+## Config snapshot (daily caps)
+- total_usd 3.00 | total_tool_calls 200 | total_wall_min 90
+- per_phase: tool_calls 50, wall_min 30, usd 0.80
+- per_draft: tool_calls 25, usd 0.50
+- goal_drift_guard: enabled (stop_and_escalate on mismatch)
+- loop_detection: enabled (same_tool_threshold 4, abort_phase_and_log)
+- escalation_model: opus-4-6, max 2 calls/run
+
+## Hard rules in force (scheduled run)
+- NEVER publish to WordPress (park instead)
+- NEVER push to main (run output -> run branch + PR only)
+- NEVER delete files, NEVER flip tracker statuses
+- No em-dashes in any generated content
+- No AskUserQuestion / no blocking prompts (operator absent)
+- Every approval-gated item PARKED with full context
+
+## Environment preflight (Phase 0)
+- WordPress REST (https://logiai.blog/wp-json/wp/v2/): HTTP 000, CONNECT tunnel
+  failed 403. This is the cloud network policy (GitHub-egress-only), NOT a 401
+  credential failure and NOT the T021 auth gate. External fetch blocked.
+- WP App Password: not present as an environment secret. Authenticated WP REST
+  steps PARKED.
+- WordPress-com MCP connector: requires OAuth, cannot authorize in a headless
+  scheduled session. PARKED.
+- fal image API: not reachable (same egress policy) and no key in env. Custom
+  image generation PARKED; library placeholder mapping would apply on publish.
+- Gmail approval-mail channel: config.yml approval_email.enabled = false
+  (operator-present approval mode; away-mode task paused). No async approval
+  cycle this run.
+- Queue folder (queue/*.md): empty (README only). No pre-approved work packages.
+- Action Tracker: parsed OK, 41 Open tasks (1 High, 22 Medium, 18 Low).
+- Memory: memory/logiai_project.md + memory/logiai_published.md read.
+
+Phase-0 drift-guard: Phase 0: goal='preflight + read config/memory/tracker,
+init counters, verify access', current_action='read config, memory, tracker;
+tested WP REST; created run branch + log skeleton', aligned=yes
+
+## Phase results
+(appended at the end of each phase)
+
+## Parked for operator approval
+(populated during the run)
+
+## Structured run summary
+(written at run end)
