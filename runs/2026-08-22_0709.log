@@ -143,3 +143,95 @@ Drift-guard: Phase 4: goal='QC + compliance on new drafts', current_action='no
 new drafts to gate; re-verify parked drafts compliance', aligned=yes
 No new drafts to QC. Compliance re-check on parked drafts: em-dash count 0 across
 all 4 workspace drafts (verified this run). No new compliance actions.
+
+---
+
+## Phase 5: Approval Gate  (HARD STOP - 07:29 CEST)
+Drift-guard: Phase 5: goal='route approvals', current_action='operator absent +
+approval_email disabled -> park all approval-gated items, no writes', aligned=yes
+Operator absent. config.yml approval_email.enabled=false (no async mail cycle).
+No AskUserQuestion (unattended). Zero publishes, zero tracker flips, zero
+irreversible actions. All approval-gated items parked (see section below).
+
+## Phase 7: Memory Update  (07:30 CEST)
+Drift-guard: Phase 7: goal='persist run outcomes', current_action='update run
+log only; no register row (0 published), no tracker flip (hard rule)',
+aligned=yes
+- memory/logiai_published.md: NO new row (0 articles published this run).
+- Action Tracker HTML: UNCHANGED (0 status flips; hard rule).
+- Run log: this file. cap-history row appended (below).
+- No files deleted, no push to main.
+
+---
+
+## Parked for operator approval
+
+1. T106 EU AI Act Digital Omnibus - COMPLETED DRAFT, awaiting publish + Done-flip.
+   File: workspace/logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md
+   (1347 words, 0 em-dashes, P6 pillar, slug
+   eu-ai-act-digital-omnibus-official-journal-logistics).
+   * Operator approved publish on 2026-07-31 (PR #16 merged) but it has NOT
+     published: blocked on WP connector auth (see item 4).
+   * TIMELINESS DECAY (action needed): the draft's news hook was the OJ
+     publication (24 Jul 2026) and in-force date (27 Jul 2026). As of 2026-08-22
+     that is ~4 weeks old and no longer breaking. Before publishing, either
+     reframe as an evergreen explainer (lead on the deferral math: Annex III to
+     2 Dec 2027, Annex I to 2 Aug 2028) or refresh the hook. Operator decision.
+   * Dedup: confirm no same-week EU AI Act post (pillar saturated; posts
+     490/464/592/597 in-cluster).
+
+2. Walden robotics draft (general vs task-specific) - PARKED.
+   File: workspace/logiai-draft-2026-07-23-walden-robotics-general-vs-task-specific.md
+   (977 words, 0 em-dashes). Operator drafting/publish decision.
+
+3. Monitoring candidates - NO ACTION, recorded for operator awareness:
+   - Freehand $75M Series B: duplicate-risk vs posts 623+576, US-centric. Blocked.
+   - Auger $50M: already published (post 688). Blocked.
+   - Humanoid (Agility/1X): stale, no fresh hook. Not drafted.
+
+4. WordPress publishing channel - BLOCKED (environment, needs operator):
+   * WordPress-com MCP connector requires OAuth; cannot authorize headless.
+   * No WP App Password in the scheduled environment.
+   * Direct WP REST blocked by cloud net policy (GitHub-egress-only, HTTP 000).
+   Consequence: even operator-approved content (item 1) cannot be published from
+   this run. Operator must authorize the WordPress connector / provide the WP
+   App Password (T021/T040 area) to unblock. fal image generation is blocked by
+   the same egress policy (custom images parked; library placeholders apply).
+
+5. Action Tracker: 41 Open tasks, all parked this run (full grouped list in the
+   Phase 1 section). None auto-executable unattended without WP/GSC/external
+   access or an operator decision.
+
+---
+
+## Structured run summary
+
+## LogiAI Production Stack Run - 2026-08-22 07:09 CEST (mode: daily)
+
+### Phase 1: Action Tracker
+- Processed: 41 Open tasks (1 High, 22 Medium, 18 Low)
+- Auto-completed: none
+- Awaiting approval / parked: all 41 (grouped by blocker in Phase 1 section)
+- Carried over: all 41
+
+### Phase 2-4: Editorial Pipeline
+- Stories scanned via WebSearch (direct fetch + WP REST blocked): several
+- Verified NEW non-duplicate candidates: 0
+- Drafts generated: 0 (4 prior drafts carried parked, all 0 em-dashes)
+- QC results: n/a (no new drafts)
+
+### Phase 5: Approval Gate
+- Operator absent; approval_email disabled. All items parked. 0 publishes.
+
+### Phase 6: Published
+- Skipped (daily mode; nothing approved-and-publishable; WP channel blocked)
+
+### Phase 7: Memory
+- logiai_published.md: 0 new rows. Action Tracker: 0 flips. Run log updated.
+
+### Caps / guards
+- No cap hit. No loop abort. No drift mismatch. Escalation model unused.
+
+RESULT: Clean no-publish run. 0 WP, 0 git-main, 0 delete, 0 tracker-flip.
+Primary operator action needed: authorize WordPress connector / WP App Password
+to unblock the already-approved, now-aging T106 draft.
