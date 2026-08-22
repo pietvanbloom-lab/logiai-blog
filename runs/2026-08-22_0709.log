@@ -117,3 +117,29 @@ Strongest verified topic remains T106 EU AI Act Digital Omnibus (Reg (EU)
 complete and PARKED (dedup-risk vs posts 490/464 flagged) -> operator publish
 decision, not a re-draft.
 Phase 2 tool calls: 4 WebSearch. No loops, no drift mismatch.
+
+---
+
+## Phase 3: Drafting  (07:26 CEST)
+Drift-guard: Phase 3: goal='draft verified non-dup candidates from Phase 2',
+current_action='no fresh candidate -> produce no new draft; confirm parked
+drafts', aligned=yes
+New drafts this run: 0 (Phase 2 yielded no fresh non-duplicate verified
+candidate). No drafting tokens spent.
+Parked drafts carried forward (all verified 0 em-dashes this run):
+- workspace/logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md (1347w,
+  COMPLETE, authoritative) - primary parked item.
+- workspace/logiai-predraft-T106-eu-ai-act-digital-omnibus-OJ.md (1146w,
+  operator-authored pre-draft, retained).
+- workspace/logiai-draft-2026-07-25-...official-journal-logistics.md (1288w,
+  SUPERSEDED by the 07-26 T106 draft).
+- workspace/logiai-draft-2026-07-23-walden-robotics-general-vs-task-specific.md
+  (977w).
+Note: prior cap-history referenced "Humanoid" and "Freehand" as parked
+CANDIDATES; no draft files for those exist in workspace/ (candidates, not drafts).
+
+## Phase 4: QC + Compliance  (07:27 CEST)
+Drift-guard: Phase 4: goal='QC + compliance on new drafts', current_action='no
+new drafts to gate; re-verify parked drafts compliance', aligned=yes
+No new drafts to QC. Compliance re-check on parked drafts: em-dash count 0 across
+all 4 workspace drafts (verified this run). No new compliance actions.
