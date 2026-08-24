@@ -1,0 +1,91 @@
+LogiAI Production Stack - Daily Run - 2026-08-24 07:12 CEST (05:12 UTC) (scheduled cloud Routine, operator ABSENT)
+mode: daily (phases 0,1,2,3,4,5,7) | source of truth: repo pietvanbloom-lab/logiai-blog
+binding: .editorial-engine/ROUTINE-RUNBOOK.md (unattended cloud run)
+approval_email.enabled=false -> operator-present gate -> NO publish, NO WordPress writes, drafts PARKED only
+
+=== RUN SKELETON (artifacts-first, pre-phase) ===
+Branch: claude/logiai-run-20260824 (from origin/main @ 1d562b2, merge of PR #17 run-20260801)
+PR: draft "run: LogiAI daily 2026-08-24" (opened right after this skeleton push)
+Caps (daily mode from config.yml): 3.00 USD | 200 tool calls | 90 wall min; per-phase 50 calls / 30 min / 0.80 USD; per-draft 25 calls / 0.50 USD
+Guards active: goal-drift-guard (stop_and_escalate), loop_detection (4 same-tool threshold, arg_hash), cap enforcement order per config.
+Hard rules enforced this run: never publish to WordPress, never push to main, never delete files, never flip tracker statuses, no em-dashes in generated content.
+
+Connectors this session: WordPress-com MCP present + enabledInChat but NOT authorized (headless OAuth cannot run in a scheduled session) -> authenticated WP steps PARKED. Gmail MCP connected. github MCP present.
+
+Gap note: last recorded run was 2026-08-01 (PR #17). This is the first run after a 23-day hiatus. Timing context for T106 has shifted (2 Aug 2026 date now in the past) - see Phase 2.
+
+Phases are appended below as they complete. Even a failed/capped/aborted run leaves this branch + PR behind.
+
+--- Phase log ---
+
+Phase 0 (pre-flight): DONE.
+- config.yml parsed (daily caps: 3.00 USD / 200 tool calls / 90 wall min; per-phase 50 / 30 / 0.80). Guards armed.
+- ROUTINE-RUNBOOK.md read and binding: artifacts-first, no interactive prompts, park all approvals.
+- portal.yaml read: hard rules loaded (no em-dashes, en-dash only in numeric ranges, no emoji in body, brief-leak-guard + visual-style-guard before publish, never auto-publish to WP).
+- Queue folder EMPTY (only README.md; no dated pre-approval package). => no autonomous-drafting pre-approval this run.
+- Workspace carries parked drafts: T106 EU AI Act OJ canonical draft (logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md) + a second EU AI Act OJ variant (logiai-draft-2026-07-25-...official-journal-logistics.md, duplicate-risk vs post 490) + Walden Robotics draft (logiai-draft-2026-07-23-...) + T106 pre-draft template. No new draft required unless a fresh candidate clears filters.
+- Memory loaded: memory/logiai_project.md + memory/logiai_published.md (register). No MEMORY.md index in repo (Mac-local artifact; not blocking).
+- Action Tracker parsed clean (strict json.loads): 114 tasks (73 Done, 41 Open). Open breakdown: 1 High (T106), 22 Medium, 18 Low. NO delta vs 08-01. Types among Open: 18 Tech, 10 Content, 10 SEO, 3 Design.
+- WP REST check: outbound HTTPS to logiai.blog HTTP 000 (curl exit 56, blocked by cloud net policy, GitHub-egress-only), same as 07-21..08-01. NOT a 401 => NOT the T021 credential fault. Authenticated WP steps PARKED per runbook s.5. WebSearch fallback available for monitoring.
+- Drift-guard Phase 0: goal='preflight + load state', action='read config/runbook/portal/memory/tracker, probe WP channel', aligned=YES.
+
+(Phases 1,2,3-4,5,7 appended below as they complete.)
+
+Phase 1 (Action Tracker sweep): report-only, NO status flips (operator absent, hard rule).
+- 41 Open (1 High=T106, 22 Med, 18 Low). NO delta vs 08-01. Types among Open: 18 Tech, 10 Content, 10 SEO, 3 Design.
+- Sole High = T106 (Content, "Draft EU AI Act Digital Omnibus piece when Official Journal publication lands"). Trigger FIRED 07-26 (Reg (EU) 2026/1744, OJ 24 Jul); IN FORCE since 27 Jul. Completed canonical draft already parked (workspace/logiai-draft-2026-07-26-T106-...OJ.md). T106 stays Open (no autonomous Done-flip); publish + flip are operator actions. TIMING SHIFT (see Phase 2): the widely-cited 2 Aug 2026 high-risk (Annex III) applicability date is now 22 days PAST; the Digital Omnibus (Reg (EU) 2026/1744) deferred it to 2 Dec 2027. The piece is now a record-correcting evergreen rather than a same-week news hook - still publishable, timeliness reduced. Operator already approved publish 07-31 ("approved, merge and then publish", PR #16 merged); publish remains BLOCKED ON WP CONNECTOR AUTH (WordPress-com MCP unauthorized headless + WP REST HTTP 000). No new tracker action possible from this container.
+- 0 tasks auto-executed. NONE of the 41 Open tasks are autonomously actionable from this cloud container in report-only unattended mode:
+  * SEO (10: T029/T031/T066/T071/T072/T075/T076/T082/T085/T113) - need GSC access, WP Admin, live crawl, or backlink outreach; all blocked (WP HTTP 000, no GSC).
+  * Tech (18) - WP Admin / credential / Mac-local / git-push-to-main (T015) / file-delete (T104, also a hard-rule never-delete) / ElevenLabs+fal billing. None are low-risk local writes safely completable + verifiable here.
+  * Content (10) - defer to Phase 3 per SKILL (T013/T022/T027/T028/T039/T074/T078/T111) or the T106 draft (parked).
+  * Design (3: T014/T016/T114) - propose-diff-then-hard-stop; T014 mobile check + T114 fal image swap need live site / WP; T016 GitHub Pages push = git action.
+- Standing gated backlog carried unchanged: T113 (verify Yoast persisted on posts 673/674/675/688), T114 (swap custom fal image on 688), T108 (re-save 4 LogiAI skills to refresh stale plugin cache), T111 (Octup evergreen decision), T107 already Done. All WP-UI / credential / git-push / Done-flip items = hard-stop, none autonomously actionable from the cloud container.
+- Note on T103 (register reconcile 592/597) + T104 (delete stale temp files): T103 edits memory/logiai_published.md but the correct 592/597 labels cannot be verified without WP access (HTTP 000) -> parked to avoid a blind data edit; T104 is a file-delete (hard rule NEVER autonomous) + Mac-local. Both parked.
+- Drift-guard Phase 1: goal='triage open tasks, auto-run only low-risk local + verifiable', action='report-only sweep, park operator/WP/git items, flag T106 timing shift + connector-auth block', aligned=YES.
+
+Phase 2 (monitoring + scoring + verification): via harness WebSearch (direct external curl blocked, HTTP 000, cloud net policy GitHub-egress-only).
+- Window scanned: 2026-08-01 (last run) to 2026-08-24. RESULT: NO fresh, dated, non-duplicate, EU-relevant single-day candidate clears filters this window.
+- Monitoring scan (funding + robotics + autonomous freight + EU AI Act):
+  * Einride $100M "autonomous freight" -> DATE = 1 Oct 2025 (primary einride.tech + PRNewswire) => ~11 months STALE, rejected. (A later Einride SPAC/PIPE going-public item exists [Legato Merger Corp III, $1.8B val; $113M PIPE] but that is a going-public event, not a fresh funding round; not a monitoring candidate.)
+  * Freehand $75M Series B = 29 Jul 2026 -> already surfaced 08-01, now 26 days old (fails single-day-fresh), DUPLICATE-RISK confirmed vs register (post 623 Cargofy/Opereit back-office agents, post 576 Coupa/Rossum, post 110 freight-invoice audit). Stays PARKED, not drafted.
+  * Loop $95M Series C = Apr/May 2026 stale (already logged prior runs). Augment/goAugment $25M seed = undated/stale. UnitAI $12M seed = late Jul, thin. Foundational Industries (Fortune, 30 Jul) = off-core (factory AI, not logistics). DeepWay $310M / KargoBot $100M+ / QCraft / RideFlux = China/Korea/Japan autonomous-trucking cluster, weak EU fit + reported in aggregate (not single-day fresh). All rejected.
+- Scoring: no candidate reaches P1/P2 as a fresh non-dup single-day story. Freehand would score ~P2 (~65) but is stale + dup-risk. Nothing promoted to drafting.
+- Verification: n/a (no candidate promoted).
+- Dedup (CRITICAL) reconciliation against memory/logiai_published.md (register = source of truth): TWO corrections vs the 08-01 log:
+  * *** CORRECTION: Walden Robotics is PUBLISHED, not parked. *** Register line 76: post 692 "Walden Robotics Bet $1.1 Billion That General Beats Special", LIVE 2026-07-23 via the WordPress.com MCP connector (first cloud-published post; wpcom Atomic site blog_id 253579599). The 08-01 log erroneously carried Walden as a still-parked draft. The workspace file logiai-draft-2026-07-23-walden-robotics-*.md is the ALREADY-PUBLISHED draft (superseded). REMOVED from the parked candidate list this run.
+  * EU AI Act pillar (P6) is saturated: posts 156, 464, 490 ("The EU AI Act August Cliff Moved", 2026-05-25, already made the deferral point), 597 (HRAI examples). T106 must lead on a distinct angle to avoid cannibalization.
+- KEY EDITORIAL SIGNAL (currency update for T106): with 2 Aug 2026 now 22 days PAST, the fresh, not-yet-covered hook is that Article 50 transparency duties (chatbot disclosure, deepfake/synthetic-content marking, emotion-recognition notice) AND the Article 4 AI-literacy duty took effect on their ORIGINAL 2 Aug 2026 schedule and were NOT deferred, even though high-risk Annex III moved to 2 Dec 2027 and Annex I to 2 Aug 2028 (Reg (EU) 2026/1744, OJ 24 Jul, in force 27 Jul). Register grep for "article 50"/"literacy" = 0 hits => this angle is uncovered. The parked T106 draft already flags Art.50/Art.4 are not deferred in its planning block; operator may want to lead the body harder on "what IS live now for logistics operators using AI chat/synthetic content + staff AI-literacy" rather than the now-past "August cliff" framing. Not a blocker; the existing body still reads correctly (the 2 Aug date is now genuinely in the past).
+- Candidates carried PARKED (updated): T106 EU AI Act OJ draft (P6, ready, now record-correcting evergreen + Art.50/Art.4-now-live fresh hook); Humanoid (SKL Robotics, London, $152M/EUR133M Series A at $1.35B/EUR1.1B, P2, EU-fit, dedup-clean, surfaced 07-24, now ~1 month old, timeliness fading); Freehand (P2, dup-risk + stale). Walden REMOVED (published as 692).
+- Drift-guard Phase 2: goal='scan sources, score, verify, dedup non-dup candidates', action='WebSearch scan (Einride stale, no fresh candidate), reconcile register (Walden=692 published correction), surface Art.50/Art.4-now-live as T106 fresh hook', aligned=YES.
+
+Phase 3-4 (drafting / QC + compliance): no new drafting performed.
+- 0 fresh candidates cleared filters this window -> nothing to draft. Queue empty + operator absent -> no drafting-from-scratch authorization (per runbook + established precedent 07-24..08-01). No new draft created.
+- Carried drafts self-QC (light, em-dash hard rule): ALL workspace drafts CLEAN (0 em-dash, 0 en-dash): T106 canonical (logiai-draft-2026-07-26, ~760 body words), the 07-25 EU AI Act OJ variant (duplicate-risk vs post 490, superseded by 07-26 canonical), the Walden draft (now published as 692), and the T106 pre-draft template. Two EU AI Act OJ variants still sit in workspace/ (07-25 + 07-26); operator should publish ONE (07-26 is canonical/re-verified).
+- FULL logiai-quality-gate 25-point + logiai-compliance run is PARKED for the operator ahead of publish (auto-approve requires QC>=threshold AND compliance pass, an operator-confirmed step in an operator-absent run).
+- Drift-guard Phase 3-4: goal='draft + QC verified candidates IF authorized', action='no fresh candidate + no from-scratch authorization -> no new draft; self-QC parked drafts (em-dash clean); park full QC', aligned=YES.
+
+Phase 5 (approval gate): NOT entered. approval_email.enabled=false -> operator-present gate; no operator in a scheduled session -> no publish path. T106 publish + all approval items PARKED (see Parked section in PR body).
+Phase 6 (publishing): NOT entered (daily mode excludes it; operator-absent gate blocks publish; WP unreachable from direct curl HTTP 000; WordPress-com MCP present but unauthorized in headless session). NO WordPress writes.
+
+Phase 7 (memory): run log written + committed each phase; cap-history row appended on final commit. NO register changes (nothing published). NO tracker Done flips (operator absent, hard rule; T106 stays Open with draft parked). No MEMORY.md index in repo (Mac-local). Register reconciliation NOTE logged for operator (Walden = post 692 published; not applied as a write since it is a memory-file edit best confirmed operator-present, and the register already contains the correct 692 row at line 76 - only the run-log carry-forward was stale).
+- Drift-guard Phase 7: goal='persist run state + memory hygiene', action='append log + cap-history, 0 register/tracker/WP writes', aligned=YES.
+
+=== STRUCTURED RUN SUMMARY ===
+mode: daily (operator ABSENT) | result: NO-PUBLISH; 0 new drafts (no fresh non-dup single-day candidate this window); 2 drafts carried PARKED (T106 canonical + Humanoid); Walden REMOVED (published as post 692 2026-07-23)
+tool_calls: ~24 | wall: ~18 min | est_usd: ~0.30 | cap_hits: 0 | drift_mismatches: 0 | loop_aborts: 0
+open_tasks: 41 (1 High=T106, 22 Med, 18 Low; no delta vs 08-01)
+gap: first run after a 23-day hiatus (last run 2026-08-01, PR #17). No repo-state breakage; base origin/main @ 1d562b2 clean; tracker parses clean.
+T106: Reg (EU) 2026/1744, OJ 24 Jul 2026, in force 27 Jul 2026. The widely-cited 2 Aug 2026 high-risk date is now 22 days PAST; Annex III deferred to 2 Dec 2027, Annex I to 2 Aug 2028. FRESH uncovered hook: Article 50 transparency + Article 4 AI-literacy duties took effect on their ORIGINAL 2 Aug 2026 schedule (NOT deferred) -> live now for logistics operators using AI chat/synthetic content + staff training. Operator approved publish 07-31 (PR #16 merged) but publish remains BLOCKED ON WP CONNECTOR AUTH (WordPress-com MCP unauthorized headless + WP REST HTTP 000). Draft parked at workspace/logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md (0 em-dash).
+monitoring: 0 fresh dated candidates. Einride $100M = 1 Oct 2025 stale; Freehand $75M = 29 Jul (26d old + dup-risk); Loop/Augment/UnitAI/Foundational/DeepWay/KargoBot all stale/off-core/weak-EU-fit.
+candidates parked: T106 EU AI Act OJ draft (P6, ready, evergreen + Art.50/Art.4 fresh hook) + Humanoid (P2, UK unicorn, 07-24, aging); Freehand (P2, dup-risk + stale, drafting decision). 0 published.
+writes: 0 WordPress, 0 git-main, 0 file-deletes, 0 tracker-flips
+env note: direct WP REST HTTP 000 (curl exit 56) + external news direct fetch blocked by cloud net policy (GitHub-egress-only); WebSearch fallback used; NOT a 401 (T021 credential fault not implicated); WordPress-com MCP present + enabledInChat but unauthorized (headless OAuth not possible).
+
+== Parked for operator approval ==
+1. [TOP PRIORITY - APPROVED, BLOCKED ON CONNECTOR AUTH] PUBLISH T106 EU AI Act Digital Omnibus piece. Reg (EU) 2026/1744, OJ 24 Jul 2026, in force 27 Jul 2026. Operator approved on 07-31 ("approved, merge and then publish"; PR #16 merged). The only blocker is WordPress connector authorization: from an interactive claude.ai session, authorize the WordPress.com connector (or publish manually), then publish workspace/logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md (0 em-dashes, ~760 body words). TIMING NOTE: 2 Aug 2026 is now past, so this is a record-correcting evergreen rather than a same-week hook. RECOMMENDED ANGLE REFRESH before publish: lead on what IS now live since 2 Aug 2026 (Article 50 transparency: chatbot disclosure, synthetic-content/deepfake marking, emotion-recognition notice; Article 4 AI-literacy duty) for logistics operators, then explain the high-risk deferral to 2 Dec 2027 - this is the uncovered angle (register has 0 "Article 50" hits; the deferral itself was already covered by post 490 on 2026-05-25). Confirm no same-week EU AI Act post (pillar saturated vs 156/464/490/597), category "Rules, Risk & Strategy" (788290360), featured image WP Media 454 (05_compliance) or generate. Then run logiai-quality-gate + logiai-compliance and flip T106 to Done. A second variant (workspace/logiai-draft-2026-07-25-...official-journal-logistics.md) is duplicate-risk vs post 490 - use the 07-26 canonical, not this one.
+2. DRAFT/PUBLISH Humanoid (P2 Physical AI): Verified EU-fit unicorn (SKL Robotics, London; $152M/EUR133M Series A at $1.35B/EUR1.1B; Bosch+Schaeffler+Aglae/LVMH; wheeled HMND01+KinetIQ; 34,000 pre-orders; beta logistics/manufacturing/retail Q4 2026). Surfaced 07-24, dedup-clean, still awaiting drafting authorization; ~1 month old, timeliness fading -> operator decide draft-now or drop as stale. (Note: the "pair with Walden" idea from prior runs is moot - Walden already shipped as post 692.)
+3. DRAFT DECISION - Freehand $75M Series B (29 Jul 2026, GlobeNewswire + Crunchbase + Forbes). Agentic AI managing Fortune 500 supply-chain spend / autonomous invoice-payment decisions (customers incl. Meta, Dunkin'). PARKED not drafted: (a) now 26 days old (stale for a single-day funding hook); (b) DUPLICATE-RISK vs post 623 (Cargofy/Opereit back-office agents) + post 576 (Coupa/Rossum) + post 110 (freight-invoice audit); (c) round-label discrepancy (most outlets Series B, one seed); (d) US-centric, weak EU fit. Operator: draft (as a distinct "agentic AI reaches the CFO's desk / autonomous invoice payment" angle) or skip.
+4. REGISTER HOUSEKEEPING (informational, no action taken): the run-log carry-forward from 08-01 listed Walden Robotics as a parked draft, but the content register (memory/logiai_published.md line 76) correctly shows it LIVE as post 692 since 2026-07-23. No register edit was needed (the 692 row is already correct); the stale carry-forward is corrected in this run log. Also unchanged operator/infra backlog: T113 Yoast verify (673/674/675/688), T114 fal image swap on 688, T108 re-save 4 LogiAI skills (stale plugin cache), T111 Octup evergreen decision. All WP-touching items blocked from this cloud container (no WP App Password + WP HTTP 000 + WordPress-com MCP unauthorized).
+
+Constraints honored: no WP publish, no git push to main, no file delete, no tracker Done flip, no em-dashes.
+=== END OF RUN ===
