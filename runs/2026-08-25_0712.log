@@ -27,4 +27,12 @@ Phase 0 (pre-flight): DONE.
 - WP REST check: outbound HTTPS to logiai.blog HTTP 000 (curl exit 56, blocked by cloud net policy, GitHub-egress-only), same as prior runs. NOT a 401 => NOT the T021 credential fault. Authenticated WP steps PARKED per runbook s.5. WebSearch fallback available for monitoring.
 - Drift-guard Phase 0: goal='preflight + load state', action='read config/runbook/portal/memory/tracker, probe WP channel', aligned=YES.
 
-(Phases 1,2,3-4,5,7 appended below as they complete.)
+(Phases 2,3-4,5,7 appended below as they complete.)
+
+Phase 1 (Action Tracker sweep): report-only, NO status flips (operator absent, hard rule).
+- Tracker parsed clean (strict json.loads on EMBEDDED_TASKS): 114 tasks (73 Done, 41 Open). NO delta vs 08-01.
+- Open breakdown: 1 High (T106), 22 Medium, 18 Low. Types among Open: 18 Tech, 10 Content, 10 SEO, 3 Design.
+- Sole High = T106 (Content, "Draft EU AI Act Digital Omnibus piece when Official Journal publication lands"). Trigger FIRED 2026-07-26 (Reg (EU) 2026/1744, OJ 24 Jul); IN FORCE since 27 Jul. Completed canonical draft already parked (workspace/logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md, ~760 words, 0 em-dashes). T106 stays Open (no autonomous Done-flip); publish + flip are operator actions. Operator approved publish on 07-31 ("approved, merge and then publish"; PR #16 merged) but publish remains BLOCKED ON WP CONNECTOR AUTH (WordPress-com MCP unauthorized headless + WP REST HTTP 000). No new tracker action possible from this container. NOTE: the widely-cited 2 Aug 2026 high-risk applicability milestone is now ~3 weeks past; the piece's news peg is aging (see Phase 2 re-assessment of timeliness).
+- 0 Bug/Tech/SEO/Design task auto-executed. Scanned all 40 non-High open tasks: every one requires WP Admin / WordPress.com permissions (T040, T108, T113), GSC (T031, T066, T085), git push to main (T015, T016), DNS/robots (T073), external crawl of live site (T029, T082), file deletion (T104, hard-rule NEVER), a credential/subscription (T045, T047, T081), or an operator content/strategy decision (T013, T022, T027, T074, T078, T111, T039). None is a low-risk local-repo action safe to execute autonomously from the cloud container. Consistent with 07-24..08-01 precedent.
+- Standing gated backlog carried unchanged: T113 (verify Yoast on posts 673/674/675/688), T114 (swap custom fal image on 688), T108 (re-save 4 LogiAI skills to refresh stale plugin cache), T111 (Octup evergreen decision), T107 (Yoast on post 633). All hard-stop, none autonomously actionable here.
+- Drift-guard Phase 1: goal='triage open tasks, auto-run only low-risk local', action='report-only sweep, park operator items, note T106 news-peg aging', aligned=YES.
