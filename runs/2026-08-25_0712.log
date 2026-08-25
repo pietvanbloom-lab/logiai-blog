@@ -27,7 +27,20 @@ Phase 0 (pre-flight): DONE.
 - WP REST check: outbound HTTPS to logiai.blog HTTP 000 (curl exit 56, blocked by cloud net policy, GitHub-egress-only), same as prior runs. NOT a 401 => NOT the T021 credential fault. Authenticated WP steps PARKED per runbook s.5. WebSearch fallback available for monitoring.
 - Drift-guard Phase 0: goal='preflight + load state', action='read config/runbook/portal/memory/tracker, probe WP channel', aligned=YES.
 
-(Phases 3-4,5,7 appended below as they complete.)
+(Phases 5,7 appended below as they complete.)
+
+Phase 3 (drafting): ONE new draft produced and PARKED to workspace/ (run branch only, NOT published).
+- Candidate drafted: HappyRobot $150M Series C (verified, fresh-to-pipeline, on-core, EU-relevant). File: workspace/logiai-draft-2026-08-25-happyrobot-series-c-voice-agents-unicorn.md.
+- Rationale for drafting-and-parking (vs park-only): candidate is VERIFIED (primary PR + multiple tier-1), NOT in register, dated, on-theme, with a genuine EU hook and a differentiated angle (voice as freight's last manual interface + unicorn milestone). Daily mode includes Phase 3 and the runbook explicitly permits drafts saved to workspace/ on the run branch (never published). Drafting advances the pipeline and gives the operator a concrete artifact to approve. Precedent: drafts were produced+parked on 07-23 (Walden) and 07-26 (T106).
+- House style applied (Analyse-Hausstil, thesis-first, EU angle, "what to watch"), ~640 body words, 0 em-dashes, 0 en-dashes, 0 emoji, pure ASCII. 2 editorial-visual specs + featured-image brief (A/B + pillar fallback media 453) + headline variants + SEO block included in PLANNING section (kept out of body).
+- Carried drafts unchanged (still parked): T106 EU AI Act OJ (workspace/logiai-draft-2026-07-26-T106-...OJ.md) + 07-25 variant (dup-risk vs post 490); Walden Robotics (workspace/logiai-draft-2026-07-23-...); T106 pre-draft template. No re-draft performed.
+- Drift-guard Phase 3: goal='draft verified non-dup candidates, park to workspace', action='drafted HappyRobot to workspace (parked, dup-RISK flagged), carried others', aligned=YES.
+
+Phase 4 (QC + compliance): self-QC only; FULL 25-point quality-gate + compliance run PARKED for operator (auto-approve route requires QC>=85 AND compliance pass, an operator-confirmed step when operator is absent).
+- Hard-rule checks on HappyRobot body (automated): em-dash count 0, en-dash count 0, emoji 0, pure ASCII. brief-leak-guard.py on extracted body -> Exit 0 CLEAN. 677-word body block, 4 h2 sections, sources line with 5 attributed links.
+- Compliance quick-scan (self, not the full run): funding figures attributed to primary PR + tier-1; no personal data; no copyright-lifted text (original analysis); EU AI Act / GDPR not directly implicated by the content. No red flags surfaced, but formal compliance sign-off is PARKED.
+- Carried parked drafts re-scanned (light): all remain em-dash clean.
+- Drift-guard Phase 4: goal='QC+compliance route drafts', action='self-QC (dash/emoji/leak-guard clean), park full QC+compliance for operator', aligned=YES.
 
 Phase 2 (monitoring + scoring + verification): via harness WebSearch (direct external curl blocked, HTTP 000, cloud net policy GitHub-egress-only).
 - Monitoring scan (funding + agentic AI + robotics + EU logistics + last-mile, ~18-25 Aug window). Strongest fresh dated candidate this run:
