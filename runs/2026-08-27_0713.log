@@ -1,0 +1,46 @@
+# LogiAI Production Stack — Run Log
+
+Run date:    2026-08-27
+Start time:  07:13 CEST (05:13 UTC)
+Mode:        daily  (phases 0, 1, 2, 3, 4, 5, 7)
+Trigger:     scheduled / unattended cloud run
+Operator:    ABSENT (no interactive prompts; all approvals PARKED)
+Run branch:  claude/logiai-run-20260827
+Runbook:     .editorial-engine/ROUTINE-RUNBOOK.md (binding)
+
+## Config snapshot (skills/logiai-production-stack/config.yml v1)
+
+Caps (daily):    total_usd=3.00, total_tool_calls=200, total_wall_min=90
+                 per_phase: tool_calls=50, wall_min=30, usd=0.80
+                 per_draft: tool_calls=25, usd=0.50
+Drift guard:     enabled, on_mismatch=stop_and_escalate
+Loop detection:  enabled, same_tool_threshold=4, on_loop=abort_phase_and_log
+Escalation:      opus-4-6, max 2 calls/run
+Approval email:  DISABLED in config (approval_email.enabled=false) -> approvals PARKED
+
+## Hard rules (this run)
+
+- NEVER publish to WordPress (park instead)
+- NEVER push to main (run output -> run branch + PR only)
+- NEVER delete files, NEVER flip tracker statuses
+- No em-dashes in any generated content
+- Drafts -> workspace/ on run branch, never to WordPress
+
+## Environment preflight
+
+- WP REST (https://logiai.blog/wp-json/wp/v2/posts): HTTP 000 (cloud egress policy,
+  GitHub-egress-only; NOT a 401). Authenticated + read WP steps PARKED.
+- WordPress-com MCP: requires OAuth, unavailable in headless scheduled session -> publish PARKED.
+- Gmail MCP: connecting; approval-mail flow disabled in config anyway -> approvals PARKED.
+- Queue (queue/*.md): empty (normal state). No pre-approved work packages.
+
+---
+
+## Phase log
+
+### Phase 0: Pre-flight — DONE (see above)
+- config.yml, ROUTINE-RUNBOOK.md, portal.yaml, SKILL.md read.
+- Action Tracker parsed: 114 tasks, 73 Done, 41 Open.
+- Drift-guard: goal='preflight+read state', action='read config/tracker/memory/WP-check', aligned=yes.
+
+(phases 1-7 appended below as they complete)
