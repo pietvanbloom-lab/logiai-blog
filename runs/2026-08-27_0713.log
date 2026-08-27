@@ -123,3 +123,24 @@ Draft: workspace/logiai-draft-2026-08-27-gatik-series-d-middle-mile-autonomy.md
   weeks past OJ publication (Reg (EU) 2026/1744, in force 27 Jul); still publishable as analysis,
   no longer breaking. DEDUP-RISK vs post 490 flagged previously. Operator decision.
 - Humanoid (SKL Robotics) candidate + Freehand $75M candidate: prior-run parked, aging.
+
+### Phase 4: QC + Compliance — DONE (draft graded; publish PARKED, unattended)
+Drift-guard: goal='QC + compliance-check the Gatik draft; route it', action='score 18/25-pt + compliance', aligned=yes.
+
+QC (quality-gate checklist):
+- Thesis early + clear: yes. Structure (setup-punchline, evidence, EU angle, what-to-watch, verdict+action): yes.
+- Voice = Analyse-Hausstil (Stratechery), sharp/analytical, no clichés: yes.
+- Hard rules: em-dash 0, en-dash 0, emoji 0: PASS. Brief-header leak in body: none (planning below END marker).
+- Sources: 5 Tier-1, hyperlinked, multi-source verified: yes. Facts cross-confirmed 2026-08-25.
+- Length ~830 words (in 590-1000 band): yes. Editorial visuals selected (stat+cmp): yes.
+  Dedup CLEAN. Internal links + Yoast + image briefs planned.
+- QC verdict: STRONG (auto-approve tier, QC>=8/10 equiv).
+
+Compliance:
+- EU AI Act: no misleading compliance claims; EU regulatory-lag framing is accurate, general, not legal advice. PASS.
+- GDPR: only public-figure name (CEO, public statements). No personal data. PASS.
+- Copyright: original analysis, attributed sources, no verbatim lifts. PASS.
+- Taxonomy: P1 Autonomous Trucking, tag plan present. PASS.
+
+Route: would be AUTO-APPROVE (QC pass + compliance pass) in operator-present mode.
+UNATTENDED -> marked READY-FOR-PUBLISH but PARKED. No WordPress action taken.
