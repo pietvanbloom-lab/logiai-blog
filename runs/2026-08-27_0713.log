@@ -144,3 +144,42 @@ Compliance:
 
 Route: would be AUTO-APPROVE (QC pass + compliance pass) in operator-present mode.
 UNATTENDED -> marked READY-FOR-PUBLISH but PARKED. No WordPress action taken.
+
+### Phase 5: Approval Gate — PARKED (unattended; no operator present)
+Drift-guard: goal='gate all publish/approval items; take no write action', action='park to PR + log', aligned=yes.
+approval_email.enabled=false in config AND operator absent -> no async mail flow. All items PARKED.
+
+## Parked for operator approval
+1. PUBLISH DECISION — Gatik $200M draft (NEW this run).
+   File: workspace/logiai-draft-2026-08-27-gatik-series-d-middle-mile-autonomy.md
+   READY-FOR-PUBLISH (QC pass, compliance pass, dedup clean). Time-sensitive (news dated 2026-08-25).
+   Needs: operator approve + WordPress publish (WP connector/App Password unavailable this run) +
+   featured image (generate via fal or reuse media 458 04_autonomous_truck.png) + Yoast set via WP Admin.
+2. CARRIED DRAFTS — operator disposition still pending:
+   - T106 EU AI Act Digital Omnibus OJ draft (now ~4 weeks old; publishable as analysis, dedup-risk vs post 490).
+   - Humanoid (SKL Robotics) + Freehand $75M candidates (aging; likely drop or evergreen-reframe).
+3. TRACKER — 41 open tasks carried; none flippable unattended. Most blocked on WP/GSC/credentials/operator.
+   Highlights needing operator: T078 (held-draft disposition), T047 (approval-mail activation),
+   T040/T113 (WP media + Yoast), T031/T066 (GSC indexing), T104 (stale-file delete = operator-only).
+4. ENV — WP publish path is down for automation: WP REST HTTP 000 (egress policy) + WordPress-com MCP
+   needs OAuth (headless). Operator action to restore an automated publish channel.
+
+### Phase 6: Publishing — SKIPPED (daily mode; and hard-blocked: no WP + unattended). No POST made.
+
+### Phase 7: Memory Update — DONE (no writes to shared state beyond run log)
+Drift-guard: goal='record run; no tracker flips, no register writes unattended', action='log only', aligned=yes.
+- memory/logiai_published.md: NOT modified (0 posts published this run).
+- Action Tracker: NOT modified (hard rule: no status flips unattended).
+- Run recorded in this log + cap-history.csv + PR #43.
+
+## Structured run summary — LogiAI daily 2026-08-27 (mode: daily)
+Phase 1 Action Tracker: 41 open triaged (1 High/21 Med/19 Low); auto-completed 0 (all blocked by
+  WP/egress/push/operator gates); 0 tracker flips; 41 carried.
+Phase 2-4 Editorial: scanned ~15 stories across 4 theme sweeps; 1 Verified non-dup candidate (Gatik
+  $200M Series D); 1 draft generated + parked; QC pass, compliance pass; 2 backups noted (Pony.ai, WSJ warehouse-robots).
+Phase 5 Approval: all PARKED (unattended). 0 publishes, 0 WP POSTs.
+Phase 6 Publishing: skipped (daily) + hard-blocked (no WP).
+Phase 7 Memory: run logged; no shared-state writes.
+Caps: tool_calls ~26/200, wall ~430s/5400s, usd well under. cap_hits=0, drift_mismatches=0, loop_aborts=0.
+Hard rules honored: 0 WP publish, 0 push-to-main, 0 file delete, 0 tracker flip, 0 em-dash.
+Run status: COMPLETED (not aborted).
