@@ -44,3 +44,29 @@ Approval email:  DISABLED in config (approval_email.enabled=false) -> approvals 
 - Drift-guard: goal='preflight+read state', action='read config/tracker/memory/WP-check', aligned=yes.
 
 (phases 1-7 appended below as they complete)
+
+### Phase 1: Action Tracker Sweep — DONE (triage-only, operator absent)
+Drift-guard: goal='triage open tracker tasks; auto-exec low-risk+feasible; park the rest',
+             action='classify 41 open tasks by type/autonomy vs env limits', aligned=yes.
+
+Open tasks: 41 (1 High, 21 Medium, 19 Low). Sorted High>Medium>Low.
+
+Handler decisions (unattended env: WP REST HTTP000, GitHub-egress-only, no operator,
+no push-to-main, no delete, no tracker-flip):
+
+- HIGH  T106 Content  -> defer to Phase 3 (draft already exists+parked; keep current).
+- Content tasks (T013,T022,T027,T028,T039,T074,T078,T111) -> Phase 3 backlog / operator
+  disposition; no auto-publish. T078 (disposition of held drafts) = operator decision, PARKED.
+- SEO tasks (T029,T031,T066,T071,T072,T075,T076,T082,T085,T113) -> need GSC / WP Admin /
+  external crawl (all blocked by egress policy or WP 401-equivalent) -> PARKED/carry.
+- Tech tasks needing WP/creds (T040,T042,T045,T055,T113) -> WP unavailable -> PARKED.
+- Tech tasks needing git push / decisions (T015,T016,T033,T059,T073,T086) -> push=operator -> PARKED.
+- Tech/misc needing Mac-local or operator (T017,T018,T025,T044,T047,T067,T081,T103,T104,T108) -> PARKED.
+  Note T104 = "delete stale temp files": HARD RULE never delete -> operator only, PARKED.
+  Note T103 = content-register reconcile: requires WP cross-check (HTTP000) to confirm the
+  missing row / ID label -> cannot verify unattended -> PARKED (no blind edit to state file).
+- Design tasks (T014,T016,T114) -> need live site / WP media -> PARKED.
+
+Auto-completed this run: NONE feasible (every actionable item is blocked by WP/egress/push/
+operator gates in the unattended environment). No tracker status flipped (hard rule).
+Carried over: all 41 open tasks.
