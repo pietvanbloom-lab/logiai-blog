@@ -101,3 +101,25 @@ Candidates surfaced + scoring/dedup:
    US-centric) -> not re-drafted.
 
 Output: 1 Verified non-duplicate candidate (Gatik) -> Phase 3. 2 backups noted for next run.
+
+### Phase 3: Drafting — DONE (1 draft, PARKED to workspace, NOT published)
+Drift-guard: goal='draft the verified Gatik candidate in LogiAI voice, park to workspace',
+             action='write Analyse-Hausstil draft + visuals + image briefs + Yoast plan', aligned=yes.
+
+Draft: workspace/logiai-draft-2026-08-27-gatik-series-d-middle-mile-autonomy.md
+- Pillar P1 Autonomous Trucking. Format: deal/market analysis (Stratechery mode).
+- ~830 body words. Thesis: driverless money went to the middle mile because that is where
+  unit economics close; model more portable to EU's dense geography than long-haul, but EU
+  regulation lags the tech.
+- Editorial visuals selected: stat callout (85,000 orders/99% on-time/$600M contracted) +
+  cmp table (long-haul vs cabless vs middle-mile). To inline-style at publish only.
+- Featured image brief: Option A photographic (dock at first light) + Option B diagrammatic
+  (fixed-loop schematic). No custom image generated (fal unavailable + no-publish).
+- Internal links planned: posts 496 (Einride), 475 (Aurora), 338 (Kodiak).
+- Hard-rule check on body: em-dash=0, en-dash=0, emoji=0, banned-clichés=0. PASS.
+
+### Carried parked drafts from prior runs (unchanged, still operator-gated)
+- T106 EU AI Act Digital Omnibus OJ (workspace/logiai-draft-2026-07-26-T106-...OJ.md). Now ~4
+  weeks past OJ publication (Reg (EU) 2026/1744, in force 27 Jul); still publishable as analysis,
+  no longer breaking. DEDUP-RISK vs post 490 flagged previously. Operator decision.
+- Humanoid (SKL Robotics) candidate + Freehand $75M candidate: prior-run parked, aging.
