@@ -70,3 +70,34 @@ no push-to-main, no delete, no tracker-flip):
 Auto-completed this run: NONE feasible (every actionable item is blocked by WP/egress/push/
 operator gates in the unattended environment). No tracker status flipped (hard rule).
 Carried over: all 41 open tasks.
+
+### Phase 2: Editorial Pipeline upstream (monitoring/scoring/verification/dedup) — DONE
+Drift-guard: goal='surface fresh, verified, non-duplicate logistics+AI story candidates',
+             action='WebSearch sweep on high-weight themes; score; verify; dedup vs register', aligned=yes.
+Env note: WebFetch to arbitrary domains EGRESS_BLOCKED (GitHub-egress-only). WebSearch works ->
+          verification via multi-source WebSearch snippets (established fallback).
+
+Monitoring sweep (WebSearch): themes AI-in-ops, autonomous vehicles, warehouse/visibility, funding.
+Candidates surfaced + scoring/dedup:
+
+1. *** LEAD *** Gatik $200M Series D (announced Tue 2026-08-25).
+   - Pillar: P1 Autonomous Trucking (theme Autonomous Vehicles, 15%).
+   - Facts (Verified, multi Tier-1: TechCrunch, Forbes, FreightWaves, SiliconANGLE, WWD Sourcing Journal, PYMNTS):
+     $200M Series D led by Qatar Investment Authority + Koch Disruptive Technologies; also
+     Millennium Management, ARK Invest, Intact Private Capital. Total raised ~$500M.
+     $600M+ contracted revenue. 85,000 fully driverless orders, 99% on-time. ~250 PepsiCo
+     retail locations incl. Walmart + Dollar General. Went driver-out Jun 2025. Target 100+
+     driverless trucks by end-2026. Middle-mile (DC-to-store short-haul). CEO Gautam Narang.
+   - Dedup: CLEAN. No Gatik in register. Distinct middle-mile angle vs long-haul (post 338 Kodiak,
+     475 Aurora/McLane) and cabless L4 (496 Einride). No >=3-tag + same-pillar duplicate hit.
+   - Confidence: VERIFIED. -> promote to Phase 3 drafting.
+
+2. Pony.ai Gen-4 robotruck, 500-1000 trucks in China (Aug 2026). China-centric, weak EU/core
+   fit -> BACKUP only, not drafted.
+3. WSJ: North America ordered ~18,000 warehouse robots H1 2026 (Aug 22). Trend/aggregation stat;
+   P2 warehouse already saturated (486/493/498/692) -> BACKUP.
+4. Augment $85M Series B -> date "earlier in 2026", likely stale -> reject (recency).
+5. Freehand $75M Series B -> already DEDUP-flagged + parked on 2026-08-01 run (vs 623+576,
+   US-centric) -> not re-drafted.
+
+Output: 1 Verified non-duplicate candidate (Gatik) -> Phase 3. 2 backups noted for next run.
