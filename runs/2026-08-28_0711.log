@@ -1,0 +1,92 @@
+LogiAI Production Stack - Daily Run - 2026-08-28 07:11 CEST (05:11 UTC) (scheduled cloud Routine, operator ABSENT)
+mode: daily (phases 0,1,2,3,4,5,7) | source of truth: repo pietvanbloom-lab/logiai-blog
+binding: .editorial-engine/ROUTINE-RUNBOOK.md (unattended cloud run)
+approval_email.enabled=false -> operator-present gate -> NO publish, NO WordPress writes, drafts PARKED only
+
+=== RUN SKELETON (artifacts-first, pre-phase) ===
+Branch: claude/logiai-run-20260828 (from origin/main @ 1d562b2, merge of PR #17 run-20260801)
+PR: draft "run: LogiAI daily 2026-08-28" (opened right after this skeleton push)
+Caps (daily mode from config.yml): 3.00 USD | 200 tool calls | 90 wall min; per-phase 50 calls / 30 min / 0.80 USD; per-draft 25 calls / 0.50 USD
+Guards active: goal-drift-guard (stop_and_escalate), loop_detection (4 same-tool threshold, arg_hash), cap enforcement order per config.
+Hard rules enforced this run: never publish to WordPress, never push to main, never delete files, never flip tracker statuses, no em-dashes in generated content.
+
+Connectors this session: WordPress-com MCP present but NOT authorized (OAuth cannot run in a headless scheduled session) -> authenticated WP steps PARKED. Gmail MCP present. github MCP present.
+
+Phases are appended below as they complete. Even a failed/capped/aborted run leaves this branch + PR behind.
+
+--- Phase log ---
+
+Phase 0 (pre-flight): DONE.
+- config.yml parsed (daily caps: 3.00 USD / 200 tool calls / 90 wall min; per-phase 50 / 30 / 0.80). Guards armed.
+- ROUTINE-RUNBOOK.md read and binding: artifacts-first, no interactive prompts, park all approvals.
+- portal.yaml read: hard rules loaded (no em-dashes, en-dash only in numeric ranges, no emoji in body, brief-leak-guard + visual-style-guard before publish, never auto-publish to WP).
+- Queue folder EMPTY (only README.md; no dated pre-approval package). => no autonomous-drafting pre-approval this run.
+- Workspace carries parked drafts (unchanged, none published): T106 EU AI Act OJ canonical draft (logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md) + a second EU AI Act OJ variant (logiai-draft-2026-07-25-...official-journal-logistics.md, duplicate-risk vs post 490) + Walden Robotics draft (logiai-draft-2026-07-23-...) + T106 pre-draft template.
+- Memory loaded: memory/logiai_project.md + memory/logiai_published.md (register). No MEMORY.md index in repo (Mac-local artifact; not blocking).
+- Action Tracker parsed clean (strict json.loads): 114 tasks (73 Done, 41 Open). Open breakdown: 1 High (T106), 22 Medium, 18 Low. NO delta vs 08-01. Types among Open: 18 Tech, 10 Content, 10 SEO, 3 Design.
+- WP REST check: outbound HTTPS to logiai.blog HTTP 000 (curl exit 56, blocked by cloud net policy, GitHub-egress-only), same as the 07-21..08-01 window. NOT a 401 => NOT the T021 credential fault. Authenticated WP steps PARKED per runbook s.5. WebSearch fallback available for monitoring.
+- Drift-guard Phase 0: goal='preflight + load state', action='read config/runbook/portal/memory/tracker, probe WP channel', aligned=YES.
+
+(Phases 1,2,3-4,5,7 appended below as they complete.)
+=== SKELETON END (phases follow) ===
+
+Phase 1 (Action Tracker sweep): report-only, NO status flips (operator absent, hard rule).
+- 41 Open (1 High=T106, 22 Med, 18 Low). NO delta vs 08-01. Types among Open: 18 Tech, 10 Content, 10 SEO, 3 Design.
+- Sole High = T106 (Content, "Draft EU AI Act Digital Omnibus piece when Official Journal publication lands"). Trigger FIRED 07-26 (Reg (EU) 2026/1744, OJ 24 Jul); IN FORCE since 27 Jul. Completed canonical draft already parked (workspace/logiai-draft-2026-07-26-T106-...OJ.md). T106 stays Open (no autonomous Done-flip); publish + flip are operator actions. Operator approved publish on 07-31 ("approved, merge and then publish"; PR merged), but publish remains BLOCKED ON WP CONNECTOR AUTH (WordPress-com MCP unauthorized headless + direct WP REST HTTP 000). No new tracker action possible from this container.
+- Autonomous-actionability review of all 41 Open from THIS cloud container: none are actionable without a hard-rule/credential breach.
+  * WP-UI / WP-REST items (blocked, HTTP 000 + MCP unauthorized): T040, T042, T108, T113, T114, T047, T081, T086, T055, T045, T044, T017.
+  * GSC / operator-only items: T031, T066, T085, T025, T073, T067.
+  * git-push-to-main (hard stop): T015, T016.
+  * file deletion (hard rule, never): T104.
+  * tracker/register mutation or external-doc edits needing live verification: T103 (needs WP verify of 592/597/594 labels), T074/T078/T111/T039 (operator content decisions), T013/T022/T027/T028 (WP publishing work).
+  * SEO analysis needing live site crawl (blocked): T029, T071, T072, T075, T076, T082.
+- 0 Bug/Tech/SEO/Design task auto-executed (none autonomously actionable this environment). Standing gated backlog carried unchanged: T113, T114, T108, T111, T107 (all WP-UI / credential / git-push / Done-flip = hard-stop).
+- Drift-guard Phase 1: goal='triage open tasks, auto-run only low-risk local', action='report-only sweep, park operator items, flag T106 approved+blocked-on-connector-auth', aligned=YES.
+
+Phase 2 (monitoring + scoring + verification): via harness WebSearch (direct external curl blocked, HTTP 000, cloud net policy GitHub-egress-only). NOTE: 27-day gap since last run (08-01); scan focused on the fresh 22-28 Aug window, stale items rejected.
+- Monitoring scan (funding + autonomous freight + EU logistics/robotics, 22-28 Aug 2026 window): ONE strong fresh dated candidate this run.
+  * *** Gatik $200M Series D *** dated 25 Aug 2026. VERIFIED multi top-tier source: Bloomberg, TechCrunch, Forbes, Yahoo Finance, WWD/Sourcing Journal, Unite.AI, Qatar Tribune, theaiinsider. Led by Qatar Investment Authority + Koch Disruptive Technologies; participation ARK Invest, Millennium Management, Intact Private Capital, Arca Continental. Autonomous middle-mile B2B freight (driverless box trucks). Proof-point stats: $600M+ contracted revenue, 85,000 fully driverless orders, 99% on-time; total raised ~$500M; follows the 8 Jun 2026 PepsiCo multi-year driverless deal; targets 100+ driverless trucks by end-2026, "thousands" ahead. Theme fit: P1 Autonomous Trucking / Autonomous Vehicles (15% weight), core LogiAI pillar.
+  * Freehand $75M Series B (parked 08-01) now CONFIRMED Series B by Crunchbase (resolves the prior seed-vs-B round-label flag). Dated 29 Jul -> now ~4 weeks old, aging out of "fresh"; still carries dup-risk vs posts 623/576. Kept parked, not re-surfaced as new.
+  * Emerald AI / Stellaria (techstartups 26 Aug roundup) = not logistics-core, rejected. Loop $95M = April, stale. Various EU warehouse-robotics results = undated trend roundups, no single-day breaking candidate.
+- Scoring (5-criteria, est): Gatik ~high P2 / borderline P1 breaking (~75-80). Relevance HIGH (P1 core pillar, autonomous freight), Timeliness HIGH (single-day dated 25 Aug, very fresh), Authority HIGH (Bloomberg/TechCrunch/Forbes + QIA/ARK), Novelty MODERATE (company never covered, but P1 pillar saturated), EU-fit LOW-MODERATE (US company; QIA sovereign + global-freight relevance, not EU-specific).
+- Verification: Gatik = Verified (many independent top-tier outlets + named lead investors + concrete operating metrics; no source discrepancy on amount/round/date).
+- Dedup (CRITICAL): Gatik NOT in register (0 exact company match) BUT P1 Autonomous Trucking pillar is SATURATED -> DUPLICATE-RISK flagged. Adjacent published: 475 (Aurora/McLane), 496 (Einride Ohio cabless), 338 (Kodiak), 590 (Volvo $3B), 567 (Europe corridor). Overlapping tags likely: Autonomous Trucking, Autonomous Freight, Funding. Distinct angle exists (autonomous freight's commercial-proof moment: $600M contracted revenue + PepsiCo validation + sovereign-wealth capital), so this is a duplicate-RISK to surface, not an outright block. Operator confirms differentiation vs the pillar before drafting.
+- T106 timing update (honest): the widely-cited 2 Aug 2026 high-risk (Annex III) applicability date is now ~4 weeks PAST. The parked T106 correction (Digital Omnibus Reg (EU) 2026/1744 defers it to 2 Dec 2027) is still accurate and evergreen-useful, but its PEAK-timeliness breaking window (which was 01-02 Aug) has CLOSED. If published now it reads as explainer/reference, not breaking news. General web STILL repeats the stale 2 Aug framing, so the correction retains value. Operator decision on whether to still run it.
+- Candidates carried (parked, unchanged): T106 EU AI Act OJ draft (P6, ready, now evergreen not breaking); Freehand (P2, confirmed Series B, aging); Humanoid (P2, UK unicorn SKL Robotics, EU-fit, surfaced 07-24); Walden Robotics (P2, US, draft ready 07-23).
+- Drift-guard Phase 2: goal='scan sources, score, verify, dedup', action='WebSearch scan 22-28 Aug window, surface Gatik as fresh dated candidate (dup-risk vs saturated P1 pillar, parked), re-confirm Freehand round label, honestly downgrade T106 timing', aligned=YES.
+
+Phase 3-4 (drafting / QC + compliance): no new drafting performed.
+- One fresh candidate cleared filters (Gatik) but it carries a DUPLICATE-RISK flag (saturated P1 pillar) AND queue is empty + operator absent -> per runbook + established precedent (07-24..08-01), monitoring candidates are surfaced/PARKED, not drafted from scratch autonomously. No from-scratch drafting authorization this run. Gatik parked for operator drafting decision.
+- Carried drafts self-QC (light, em-dash hard rule, U+2014 scan): ALL 4 parked workspace drafts CLEAN (0 em-dashes): walden-robotics (07-23), eu-ai-act-OJ variant (07-25), T106 canonical (07-26), T106 pre-draft. Two EU AI Act OJ variants still sit in workspace/ (07-25 + 07-26); operator picks ONE before any publish (07-26 is the re-verified canonical version; 07-25 was flagged dup-risk vs post 490).
+- Guard-availability note (honest): tools/visual-style-guard.py is listed in portal.yaml > pre_publish_guards but is NOT present in the repo tools/ dir (only editorial-visual-inline.py, fal_generate.py present). brief-leak-guard.py present at repo root. Not blocking this run (no publish), but the operator should restore visual-style-guard.py before the next attended publish that contains an editorial visual.
+- FULL logiai-quality-gate + logiai-compliance run is PARKED for the operator ahead of publish (auto-approve route requires QC>=threshold AND compliance pass, an operator-confirmed step in an operator-absent run).
+- Drift-guard Phase 3-4: goal='draft + QC verified candidates IF authorized', action='Gatik carries dup-risk + no from-scratch authorization -> park; self-QC parked drafts (em-dash clean); park full QC', aligned=YES.
+
+Phase 5 (approval gate): NOT entered. approval_email.enabled=false -> operator-present gate; no operator in a scheduled session -> no publish path. T106 publish + all approval items PARKED (see Parked section in PR body).
+Phase 6 (publishing): NOT entered (daily mode excludes it; operator-absent gate blocks publish; WP unreachable from cloud regardless, HTTP 000; WordPress-com MCP unauthorized). NO WordPress writes.
+
+Phase 7 (memory): run log written + committed each phase; cap-history row appended on final commit. NO register changes (nothing published). NO tracker Done flips (operator absent, hard rule; T106 stays Open with draft parked). No MEMORY.md index in repo (Mac-local).
+- Drift-guard Phase 7: goal='persist run state + memory hygiene', action='append log + cap-history, 0 register/tracker/WP writes', aligned=YES.
+
+=== STRUCTURED RUN SUMMARY ===
+mode: daily (operator ABSENT) | result: NO-PUBLISH; 0 new drafts (fresh candidate Gatik carries pillar dup-risk + no from-scratch authorization); 4 drafts carried PARKED
+tool_calls: ~30 | wall: ~15 min | est_usd: ~0.31 | cap_hits: 0 | drift_mismatches: 0 | loop_aborts: 0
+open_tasks: 41 (1 High=T106, 22 Med, 18 Low; NO delta vs 08-01)
+monitoring: 1 strong fresh dated candidate -> Gatik $200M Series D (25 Aug 2026), autonomous middle-mile B2B freight, led by QIA + Koch Disruptive; $600M+ contracted revenue, 85,000 driverless orders, PepsiCo deal (Jun 2026); VERIFIED across Bloomberg/TechCrunch/Forbes/Yahoo/WWD/Qatar Tribune -> P1 Autonomous Trucking pillar (core LogiAI pillar) but SATURATED (posts 475/496/338/590/567) -> DUPLICATE-RISK, weak-moderate EU fit -> PARKED for operator drafting decision. Freehand $75M now CONFIRMED Series B (Crunchbase), aging (29 Jul). No fresh EU-specific single-day candidate (EU results were undated trend roundups).
+T106 status change: the widely-cited 2 Aug 2026 EU AI Act high-risk applicability date is now ~4 weeks PAST -> the parked correction (Digital Omnibus Reg (EU) 2026/1744 defers Annex III to 2 Dec 2027) is still accurate + evergreen but NO LONGER breaking; peak-timeliness window CLOSED. Operator approved publish 07-31 (PR merged) but publish remains BLOCKED ON WP CONNECTOR AUTH. Draft parked at workspace/logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md
+candidates parked: T106 EU AI Act OJ draft (P6, ready, now evergreen) + Gatik (P1/P2, NEW 08-28) + Freehand (P2, confirmed Series B, aging) + Humanoid (P2, UK unicorn, 07-24) + Walden Robotics (P2, US, draft ready 07-23); 0 published
+writes: 0 WordPress, 0 git-main, 0 file-deletes, 0 tracker-flips
+env note: direct WP REST HTTP 000 + external news direct fetch blocked by cloud net policy (GitHub-egress-only); WebSearch fallback used; NOT a 401 (T021 credential fault not implicated); WordPress-com MCP present but unauthorized (headless OAuth not possible)
+guard note: tools/visual-style-guard.py (portal.yaml pre_publish_guard) MISSING from repo; restore before next attended visual publish. brief-leak-guard.py present.
+
+== Parked for operator approval ==
+1. [NEW THIS RUN - TOP FRESH CANDIDATE] DRAFT DECISION - Gatik $200M Series D (25 Aug 2026). Autonomous middle-mile B2B freight (driverless box trucks), led by Qatar Investment Authority + Koch Disruptive Technologies (ARK Invest, Millennium, Intact, Arca Continental also in). Proof-point metrics: $600M+ contracted revenue, 85,000 fully driverless orders, 99% on-time, ~$500M total raised, PepsiCo multi-year driverless deal (Jun 2026), targeting 100+ trucks by end-2026. VERIFIED across Bloomberg/TechCrunch/Forbes/Yahoo/WWD/Qatar Tribune. Fresh, dated, sizeable, dead-center in LogiAI's #1 pillar (P1 Autonomous Trucking). PARKED not drafted because: (a) DUPLICATE-RISK - P1 pillar is saturated (posts 475 Aurora, 496 Einride, 338 Kodiak, 590 Volvo, 567 EU corridor); a distinct angle exists (autonomous freight's commercial-proof moment: real contracted revenue + PepsiCo validation + sovereign-wealth capital, vs prior pilot-stage coverage) - operator to confirm differentiation; (b) US-centric, weak EU fit vs strategy's EU long-tail focus; (c) operator-absent + empty queue -> no from-scratch drafting authorization. Operator decision: draft (recommended angle: "Driverless freight stops being a pilot: Gatik's $600M revenue proof") or skip.
+2. [APPROVED, now EVERGREEN not breaking, BLOCKED ON CONNECTOR AUTH] PUBLISH T106 EU AI Act Digital Omnibus piece. Reg (EU) 2026/1744, OJ 24 Jul 2026, in force 27 Jul 2026. TIMING CHANGE: the 2 Aug 2026 high-risk (Annex III) applicability date the draft corrects is now ~4 weeks PAST; the piece no longer reads as breaking but remains accurate and useful as an explainer/reference (general web STILL repeats the stale 2 Aug framing). Operator approved publish 07-31 ("approved, merge and then publish"; PR merged). Only remaining blocker: WordPress connector authorization - from an interactive claude.ai session, authorize the WordPress.com connector (or publish manually), then publish workspace/logiai-draft-2026-07-26-T106-eu-ai-act-digital-omnibus-OJ.md (0 em-dashes). Pick ONE of the two OJ variants (07-26 is canonical; 07-25 flagged dup-risk vs post 490). Suggested headline given the timing shift: "The EU AI Act's High-Risk Cliff Already Moved: What Logistics Teams Need to Know". Restore tools/visual-style-guard.py first if the draft carries an editorial visual. Then flip T106 to Done.
+3. DRAFT DECISION - Freehand $75M Series B (29 Jul 2026, now CONFIRMED Series B by Crunchbase). Agentic AI managing Fortune-500 supply-chain spend / autonomous invoice-payment (Meta, Dunkin'). Round-label flag from 08-01 RESOLVED (it is Series B). Now ~4 weeks old (aging). Still DUPLICATE-RISK vs post 623 (freight back-office AI agents) + post 576 (Coupa/Rossum spend). Operator decision: draft as "agentic AI reaches the CFO's desk" angle, or skip as aged.
+4. DRAFT/PUBLISH Humanoid (P2 Physical AI): Verified EU-fit unicorn (SKL Robotics, London; $152M/EUR133M Series A at $1.35B/EUR1.1B; Bosch+Schaeffler+Aglae/LVMH; wheeled HMND01+KinetIQ; 34,000 pre-orders; beta Q4 2026). Surfaced 07-24, still awaiting drafting authorization. Angle: pair with Walden as a two-unicorns physical-AI piece, or run solo as the EU-centric story.
+5. PUBLISH Walden Robotics (P2 Physical AI): draft at workspace/logiai-draft-2026-07-23-walden-robotics-general-vs-task-specific.md (QC-ready). Decide: publish solo, or merge with Humanoid.
+6. Standing operator/infra items (unchanged): T113 Yoast verify (673/674/675/688), T114 fal image swap on 688, T108 re-save 4 LogiAI skills (stale plugin cache), T111 Octup evergreen decision, T107 Yoast on 633. All WP-touching items blocked from this cloud container (no WP App Password secret + outbound HTTPS to WP HTTP 000 + WordPress-com MCP unauthorized).
+7. Infra: restore tools/visual-style-guard.py to the repo (listed in portal.yaml pre_publish_guards, currently missing).
+
+Constraints honored: no WP publish, no git push to main, no file delete, no tracker Done flip, no em-dashes.
+=== END OF RUN ===
