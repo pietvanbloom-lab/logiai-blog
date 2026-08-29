@@ -45,3 +45,30 @@ Hard rules for this run (runbook + task prompt):
 - Drift-guard (Phase 0): goal='preflight+artifacts', action='read config/state, create run branch+log+PR', aligned=yes
 
 (further phases appended at end of each phase)
+
+### Phase 0: Pre-flight — DONE
+- Drift-guard: aligned=yes. No cap issues. Artifacts-first satisfied (branch + log + draft PR #45 pushed).
+- Register currency note: last full WP sync 2026-07-23 (post 692). Direct WP REST HTTP 000
+  and WordPress.com MCP reported unauthorized in headless/scheduled runs since 07-24, so the
+  07-23 -> 08-29 window (37 days) cannot be reconciled from here. Any candidate is dedup-checked
+  against the register as-is; residual dedup risk for that gap is flagged, not resolved (parked).
+
+### Phase 1: Action Tracker Sweep — DONE (mode: daily)
+Drift-guard: goal='triage Open tracker tasks, auto-exec only low-risk, park the rest',
+action='classify 41 Open tasks by handler + autonomy', aligned=yes.
+
+41 Open tasks (High/Med/Low). Under the unattended runbook every write is parked:
+tracker status flips are forbidden, WP/GSC/credential/git-main actions are hard-stops,
+and the live site is unreachable (HTTP 000) so live-site SEO audits/crawls cannot run.
+
+Triage summary:
+- Content (T106, T013, T022, T027, T078, T028, T018, T039, T074, T111): T106 handled in
+  Phase 3 pipeline context (draft already parked); rest deferred to drafting/operator.
+- SEO (T029, T031, T066, T071, T072, T075, T076, T082, T085, T113): all require live-site
+  crawl (HTTP 000), GSC access, or WP Admin/Yoast writes -> PARKED (blocked by env + hard rules).
+- Tech (T040, T042, T045, T047, T081, T086, T108, T015, T017, T025, T033, T044, T055, T059,
+  T067, T103): require WP credentials, operator, or git-main push -> PARKED.
+- Design (T014, T016, T114): require WP media / operator -> PARKED.
+- Cleanup asks that touch deletion (T104 "delete stale temp files") -> PARKED (never delete).
+Auto-completed this run: 0 (correct for unattended report-only mode).
+Tracker flips: 0. All 41 carried forward. See "Parked for operator approval" in PR body.
