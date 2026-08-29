@@ -141,3 +141,57 @@ in config.yml; operator-present model). All publish/slot/tracker decisions parke
   operator: a WP sync is needed to reconcile the 07-23 -> 08-29 gap.
 - No tracker flips (forbidden this run). MEMORY.md index unchanged (no new memory files).
 - Run log + cap-history are the persisted artifacts (this file + runs/cap-history.csv).
+
+## STRUCTURED RUN SUMMARY
+
+## LogiAI Production Stack Run — 2026-08-29 07:10 CEST (mode: daily) — COMPLETED (report-only)
+
+### Phase 1: Action Tracker
+- Processed: 41 Open tasks (0 High-active beyond T106 content, mixed Medium/Low)
+- Auto-completed: none (correct for unattended report-only)
+- Awaiting approval / parked: all 41 (WP/GSC/credential/operator/git-main blocked)
+- Carried over: all 41
+
+### Phase 2-4: Editorial Pipeline
+- Stories scanned (WebSearch monitor): multiple; fresh dated hits triaged
+- Verified candidates: 1 (Gatik $200M Series D, 2026-08-25, P1 Autonomous Trucking)
+- Drafts generated: 1 -> workspace/logiai-draft-2026-08-29-gatik-series-d-middle-mile-driverless.md
+- QC results: 1 auto-approve caliber (em/en-dash 0, brief-leak CLEAN), PARKED (no publish)
+
+### Phase 5: Approval Gate
+- Operator absent -> all decisions PARKED (no interactive prompt, no async mail)
+
+### Phase 6: Published
+- 0 articles (Phase 6 not in daily mode + hard rule: never publish unattended)
+
+### Phase 7: Memory
+- logiai_published.md updated: 0 rows (no publish)
+- Action Tracker updated: 0 flips
+- cap-history.csv: 1 row appended
+
+### Caps
+- No cap hit. tool_calls ~28 / 200; wall ~7 min / 90; est_usd ~0.28 / 3.00.
+- drift_mismatches 0, loop_aborts 0.
+
+## Parked for operator approval
+1. PUBLISH Gatik draft (workspace/logiai-draft-2026-08-29-gatik-series-d-middle-mile-driverless.md).
+   READY-FOR-PUBLISH caliber, time-sensitive (funding-news freshness decays ~1 week). Operator to:
+   approve publish, pick slot, generate/select featured image, inline the 2 editorial visuals
+   (editorial-visual-inline.py + visual-style-guard.py), set Yoast (WP Admin/JS store per known
+   REST issue), insert internal links to posts 338/475/496. Publish only when operator approves.
+2. T106 EU AI Act Digital Omnibus draft (workspace/logiai-draft-2026-07-26-T106-...OJ.md) STILL
+   parked from prior runs. Reg (EU) 2026/1744 in force since 27 Jul; dedup-risk vs post 490 flagged.
+   Operator decides publish vs fold-into-490 vs drop, and the T106 Done-flip.
+3. Register sync: memory/logiai_published.md last synced 2026-07-23 (post 692). 37-day gap
+   unreconciled headless. Operator/interactive session should run a WP sync to refresh dedup base.
+4. 41 Open tracker tasks carried; none actionable unattended (need WP/GSC/credentials/operator/
+   git-main). No status flips performed.
+
+## Environment limits (honest log)
+- WP REST direct: HTTP 000 (cloud network GitHub-egress-only; NOT a 401, so NOT T021).
+- WebFetch: EGRESS_BLOCKED for non-GitHub hosts; WebSearch works and was the monitoring channel.
+- WordPress.com MCP + Gmail show connected at org level but publishing is a hard-rule PARK for
+  unattended runs regardless; no WP write attempted.
+
+RUN COMPLETE. Artifacts: branch claude/logiai-run-20260829, draft PR #45, this run log,
+cap-history row, Gatik draft. 0 WP publishes, 0 pushes to main, 0 deletions, 0 tracker flips.
