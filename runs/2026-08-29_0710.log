@@ -72,3 +72,36 @@ Triage summary:
 - Cleanup asks that touch deletion (T104 "delete stale temp files") -> PARKED (never delete).
 Auto-completed this run: 0 (correct for unattended report-only mode).
 Tracker flips: 0. All 41 carried forward. See "Parked for operator approval" in PR body.
+
+### Phase 2: Editorial Pipeline Upstream (Monitoring/Scoring/Verification/Dedup) — DONE
+Drift-guard: goal='find fresh dated non-dup story candidates for drafting',
+action='WebSearch monitoring + score + verify + dedup vs register', aligned=yes.
+Env: WebFetch EGRESS_BLOCKED (GitHub-egress-only) confirmed; WebSearch works -> used as monitor.
+
+Monitoring sweep (themes weighted AI-Ops 25 / AV 15 / SC-Visibility 15 / Sales-Tender 15 /
+Startups 15 / Last-Mile 10 / Reg 5). Fresh dated hits (last ~72h):
+
+CANDIDATE-01 (SELECTED): Gatik — $200M Series D, dated 2026-08-25.
+  Pillar P1 Autonomous Trucking (theme: Autonomous Vehicles). Santa Clara, CA; middle-mile
+  driverless freight (ambient/refrigerated/frozen) between DCs and stores.
+  Facts (multi-source consistent): led by Qatar Investment Authority + Koch Disruptive Tech;
+  Millennium Management, ARK Invest, Intact Private Capital also in; ~$500M total raised;
+  customers Walmart, Kroger, PepsiCo; targeting 100+ driverless trucks by end-2026; ~$600M
+  contracted revenue; 85,000 fully driverless orders completed. Valuation not disclosed.
+  Sources: TechCrunch, Forbes, FleetOwner, SiliconANGLE, WWD/Sourcing Journal, Yahoo Finance.
+  SCORING: high timeliness (4 days) + high direct-logistics-impact + strong sources -> P1/P2 (~80).
+  VERIFICATION: multi-source, figures consistent, dated -> VERIFIED.
+  DEDUP: no Gatik in register; AV pillar prior posts are distinct companies/events
+    (338 Kodiak, 475 Aurora/McLane, 496 Einride) -> dedup-clean on company. Residual: shares
+    generic 'autonomous-trucking' tag (overlap <3 distinct tags, different event) -> not a dup.
+  EU note: US/Canada operator; framed with EU regional-freight read-across per portal voice.
+
+Rejected / not-fresh:
+  - Freehand $75M Series B (29 Jul): US-centric, dedup-risk vs posts 623/576, already parked 08-01.
+  - Loop $95M Series C: April 2026, STALE.
+  - Augment $85M Series A: previously rejected stale/off-core.
+  - Emerald AI (data-center energy), Stellaria (nuclear): off-core, not logistics.
+
+Phase 2 output: 1 VERIFIED, non-duplicate candidate ready for drafting (Gatik).
+Note: register last synced 07-23; the 37-day gap cannot be reconciled headless, so dedup for
+that window is best-effort (flagged, parked).
