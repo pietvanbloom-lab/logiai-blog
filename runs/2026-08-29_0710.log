@@ -1,0 +1,197 @@
+# LogiAI Production Stack — Run Log
+
+Run ID:        2026-08-29_0710
+Mode:          daily (phases 0, 1, 2, 3, 4, 5, 7)
+Started:       2026-08-29 07:10 CEST (05:10 UTC)
+Session type:  SCHEDULED / UNATTENDED (operator absent)
+Runbook:       .editorial-engine/ROUTINE-RUNBOOK.md (binding)
+Branch:        claude/logiai-run-20260829
+Repo:          pietvanbloom-lab/logiai-blog (single source of truth)
+
+## Config snapshot (skills/logiai-production-stack/config.yml v1, 2026-05-11)
+
+Caps (daily):
+  total_usd:        3.00
+  total_tool_calls: 200
+  total_wall_min:   90
+  per_phase:  tool_calls 50 | wall_min 30 | usd 0.80
+  per_draft:  tool_calls 25 | usd 0.50
+Loop detection:   same_tool_threshold 4 (arg_hash)
+Goal-drift guard: enabled, on_mismatch=stop_and_escalate
+Models:           haiku-4-5 structured / sonnet-4-6 reasoning+writing / opus-4-6 escalation only
+
+Hard rules for this run (runbook + task prompt):
+  - NEVER publish to WordPress (park instead)
+  - NEVER push to main (run output -> run branch + PR only)
+  - NEVER delete files
+  - NEVER flip tracker statuses
+  - No em-dashes in generated content
+  - No interactive prompts (AskUserQuestion forbidden); approval-gated items PARKED
+  - Drafts -> workspace/ on run branch, never to WordPress
+
+## Phase timeline
+
+### Phase 0: Pre-flight — IN PROGRESS
+- config.yml read, caps parsed (daily mode).
+- portal.yaml, ROUTINE-RUNBOOK.md, SKILL.md read.
+- queue/ empty (only README.md) -> no operator pre-approved work packages.
+- memory/logiai_project.md read (ranking-not-indexing strategy; WP behind Cloudflare).
+- memory/logiai_published.md present (53 KB register).
+- Action Tracker parsed: 114 total tasks, 41 Open.
+- WP REST check: HTTP 000 (network egress blocked, GitHub-egress-only cloud policy;
+  NOT a 401 -> not T021; publish steps parked per runbook s5, continue report-only).
+- Connectors present: Gmail (enabledInChat), WordPress.com (enabledInChat), plus
+  Asana/Slack/Drive/Calendar etc. Publishing remains PARKED per hard rules regardless.
+- Drift-guard (Phase 0): goal='preflight+artifacts', action='read config/state, create run branch+log+PR', aligned=yes
+
+(further phases appended at end of each phase)
+
+### Phase 0: Pre-flight — DONE
+- Drift-guard: aligned=yes. No cap issues. Artifacts-first satisfied (branch + log + draft PR #45 pushed).
+- Register currency note: last full WP sync 2026-07-23 (post 692). Direct WP REST HTTP 000
+  and WordPress.com MCP reported unauthorized in headless/scheduled runs since 07-24, so the
+  07-23 -> 08-29 window (37 days) cannot be reconciled from here. Any candidate is dedup-checked
+  against the register as-is; residual dedup risk for that gap is flagged, not resolved (parked).
+
+### Phase 1: Action Tracker Sweep — DONE (mode: daily)
+Drift-guard: goal='triage Open tracker tasks, auto-exec only low-risk, park the rest',
+action='classify 41 Open tasks by handler + autonomy', aligned=yes.
+
+41 Open tasks (High/Med/Low). Under the unattended runbook every write is parked:
+tracker status flips are forbidden, WP/GSC/credential/git-main actions are hard-stops,
+and the live site is unreachable (HTTP 000) so live-site SEO audits/crawls cannot run.
+
+Triage summary:
+- Content (T106, T013, T022, T027, T078, T028, T018, T039, T074, T111): T106 handled in
+  Phase 3 pipeline context (draft already parked); rest deferred to drafting/operator.
+- SEO (T029, T031, T066, T071, T072, T075, T076, T082, T085, T113): all require live-site
+  crawl (HTTP 000), GSC access, or WP Admin/Yoast writes -> PARKED (blocked by env + hard rules).
+- Tech (T040, T042, T045, T047, T081, T086, T108, T015, T017, T025, T033, T044, T055, T059,
+  T067, T103): require WP credentials, operator, or git-main push -> PARKED.
+- Design (T014, T016, T114): require WP media / operator -> PARKED.
+- Cleanup asks that touch deletion (T104 "delete stale temp files") -> PARKED (never delete).
+Auto-completed this run: 0 (correct for unattended report-only mode).
+Tracker flips: 0. All 41 carried forward. See "Parked for operator approval" in PR body.
+
+### Phase 2: Editorial Pipeline Upstream (Monitoring/Scoring/Verification/Dedup) — DONE
+Drift-guard: goal='find fresh dated non-dup story candidates for drafting',
+action='WebSearch monitoring + score + verify + dedup vs register', aligned=yes.
+Env: WebFetch EGRESS_BLOCKED (GitHub-egress-only) confirmed; WebSearch works -> used as monitor.
+
+Monitoring sweep (themes weighted AI-Ops 25 / AV 15 / SC-Visibility 15 / Sales-Tender 15 /
+Startups 15 / Last-Mile 10 / Reg 5). Fresh dated hits (last ~72h):
+
+CANDIDATE-01 (SELECTED): Gatik — $200M Series D, dated 2026-08-25.
+  Pillar P1 Autonomous Trucking (theme: Autonomous Vehicles). Santa Clara, CA; middle-mile
+  driverless freight (ambient/refrigerated/frozen) between DCs and stores.
+  Facts (multi-source consistent): led by Qatar Investment Authority + Koch Disruptive Tech;
+  Millennium Management, ARK Invest, Intact Private Capital also in; ~$500M total raised;
+  customers Walmart, Kroger, PepsiCo; targeting 100+ driverless trucks by end-2026; ~$600M
+  contracted revenue; 85,000 fully driverless orders completed. Valuation not disclosed.
+  Sources: TechCrunch, Forbes, FleetOwner, SiliconANGLE, WWD/Sourcing Journal, Yahoo Finance.
+  SCORING: high timeliness (4 days) + high direct-logistics-impact + strong sources -> P1/P2 (~80).
+  VERIFICATION: multi-source, figures consistent, dated -> VERIFIED.
+  DEDUP: no Gatik in register; AV pillar prior posts are distinct companies/events
+    (338 Kodiak, 475 Aurora/McLane, 496 Einride) -> dedup-clean on company. Residual: shares
+    generic 'autonomous-trucking' tag (overlap <3 distinct tags, different event) -> not a dup.
+  EU note: US/Canada operator; framed with EU regional-freight read-across per portal voice.
+
+Rejected / not-fresh:
+  - Freehand $75M Series B (29 Jul): US-centric, dedup-risk vs posts 623/576, already parked 08-01.
+  - Loop $95M Series C: April 2026, STALE.
+  - Augment $85M Series A: previously rejected stale/off-core.
+  - Emerald AI (data-center energy), Stellaria (nuclear): off-core, not logistics.
+
+Phase 2 output: 1 VERIFIED, non-duplicate candidate ready for drafting (Gatik).
+Note: register last synced 07-23; the 37-day gap cannot be reconciled headless, so dedup for
+that window is best-effort (flagged, parked).
+
+### Phase 3: Drafting — DONE
+Drift-guard: goal='draft the 1 verified candidate into a QC-ready package in workspace/',
+action='write Gatik draft package', aligned=yes.
+- Draft: workspace/logiai-draft-2026-08-29-gatik-series-d-middle-mile-driverless.md
+- Format: DRAFT PACKAGE (clean article body + planning). Voice: analysis/Stratechery mode.
+- Body ~577 words. Headline V1: "Gatik Raised $200 Million on the Boring Part of Driverless Freight".
+- Thesis: constrained middle-mile is where driverless freight actually earns revenue ($600M
+  contracted); EU read-across = same hub-to-store/DC-to-DC segment pays first in Europe.
+- Editorial visuals SPEC'd (stat callout + middle-mile-vs-long-haul cmp table) with inline-at-
+  publish instruction (editorial-visual-inline.py + visual-style-guard.py). NOT rendered/POSTed.
+- Featured image briefs A/B included. Internal-link plan: posts 338, 475, 496.
+- Not published, not slotted (operator decisions). Saved to run branch only.
+
+### Phase 4: QC + Compliance (self-assessed) — DONE
+Drift-guard: goal='QC + compliance route the draft', action='run hard-rule + checklist self-QC',
+aligned=yes.
+Hard-rule sweep (automated): em-dashes 0, en-dashes 0, brief-leak-guard CLEAN on article body.
+QC checklist (self): thesis-first H1 (<=12 words), multi-source sourcing (5), dedup-clean,
+EU angle present, word count in range, visuals + image briefs + SEO meta present, internal
+links planned, no banned floskeln. QC = high (auto-approve caliber, QC >= 8/10).
+Compliance: no personal data (GDPR n/a), original analysis with attributed facts (copyright
+clean), taxonomy P1 Autonomous Trucking, editorial independence intact (no sponsorship).
+Route: READY-FOR-PUBLISH caliber -> but PARKED (unattended run never publishes).
+
+### Phase 5: Approval Gate — PARKED (unattended; no operator present)
+Per runbook s2, no AskUserQuestion and no async mail flow this run (approval_email.enabled=false
+in config.yml; operator-present model). All publish/slot/tracker decisions parked. See PR body
+"Parked for operator approval".
+
+### Phase 7: Memory Update — DONE (constrained)
+- No publish occurred -> memory/logiai_published.md NOT modified (register updates only after a
+  real publish; correct to leave untouched). Register staleness (last sync 07-23) noted for
+  operator: a WP sync is needed to reconcile the 07-23 -> 08-29 gap.
+- No tracker flips (forbidden this run). MEMORY.md index unchanged (no new memory files).
+- Run log + cap-history are the persisted artifacts (this file + runs/cap-history.csv).
+
+## STRUCTURED RUN SUMMARY
+
+## LogiAI Production Stack Run — 2026-08-29 07:10 CEST (mode: daily) — COMPLETED (report-only)
+
+### Phase 1: Action Tracker
+- Processed: 41 Open tasks (0 High-active beyond T106 content, mixed Medium/Low)
+- Auto-completed: none (correct for unattended report-only)
+- Awaiting approval / parked: all 41 (WP/GSC/credential/operator/git-main blocked)
+- Carried over: all 41
+
+### Phase 2-4: Editorial Pipeline
+- Stories scanned (WebSearch monitor): multiple; fresh dated hits triaged
+- Verified candidates: 1 (Gatik $200M Series D, 2026-08-25, P1 Autonomous Trucking)
+- Drafts generated: 1 -> workspace/logiai-draft-2026-08-29-gatik-series-d-middle-mile-driverless.md
+- QC results: 1 auto-approve caliber (em/en-dash 0, brief-leak CLEAN), PARKED (no publish)
+
+### Phase 5: Approval Gate
+- Operator absent -> all decisions PARKED (no interactive prompt, no async mail)
+
+### Phase 6: Published
+- 0 articles (Phase 6 not in daily mode + hard rule: never publish unattended)
+
+### Phase 7: Memory
+- logiai_published.md updated: 0 rows (no publish)
+- Action Tracker updated: 0 flips
+- cap-history.csv: 1 row appended
+
+### Caps
+- No cap hit. tool_calls ~28 / 200; wall ~7 min / 90; est_usd ~0.28 / 3.00.
+- drift_mismatches 0, loop_aborts 0.
+
+## Parked for operator approval
+1. PUBLISH Gatik draft (workspace/logiai-draft-2026-08-29-gatik-series-d-middle-mile-driverless.md).
+   READY-FOR-PUBLISH caliber, time-sensitive (funding-news freshness decays ~1 week). Operator to:
+   approve publish, pick slot, generate/select featured image, inline the 2 editorial visuals
+   (editorial-visual-inline.py + visual-style-guard.py), set Yoast (WP Admin/JS store per known
+   REST issue), insert internal links to posts 338/475/496. Publish only when operator approves.
+2. T106 EU AI Act Digital Omnibus draft (workspace/logiai-draft-2026-07-26-T106-...OJ.md) STILL
+   parked from prior runs. Reg (EU) 2026/1744 in force since 27 Jul; dedup-risk vs post 490 flagged.
+   Operator decides publish vs fold-into-490 vs drop, and the T106 Done-flip.
+3. Register sync: memory/logiai_published.md last synced 2026-07-23 (post 692). 37-day gap
+   unreconciled headless. Operator/interactive session should run a WP sync to refresh dedup base.
+4. 41 Open tracker tasks carried; none actionable unattended (need WP/GSC/credentials/operator/
+   git-main). No status flips performed.
+
+## Environment limits (honest log)
+- WP REST direct: HTTP 000 (cloud network GitHub-egress-only; NOT a 401, so NOT T021).
+- WebFetch: EGRESS_BLOCKED for non-GitHub hosts; WebSearch works and was the monitoring channel.
+- WordPress.com MCP + Gmail show connected at org level but publishing is a hard-rule PARK for
+  unattended runs regardless; no WP write attempted.
+
+RUN COMPLETE. Artifacts: branch claude/logiai-run-20260829, draft PR #45, this run log,
+cap-history row, Gatik draft. 0 WP publishes, 0 pushes to main, 0 deletions, 0 tracker flips.
