@@ -105,3 +105,39 @@ Rejected / not-fresh:
 Phase 2 output: 1 VERIFIED, non-duplicate candidate ready for drafting (Gatik).
 Note: register last synced 07-23; the 37-day gap cannot be reconciled headless, so dedup for
 that window is best-effort (flagged, parked).
+
+### Phase 3: Drafting — DONE
+Drift-guard: goal='draft the 1 verified candidate into a QC-ready package in workspace/',
+action='write Gatik draft package', aligned=yes.
+- Draft: workspace/logiai-draft-2026-08-29-gatik-series-d-middle-mile-driverless.md
+- Format: DRAFT PACKAGE (clean article body + planning). Voice: analysis/Stratechery mode.
+- Body ~577 words. Headline V1: "Gatik Raised $200 Million on the Boring Part of Driverless Freight".
+- Thesis: constrained middle-mile is where driverless freight actually earns revenue ($600M
+  contracted); EU read-across = same hub-to-store/DC-to-DC segment pays first in Europe.
+- Editorial visuals SPEC'd (stat callout + middle-mile-vs-long-haul cmp table) with inline-at-
+  publish instruction (editorial-visual-inline.py + visual-style-guard.py). NOT rendered/POSTed.
+- Featured image briefs A/B included. Internal-link plan: posts 338, 475, 496.
+- Not published, not slotted (operator decisions). Saved to run branch only.
+
+### Phase 4: QC + Compliance (self-assessed) — DONE
+Drift-guard: goal='QC + compliance route the draft', action='run hard-rule + checklist self-QC',
+aligned=yes.
+Hard-rule sweep (automated): em-dashes 0, en-dashes 0, brief-leak-guard CLEAN on article body.
+QC checklist (self): thesis-first H1 (<=12 words), multi-source sourcing (5), dedup-clean,
+EU angle present, word count in range, visuals + image briefs + SEO meta present, internal
+links planned, no banned floskeln. QC = high (auto-approve caliber, QC >= 8/10).
+Compliance: no personal data (GDPR n/a), original analysis with attributed facts (copyright
+clean), taxonomy P1 Autonomous Trucking, editorial independence intact (no sponsorship).
+Route: READY-FOR-PUBLISH caliber -> but PARKED (unattended run never publishes).
+
+### Phase 5: Approval Gate — PARKED (unattended; no operator present)
+Per runbook s2, no AskUserQuestion and no async mail flow this run (approval_email.enabled=false
+in config.yml; operator-present model). All publish/slot/tracker decisions parked. See PR body
+"Parked for operator approval".
+
+### Phase 7: Memory Update — DONE (constrained)
+- No publish occurred -> memory/logiai_published.md NOT modified (register updates only after a
+  real publish; correct to leave untouched). Register staleness (last sync 07-23) noted for
+  operator: a WP sync is needed to reconcile the 07-23 -> 08-29 gap.
+- No tracker flips (forbidden this run). MEMORY.md index unchanged (no new memory files).
+- Run log + cap-history are the persisted artifacts (this file + runs/cap-history.csv).
