@@ -1,0 +1,47 @@
+# LogiAI Production Stack — Run Log
+
+Run ID:        2026-08-29_0710
+Mode:          daily (phases 0, 1, 2, 3, 4, 5, 7)
+Started:       2026-08-29 07:10 CEST (05:10 UTC)
+Session type:  SCHEDULED / UNATTENDED (operator absent)
+Runbook:       .editorial-engine/ROUTINE-RUNBOOK.md (binding)
+Branch:        claude/logiai-run-20260829
+Repo:          pietvanbloom-lab/logiai-blog (single source of truth)
+
+## Config snapshot (skills/logiai-production-stack/config.yml v1, 2026-05-11)
+
+Caps (daily):
+  total_usd:        3.00
+  total_tool_calls: 200
+  total_wall_min:   90
+  per_phase:  tool_calls 50 | wall_min 30 | usd 0.80
+  per_draft:  tool_calls 25 | usd 0.50
+Loop detection:   same_tool_threshold 4 (arg_hash)
+Goal-drift guard: enabled, on_mismatch=stop_and_escalate
+Models:           haiku-4-5 structured / sonnet-4-6 reasoning+writing / opus-4-6 escalation only
+
+Hard rules for this run (runbook + task prompt):
+  - NEVER publish to WordPress (park instead)
+  - NEVER push to main (run output -> run branch + PR only)
+  - NEVER delete files
+  - NEVER flip tracker statuses
+  - No em-dashes in generated content
+  - No interactive prompts (AskUserQuestion forbidden); approval-gated items PARKED
+  - Drafts -> workspace/ on run branch, never to WordPress
+
+## Phase timeline
+
+### Phase 0: Pre-flight — IN PROGRESS
+- config.yml read, caps parsed (daily mode).
+- portal.yaml, ROUTINE-RUNBOOK.md, SKILL.md read.
+- queue/ empty (only README.md) -> no operator pre-approved work packages.
+- memory/logiai_project.md read (ranking-not-indexing strategy; WP behind Cloudflare).
+- memory/logiai_published.md present (53 KB register).
+- Action Tracker parsed: 114 total tasks, 41 Open.
+- WP REST check: HTTP 000 (network egress blocked, GitHub-egress-only cloud policy;
+  NOT a 401 -> not T021; publish steps parked per runbook s5, continue report-only).
+- Connectors present: Gmail (enabledInChat), WordPress.com (enabledInChat), plus
+  Asana/Slack/Drive/Calendar etc. Publishing remains PARKED per hard rules regardless.
+- Drift-guard (Phase 0): goal='preflight+artifacts', action='read config/state, create run branch+log+PR', aligned=yes
+
+(further phases appended at end of each phase)
